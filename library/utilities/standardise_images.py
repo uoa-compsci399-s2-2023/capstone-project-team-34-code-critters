@@ -16,13 +16,13 @@ import os, shutil
 from glob import glob
 import numpy as np
 
-def standardise_image(in_path, out_path, size=299):
+def standardise_image(img_path, filename, size=299):
     """
     Prepares the images for training/testing:
     - greyscale
     - resize (changes aspect). Note: assumes all are the same size, which they aren't! They have been cropped.
     """
-    img = Image.open(in_path, mode='r')
+    img = Image.open(img_path+filename, mode='r')
 
     # Denoise
     # img = img.filter(ImageFilter.UnsharpMask) # POOR
@@ -65,7 +65,8 @@ def standardise_image(in_path, out_path, size=299):
     img = img.resize((size, size))
     # img = img.convert('RGB')
     
-    img.save(out_path)
+    img.save(f"{img_path}preprocessed_{filename}")
+
 
 
 def standardise_images(in_path, out_path, size=299):
