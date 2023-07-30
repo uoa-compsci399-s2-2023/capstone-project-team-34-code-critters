@@ -30,9 +30,9 @@ def create_app(test_config=None):
         from .utilities import utilities
         app.register_blueprint(utilities.utilities_blueprint)
 
-    # @app.route('/favicon.ico')
-    # def favicon():
-    #     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    @app.route('/favicon.ico')
+    def favicon():
+        return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
         
     return app
 
