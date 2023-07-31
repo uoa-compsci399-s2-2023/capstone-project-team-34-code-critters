@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, redirect, url_for, request, curren
 from werkzeug.utils import secure_filename
 
 # import library.adapters.repository as repo
-from backend.library.utilities.standardise_images import standardise_image
-from backend.library.utilities.inference import get_prediction
+from library.utilities.standardise_images import standardise_image
+from library.utilities.inference import get_prediction
 
 # Configure Blueprint.
 utilities_blueprint = Blueprint(
