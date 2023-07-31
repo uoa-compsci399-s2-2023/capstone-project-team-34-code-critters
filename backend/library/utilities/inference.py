@@ -5,7 +5,7 @@ import numpy as np
 import imp
 
 current_model = "trupanea_v2"
-path = current_app.config["DIR_PATH"] + "/models/" + current_model
+path = current_app.config["DIR_PATH"] + "\models\\" + current_model
 
 def get_labels(model_name):
     filename = f'{path}\labels.txt'
