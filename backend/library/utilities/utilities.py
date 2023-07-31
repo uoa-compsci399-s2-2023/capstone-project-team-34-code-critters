@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, redirect, url_for, request, curren
 from werkzeug.utils import secure_filename
 
 # import library.adapters.repository as repo
-from library.utilities.standardise_images import standardise_image
-from library.utilities.inference import get_prediction
+from backend.library.utilities.standardise_images import standardise_image
+from backend.library.utilities.inference import get_prediction
 
 # Configure Blueprint.
 utilities_blueprint = Blueprint(
@@ -24,8 +24,8 @@ def upload_files():
         filename = secure_filename(f.filename)
 
         f.save(img_path + filename)
-        standardise_image(img_path, filename)
-        pred = get_prediction(img_path + "preprocessed_" + filename)
+        # standardise_image(img_path, filename)
+        pred = get_prediction(img_path + filename)
         print(pred)
         results = ", ".join("({:.5f}, {})".format(x,y) for (x,y) in pred)
         # print(results)

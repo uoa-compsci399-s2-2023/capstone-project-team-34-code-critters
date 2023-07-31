@@ -1,6 +1,6 @@
 from flask import Blueprint,render_template,url_for,make_response,session
 
-import library.utilities.utilities as utilities
+import backend.library.utilities.utilities as utilities
 from secrets import token_urlsafe
 
 home_blueprint = Blueprint(
