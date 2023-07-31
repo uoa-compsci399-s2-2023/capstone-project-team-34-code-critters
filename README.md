@@ -15,8 +15,8 @@ $ venv\Scripts\activate
 $ pip install -r requirements.txt
 ```
 
-**Importing and Adding models**
-Since the models are big, they are not included in the repository.
+**Importing and Adding models**\
+Since the models are big, they are not included in the repository.\
 To add the models, 
 1. Create a new folder for each model with the name of the model in the `library/models` folder.\
     If there isn't a `library/models` folder: You should make one.
