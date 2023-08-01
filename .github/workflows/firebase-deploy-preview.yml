@@ -31,9 +31,22 @@ jobs:
         working-directory: ./frontend
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
+        id: firebase-preview
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
           expires: 30d
           projectId: code-critters-b5d86
           entryPoint: ./frontend
+
+      - uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'The preview URL is: ${{ steps.firebase-preview.outputs.urls }}.'
+            });
+             
