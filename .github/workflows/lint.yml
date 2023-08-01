@@ -37,6 +37,5 @@ jobs:
         working-directory: ./frontend
 
       - name: Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
+        run: npm run lint:fix
+        working-directory: ./frontend
