@@ -1,27 +1,28 @@
-name: Deploy to Preview Channel
+name: Deploy to Live Channel
 
 on:
-  pull_request:
+  push:
+    branches:
+      - main
     # Optionally configure to run only for specific files. For example:
     # paths:
     # - "website/**"
-      branches:
-        - main
-     
 permissions:
   checks: write
   contents: write
 
 jobs:
-  build_and_preview:
+  deploy_live_website:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18.16.1
 
+      # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
         run: npm ci --legacy-peer-deps
         working-directory: ./frontend
@@ -29,11 +30,10 @@ jobs:
       - name: Build
         run: npm run build
         working-directory: ./frontend
-
+        
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
-          expires: 30d
-          projectId: code-critters-b5d86
-          entryPoint: ./frontend
+          projectId: your-Firebase-project-ID
+          channelId: live
