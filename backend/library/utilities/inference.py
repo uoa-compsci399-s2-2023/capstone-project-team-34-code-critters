@@ -1,32 +1,36 @@
+from flask import current_app
 from tensorflow.keras.models import load_model
 import cv2
 import numpy as np
+import imp
 
 current_model = "trupanea_v2"
+path = current_app.config["DIR_PATH"] + "\models\\" + current_model
 
 def get_labels(model_name):
-    filename = f'library\models\{model_name}\labels.txt'
+    filename = f'{path}\labels.txt'
     with open(filename, 'r') as file:
         lines = file.readlines()
     labels = [line.strip() for line in lines]
     return labels
  
 def get_prediction(image_path):
-    model = load_model(f"library\models\{current_model}\model.h5")    
+    model = load_model(f"{path}\model.h5")    
     labels = get_labels(current_model)
-    # Load the image
-    img = cv2.imread(image_path)
-    # Resize the image to match the input size of the model
-    img = cv2.resize(img, (299, 299))
-    # Convert the image to a numpy array
-    img = np.array(img)
-    # Normalize the image
-    img = img / 255.0
+    
+    preprocess = imp.load_source('img_preprocess', f'{path}\preprocess.py')
+    
+    # Convert the image from PIL format to the OpenCV BGR format
+    img = np.array(preprocess.img_preprocess(image_path))[:,:,::-1]
+
     # Add a batch dimension to the image
     img = np.expand_dims(img, axis=0)
+    
+    # Normalize the image
+    # img = img / 255.0
+
     # Get the prediction from the model
     prediction = model.predict(img)
-
 
     # Combine the labels and the predictions
     combined_list = list(zip(prediction[0], labels))
