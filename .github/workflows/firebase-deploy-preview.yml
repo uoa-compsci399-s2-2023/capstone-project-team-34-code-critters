@@ -26,8 +26,11 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci --legacy-peer-deps
         working-directory: ./frontend
-      # Add any build steps here. For example:
-      # - run: npm ci && npm run build
+
+      - name: Build
+        run: npm run build
+        working-directory: ./frontend
+        
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
