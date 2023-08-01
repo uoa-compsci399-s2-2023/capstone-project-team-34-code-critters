@@ -6,7 +6,7 @@ function App() {
     <div className="bg-gray-200 w-full h-screen flex justify-center items-center">
       <div className="card max-w-6xl w-11/12 bg-white flex items-center justify-center md:p-20 sm:p-10 p-4">
         <h1 className="text-black text-xl font-varela text-center">Drag and Drop or Browse to Upload Image</h1>
-        <p className="text-gray-500 mt-4 font-varela text-center">Upload up to 50 images at once</p>
+        <p className="text-gray-500 mt-4 font-varela text-center">Upload up to 40 images at once</p>
 
         <div className="card w-full max-w-4xl border-2 border-dashed border-gray-300 mt-10 aspect-video flex items-center justify-center cursor-pointer p-4">
           <FontAwesomeIcon icon={faCloudArrowUp} size="5x" />
