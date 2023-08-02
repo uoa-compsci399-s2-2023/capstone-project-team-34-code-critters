@@ -5,20 +5,20 @@ import numpy as np
 import imp
 
 current_model = "trupanea_v2"
-path = current_app.config["DIR_PATH"] + "\models\\" + current_model
+path = current_app.config["DIR_PATH"] + "/models/" + current_model
 
 def get_labels(model_name):
-    filename = f'{path}\labels.txt'
+    filename = f'{path}/labels.txt'
     with open(filename, 'r') as file:
         lines = file.readlines()
     labels = [line.strip() for line in lines]
     return labels
  
 def get_prediction(image_path):
-    model = load_model(f"{path}\model.h5")    
+    model = load_model(f"{path}/model.h5")
     labels = get_labels(current_model)
     
-    preprocess = imp.load_source('img_preprocess', f'{path}\preprocess.py')
+    preprocess = imp.load_source('img_preprocess', f'{path}/preprocess.py')
     
     # Convert the image from PIL format to the OpenCV BGR format
     img = np.array(preprocess.img_preprocess(image_path))[:,:,::-1]

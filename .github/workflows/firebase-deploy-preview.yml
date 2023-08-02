@@ -1,0 +1,43 @@
+name: Deploy to Preview Channel
+
+on:
+  pull_request:
+    # Optionally configure to run only for specific files. For example:
+    # paths:
+    # - "website/**"
+      branches:
+        - main
+     
+permissions:
+  checks: write
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  build_and_preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.16.1
+
+      - name: Install Node.js dependencies
+        run: npm ci --legacy-peer-deps
+        working-directory: ./frontend
+
+      - name: Build
+        run: npm run build
+        working-directory: ./frontend
+
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        id: firebase-preview
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
+          expires: 30d
+          projectId: code-critters-b5d86
+          entryPoint: ./frontend
+             
