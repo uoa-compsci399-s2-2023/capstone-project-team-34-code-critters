@@ -22,7 +22,7 @@ def get_prediction(image_path):
         model_path = f'/var/models/model.h5'
     else:
         model_path = f'{path}/model.h5'
-    model = load_model(f"{path}/model.h5")
+    model = load_model(model_path)
     labels = get_labels(current_model)
     
     preprocess = imp.load_source('img_preprocess', f'{path}/preprocess.py')
