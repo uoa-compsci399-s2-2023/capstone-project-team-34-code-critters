@@ -19,7 +19,7 @@ def get_labels(model_name):
 def get_prediction(image_path):
     process = psutil.Process()
     print(f"memory: {process.memory_info().rss}")
-    model = load_model(f"{path}/model.h5")
+    model = load_model(f"/var/models/model.h5")
     print(f"memory: {process.memory_info().rss}")
     labels = get_labels(current_model)
     
