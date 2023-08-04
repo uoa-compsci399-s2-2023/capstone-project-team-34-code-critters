@@ -6,7 +6,6 @@ import imp
 
 current_model = "trupanea_v2"
 path = current_app.config["DIR_PATH"] + "/models/" + current_model
-import os, psutil
 
 
 def get_labels(model_name):
@@ -17,14 +16,10 @@ def get_labels(model_name):
     return labels
  
 def get_prediction(image_path):
-    process = psutil.Process()
-    print(f"memory: {process.memory_info().rss}")
     model = load_model(f"/var/models/model.h5")
-    print(f"memory: {process.memory_info().rss}")
     labels = get_labels(current_model)
     
     preprocess = imp.load_source('img_preprocess', f'{path}/preprocess.py')
-    print(f"memory: {process.memory_info().rss}")
     # Convert the image from PIL format to the OpenCV BGR format
     img = np.array(preprocess.img_preprocess(image_path))[:,:,::-1]
 
@@ -35,9 +30,7 @@ def get_prediction(image_path):
     # img = img / 255.0
 
     # Get the prediction from the model
-    print(f"memory: {process.memory_info().rss}")
     prediction = model.predict(img)
-    print(f"memory: {process.memory_info().rss}")
     # Combine the labels and the predictions
     combined_list = list(zip(prediction[0], labels))
 
