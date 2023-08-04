@@ -15,7 +15,7 @@ def get_labels(model_name):
     return labels
  
 def get_prediction(image_path):
-    model = load_model(f"{path}/model.h5")
+    model = load_model(f"var/models/model.h5")
     labels = get_labels(current_model)
     
     preprocess = imp.load_source('img_preprocess', f'{path}/preprocess.py')
