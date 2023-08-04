@@ -2,10 +2,12 @@ from flask import current_app
 from tensorflow.keras.models import load_model
 import cv2
 import numpy as np
+import os
 import imp
 
 current_model = "trupanea_v2"
 path = current_app.config["DIR_PATH"] + "/models/" + current_model
+isProduction = os.getenv('FLASK_ENV') == 'production'
 
 def get_labels(model_name):
     filename = f'{path}/labels.txt'
@@ -15,11 +17,15 @@ def get_labels(model_name):
     return labels
  
 def get_prediction(image_path):
-    model = load_model(f"{path}/model.h5")
+    model_path = ""
+    if (isProduction):
+        model_path = f'/var/models/model.h5'
+    else:
+        model_path = f'{path}/model.h5'
+    model = load_model(model_path)
     labels = get_labels(current_model)
     
     preprocess = imp.load_source('img_preprocess', f'{path}/preprocess.py')
-    
     # Convert the image from PIL format to the OpenCV BGR format
     img = np.array(preprocess.img_preprocess(image_path))[:,:,::-1]
 
@@ -31,7 +37,6 @@ def get_prediction(image_path):
 
     # Get the prediction from the model
     prediction = model.predict(img)
-
     # Combine the labels and the predictions
     combined_list = list(zip(prediction[0], labels))
 
