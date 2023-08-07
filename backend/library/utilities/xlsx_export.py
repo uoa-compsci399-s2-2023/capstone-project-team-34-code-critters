@@ -30,7 +30,7 @@ img_path = current_app.config['UPLOAD_FOLDER']
 ################ API Endpoints ################
 
 @utils_api.route('/create_xlsx')
-class upload_files_json(Resource):
+class XLSX_export(Resource):
     
     @utils_api.response(200, 'Success')
     @utils_api.response(405, 'Invalid File Type')
