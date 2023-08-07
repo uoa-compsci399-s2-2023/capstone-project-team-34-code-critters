@@ -44,5 +44,5 @@ def get_prediction(image_path):
     sorted_list = sorted(combined_list, key=lambda x: x[1], reverse=True)
 
     #return the top 20% of predictions
-    return [x for x in sorted_list[:round(len(sorted_list)*0.2)]]
+    return [[float(prob),label] for prob,label in sorted_list]
     

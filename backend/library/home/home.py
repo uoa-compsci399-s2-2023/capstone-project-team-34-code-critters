@@ -1,4 +1,5 @@
-from flask import Blueprint,render_template,url_for,make_response,session
+import os
+from flask import Blueprint,render_template,url_for,make_response,session, send_from_directory
 
 import library.utilities.utilities as utilities
 from secrets import token_urlsafe
@@ -23,5 +24,9 @@ def home(results=None):
             ))
     return res,200
 
+# Add favicon
+@home_blueprint.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
     
