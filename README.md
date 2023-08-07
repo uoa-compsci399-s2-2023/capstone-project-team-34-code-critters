@@ -1,5 +1,45 @@
-# 2023 COMPSCI 399 Capstone Project: 
-TODO: Group Members:
+### 2023 COMPSCI 399 Capstone Project: 
+
+# CodeCritters
+## A Pest Insect Identification GUI 
+
+Team 34 - CodeCritters:
+
+Lance Nillo - Project Manager
+lnil547@aucklanduni.ac.nz
+
+Helen Lu - UI + Frontend Developer
+hlu750@aucklanduni.ac.nz
+
+Dhiraj Pen - FullStack Developer
+dpen656@aucklanduni.ac.nz
+
+Joshua Chu - Backend Developer
+jchu634@aucklanduni.ac.nz
+
+Kei - UI + Frontend Developer
+khar453@aucklanduni.ac.nz
+
+Rukun Aaron - FullStack Developer
+raar518@aucklanduni.ac.nz
+
+
+## Technologies Used
+
+**Frontend Technologies:**
+
+- [React](https://react.dev/) v18.2.0
+- [JavaScript](https://www.javascript.com/)
+- [TypeScript](https://www.typescriptlang.org/) v4.9.5
+
+**Backend Technologies:**
+
+- [Python](https://www.python.org/) v3.11
+
+**Hosting Technologies:**
+
+- [Firebase](https://firebase.google.com/) 
+
 
 ## Python version
 
@@ -96,3 +136,25 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 run eslint and fix errors
 
  
+
+
+
+# Template
+
+## Project Title
+
+## Project Information
+
+## Technologies Used
+
+## Installation Instructions
+
+## Configuration
+
+## Usage Examples
+
+## Deployment
+
+## Future Plans
+
+## Acknowledgements
