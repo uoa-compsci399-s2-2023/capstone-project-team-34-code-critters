@@ -9,7 +9,7 @@ def create_app(test_config=None):
     # app.config.from_object('config.Config')
     app.config["DIR_PATH"] = os.path.dirname(os.path.realpath(__file__))
     app.config["UPLOAD_FOLDER"] ='./library/static/uploads/'
-    app.config["DOWNLOAD_FOLDER"] ='./library/static/downloads/'
+    app.config["STORAGE_FOLDER"] ='.\library\static\storage\\'
 
     app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF"]
     
@@ -23,7 +23,7 @@ def create_app(test_config=None):
         app.register_blueprint(home.home_blueprint)
 
 
-        from .utilities import utilities, create_xlsx
+        from .utilities import utilities, xlsx_export
         app.register_blueprint(utilities.utilities_blueprint)
 
         blueprint = Blueprint('api', __name__, url_prefix='/api')
@@ -31,7 +31,7 @@ def create_app(test_config=None):
         
         app.register_blueprint(blueprint)
         api.add_namespace(utilities.utils_api)
-        api.add_namespace(create_xlsx.utils_api)
+        api.add_namespace(xlsx_export.utils_api)
         
     return app
 
