@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageOps, ImageFilter
 from glob import glob
 import numpy as np
+import cv2
 
 def img_preprocess(img_path, size=299):
     """
@@ -45,11 +46,27 @@ def img_preprocess(img_path, size=299):
     print("New mean={}".format(np.mean(img)))
     """
     
-    img = Image.fromarray(img.astype('uint8'),'L')
+    # img = Image.fromarray(img.astype('uint8'),'L')
     
-    # Resize - changes the aspect ratio
-    img = img.resize((size, size))
-    # img = img.convert('RGB')
-    return img.convert('RGB')
-    # img.save(f"{img_path}preprocessed_{filename}")
+    # # Resize - changes the aspect ratio
+    # img = img.resize((size, size))
+    # img = img.convert('BGR')
+    # temp = BytesIO()
+    # img.save(temp, format='png')
+    # return temp
+    # print('color space:', img.mode)
+    img = cv2.resize(img, (299, 299))
+    img = cv2.convertScaleAbs(img, alpha=(255.0/65535.0))
+    img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+    
+    # img = np.array(preprocess.img_preprocess(image_path))
+
+    # Add a batch dimension to the image
+    img = np.expand_dims(img, axis=0)
+
+    # Normalize the image
+    # img = img / 255.0
+    
+    return img
+    img.save(f"{img_path}preprocessed_{filename}")
     
