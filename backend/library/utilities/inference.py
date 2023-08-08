@@ -9,7 +9,6 @@ import imp
 current_model = "trupanea_v2"
 path = current_app.config["DIR_PATH"] + "/models/" + current_model
 csv_path =  current_app.config["DIR_PATH"] + "/static/" + "csv/"
-csv_path =  current_app.config["DIR_PATH"] + "/static/" + "csv/"
 isProduction = os.getenv('FLASK_ENV') == 'production'
 
 def get_labels(model_name="trupanea_v2"):
