@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudArrowUp, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faChartBar, faCloudArrowUp, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { getPredictions } from '../services/apiService';
 import { Prediction } from '../models/Prediction';
 
@@ -122,11 +122,11 @@ function Upload() {
                 {(predictions[index]) && (
                 <button
                       type="button"
-                      className="btn btn-accent font-varela"
+                      className="btn btn-accent btn-square"
                       onClick={() => openModel(index)}
                       disabled={isLoading}
                     >
-                      open modal
+                      <FontAwesomeIcon icon={faChartBar} />
                     </button>
                 )}
 
@@ -151,7 +151,7 @@ function Upload() {
                       className={`btn btn-outline btn-accent ${isLoading && 'btn-active'}`}
                       disabled={isLoading}
                     >
-                      Detect
+                      Get Predictions
 
                       {isLoading && (
                       <span className="loading loading-spinner" />
