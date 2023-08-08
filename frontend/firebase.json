@@ -1,6 +1,5 @@
 {
   "hosting": {
-    "site": "code-critters-kei",
     "public": "build",
     "ignore": [
       "firebase.json",
