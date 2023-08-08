@@ -5,29 +5,27 @@ import numpy as np
 import os
 import imp
 
-
-current_model = "trupanea_v2"
-path = current_app.config["DIR_PATH"] + "/models/" + current_model
+path = current_app.config["MODEL_FOLDER"]
 isProduction = os.getenv('FLASK_ENV') == 'production'
 
-def get_labels(model_name):
-    filename = f'{path}/labels.txt'
+def get_labels(model_name="trupanea_v2"):
+    filename = f'{path}/{model_name}/labels.txt'
     with open(filename, 'r') as file:
         lines = file.readlines()
     labels = [line.strip() for line in lines]
     return labels
  
-def get_prediction(image_path):
+def get_prediction(image_path, current_model="trupanea_v2"):
     model_path = ""
     if (isProduction):
         model_path = f'/var/models/model.h5'
     else:
-        model_path = f'{path}/model.h5'
+        model_path = f'{path}/{current_model}/model.h5'
     model = load_model(model_path)
     labels = get_labels(current_model)
     
     # Preprocess the image
-    preprocess = imp.load_source('img_preprocess', f'{path}/preprocess.py')
+    preprocess = imp.load_source('img_preprocess', f'{path}/{current_model}/preprocess.py')
     img = preprocess.img_preprocess(image_path)
 
     # Get the prediction from the model

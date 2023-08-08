@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+################ GENERAL ################
+*.Zone.Identifier
+
 ################ FRONTEND ################
 # dependencies
 **/node_modules/
@@ -158,5 +161,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# ignoring the model
 model.h5

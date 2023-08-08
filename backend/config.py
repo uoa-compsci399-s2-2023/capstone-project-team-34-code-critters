@@ -15,4 +15,7 @@ class Config:
     REPOSITORY = environ.get('REPOSITORY')
 
     UPLOAD_FOLDER = environ.get('UPLOAD_FOLDER')
-    ALLOWED_EXTENSIONS = environ.get('ALLOWED_EXTENSIONS')
+    STORAGE_FOLDER = environ.get('STORAGE_FOLDER')
+    MODEL_FOLDER = environ.get('MODEL_FOLDER')
+
+    ALLOWED_IMAGE_EXTENSIONS = environ.get('ALLOWED_IMAGE_EXTENSIONS')
