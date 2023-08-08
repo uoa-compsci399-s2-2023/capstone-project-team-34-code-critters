@@ -1,38 +1,37 @@
 """Initialize Flask app."""
 import os
-from flask import Flask, url_for, request,send_from_directory
+from flask import Flask,Blueprint, request
+from flask_restx import Api
 
 def create_app(test_config=None):
     app = Flask(__name__)
-    app.config.from_object('config.Config')
+    
+    # app.config.from_object('config.Config')
+    app.config["DIR_PATH"] = os.path.dirname(os.path.realpath(__file__))
+    app.config["UPLOAD_FOLDER"] ='./library/static/uploads/'
+    app.config["STORAGE_FOLDER"] ='.\library\static\storage\\'
 
+    app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF"]
+    
     # if test_config is not None:
     #     app.config.from_mapping(test_config)
-    #     tests = True
-    #     # populate(repo.repo_instance,"tests")
     # else:
-    #     # populate(repo.repo_instance)
     #     tests = False
     
     with app.app_context():
-    #     from .books import book
-    #     app.register_blueprint(book.book_blueprint)
-
         from .home import home
         app.register_blueprint(home.home_blueprint)
 
-    #     from .search import search
-    #     app.register_blueprint(search.search_blueprint)
 
-    #   from .authentication import authentication
-    #   app.register_blueprint(authentication.authentication_blueprint)
-
-        from .utilities import utilities
+        from .utilities import utilities, xlsx_export
         app.register_blueprint(utilities.utilities_blueprint)
 
-    @app.route('/favicon.ico')
-    def favicon():
-        return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+        blueprint = Blueprint('api', __name__, url_prefix='/api')
+        api = Api(blueprint, doc='/doc/')
+        
+        app.register_blueprint(blueprint)
+        api.add_namespace(utilities.utils_api)
+        api.add_namespace(xlsx_export.utils_api)
         
     return app
 
