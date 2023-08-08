@@ -50,6 +50,7 @@ class upload_files_json(Resource):
     @utilities_blueprint.route('/upload_json', methods=['POST']) # LEGACY
     def post(self):
         f = request.files.getlist('file[]')
+        print(f)
         return_list = []
         for file in f:        
             filename = secure_filename(file.filename)
