@@ -32,7 +32,7 @@ function Upload() {
     setSelectedImages([...selectedImages, ...Array.from(event.target.files!)]);
   };
 
-  const onDetectionClick = async () => {
+  const onPredictionClick = async () => {
     setIsLoading(true);
     const formData = new FormData();
     selectedImages.forEach((imageUrl) => {
@@ -145,7 +145,7 @@ function Upload() {
         {
                     selectedImages.length > 0 && (
                     <button
-                      onClick={() => onDetectionClick()}
+                      onClick={() => onPredictionClick()}
                       type="button"
                       className={`btn btn-outline btn-accent ${isLoading && 'btn-active'} mt-4`}
                       disabled={isLoading}
