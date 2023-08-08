@@ -25,7 +25,7 @@ def resize_img(path):
 ################ Global Variables ################
 storage_path = current_app.config['STORAGE_FOLDER']
 img_path = current_app.config['UPLOAD_FOLDER']
-
+is_prod = os.getenv('FLASK_ENV') == 'production'
 ################ API Endpoints ################
 
 @utils_api.route('/create_xlsx')
@@ -63,7 +63,6 @@ class XLSX_export(Resource):
 
                             img = Image(img_path+filename)
                             ws.add_image(img, "B"+str(ws.max_row))
-                            # ws.append([filename]+[""]+pred)
                     
                     #Auto adjust column width A (FILENAME)
                     max_length = 0
@@ -84,12 +83,15 @@ class XLSX_export(Resource):
                     wb.save(storage_path+hash_hex+".xlsx")
                 
                 path = os.path.join(current_app.static_folder, 'storage/') # Yes I know this is inconsistent, This is the only way i could get this to work
-                return send_file(path+hash_hex+".xlsx", as_attachment=True)
+                return send_file(os.path.join(path, hash_hex+".xlsx"), as_attachment=True)
                 # return send_from_directory(path, hash_hex+".xlsx")
             else:
                 return "Invalid JSON", 400
         except Exception as e:
-            return str(e), 500
+            if is_prod:
+                return "Internal Server Error", 500
+            else:
+                return str(e), 500
         
         
 
