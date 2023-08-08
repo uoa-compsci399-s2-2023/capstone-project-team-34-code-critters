@@ -85,7 +85,7 @@ From the project's backend directory, and within the activated virtual environme
 ````shell
 $ flask run
 ```` 
-**Running the Flask application via Gunicorn**
+**Running the Flask application via Gunicorn (LINUX or WSL Only)**
 
 From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
 
