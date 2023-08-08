@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartBar, faCloudArrowUp, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { getPredictions } from '../services/apiService';
@@ -21,23 +21,15 @@ function Upload() {
     inputFile.current!.click();
   };
 
+  useEffect(() => {
+    if (selectedImages.length < 1) return;
+    const newImageUrls: string[] = [];
+    selectedImages.forEach((image:any) => newImageUrls.push(URL.createObjectURL(image)));
+    setSelectedImageUrls(newImageUrls);
+  }, [selectedImages]);
+
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = event.target;
-    if (files && files.length > 0) {
-      const imageUrls: string[] = [];
-      for (let i = 0; i < files.length; i += 1) {
-        const file = files[i];
-        setSelectedImages([...selectedImages, file]);
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          imageUrls.push(reader.result as string);
-          if (imageUrls.length === files.length) {
-            setSelectedImageUrls([...selectedImageUrls, ...imageUrls]);
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    }
+    setSelectedImages([...selectedImages, ...Array.from(event.target.files!)]);
   };
 
   const onDetectionClick = async () => {
@@ -56,6 +48,10 @@ function Upload() {
     const newImages = [...selectedImages];
     newImages.splice(index, 1);
     setSelectedImages(newImages);
+
+    const newImageUrls = [...selectedImageUrls];
+    newImageUrls.splice(index, 1);
+    setSelectedImageUrls(newImageUrls);
   };
 
   const openModel = (index: number) => {
@@ -107,28 +103,27 @@ function Upload() {
             {selectedImages.length > 0 ? 'Add more images' : 'Upload images'}
           </button>
         </div>
-        {selectedImages.length > 0 && (
         <div className="mt-4 w-full flex flex-col gap-4">
-          {selectedImages.map((imageUrl, index) => (
+          {selectedImageUrls.map((imageUrl, index) => (
             <div className="flex w-full items-center justify-around" key={index}>
               <img
-                src={selectedImageUrls[index]}
+                src={imageUrl}
                 alt={`Selected ${index + 1}`}
                 className="w-32 rounded-md"
               />
               <div />
 
               <div className="flex items-center gap-4">
-                {(predictions[index]) && (
-                <button
-                  type="button"
-                  className="btn btn-accent btn-square"
-                  onClick={() => openModel(index)}
-                  disabled={isLoading}
-                >
-                  <FontAwesomeIcon icon={faChartBar} />
-                </button>
-                )}
+                {(predictions[index]) ? (
+                  <button
+                    type="button"
+                    className="btn btn-accent btn-square"
+                    onClick={() => openModel(index)}
+                    disabled={isLoading}
+                  >
+                    <FontAwesomeIcon icon={faChartBar} />
+                  </button>
+                ) : <div className="w-12" />}
 
                 <button
                   className="btn btn-square btn-outline btn-accent"
@@ -142,7 +137,6 @@ function Upload() {
             </div>
           ))}
         </div>
-        )}
         {
                     selectedImages.length > 0 && (
                     <button
@@ -181,8 +175,8 @@ function Upload() {
               {
                 // eslint-disable-next-line max-len
                   prediction.pred.sort((a, b) => Number(b[0]) - Number(a[0])).slice(0, numToShow).map((pred, i) => (
-                    <div className="w-full">
-                      <div key={i} className="flex justify-between">
+                    <div key={i} className="w-full">
+                      <div className="flex justify-between">
                         <p className="font-varela text-black">{pred[1]}</p>
                         <p className="font-varela text-accent">{Number(pred[0])}</p>
                       </div>
