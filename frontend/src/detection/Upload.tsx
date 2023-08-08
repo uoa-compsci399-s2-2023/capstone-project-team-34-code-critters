@@ -166,6 +166,7 @@ function Upload() {
               onClick={() => closeModel(index)}
               type="button"
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              disabled={isLoading}
             >
               <FontAwesomeIcon
                 icon={faXmark}
