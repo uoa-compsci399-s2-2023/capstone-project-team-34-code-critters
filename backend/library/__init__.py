@@ -9,7 +9,7 @@ def create_app(test_config=None):
     # app.config.from_object('config.Config')
     app.config["DIR_PATH"] = os.path.dirname(os.path.realpath(__file__))
     app.config["UPLOAD_FOLDER"] ='./library/static/uploads/'
-    app.config["STORAGE_FOLDER"] ='.\library\static\storage\\'
+    app.config["STORAGE_FOLDER"] ='./library/static/storage/'
 
     app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF"]
     
