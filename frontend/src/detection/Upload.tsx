@@ -133,6 +133,7 @@ function Upload() {
                   className="btn btn-square btn-outline btn-accent"
                   type="button"
                   onClick={() => deleteImage(index)}
+                  disabled={isLoading}
                 >
                   <FontAwesomeIcon icon={faXmark} />
                 </button>
@@ -166,7 +167,6 @@ function Upload() {
               onClick={() => closeModel(index)}
               type="button"
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-              disabled={isLoading}
             >
               <FontAwesomeIcon
                 icon={faXmark}
