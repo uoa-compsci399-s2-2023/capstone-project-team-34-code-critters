@@ -37,7 +37,7 @@ def upload_files():
             file.save(img_path + filename)
 
             pred = get_prediction(img_path + filename)        
-            results = ", ".join("({:.5f}, {})".format(x,y) for (x,y) in pred)
+            results = ", ".join("({}, {})".format(x,y) for (x,y) in pred)
             return_list.append(results)
 
         return redirect(url_for('home_bp.home', results= return_list))
