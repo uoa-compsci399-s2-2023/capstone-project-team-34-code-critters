@@ -35,11 +35,13 @@ class XLSX_export(Resource):
     @utils_api.response(400, 'Bad Request (Likely Invalid JSON)')
     @utils_api.response(500, 'Internal Server Error')
     @utils_api.expect(json_parser)
+    @utils_api.doc(description="Creates an XLSX file from JSON prediction data")
     def post(self):
         try:
             if request.is_json:
                 json_data = request.get_json()
 
+                # Validate JSON
                 for obj in json_data:
                     if "name" not in obj or "pred" not in obj:
                         return "Invalid JSON", 400
@@ -53,6 +55,8 @@ class XLSX_export(Resource):
                 if not os.path.isfile(storage_path+hash_hex+".xlsx"):
                     wb = Workbook()
                     ws = wb.active
+                    
+                    # Write the data to the file
                     ws.append(["Filename","Image", "Predictions"])
                     for result in json_data:
                         filename = result["name"]

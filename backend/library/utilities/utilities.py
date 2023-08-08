@@ -43,6 +43,7 @@ def upload_files():
             return_list.append(results)
 
         return redirect(url_for('home_bp.home', results= return_list))
+
 @utils_api.route('/upload_json')
 class upload_files_json(Resource):
     
@@ -53,6 +54,7 @@ class upload_files_json(Resource):
     @utils_api.doc(description="Uploads an image and returns the prediction")
     @utilities_blueprint.route('/upload_json', methods=['POST']) # LEGACY
     def post(self):
+
         # Checks if the model is valid before uploading
         model = request.args.get('model')
         if model and model not in available_models.get(self):
@@ -62,6 +64,7 @@ class upload_files_json(Resource):
         f = request.files.getlist('file[]')     
         return_list = []
         for file in f:        
+            # Validates File name and then type
             filename = secure_filename(file.filename)
             if not isFileAllowed(filename):
                 return "Invalid File type", 405
@@ -80,7 +83,9 @@ class upload_files_json(Resource):
 
 @utils_api.route('/available_models')
 class available_models(Resource):
+
     @utils_api.response(200, 'Success')
+    @utils_api.doc(description="Returns a list of available models")
     def get(self):
         subfolders = [os.path.basename(f.path) for f in os.scandir(models_path) if f.is_dir()]
         return subfolders
