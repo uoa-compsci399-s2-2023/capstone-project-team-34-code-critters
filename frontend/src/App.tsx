@@ -2,7 +2,7 @@ import Upload from './detection/Upload';
 
 function App() {
   return (
-    <div>
+    <div className="w-full h-screen">
       <Upload />
     </div>
   );

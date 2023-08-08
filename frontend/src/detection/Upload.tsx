@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faCloudArrowUp, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 function Upload() {
   const inputFile = useRef<HTMLInputElement>(null);
@@ -29,9 +29,15 @@ function Upload() {
       }
     }
   };
+
+  const deleteImage = (index: number) => {
+    const newImages = [...selectedImages];
+    newImages.splice(index, 1);
+    setSelectedImages(newImages);
+  };
   return (
-    <div className="bg-gray-200 w-full h-screen flex justify-center items-center overflow-y-auto">
-      <div className="card max-w-6xl w-11/12 bg-white flex items-center justify-center md:p-20 sm:p-10 p-4 my-4">
+    <div className="bg-gray-200 w-full h-full flex justify-center overflow-y-auto">
+      <div className="card max-w-6xl w-11/12 bg-white flex items-center px-4 py-10 my-10 h-fit">
         <h1 className="text-black text-xl font-varela text-center">Drag and Drop or Browse to Upload Image</h1>
         <p className="text-gray-500 mt-4 font-varela text-center">Upload up to 40 images at once</p>
         <input
@@ -45,7 +51,7 @@ function Upload() {
         />
         <div
           onClick={addImages}
-          className={selectedImages.length > 0 ? 'card w-full max-w-4xl border-2 border-dashed border-gray-300 mt-10 flex flex-row justify-around items-center py-4' : 'card w-full max-w-4xl border-2 border-dashed border-gray-300 mt-10 aspect-video flex items-center justify-center cursor-pointer p-4"'}
+          className={selectedImages.length > 0 ? 'card w-full max-w-4xl border-2 border-dashed border-gray-300 mt-10 flex flex-row justify-around items-center p-4' : 'card w-full max-w-4xl border-2 border-dashed border-gray-300 mt-10 aspect-video flex items-center justify-center cursor-pointer p-4'}
         >
           <FontAwesomeIcon icon={faCloudArrowUp} size={selectedImages.length > 0 ? '3x' : '5x'} />
           <div className="md:flex flex-col hidden">
@@ -71,15 +77,29 @@ function Upload() {
                 key={index}
                 src={imageUrl}
                 alt={`Selected ${index + 1}`}
-                className="w-32"
+                className="w-32 rounded-md"
               />
-              <button type="button" className="btn btn-outline btn-accent">
-                Detect
-              </button>
+              <div />
+
+              <div>
+
+                <button
+                  className="btn btn-outline btn-accent"
+                  type="button"
+                  onClick={() => deleteImage(index)}
+                >
+                  <FontAwesomeIcon icon={faXmark} />
+                </button>
+              </div>
             </div>
           ))}
         </div>
         )}
+        {
+                    selectedImages.length > 0 && (
+                    <button type="button" className="btn btn-outline btn-accent">Detect</button>
+                    )
+                }
       </div>
     </div>
   );
