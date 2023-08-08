@@ -5,6 +5,7 @@ from flask_restx import Namespace, Resource, fields
 
 from library.utilities.inference import get_prediction
 
+import os
 ################ Blueprint/Namespace Configuration ################
 utilities_blueprint = Blueprint('utilities_bp', __name__)
 utils_api = Namespace('utilities_api', description='Utilities related operations')
@@ -13,6 +14,7 @@ upload_parser.add_argument('file[]', location='files', type=FileStorage, require
 
 ################ Global Variables ################
 img_path = current_app.config['UPLOAD_FOLDER']
+models_path = current_app.config['MODEL_FOLDER']
 
 ################ Helper Functions ################
 def isFileAllowed(filename):
@@ -63,3 +65,9 @@ class upload_files_json(Resource):
         return return_list
         
 
+@utils_api.route('/available_models')
+class available_models(Resource):
+    @utils_api.response(200, 'Success')
+    def get(self):
+        subfolders = [f.path for f in os.scandir(models_path) if f.is_dir()]
+        return subfolders
