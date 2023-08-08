@@ -11,6 +11,7 @@ utilities_blueprint = Blueprint('utilities_bp', __name__)
 utils_api = Namespace('utilities_api', description='Utilities related operations')
 upload_parser = utils_api.parser()
 upload_parser.add_argument('file[]', location='files', type=FileStorage, required=True, help='Image file to upload (This cannot test multiple files)')
+upload_parser.add_argument('model', location='args', type=str, help='Optional Arg to specify model to use')
 
 ################ Global Variables ################
 img_path = current_app.config['UPLOAD_FOLDER']
@@ -46,19 +47,31 @@ def upload_files():
 class upload_files_json(Resource):
     
     @utils_api.response(200, 'Success')
+    @utils_api.response(400, 'Bad Request')
     @utils_api.response(405, 'Invalid File Type')
     @utils_api.expect(upload_parser)
+    @utils_api.doc(description="Uploads an image and returns the prediction")
     @utilities_blueprint.route('/upload_json', methods=['POST']) # LEGACY
     def post(self):
-        f = request.files.getlist('file[]')
+        # Checks if the model is valid before uploading
+        model = request.args.get('model')
+        if model and model not in available_models.get(self):
+            return "Invalid Model", 400
+        
+        # Uploads the file and returns the prediction
+        f = request.files.getlist('file[]')     
         return_list = []
         for file in f:        
             filename = secure_filename(file.filename)
             if not isFileAllowed(filename):
                 return "Invalid File type", 405
             file.save(img_path + filename)
-    
-            pred = get_prediction(img_path + filename)
+
+            if model:
+                pred = get_prediction(img_path + filename, model)
+            else:
+                pred = get_prediction(img_path + filename)
+            
             print(pred)
             return_list.append({"name":filename, "pred":pred})
                 
@@ -69,5 +82,5 @@ class upload_files_json(Resource):
 class available_models(Resource):
     @utils_api.response(200, 'Success')
     def get(self):
-        subfolders = [f.path for f in os.scandir(models_path) if f.is_dir()]
+        subfolders = [os.path.basename(f.path) for f in os.scandir(models_path) if f.is_dir()]
         return subfolders
