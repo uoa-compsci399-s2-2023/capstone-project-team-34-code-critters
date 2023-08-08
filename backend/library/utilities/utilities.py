@@ -60,7 +60,6 @@ class upload_files_json(Resource):
             pred = get_prediction(img_path + filename)
             print(pred)
             return_list.append({"name":filename, "pred":pred})
-                
         return return_list
         
 
