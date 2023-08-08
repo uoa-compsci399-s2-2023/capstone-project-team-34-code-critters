@@ -6,12 +6,8 @@ from flask_restx import Api
 def create_app(test_config=None):
     app = Flask(__name__)
     
-    # app.config.from_object('config.Config')
+    app.config.from_object('config.Config')
     app.config["DIR_PATH"] = os.path.dirname(os.path.realpath(__file__))
-    app.config["UPLOAD_FOLDER"] ='./library/static/uploads/'
-    app.config["STORAGE_FOLDER"] ='./library/static/storage/'
-
-    app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF"]
     
     # if test_config is not None:
     #     app.config.from_mapping(test_config)
