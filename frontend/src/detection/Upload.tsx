@@ -16,7 +16,7 @@ function Upload() {
     if (files && files.length > 0) {
       const imageUrls: string[] = [];
 
-      for (let i = 0; i < files.length; i++) {
+      for (let i = 0; i < files.length; i += 1) {
         const file = files[i];
         const reader = new FileReader();
         reader.onloadend = () => {
@@ -73,7 +73,7 @@ function Upload() {
                 alt={`Selected ${index + 1}`}
                 className="w-32"
               />
-              <button className="btn btn-outline btn-accent">
+              <button type="button" className="btn btn-outline btn-accent">
                 Detect
               </button>
             </div>
