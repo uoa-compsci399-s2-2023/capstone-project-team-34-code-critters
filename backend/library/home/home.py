@@ -16,8 +16,6 @@ def home(results=None):
                 'home/home.html'
             ))
     else:
-        print("this ran")
-        print(results)
         res = make_response(render_template(
                 'home/home.html',
                 results=results
