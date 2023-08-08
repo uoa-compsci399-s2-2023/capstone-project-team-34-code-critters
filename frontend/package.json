@@ -13,6 +13,7 @@
     "@types/node": "^16.18.39",
     "@types/react": "^18.2.17",
     "@types/react-dom": "^18.2.7",
+    "axios": "^1.4.0",
     "eslint-config-airbnb": "^19.0.4",
     "firebase": "^10.1.0",
     "react": "^18.2.0",
@@ -22,7 +23,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint .",

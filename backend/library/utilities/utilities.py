@@ -77,7 +77,6 @@ class upload_files_json(Resource):
             
             print(pred)
             return_list.append({"name":filename, "pred":pred})
-                
         return return_list
         
 
