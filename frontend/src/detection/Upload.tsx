@@ -148,7 +148,7 @@ function Upload() {
                     <button
                       onClick={() => onDetectionClick()}
                       type="button"
-                      className={`btn btn-outline btn-accent ${isLoading && 'btn-active'}`}
+                      className={`btn btn-outline btn-accent ${isLoading && 'btn-active'} mt-4`}
                       disabled={isLoading}
                     >
                       Get Predictions
