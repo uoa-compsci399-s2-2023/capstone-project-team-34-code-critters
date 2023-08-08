@@ -52,6 +52,10 @@ function Upload() {
     const newImageUrls = [...selectedImageUrls];
     newImageUrls.splice(index, 1);
     setSelectedImageUrls(newImageUrls);
+
+    const newPredictions = [...predictions];
+    newPredictions.splice(index, 1);
+    setPredictions(newPredictions);
   };
 
   const openModel = (index: number) => {
