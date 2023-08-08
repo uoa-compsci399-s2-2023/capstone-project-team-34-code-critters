@@ -5,7 +5,6 @@ from openpyxl.drawing.image import Image
 from flask import current_app, request, send_from_directory, send_file
 from flask_restx import Namespace, Resource
 
-from library.utilities.standardise_images import standardise_image
 from library.utilities.inference import get_prediction
 from PIL import Image as PILimg
 from PIL import ImageOps

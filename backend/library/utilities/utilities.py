@@ -3,7 +3,6 @@ from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 from flask_restx import Namespace, Resource, fields
 
-from library.utilities.standardise_images import standardise_image
 from library.utilities.inference import get_prediction
 
 ################ Blueprint/Namespace Configuration ################
@@ -56,7 +55,7 @@ class upload_files_json(Resource):
             if not isFileAllowed(filename):
                 return "Invalid File type", 405
             file.save(img_path + filename)
-            # standardise_image(img_path, filename)
+    
             pred = get_prediction(img_path + filename)
             print(pred)
             return_list.append({"name":filename, "pred":pred})
