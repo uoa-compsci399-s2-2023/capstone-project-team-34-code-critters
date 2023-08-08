@@ -75,15 +75,24 @@ To add the models,
     ```
 
 
+
 ## Execution of the web application
 
 **Running the Flask application**
 
-From the project directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
+From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
 
 ````shell
 $ flask run
 ```` 
+**Running the Flask application via Gunicorn**
+
+From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
+
+````shell
+$ gunicorn wsgi:gunicorn_app
+```` 
+
 
 # Getting Started with Create React App
 
