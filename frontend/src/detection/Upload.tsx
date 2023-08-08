@@ -121,13 +121,13 @@ function Upload() {
               <div className="flex items-center gap-4">
                 {(predictions[index]) && (
                 <button
-                      type="button"
-                      className="btn btn-accent btn-square"
-                      onClick={() => openModel(index)}
-                      disabled={isLoading}
-                    >
-                      <FontAwesomeIcon icon={faChartBar} />
-                    </button>
+                  type="button"
+                  className="btn btn-accent btn-square"
+                  onClick={() => openModel(index)}
+                  disabled={isLoading}
+                >
+                  <FontAwesomeIcon icon={faChartBar} />
+                </button>
                 )}
 
                 <button
@@ -179,20 +179,21 @@ function Upload() {
 
             <div className="flex flex-col gap-4 mt-4 items-center">
               {
-                                prediction.pred.sort((a, b) => Number(b[0]) - Number(a[0])).slice(0, numToShow).map((pred, i) => (
-                                  <div className="w-full">
-                                    <div key={i} className="flex justify-between">
-                                      <p className="font-varela text-black">{pred[1]}</p>
-                                      <p className="font-varela text-accent">{Number(pred[0])}</p>
-                                    </div>
-                                    <progress
-                                      className="progress progress-accent w-full"
-                                      value={Number(pred[0]) * 100}
-                                      max="100"
-                                    />
-                                  </div>
-                                ))
-                            }
+                // eslint-disable-next-line max-len
+                  prediction.pred.sort((a, b) => Number(b[0]) - Number(a[0])).slice(0, numToShow).map((pred, i) => (
+                    <div className="w-full">
+                      <div key={i} className="flex justify-between">
+                        <p className="font-varela text-black">{pred[1]}</p>
+                        <p className="font-varela text-accent">{Number(pred[0])}</p>
+                      </div>
+                      <progress
+                        className="progress progress-accent w-full"
+                        value={Number(pred[0]) * 100}
+                        max="100"
+                      />
+                    </div>
+                  ))
+              }
               {
                                 prediction.pred.length > numToShow && (
                                 <button
