@@ -16,6 +16,10 @@ function Upload() {
     setNumToShow(pred.length); // Show all predictions
   };
 
+  const handleShowLess = () => {
+    setNumToShow(5); // Show 5 predictions
+  };
+
   const addImages = () => {
     inputFile.current!.value = '';
     inputFile.current!.click();
@@ -194,15 +198,24 @@ function Upload() {
                   ))
               }
               {
-                                prediction.pred.length > numToShow && (
-                                <button
-                                  type="button"
-                                  className="btn btn-accent w-fit"
-                                  onClick={() => handleShowMore(prediction.pred)}
-                                >
-                                  Show more
-                                </button>
+                                prediction.pred.length > numToShow ? (
+                                  <button
+                                    type="button"
+                                    className="btn btn-accent w-fit"
+                                    onClick={() => handleShowMore(prediction.pred)}
+                                  >
+                                    Show more
+                                  </button>
                                 )
+                                  : (
+                                    <button
+                                      type="button"
+                                      className="btn btn-accent w-fit"
+                                      onClick={() => handleShowLess()}
+                                    >
+                                      Show less
+                                    </button>
+                                  )
                             }
 
             </div>
