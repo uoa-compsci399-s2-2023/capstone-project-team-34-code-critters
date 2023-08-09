@@ -183,7 +183,7 @@ function Upload() {
                     <div key={i} className="w-full">
                       <div className="flex justify-between">
                         <p className="font-varela text-black">{pred[1]}</p>
-                        <p className="font-varela text-accent">{Number(pred[0])}</p>
+                        <p className="font-varela text-accent">{Number(pred[0]).toFixed(4)}</p>
                       </div>
                       <progress
                         className="progress progress-accent w-full"
