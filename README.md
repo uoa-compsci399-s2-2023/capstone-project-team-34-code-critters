@@ -28,17 +28,21 @@ raar518@aucklanduni.ac.nz
 
 **Frontend Technologies:**
 
-- [React](https://react.dev/) v18.2.0
-- [JavaScript](https://www.javascript.com/)
-- [TypeScript](https://www.typescriptlang.org/) v4.9.5
+[![React](https://img.shields.io/badge/React-v18.2.0-%2361DAFB?logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-v4.9.5-%233178C6?logo=typescript)](https://www.typescriptlang.org/) 
+[![JavaScript](https://img.shields.io/badge/Javascript-%23000000?logo=javascript)](https://www.javascript.com/)
 
 **Backend Technologies:**
 
-- [Python](https://www.python.org/) v3.11
+[![Python](https://img.shields.io/badge/Python-v3.11-%233776AB?logo=python)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-black?logo=flask)](https://flask.palletsprojects.com/en/2.3.x/)
+[![FlaskRestx](https://img.shields.io/badge/Flask--Restx-%2385EA2D?logo=swagger&logoColor=black)](https://flask-restx.readthedocs.io/en/latest/)
+[![Tensorflow](https://img.shields.io/badge/Tensorflow-%23FF6F00?logo=Tensorflow&logoColor=white)](https://www.tensorflow.org/)
+
 
 **Hosting Technologies:**
 
-- [Firebase](https://firebase.google.com/) 
+[![Firebase](https://img.shields.io/badge/Firebase-%23FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/) 
 
 
 ## Python version
