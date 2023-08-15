@@ -1,9 +1,14 @@
-import Upload from './detection/Upload';
+import { Route, Routes } from 'react-router-dom';
+import Detection from './Pages/detection/Detection';
+import Navbar from './Components/Navbar';
 
 function App() {
   return (
     <div className="w-full h-screen">
-      <Upload />
+      <Navbar />
+      <Routes>
+        <Route path="/upload" element={<Detection />} />
+      </Routes>
     </div>
   );
 }
