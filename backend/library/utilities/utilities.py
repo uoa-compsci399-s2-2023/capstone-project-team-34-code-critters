@@ -4,7 +4,7 @@ from werkzeug.datastructures import FileStorage
 from flask_restx import Namespace, Resource, fields
 
 # from library.utilities.standardise_images import standardise_image
-from library.utilities.inference import get_prediction, create_CSV
+from library.utilities.inference import get_prediction
 
 import os
 ################ Blueprint/Namespace Configuration ################
@@ -42,7 +42,6 @@ def upload_files():
             pred = get_prediction(img_path + filename)        
             results = ", ".join("({}, {})".format(x,y) for (x,y) in pred)
             return_list.append(results)
-            create_CSV(pred)
         return redirect(url_for('home_bp.home', results= return_list))
 
 @utils_api.route('/upload_json')
