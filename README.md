@@ -11,13 +11,13 @@ lnil547@aucklanduni.ac.nz
 Helen Lu - UI + Frontend Developer
 hlu750@aucklanduni.ac.nz
 
-Dhiraj Pen - FullStack Developer
+Dhiraj Penumala - FullStack Developer
 dpen656@aucklanduni.ac.nz
 
-Joshua Chu - Backend Developer
+Joshua Chung - Backend Developer
 jchu634@aucklanduni.ac.nz
 
-Kei - UI + Frontend Developer
+Keisuke Hara - UI + Frontend Developer
 khar453@aucklanduni.ac.nz
 
 Rukun Aaron - FullStack Developer
