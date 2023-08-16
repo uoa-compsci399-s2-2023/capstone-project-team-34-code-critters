@@ -123,7 +123,12 @@ class CSV_export(Resource):
                         for result in json_data:
                             filename = result["name"]
                             pred = [item for subpred in result["pred"] for item in subpred]
-                            f.write(filename+",".join(pred)+"\n")
+                            # f.write(filename)
+                            for i in range(0, len(pred), 2):
+                                f.write(filename+","+pred[i]+","+pred[i+1])
+                                f.write("\n")
+                            # f.write("\n")
+                            # f.write(filename+",".join(pred)+"\n")
                 path = os.path.join(current_app.static_folder, 'storage/')
                 return send_file(os.path.join(path, hash_hex+".csv"), as_attachment=True)
             else:
