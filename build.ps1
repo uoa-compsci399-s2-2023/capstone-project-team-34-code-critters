@@ -28,4 +28,4 @@ Set-Location $backendPath
 python -m venv venv
 .\venv\Scripts\activate
 pip install -r requirements.txt
-pyinstaller .\pywebview_main.py --add-data "library;library" --noconfirm --onefile --clean --name "Insect Identification Application" --windowed --icon "library\static\favicon.ico"
+pyinstaller .\pywebview_main.py --add-data "library;library" --noconfirm  --clean --name "Insect Identification Application" --windowed --icon "library\static\favicon.ico"
