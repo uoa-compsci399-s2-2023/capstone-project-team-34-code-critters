@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useRef } from 'react';
 
-type LoginModalProps = {};
+type SignUpModalProps = {};
 
-const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal() {
+const SignUpModal: FunctionComponent<SignUpModalProps> = function SignUpModal() {
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const openModal = () => {
@@ -21,7 +21,7 @@ const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal() {
     <div>
       {/* Button to open the modal */}
       <button className="btn btn-primary" onClick={openModal} type="button">
-        Log In
+        Sign Up
       </button>
       {/* Modal content */}
       <dialog ref={modalRef} className="modal">
@@ -37,7 +37,7 @@ const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal() {
               </div>
               <div className="self-stretch flex-1 flex flex-row py-2.5 px-[50px] items-start justify-start">
                 <div className="flex-1 relative tracking-[0.08em] leading-[120%] p-[25px]">
-                  Welcome back! Let&apos;s continue.
+                  Unlock more features with an account! Get started today.
                 </div>
               </div>
             </div>
@@ -50,48 +50,48 @@ const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal() {
                 ✕
               </button>
               <div className="self-stretch flex flex-col items-center justify-center gap-[15px]">
-                <b className="mb-3 relative text-[32px] tracking-[0.08em] leading-[35px] text-mediumseagreen">
-                  Login
+                <b className="relative text-[32px] tracking-[0.08em] leading-[35px] text-mediumseagreen">
+                  Create Account
                 </b>
-                <div className="self-stretch flex flex-col items-center justify-center gap-[16px]">
-                  <button className="cursor-pointer py-1.5 px-4 bg-transparent self-stretch rounded-8xs flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray" type="button">
+                <div className="self-stretch flex flex-col py-2.5 px-0 items-center justify-center gap-[15px]">
+                  <button type="button" className="cursor-pointer py-1.5 px-4 bg-[transparent] self-stretch rounded-8xs flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray">
                     <img
                       className="relative w-[30px] h-[30px] object-cover"
                       alt=""
                       src="/google@2x.png"
                     />
-                    <div className="relative text-sm leading-[35px] font-medium font-poppins text-darkslategray text-center">
-                      Login with Google
+                    <div className="relative text-smi leading-[35px] font-medium font-poppins text-darkslategray text-center">
+                      Sign up with Google
                     </div>
                   </button>
-                  <button className="cursor-pointer py-1.5 px-4 bg-transparent self-stretch rounded-8xs flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray" type="button">
+                  <button type="button" className="cursor-pointer py-1.5 px-4 bg-[transparent] self-stretch rounded-8xs flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray">
                     <img
                       className="relative w-[30px] h-[30px] object-cover"
                       alt=""
                       src="/facebook@2x.png"
                     />
-                    <div className="relative text-sm leading-[35px] font-medium font-poppins text-darkslategray text-left">
-                      Login with Facebook
+                    <div className="relative text-smi leading-[35px] font-medium font-poppins text-darkslategray text-left">
+                      Sign up with Facebook
                     </div>
                   </button>
-                  <button className="cursor-pointer py-1.5 px-4 bg-transparent self-stretch rounded-8xs flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray" type="button">
+                  <button type="button" className="cursor-pointer py-1.5 px-4 bg-[transparent] self-stretch rounded-8xs flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray">
                     <img
                       className="relative w-[30px] h-[30px] object-cover"
                       alt=""
                       src="/github-1@2x.png"
                     />
-                    <div className="relative text-sm leading-[35px] font-medium font-poppins text-darkslategray text-left">
-                      Login with Github
+                    <div className="relative text-smi leading-[35px] font-medium font-poppins text-darkslategray text-left">
+                      Sign up with Github
                     </div>
                   </button>
                 </div>
-                <div className="self-stretch flex flex-row items-center justify-center gap-[8px] text-center">
+                <div className="self-stretch flex flex-row items-center justify-center gap-[5px] text-center">
                   <img
                     className="self-stretch flex-1 relative max-w-full overflow-hidden max-h-full"
                     alt=""
                     src="/line-2.svg"
                   />
-                  <div className="text-gray relative tracking-[0.08em] leading-[35px] font-medium">OR</div>
+                  <div className="relative tracking-[0.08em] leading-[20px] font-medium">OR</div>
                   <img
                     className="self-stretch flex-1 relative max-w-full overflow-hidden max-h-full"
                     alt=""
@@ -99,38 +99,48 @@ const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal() {
                   />
                 </div>
                 <div className="self-stretch flex flex-col pt-0 px-0 pb-[0.00000762939453125px] items-center justify-start gap-[10px] text-mid text-dimgray font-poppins">
-                  <div className="w-[441px] h-[75px] flex flex-col items-start justify-start gap-[2px]">
+                  <div className="w-[441px] h-[76.78px] flex flex-col items-start justify-start">
+                    <div className="relative font-medium inline-block w-[87.54px] h-[27.42px] shrink-0">
+                      Full name
+                    </div>
+                    <input
+                      className="[border:none] font-poppins text-mini bg-whitesmoke self-stretch rounded-8xs flex flex-col py-2 px-[21px] items-start justify-center"
+                      type="text"
+                      placeholder="Enter your Email here"
+                    />
+                  </div>
+                  <div className="w-[441px] h-[76.78px] flex flex-col items-start justify-start">
                     <div className="relative font-medium inline-block w-[87.54px] h-[27.42px] shrink-0">
                       Email
                     </div>
                     <input
-                      className="border-none font-poppins text-mini bg-whitesmoke self-stretch rounded-8xs flex flex-col py-2 px-[21px] items-start justify-center"
+                      className="[border:none] font-poppins text-mini bg-whitesmoke self-stretch rounded-8xs flex flex-col py-2 px-[21px] items-start justify-center"
                       type="text"
-                      placeholder="Enter your Email"
+                      placeholder="Enter your Email here"
                     />
                   </div>
-                  <div className="w-[441px] h-[75px] flex flex-col items-start justify-start gap-[2px]">
+                  <div className="w-[441px] h-[76.78px] flex flex-col items-start justify-start">
                     <div className="relative font-medium inline-block w-[87.54px] h-[27.42px] shrink-0">
                       Password
                     </div>
                     <input
-                      className="border-none font-poppins text-mini bg-whitesmoke self-stretch rounded-8xs flex flex-col py-2 px-[21px] items-start justify-center"
+                      className="[border:none] font-poppins text-mini bg-whitesmoke self-stretch rounded-8xs flex flex-col py-2 px-[21px] items-start justify-center"
                       type="text"
                       placeholder="Enter your Password"
                     />
                   </div>
                 </div>
-                <button className="cursor-pointer border-none py-1 px-0 bg-transparent self-stretch rounded-8xs flex flex-col items-center justify-center bg-[url(/public/frame-login-button@3x.png)] bg-cover bg-no-repeat bg-[top]" type="button">
-                  <b className="relative text-[22px] tracking-[0.08em] leading-[35px] font-roboto text-white text-center flex items-center">
-                    Login
+                <button type="button" className="cursor-pointer [border:none] py-1 px-0 bg-[transparent] self-stretch rounded-8xs flex flex-col items-center justify-center bg-[url(/public/frame-login-button@3x.png)] bg-cover bg-no-repeat bg-[top]">
+                  <b className="relative text-[22px] tracking-[0.08em] leading-[35px] font-roboto text-white text-center">
+                    Create Account
                   </b>
                 </button>
                 <div className="w-[441px] flex flex-row items-center justify-center gap-[10px] text-center">
-                  <div className="text-gray relative tracking-[0.08em] leading-[35px] font-medium">
+                  <div className="relative tracking-[0.08em] leading-[15px] font-medium">
                     Don’t have an account?
                   </div>
-                  <button className="cursor-pointer border-none p-0 bg-transparent relative text-sm tracking-[0.08em] leading-[35px] font-medium font-roboto text-mediumseagreen text-center inline-block" type="button">
-                    Sign Up
+                  <button type="button" className="cursor-pointer [border:none] p-0 bg-[transparent] relative text-sm tracking-[0.08em] leading-[15px] font-medium font-roboto text-mediumseagreen text-center inline-block">
+                    Log In
                   </button>
                 </div>
               </div>
@@ -142,4 +152,4 @@ const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal() {
   );
 };
 
-export default LoginModal;
+export default SignUpModal;
