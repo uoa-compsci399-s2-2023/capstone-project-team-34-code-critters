@@ -4,13 +4,10 @@ import Navbar from './Components/Navbar';
 import LoginModal from './Components/LoginModal';
 
 function App() {
-  const closeModal = () => {
-  };
-
   return (
     <div className="w-full h-screen bg-white">
       <Navbar />
-      <LoginModal onClose={closeModal} />
+      <LoginModal />
       <Routes>
         <Route path="/upload" element={<Detection />} />
       </Routes>

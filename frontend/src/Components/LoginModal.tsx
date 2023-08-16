@@ -1,10 +1,8 @@
 import React, { FunctionComponent, useRef } from 'react';
 
-type LoginModalProps = {
-  onClose: () => void;
-};
+type LoginModalProps = {};
 
-const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal({ onClose }) {
+const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal() {
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const openModal = () => {
@@ -16,7 +14,6 @@ const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal({ onC
   const closeModal = () => {
     if (modalRef.current) {
       modalRef.current.close();
-      onClose();
     }
   };
 
