@@ -3,7 +3,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 from flask_restx import Namespace, Resource, fields
 
-from library.utilities.standardise_images import standardise_image
+# from library.utilities.standardise_images import standardise_image
 from library.utilities.inference import get_prediction, create_CSV
 
 import os
