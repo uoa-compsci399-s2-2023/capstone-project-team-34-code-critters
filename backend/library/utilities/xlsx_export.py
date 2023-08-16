@@ -97,5 +97,46 @@ class XLSX_export(Resource):
             else:
                 return str(e), 500
         
-        
+@utils_api.route('/create_csv')
+class CSV_export(Resource):
+
+    @utils_api.response(200, 'Success')
+    @utils_api.response(400, 'Bad Request (Likely Invalid JSON)')
+    @utils_api.response(500, 'Internal Server Error')
+    @utils_api.expect(json_parser)
+    @utils_api.doc(description="Creates a CSV file from JSON prediction data")
+    def post(self):
+        try:
+            if request.is_json:
+                json_data = request.get_json()
+
+                for obj in json_data:
+                    if "name" not in obj or "pred" not in obj:
+                        return "Invalid JSON", 400
+                str_data = str(json_data)
+                hash_object = hashlib.md5(str_data.encode())
+                hash_hex = hash_object.hexdigest()
+
+                if not os.path.isfile(storage_path+hash_hex+".csv"):
+                    with open(storage_path+hash_hex+".csv", 'w') as f:
+                        f.write("Filename,Predictions,Label\n")
+                        for result in json_data:
+                            filename = result["name"]
+                            pred = [item for subpred in result["pred"] for item in subpred]
+                            # f.write(filename)
+                            for i in range(0, len(pred), 2):
+                                f.write(filename+","+pred[i]+","+pred[i+1])
+                                f.write("\n")
+                            # f.write("\n")
+                            # f.write(filename+",".join(pred)+"\n")
+                path = os.path.join(current_app.static_folder, 'storage/')
+                return send_file(os.path.join(path, hash_hex+".csv"), as_attachment=True)
+            else:
+                return "Invalid JSON",400   
+        except Exception as e:
+            if is_prod:
+                return "Internal Server Error", 500
+            else:
+                return str(e), 500
+           
 

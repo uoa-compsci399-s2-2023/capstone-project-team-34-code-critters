@@ -5,6 +5,8 @@ import numpy as np
 import os
 import imp
 
+
+current_model = "trupanea_v2"
 path = current_app.config["MODEL_FOLDER"]
 isProduction = os.getenv('FLASK_ENV') == 'production'
 
@@ -39,4 +41,3 @@ def get_prediction(image_path, current_model="trupanea_v2"):
 
     # Return all predictions (Formatted as Strings without scientific notation)
     return [[f'{prob:.20f}',label] for prob,label in sorted_list]
-    
