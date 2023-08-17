@@ -54,7 +54,7 @@ const SignUpModal: FunctionComponent<SignUpModalProps> = function SignUpModal() 
                   Create Account
                 </b>
                 <div className="self-stretch flex flex-col py-2.5 px-0 items-center justify-center gap-[15px]">
-                  <button type="button" className="cursor-pointer py-1.5 px-4 bg-[transparent] self-stretch rounded-8xs flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray">
+                  <button type="button" className="btn-ghost cursor-pointer py-1.5 px-4 bg-[transparent] self-stretch rounded-lg flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray transform transition-transform active:scale-95">
                     <img
                       className="relative w-[30px] h-[30px] object-cover"
                       alt=""
@@ -64,7 +64,7 @@ const SignUpModal: FunctionComponent<SignUpModalProps> = function SignUpModal() 
                       Sign up with Google
                     </div>
                   </button>
-                  <button type="button" className="cursor-pointer py-1.5 px-4 bg-[transparent] self-stretch rounded-8xs flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray">
+                  <button type="button" className="btn-ghost cursor-pointer py-1.5 px-4 bg-[transparent] self-stretch rounded-lg flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray transform transition-transform active:scale-95">
                     <img
                       className="relative w-[30px] h-[30px] object-cover"
                       alt=""
@@ -74,7 +74,7 @@ const SignUpModal: FunctionComponent<SignUpModalProps> = function SignUpModal() 
                       Sign up with Facebook
                     </div>
                   </button>
-                  <button type="button" className="cursor-pointer py-1.5 px-4 bg-[transparent] self-stretch rounded-8xs flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray">
+                  <button type="button" className="btn-ghost cursor-pointer py-1.5 px-4 bg-[transparent] self-stretch rounded-lg flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray transform transition-transform active:scale-95">
                     <img
                       className="relative w-[30px] h-[30px] object-cover"
                       alt=""
@@ -104,7 +104,7 @@ const SignUpModal: FunctionComponent<SignUpModalProps> = function SignUpModal() 
                       Full name
                     </div>
                     <input
-                      className="[border:none] font-poppins text-mini bg-whitesmoke self-stretch rounded-8xs flex flex-col py-2 px-[21px] items-start justify-center"
+                      className="[border:none] font-poppins text-mini bg-whitesmoke self-stretch rounded-lg flex flex-col py-2 px-[21px] items-start justify-center"
                       type="text"
                       placeholder="Enter your Email here"
                     />
@@ -114,7 +114,7 @@ const SignUpModal: FunctionComponent<SignUpModalProps> = function SignUpModal() 
                       Email
                     </div>
                     <input
-                      className="[border:none] font-poppins text-mini bg-whitesmoke self-stretch rounded-8xs flex flex-col py-2 px-[21px] items-start justify-center"
+                      className="[border:none] font-poppins text-mini bg-whitesmoke self-stretch rounded-lg flex flex-col py-2 px-[21px] items-start justify-center"
                       type="text"
                       placeholder="Enter your Email here"
                     />
@@ -124,14 +124,14 @@ const SignUpModal: FunctionComponent<SignUpModalProps> = function SignUpModal() 
                       Password
                     </div>
                     <input
-                      className="[border:none] font-poppins text-mini bg-whitesmoke self-stretch rounded-8xs flex flex-col py-2 px-[21px] items-start justify-center"
+                      className="[border:none] font-poppins text-mini bg-whitesmoke self-stretch rounded-lg flex flex-col py-2 px-[21px] items-start justify-center"
                       type="text"
                       placeholder="Enter your Password"
                     />
                   </div>
                 </div>
-                <button type="button" className="cursor-pointer [border:none] py-1 px-0 bg-[transparent] self-stretch rounded-8xs flex flex-col items-center justify-center bg-[url(/public/frame-login-button@3x.png)] bg-cover bg-no-repeat bg-[top]">
-                  <b className="relative text-[22px] tracking-[0.08em] leading-[35px] font-roboto text-white text-center">
+                <button type="button" className="hover:opacity-70 cursor-pointer [border:none] py-1 px-0 bg-[transparent] self-stretch rounded-lg flex flex-col items-center justify-center bg-[url(/public/frame-login-button@3x.png)] bg-cover bg-no-repeat bg-[top] transform transition-transform active:scale-95">
+                  <b className="relative text-[22px] tracking-[0.08em] leading-[35px] font-bold font-poppins text-white text-center">
                     Create Account
                   </b>
                 </button>
@@ -139,7 +139,7 @@ const SignUpModal: FunctionComponent<SignUpModalProps> = function SignUpModal() 
                   <div className="relative tracking-[0.08em] leading-[15px] font-medium">
                     Don’t have an account?
                   </div>
-                  <button type="button" className="cursor-pointer [border:none] p-0 bg-[transparent] relative text-sm tracking-[0.08em] leading-[15px] font-medium font-roboto text-mediumseagreen text-center inline-block">
+                  <button type="button" className="hover:opacity-70 cursor-pointer [border:none] p-0 bg-[transparent] relative text-sm tracking-[0.08em] leading-[15px] font-medium font-roboto text-mediumseagreen text-center inline-block transform transition-transform active:scale-90">
                     Log In
                   </button>
                 </div>

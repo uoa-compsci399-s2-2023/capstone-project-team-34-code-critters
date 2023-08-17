@@ -54,7 +54,7 @@ const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal() {
                   Login
                 </b>
                 <div className="self-stretch flex flex-col items-center justify-center gap-[16px]">
-                  <button className="cursor-pointer py-1.5 px-4 bg-transparent self-stretch rounded-8xs flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray" type="button">
+                  <button className="btn-ghost text-lowercase cursor-pointer py-1.5 px-4 bg-transparent self-stretch rounded-lg flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray transform transition-transform active:scale-95" type="button">
                     <img
                       className="relative w-[30px] h-[30px] object-cover"
                       alt=""
@@ -64,7 +64,7 @@ const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal() {
                       Login with Google
                     </div>
                   </button>
-                  <button className="cursor-pointer py-1.5 px-4 bg-transparent self-stretch rounded-8xs flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray" type="button">
+                  <button className="btn-ghost text-lowercase cursor-pointer py-1.5 px-4 bg-transparent self-stretch rounded-lg flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray transform transition-transform active:scale-95" type="button">
                     <img
                       className="relative w-[30px] h-[30px] object-cover"
                       alt=""
@@ -74,7 +74,7 @@ const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal() {
                       Login with Facebook
                     </div>
                   </button>
-                  <button className="cursor-pointer py-1.5 px-4 bg-transparent self-stretch rounded-8xs flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray" type="button">
+                  <button className="btn-ghost text-lowercase cursor-pointer py-1.5 px-4 bg-transparent self-stretch rounded-lg flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray transform transition-transform active:scale-95" type="button">
                     <img
                       className="relative w-[30px] h-[30px] object-cover"
                       alt=""
@@ -104,7 +104,7 @@ const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal() {
                       Email
                     </div>
                     <input
-                      className="border-none font-poppins text-mini bg-whitesmoke self-stretch rounded-8xs flex flex-col py-2 px-[21px] items-start justify-center"
+                      className="border-none font-poppins text-mini bg-whitesmoke self-stretch rounded-lg flex flex-col py-2 px-[21px] items-start justify-center"
                       type="text"
                       placeholder="Enter your Email"
                     />
@@ -114,14 +114,14 @@ const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal() {
                       Password
                     </div>
                     <input
-                      className="border-none font-poppins text-mini bg-whitesmoke self-stretch rounded-8xs flex flex-col py-2 px-[21px] items-start justify-center"
+                      className="border-none font-poppins text-mini bg-whitesmoke self-stretch rounded-lg flex flex-col py-2 px-[21px] items-start justify-center"
                       type="text"
                       placeholder="Enter your Password"
                     />
                   </div>
                 </div>
-                <button className="cursor-pointer border-none py-1 px-0 bg-transparent self-stretch rounded-8xs flex flex-col items-center justify-center bg-[url(/public/frame-login-button@3x.png)] bg-cover bg-no-repeat bg-[top]" type="button">
-                  <b className="relative text-[22px] tracking-[0.08em] leading-[35px] font-roboto text-white text-center flex items-center">
+                <button className="hover:opacity-70 cursor-pointer border-none py-1 px-0 self-stretch rounded-lg relative overflow-hidden flex flex-col items-center justify-center bg-[url(/public/frame-login-button@3x.png)] bg-cover bg-no-repeat bg-[top] transform transition-transform active:scale-95" type="button">
+                  <b className="relative text-[22px] tracking-[0.08em] leading-[35px] font-bold font-poppins text-white text-center flex items-center">
                     Login
                   </b>
                 </button>
@@ -129,7 +129,7 @@ const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal() {
                   <div className="text-gray relative tracking-[0.08em] leading-[35px] font-medium">
                     Don’t have an account?
                   </div>
-                  <button className="cursor-pointer border-none p-0 bg-transparent relative text-sm tracking-[0.08em] leading-[35px] font-medium font-roboto text-mediumseagreen text-center inline-block" type="button">
+                  <button className="cursor-pointer hover:opacity-70 border-none p-0 bg-transparent relative text-sm tracking-[0.08em] leading-[35px] font-medium font-roboto text-mediumseagreen text-center inline-block transform transition-transform active:scale-95" type="button">
                     Sign Up
                   </button>
                 </div>
