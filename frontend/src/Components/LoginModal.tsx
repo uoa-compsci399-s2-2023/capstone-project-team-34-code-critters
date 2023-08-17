@@ -42,7 +42,7 @@ function LoginModal() {
             >
               <FontAwesomeIcon icon={faXmark} />
             </button>
-            <div className="text-3xl font-bold text-green-500 font-varela">
+            <div className="text-3xl font-bold text-green-500">
               Login
             </div>
             <button className="btn btn-outline w-full text-neutral-600  border-neutral-300 hover:bg-neutral-200 hover:text-neutral-600 hover:border-neutral-300" type="button">
