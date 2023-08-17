@@ -8,7 +8,6 @@ $backendStaticPath = Join-Path $backendPath "library/static"
 
 # Write-Output $backendPath
 # Write-Output $frontendPath
-
 # Write-Output $frontendBuildPath
 # Write-Output $backendStaticPath
 
@@ -23,9 +22,25 @@ Copy-Item -Path $frontendBuildPath\* -Destination $backendStaticPath -Force -Exc
 Copy-Item -Path $frontendBuildPath\static\* -Destination $backendStaticPath -Recurse -Force
 Move-Item $backendStaticPath\index.html $backendLibraryPath\index.html -Force
 
-# Package Backend + Frontend into Executable
+# Package Backend + Frontend into Portable Executable
 Set-Location $backendPath
 python -m venv venv
 .\venv\Scripts\activate
 pip install -r requirements.txt
-pyinstaller .\pywebview_main.py --add-data "library;library" --noconfirm  --clean --name "Insect Identification Application" --windowed --icon "library\static\favicon.ico"
+pyinstaller .\pywebview_portable.py --add-data "library;library" --noconfirm  --clean --name "Insect Identification Application" --windowed --icon "library\static\favicon.ico"
+
+# Package Executable into Zip
+7z -tzip a ".\dist\Insect Identification Application.zip" ".\dist\Insect Identification Application\*"
+
+# Move Zipped Executable to Root
+Move-Item ".\dist\Insect Identification Application.zip" $rootPath"\Insect Identification Application.zip" -Force
+
+# Package Backend + Frontend into Installation Executable
+pyinstaller.exe .\pywebview_installed.py --add-data "library;library" --noconfirm  --clean --name "Insect Identification Application" --windowed --icon "library\static\favicon.ico"
+iscc .\package.iss
+
+# Move Installation Executable to Root
+Move-Item ".\Setup.exe" $rootPath"\Setup.exe" -Force
+
+# Set Location back to Root
+Set-Location $rootPath

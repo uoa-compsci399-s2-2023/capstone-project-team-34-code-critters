@@ -2,7 +2,7 @@
 #define AppVersion "1.0.0"
 #define AppPublisher "Code Critters"
 #define AppExeName "Insect Identification Application"
-#define AppIcon "dist\library\static\favicon.ico"
+#define AppIcon "\library\static\favicon.ico"
 
 [Setup]
 AppName={#AppName}
@@ -16,10 +16,14 @@ Compression=lzma2
 SolidCompression=yes
 
 [Files]
+Source: "dist\{#AppName}\library\static\uploads\*"; DestDir: "{userappdata}\{#AppPublisher}\{#AppName}\library\static\uploads"; Flags: recursesubdirs createallsubdirs
+Source: "dist\{#AppName}\library\static\storage\*"; DestDir: "{userappdata}\{#AppPublisher}\{#AppName}\library\static\storage"; Flags: recursesubdirs createallsubdirs
 Source: "dist\{#AppName}\*"; DestDir: "{app}"; Flags: recursesubdirs
+
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppIcon}"
+
 
 [Run]
 Filename: "{app}\{#AppExeName}"; Description: "{cm:LaunchProgram,{#AppName}}"; Flags: nowait postinstall skipifsilent
