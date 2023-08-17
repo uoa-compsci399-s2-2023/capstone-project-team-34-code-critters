@@ -27,7 +27,7 @@ function LoginModal() {
       <dialog ref={modalRef} className="modal modal-bottom sm:modal-middle">
         <form method="dialog" className="modal-box grid lg:grid-cols-[1fr_1.5fr] p-0 w-full  sm:w-11/12 sm:max-w-6xl bg-white lg:bg-gradient-to-br lg:from-green-400 lg:to-cyan-500 lg:to-60%">
           <div className="relative hidden lg:flex flex-col items-start justify-center px-14">
-            <div className="text-3xl text-white mb-52 font-varela">
+            <div className="text-4xl font-black text-white mb-52 font-varela">
               Welcome back!
               <br />
               Let&apos;s continue.
