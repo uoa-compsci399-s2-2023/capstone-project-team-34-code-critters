@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useRef } from 'react';
+import React, { useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-type LoginModalProps = {};
-
-const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal() {
+function LoginModal() {
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const openModal = () => {
@@ -24,122 +24,80 @@ const LoginModal: FunctionComponent<LoginModalProps> = function LoginModal() {
         Log In
       </button>
       {/* Modal content */}
-      <dialog ref={modalRef} className="modal">
-        <form method="dialog" className="relative rounded-[31px] w-[1110px] flex flex-row items-center justify-center max-w-full max-h-full overflow-auto text-left text-[36px] text-white font-roboto">
-          <div className="flex-1 rounded-11xl flex flex-row items-center justify-end gap-[10px] bg-[url(/public/frame-1@3x.png)] bg-cover bg-no-repeat bg-[top]">
-            <div className="self-stretch flex flex-col items-start justify-center">
-              <div className="self-stretch flex flex-col p-[25px] items-start justify-center">
-                <img
-                  className="relative w-[45px] h-[45px] object-cover"
-                  alt=""
-                  src="/00c261@2x.png"
-                />
-              </div>
-              <div className="self-stretch flex-1 flex flex-row py-2.5 px-[50px] items-start justify-start">
-                <div className="flex-1 relative tracking-[0.08em] leading-[120%] p-[25px]">
-                  Welcome back! Let&apos;s continue.
-                </div>
-              </div>
-            </div>
-            <div className="rounded-11xl bg-white w-[641px] flex flex-col py-[55px] px-[100px] box-border items-center justify-center text-sm text-gray">
-              <button
-                className="btn btn-sm btn-circle btn-ghost absolute right-5 top-5"
-                onClick={closeModal}
-                type="button"
-              >
-                ✕
-              </button>
-              <div className="self-stretch flex flex-col items-center justify-center gap-[15px]">
-                <b className="mb-3 relative text-[32px] tracking-[0.08em] leading-[35px] text-mediumseagreen">
-                  Login
-                </b>
-                <div className="self-stretch flex flex-col items-center justify-center gap-[16px]">
-                  <button className="cursor-pointer py-1.5 px-4 bg-transparent self-stretch rounded-8xs flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray" type="button">
-                    <img
-                      className="relative w-[30px] h-[30px] object-cover"
-                      alt=""
-                      src="/google@2x.png"
-                    />
-                    <div className="relative text-sm leading-[35px] font-medium font-poppins text-darkslategray text-center">
-                      Login with Google
-                    </div>
-                  </button>
-                  <button className="cursor-pointer py-1.5 px-4 bg-transparent self-stretch rounded-8xs flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray" type="button">
-                    <img
-                      className="relative w-[30px] h-[30px] object-cover"
-                      alt=""
-                      src="/facebook@2x.png"
-                    />
-                    <div className="relative text-sm leading-[35px] font-medium font-poppins text-darkslategray text-left">
-                      Login with Facebook
-                    </div>
-                  </button>
-                  <button className="cursor-pointer py-1.5 px-4 bg-transparent self-stretch rounded-8xs flex flex-row items-center justify-center gap-[12px] border-[1.4px] border-solid border-lightgray" type="button">
-                    <img
-                      className="relative w-[30px] h-[30px] object-cover"
-                      alt=""
-                      src="/github-1@2x.png"
-                    />
-                    <div className="relative text-sm leading-[35px] font-medium font-poppins text-darkslategray text-left">
-                      Login with Github
-                    </div>
-                  </button>
-                </div>
-                <div className="self-stretch flex flex-row items-center justify-center gap-[8px] text-center">
-                  <img
-                    className="self-stretch flex-1 relative max-w-full overflow-hidden max-h-full"
-                    alt=""
-                    src="/line-2.svg"
-                  />
-                  <div className="text-gray relative tracking-[0.08em] leading-[35px] font-medium">OR</div>
-                  <img
-                    className="self-stretch flex-1 relative max-w-full overflow-hidden max-h-full"
-                    alt=""
-                    src="/line-2.svg"
-                  />
-                </div>
-                <div className="self-stretch flex flex-col pt-0 px-0 pb-[0.00000762939453125px] items-center justify-start gap-[10px] text-mid text-dimgray font-poppins">
-                  <div className="w-[441px] h-[75px] flex flex-col items-start justify-start gap-[2px]">
-                    <div className="relative font-medium inline-block w-[87.54px] h-[27.42px] shrink-0">
-                      Email
-                    </div>
-                    <input
-                      className="border-none font-poppins text-mini bg-whitesmoke self-stretch rounded-8xs flex flex-col py-2 px-[21px] items-start justify-center"
-                      type="text"
-                      placeholder="Enter your Email"
-                    />
-                  </div>
-                  <div className="w-[441px] h-[75px] flex flex-col items-start justify-start gap-[2px]">
-                    <div className="relative font-medium inline-block w-[87.54px] h-[27.42px] shrink-0">
-                      Password
-                    </div>
-                    <input
-                      className="border-none font-poppins text-mini bg-whitesmoke self-stretch rounded-8xs flex flex-col py-2 px-[21px] items-start justify-center"
-                      type="text"
-                      placeholder="Enter your Password"
-                    />
-                  </div>
-                </div>
-                <button className="cursor-pointer border-none py-1 px-0 bg-transparent self-stretch rounded-8xs flex flex-col items-center justify-center bg-[url(/public/frame-login-button@3x.png)] bg-cover bg-no-repeat bg-[top]" type="button">
-                  <b className="relative text-[22px] tracking-[0.08em] leading-[35px] font-roboto text-white text-center flex items-center">
-                    Login
-                  </b>
-                </button>
-                <div className="w-[441px] flex flex-row items-center justify-center gap-[10px] text-center">
-                  <div className="text-gray relative tracking-[0.08em] leading-[35px] font-medium">
-                    Don’t have an account?
-                  </div>
-                  <button className="cursor-pointer border-none p-0 bg-transparent relative text-sm tracking-[0.08em] leading-[35px] font-medium font-roboto text-mediumseagreen text-center inline-block" type="button">
-                    Sign Up
-                  </button>
-                </div>
-              </div>
+      <dialog ref={modalRef} className="modal modal-bottom sm:modal-middle">
+        <form method="dialog" className="modal-box grid lg:grid-cols-[1fr_1.5fr] p-0 w-full  sm:w-11/12 sm:max-w-6xl bg-white lg:bg-gradient-to-br lg:from-green-400 lg:to-cyan-500 lg:to-60%">
+          <div className="hidden lg:flex flex-col items-start justify-center px-14">
+            <div className="text-3xl text-white mb-52">
+              Welcome back!
+              <br />
+              Let&apos;s continue.
             </div>
           </div>
+          <div className="relative bg-white flex flex-col items-center justify-center rounded-l-3xl py-10 px-6 sm:px-20 gap-4 form-control ">
+            <button
+              className="btn btn-circle btn-ghost absolute top-4 right-4"
+              type="button"
+              onClick={() => closeModal()}
+            >
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
+            <div className="text-3xl font-bold text-green-500">
+              Login
+            </div>
+            <button className="btn btn-outline w-full text-neutral-600  border-neutral-300 hover:bg-neutral-200 hover:text-neutral-600 hover:border-neutral-300" type="button">
+              <img
+                className="relative h-[30px] object-cover"
+                alt=""
+                src="/google@2x.png"
+              />
+              Login with Google
+            </button>
+            <button className="btn btn-outline w-full text-neutral-600  border-neutral-300 hover:bg-neutral-200 hover:text-neutral-600 hover:border-neutral-300" type="button">
+              <img
+                className="relative h-[30px] object-cover"
+                alt=""
+                src="/facebook@2x.png"
+              />
+              Login with Facebook
+            </button>
+            <button className="btn btn-outline w-full text-neutral-600  border-neutral-300 hover:bg-neutral-200 hover:text-neutral-600 hover:border-neutral-300" type="button">
+              <img
+                className="relative h-[30px] object-cover"
+                alt=""
+                src="/github-1@2x.png"
+              />
+              Login with Github
+            </button>
+            <div className="divider text-neutral-400 before:bg-neutral-200 after:bg-neutral-200">OR</div>
+            <div className="w-full">
+              <label className="label pt-0">
+                <span className="label-text text-lg text-neutral-500">Enter your email?</span>
+              </label>
+              <input type="text" placeholder="Enter your email" className="input input-ghost w-full bg-neutral-100  text-neutral-500 focus:text-neutral-600" />
+            </div>
+            <div className="w-full">
+              <label className="label pt-0">
+                <span className="label-text text-lg text-neutral-500">Enter your password?</span>
+              </label>
+              <input type="text" placeholder="Enter your pasword" className="input input-ghost w-full bg-neutral-100  text-neutral-500 focus:text-neutral-600" />
+            </div>
+            <button className="btn w-full text-white text-lg bg-gradient-to-r from-green-400 to-cyan-500 mt-4" type="button">
+              Login
+            </button>
+            <div className="text-neutral-500">
+              {/* eslint-disable-next-line react/no-unescaped-entities */}
+              Don't have an account?
+              {' '}
+              <button type="button" className="cursor-pointer text-green-500">Sign up</button>
+            </div>
+          </div>
+        </form>
+        <form method="dialog" className="modal-backdrop">
+          <button type="button" onClick={() => closeModal()}>close</button>
         </form>
       </dialog>
     </div>
   );
-};
+}
 
 export default LoginModal;
