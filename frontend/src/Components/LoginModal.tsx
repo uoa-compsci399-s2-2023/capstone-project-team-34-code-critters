@@ -72,12 +72,14 @@ function LoginModal() {
             </button>
             <div className="divider text-neutral-400 before:bg-neutral-200 after:bg-neutral-200">OR</div>
             <div className="w-full">
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="label pt-0">
                 <span className="label-text text-lg text-neutral-500">Enter your email?</span>
               </label>
               <input type="text" placeholder="Enter your email" className="input input-ghost w-full bg-neutral-100  text-neutral-500 focus:text-neutral-600" />
             </div>
             <div className="w-full">
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="label pt-0">
                 <span className="label-text text-lg text-neutral-500">Enter your password?</span>
               </label>
