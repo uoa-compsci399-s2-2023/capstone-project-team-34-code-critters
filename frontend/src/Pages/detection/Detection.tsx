@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartBar, faCloudArrowUp, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { getPredictions } from '../services/apiService';
-import { Prediction } from '../models/Prediction';
+import { getPredictions } from '../../services/apiService';
+import { Prediction } from '../../models/Prediction';
 
-function Upload() {
+function Detection() {
   const inputFile = useRef<HTMLInputElement>(null);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [selectedImageUrls, setSelectedImageUrls] = useState<string[]>([]);
@@ -108,7 +108,7 @@ function Upload() {
             className={`btn btn-outline btn-accent ${selectedImages.length === 0 && 'mt-10'} font-varela`}
             type="button"
           >
-            {selectedImages.length > 0 ? 'Add more images' : 'Upload images'}
+            {selectedImages.length > 0 ? 'Add more images' : 'Detection images'}
           </button>
         </div>
         <div className="mt-4 w-full flex flex-col gap-4">
@@ -229,4 +229,4 @@ function Upload() {
   );
 }
 
-export default Upload;
+export default Detection;
