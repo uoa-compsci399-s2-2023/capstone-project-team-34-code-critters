@@ -26,12 +26,13 @@ function LoginModal() {
       {/* Modal content */}
       <dialog ref={modalRef} className="modal modal-bottom sm:modal-middle">
         <form method="dialog" className="modal-box grid lg:grid-cols-[1fr_1.5fr] p-0 w-full  sm:w-11/12 sm:max-w-6xl bg-white lg:bg-gradient-to-br lg:from-green-400 lg:to-cyan-500 lg:to-60%">
-          <div className="hidden lg:flex flex-col items-start justify-center px-14">
+          <div className="relative hidden lg:flex flex-col items-start justify-center px-14">
             <div className="text-3xl text-white mb-52">
               Welcome back!
               <br />
               Let&apos;s continue.
             </div>
+            <img className="absolute top-6 left-6" src="/logos/logo.svg" alt="logo" />
           </div>
           <div className="relative bg-white flex flex-col items-center justify-center rounded-l-3xl py-10 px-6 sm:px-20 gap-4 form-control ">
             <button
@@ -41,30 +42,31 @@ function LoginModal() {
             >
               <FontAwesomeIcon icon={faXmark} />
             </button>
-            <div className="text-3xl font-bold text-green-500">
+            <div className="text-3xl font-bold text-green-500 font-varela">
               Login
             </div>
             <button className="btn btn-outline w-full text-neutral-600  border-neutral-300 hover:bg-neutral-200 hover:text-neutral-600 hover:border-neutral-300" type="button">
               <img
-                className="relative h-[30px] object-cover"
-                alt=""
-                src="/google@2x.png"
+                alt="google icon"
+                src="/logos/google.svg"
+                className="h-3/4"
               />
               Login with Google
             </button>
             <button className="btn btn-outline w-full text-neutral-600  border-neutral-300 hover:bg-neutral-200 hover:text-neutral-600 hover:border-neutral-300" type="button">
               <img
-                className="relative h-[30px] object-cover"
-                alt=""
-                src="/facebook@2x.png"
+                className="h-3/4"
+                alt="facebook icon"
+                src="/logos/facebook.svg"
               />
+
               Login with Facebook
             </button>
             <button className="btn btn-outline w-full text-neutral-600  border-neutral-300 hover:bg-neutral-200 hover:text-neutral-600 hover:border-neutral-300" type="button">
               <img
-                className="relative h-[30px] object-cover"
-                alt=""
-                src="/github-1@2x.png"
+                className="h-3/4"
+                alt="github icon"
+                src="/logos/github.svg"
               />
               Login with Github
             </button>
