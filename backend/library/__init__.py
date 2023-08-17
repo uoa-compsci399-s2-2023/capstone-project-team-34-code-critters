@@ -4,10 +4,14 @@ from flask import Flask,Blueprint, request
 from flask_cors import CORS
 from flask_restx import Api
 
-def create_app(test_config=None):
+def create_app(config=None):
     app = Flask(__name__)
-    
-    app.config.from_object('config.Config')
+    if not config:
+        app.config.from_object('config.Config')
+    else:
+        for key, value in config.items():
+            app.config[key] = value
+
     app.config["DIR_PATH"] = os.path.dirname(os.path.realpath(__file__))
     
     # if test_config is not None:
