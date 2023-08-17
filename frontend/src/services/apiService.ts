@@ -3,13 +3,13 @@ import axios from 'axios';
 import { Prediction } from '../models/Prediction';
 
 let apiUrl = '';
-if (process.env.REACT_APP_API_URL) {
-  apiUrl = process.env.REACT_APP_API_URL;
+if (process.env.REACT_APP_BACKEND_URL) {
+  apiUrl = process.env.REACT_APP_BACKEND_URL;
 } else {
-  apiUrl = "http://code-critters.onrender.com/";
+  apiUrl = 'http://code-critters.onrender.com/';
 }
 
-export const getPredictions = (formData: FormData) => axios.post<Prediction[]>(apiUrl + 'api/utilities_api/upload_json', formData, {
+export const getPredictions = (formData: FormData) => axios.post<Prediction[]>(`${apiUrl}api/utilities_api/upload_json`, formData, {
   headers: {
 
     'Content-Type': 'multipart/form-data',

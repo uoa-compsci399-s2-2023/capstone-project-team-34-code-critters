@@ -1,8 +1,8 @@
-#define AppName "Insect Identification Application"
+#define AppName "Insect-Identification-Application"
 #define AppVersion "1.0.0"
 #define AppPublisher "Code Critters"
-#define AppExeName "Insect Identification Application"
-#define AppIcon "dist\library\static\favicon.ico"
+#define AppExeName "Insect-Identification-Application"
+#define AppIcon "\library\static\favicon.ico"
 
 [Setup]
 AppName={#AppName}
@@ -11,18 +11,22 @@ AppPublisher={#AppPublisher}
 DefaultDirName={pf}\{#AppPublisher}\{#AppName}
 DefaultGroupName={#AppName}
 OutputDir=.
-OutputBaseFilename=setup
+OutputBaseFilename=Complete-{#AppName}-Setup
 Compression=lzma2
 SolidCompression=yes
 
 [Files]
+Source: "dist\{#AppName}\library\static\uploads\*"; DestDir: "{userappdata}\{#AppPublisher}\{#AppName}\library\static\uploads"; Flags: recursesubdirs createallsubdirs
+Source: "dist\{#AppName}\library\static\storage\*"; DestDir: "{userappdata}\{#AppPublisher}\{#AppName}\library\static\storage"; Flags: recursesubdirs createallsubdirs
 Source: "dist\{#AppName}\*"; DestDir: "{app}"; Flags: recursesubdirs
+
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppIcon}"
+Name: "{commonprograms}\{#AppName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppIcon}"
 
-[Run]
-Filename: "{app}\{#AppExeName}"; Description: "{cm:LaunchProgram,{#AppName}}"; Flags: nowait postinstall skipifsilent
+; [Run]
+; Filename: "{app}\{#AppExeName}"; Description: "{cm:LaunchProgram,{#AppName}}"; Flags: nowait postinstall skipifsilent
 
 
 
