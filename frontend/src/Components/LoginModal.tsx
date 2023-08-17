@@ -34,7 +34,7 @@ function LoginModal() {
             </div>
             <img className="absolute top-6 left-6" src="/logos/logo.svg" alt="logo" />
           </div>
-          <div className="relative bg-white flex flex-col items-center justify-center rounded-l-3xl py-10 px-6 sm:px-20 gap-4 form-control ">
+          <div className="relative bg-white flex flex-col items-center justify-center rounded-l-3xl py-5 sm:py-10 px-6 sm:px-20 gap-4 form-control ">
             <button
               className="btn btn-circle btn-ghost absolute top-4 right-4"
               type="button"
@@ -74,14 +74,14 @@ function LoginModal() {
             <div className="w-full">
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="label pt-0">
-                <span className="label-text text-lg text-neutral-500">Enter your email?</span>
+                <span className="label-text text-lg text-neutral-500">Email:</span>
               </label>
               <input type="text" placeholder="Enter your email" className="input input-ghost w-full bg-neutral-100  text-neutral-500 focus:text-neutral-600" />
             </div>
             <div className="w-full">
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="label pt-0">
-                <span className="label-text text-lg text-neutral-500">Enter your password?</span>
+                <span className="label-text text-lg text-neutral-500">Password:</span>
               </label>
               <input type="text" placeholder="Enter your pasword" className="input input-ghost w-full bg-neutral-100  text-neutral-500 focus:text-neutral-600" />
             </div>
