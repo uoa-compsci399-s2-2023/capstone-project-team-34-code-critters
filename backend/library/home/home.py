@@ -5,7 +5,7 @@ from starlette.templating import Jinja2Templates
 from pathlib import Path
 import os
 
-home_router = APIRouter()
+home_router = APIRouter(tags=["Home"])
 static_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..\\")
 
 ####### Serve robots.txt ######
