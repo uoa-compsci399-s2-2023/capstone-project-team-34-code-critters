@@ -93,7 +93,7 @@ function Detection() {
   return (
     <div className="w-full h-full flex justify-center overflow-y-auto">
       <div className="max-w-4xl w-11/12 flex flex-col items-center px-4 py-10 my-10 h-fit">
-        <h1 className=" text-xl font-varela text-center">Drag and Drop or Browse to Upload Image</h1>
+        <h1 className="text-black text-xl font-varela text-center">Drag and Drop or Browse to Upload Image</h1>
         <p className="text-gray-500 mt-4 font-varela text-center">Upload up to 40 images at once</p>
         <input
           alt="file"
@@ -111,7 +111,7 @@ function Detection() {
         >
           <FontAwesomeIcon icon={faCloudArrowUp} size={selectedImages.length > 0 ? '3x' : '5x'} />
           <div className="md:flex flex-col hidden">
-            <h2 className={` text-lg font-varela ${selectedImages.length === 0 && 'mt-8'} text-center`}>
+            <h2 className={`text-black text-lg font-varela ${selectedImages.length === 0 && 'mt-8'} text-center`}>
               Select a file or drag and drop here
             </h2>
             <p className="text-gray-500 mt-4 font-varela text-center">
@@ -179,7 +179,7 @@ function Detection() {
                 icon={faXmark}
               />
             </button>
-            <h3 className="font-bold text-lg font-varela ">
+            <h3 className="font-bold text-lg font-varela text-black">
               Results:
             </h3>
 
@@ -189,7 +189,7 @@ function Detection() {
                   prediction.pred.sort((a, b) => Number(b[0]) - Number(a[0])).slice(0, numToShow).map((pred, i) => (
                     <div key={i} className="w-full">
                       <div className="flex justify-between">
-                        <p className="font-varela ">{pred[1]}</p>
+                        <p className="font-varela text-black">{pred[1]}</p>
                         <p className="font-varela text-primary">{Number(pred[0]).toFixed(4)}</p>
                       </div>
                       <progress
