@@ -40,7 +40,7 @@ function Detection() {
       const formData = new FormData();
       selectedImages.forEach((imageUrl, i) => {
         if (predictions[i] !== undefined) return;
-        formData.append('file[]', imageUrl);
+        formData.append('files', imageUrl);
         setIsLoading((prev) => {
           const newPrev = [...prev];
           newPrev[i] = true;
