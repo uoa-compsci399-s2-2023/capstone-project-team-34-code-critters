@@ -8,7 +8,6 @@ from library.utilities.inference import get_prediction
 
 import os
 ################ Blueprint/Namespace Configuration ################
-utilities_blueprint = Blueprint('utilities_bp', __name__)
 utils_api = Namespace('utilities_api', description='Utilities related operations')
 upload_parser = utils_api.parser()
 upload_parser.add_argument('file[]', location='files', type=FileStorage, required=True, help='Image file to upload (This cannot test multiple files)')
@@ -27,23 +26,6 @@ def isFileAllowed(filename):
 
 ################ API Endpoints ################
 
-# Legacy Endpoint: JINJA TEMPLATES ONLY
-@utilities_blueprint.route('/upload', methods=['GET','POST'])
-def upload_files():        
-    if request.method == 'POST':
-        f = request.files.getlist('file[]')
-        return_list = []
-        for file in f:        
-            filename = secure_filename(file.filename)
-            if not isFileAllowed(filename):
-                return redirect(url_for('home_bp.home'), result="Invalid File type")
-            file.save(img_path + filename)
-
-            pred = get_prediction(img_path + filename)        
-            results = ", ".join("({}, {})".format(x,y) for (x,y) in pred)
-            return_list.append(results)
-        return redirect(url_for('home_bp.home', results= return_list))
-
 @utils_api.route('/upload_json')
 class upload_files_json(Resource):
     
@@ -52,7 +34,6 @@ class upload_files_json(Resource):
     @utils_api.response(405, 'Invalid File Type')
     @utils_api.expect(upload_parser)
     @utils_api.doc(description="Uploads an image and returns the prediction")
-    @utilities_blueprint.route('/upload_json', methods=['POST']) # LEGACY
     def post(self):
 
         # Checks if the model is valid before uploading

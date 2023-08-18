@@ -9,22 +9,13 @@ home_blueprint = Blueprint(
 )
 
 @home_blueprint.route('/')
-@home_blueprint.route('/?<results>')
-def home(results=None):
+@home_blueprint.route('/<path:path>')
+def home(path="upload"):
     # Check if react build exists
     if os.path.exists(current_app.root_path+'\index.html'):
         return send_file('index.html')
-    # Else fallback to flask template
-    elif results is None:
-        res = make_response(render_template(
-                'home/home.html'
-            ))
-    else:
-        res = make_response(render_template(
-                'home/home.html',
-                results=results
-            ))
-    return res,200
+    return "React Build not found", 404
+
 
 # Serve robots.txt
 # Technically not needed as this endpoint is only available to pywebview

@@ -12,10 +12,12 @@ appName = "Insect Identification Application"
 
 config = {}
 config['FLASK_ENV'] = "production"
+config['FLASK_DEPLOYMENT'] = "client+server"
 config['UPLOAD_FOLDER'] = f"{AppData}/{publisherName}/{appName}/library/static/uploads/"
 config['STORAGE_FOLDER'] = f"{AppData}/{publisherName}/{appName}/library/static/storage/"
 config['MODEL_FOLDER'] = './library/models/'
 config['ALLOWED_IMAGE_EXTENSIONS'] = ['PNG', 'JPG', 'JPEG', 'GIF']
+
 
 app = create_app(config)
 def start_server():
@@ -26,7 +28,7 @@ if __name__ == "__main__":
     t.daemon = True
     t.start()
     
-    webview.create_window("Insect Identification Application", "http://localhost/")
+    webview.create_window("Insect Identification Application", "http://localhost/upload")
     webview.start()
     sys.exit()
 

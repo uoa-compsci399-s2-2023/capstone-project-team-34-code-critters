@@ -7,6 +7,7 @@ load_dotenv()
 class Config:
     FLASK_APP = environ.get('FLASK_APP')
     FLASK_ENV = environ.get('FLASK_ENV')
+    FLASK_DEPLOYMENT = environ.get('FLASK_DEPLOYMENT')
    
     SECRET_KEY = environ.get('SECRET_KEY')
    
