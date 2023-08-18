@@ -25,7 +25,6 @@ def create_app(config=None):
 
 
         from .utilities import utilities, xlsx_export
-        app.register_blueprint(utilities.utilities_blueprint)
 
         blueprint = Blueprint('api', __name__, url_prefix='/api')
         CORS(blueprint, resources={r'/api/*': {'origins': '*'}})
