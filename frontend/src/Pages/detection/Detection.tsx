@@ -127,7 +127,7 @@ function Detection() {
         </div>
         <div className="mt-4 w-full flex flex-col gap-4">
           {selectedImageUrls.map((imageUrl, index) => (
-            <div className="flex w-full items-center justify-around gap-4" key={index}>
+            <div className="flex w-full items-center justify-between px-4 gap-4" key={index}>
               <div className="flex gap-4 items-center">
                 <img
                   src={imageUrl}
