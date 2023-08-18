@@ -45,7 +45,7 @@ function LoginModal() {
             <div className="text-4xl font-black text-green-500 font-varela cursor-default">
               Login
             </div>
-            <button className="font-varela btn btn-outline w-full text-neutral-600  border-neutral-300 hover:bg-neutral-200 hover:text-neutral-600 hover:border-neutral-300" type="button">
+            <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
               <img
                 alt="google icon"
                 src="/logos/google.svg"
@@ -53,7 +53,7 @@ function LoginModal() {
               />
               Login with Google
             </button>
-            <button className="font-varela btn btn-outline w-full text-neutral-600  border-neutral-300 hover:bg-neutral-200 hover:text-neutral-600 hover:border-neutral-300" type="button">
+            <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
               <img
                 className="h-3/4"
                 alt="facebook icon"
@@ -62,7 +62,7 @@ function LoginModal() {
 
               Login with Facebook
             </button>
-            <button className="font-varela btn btn-outline w-full text-neutral-600  border-neutral-300 hover:bg-neutral-200 hover:text-neutral-600 hover:border-neutral-300" type="button">
+            <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
               <img
                 className="h-3/4"
                 alt="github icon"
@@ -80,8 +80,8 @@ function LoginModal() {
               <input type="text" placeholder="Enter your pasword" className="font-varela input input-ghost w-full bg-neutral-100  text-neutral-500 focus:text-neutral-600" />
             </div>
             <button className="relative font-varela btn w-full text-white text-lg bg-gradient-to-r from-green-400 to-cyan-500" type="button">
-              <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full bg-gradient-to-l from-green-400 to-cyan-500" />
-              <div className="z-10">Login</div>
+              <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full bg-gradient-to-l from-green-400 to-cyan-500 rounded-md flex justify-center items-center">Login</div>
+              Login
             </button>
             <div className="text-neutral-500 font-varela cursor-default">
               {/* eslint-disable-next-line react/no-unescaped-entities */}
