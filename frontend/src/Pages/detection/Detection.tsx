@@ -92,7 +92,7 @@ function Detection() {
 
   return (
     <div className="w-full h-full flex justify-center overflow-y-auto">
-      <div className="max-w-4xl w-11/12 bg-white flex flex-col items-center px-4 py-10 my-10 h-fit">
+      <div className="max-w-4xl w-11/12 flex flex-col items-center px-4 py-10 my-10 h-fit">
         <h1 className="text-black text-xl font-varela text-center">Drag and Drop or Browse to Upload Image</h1>
         <p className="text-gray-500 mt-4 font-varela text-center">Upload up to 40 images at once</p>
         <input
@@ -169,7 +169,7 @@ function Detection() {
 
       {predictions.map((prediction, index) => (
         <dialog id={`prediction-${index}`} className="modal  modal-bottom sm:modal-middle" key={index}>
-          <form method="dialog" className="modal-box bg-white sm:w-11/12 sm:max-w-3xl">
+          <form method="dialog" className="modal-box sm:w-11/12 sm:max-w-3xl">
             <button
               onClick={() => closeModel(index)}
               type="button"
