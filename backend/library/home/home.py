@@ -1,35 +1,39 @@
+from fastapi import APIRouter, Request
+from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
+from starlette.templating import Jinja2Templates
+from pathlib import Path
 import os
-from flask import Blueprint,render_template,current_app,make_response, send_from_directory, send_file, abort
 
-import library.utilities.utilities as utilities
-from secrets import token_urlsafe
+home_router = APIRouter(tags=["Home"])
+static_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..\\")
 
-home_blueprint = Blueprint(
-    'home_bp',__name__
-)
-
-@home_blueprint.route('/')
-@home_blueprint.route('/<path:path>')
-def home(path="upload"):
-    # Check if react build exists
-    if os.path.exists(current_app.root_path+'\index.html'):
-        return send_file('index.html')
-    return "React Build not found", 404
-
-
-# Serve robots.txt
+####### Serve robots.txt ######
 # Technically not needed as this endpoint is only available to pywebview
 # which does not use or need it
-@home_blueprint.route('/robots.txt')
-def robots():
-    if os.path.exists(current_app.static_folder+'\\robots.txt'):
-        return send_from_directory(os.path.join(current_app.root_path, 'static'), 'robots.txt')
+@home_router.get("/robots.txt")
+async def robots():
+    if os.path.exists(static_path+"static/robots.txt"):
+        return FileResponse(static_path+"static/robots.txt")
     else:
-        abort(404)
+        return {"error": "File not found"}, 404
 
-# Serve favicon
-@home_blueprint.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(current_app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+####### Serve favicon #######
+@home_router.get("/favicon.ico")
+async def favicon():
+    return FileResponse(static_path+"static/favicon.ico")
 
+
+####### Serve static files + React Build #######
+@home_router.get("/")
+@home_router.get("/{path:path}")
+async def home(request: Request, path: str):    
+    static_file_path = os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..\\"), path)
+    # Return Static Files from React Build otherwise return index.html
+    if os.path.isfile(static_file_path):
+        return FileResponse(static_file_path)    
     
+    # Check if react build exists
+    if os.path.exists("library/index.html"):
+        return FileResponse("library/index.html")
+    return "React Build not found", 404

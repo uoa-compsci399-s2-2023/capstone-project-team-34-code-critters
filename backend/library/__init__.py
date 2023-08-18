@@ -1,40 +1,83 @@
 """Initialize Flask app."""
-import os
-from flask import Flask,Blueprint, request
-from flask_cors import CORS
-from flask_restx import Api
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from .config import Settings
 
-def create_app(config=None):
-    app = Flask(__name__)
-    if not config:
-        app.config.from_object('config.Config')
-    else:
-        for key, value in config.items():
-            app.config[key] = value
+def create_app(config=None, aargs = None):
+    settings = Settings()
+    
+    match config:
+        case "portable":
+            Settings.FLASK_ENV = "production"
+            Settings.FLASK_DEPLOYMENT = "client+server"
+        case "installed":
+            AppData = aargs[0]
+            publisherName = aargs[1]
+            appName = aargs[2]
 
-    app.config["DIR_PATH"] = os.path.dirname(os.path.realpath(__file__))
+            config = {}
+            Settings.FLASK_ENV = "production"
+            Settings.FLASK_DEPLOYMENT = "client+server"
+
+            Settings.UPLOAD_FOLDER = f"{AppData}/{publisherName}/{appName}/library/static/uploads/"
+            Settings.STORAGE_FOLDER = f"{AppData}/{publisherName}/{appName}/library/static/storage/"
+            Settings.MODEL_FOLDER = './library/models/'
+        case None:
+            pass    
+    
+    tags_metadata = [
+        {
+            "name":"Utilities",
+            "description":"Core of the API. Contains functions that are designed for the frontend."
+        },
+        {
+            "name":"Home",
+            "description":"Api dedicated to serving the React App for local app client+server deployment.\n This API is not used for web-based deployment."
+        }
+
+    ]
+    app = FastAPI(openapi_tags=tags_metadata)
+
+    origins = [
+    "http://localhost",
+    "http://localhost:80",
+    "http://localhost:5000"
+    ]
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    # if not config:
+    #     model_config = SettingsConfigDict(env_file=".env")
+    # else:
+    #     for key, value in config.items():
+    #         app.config[key] = value
+
+    # app.config["DIR_PATH"] = os.path.dirname(os.path.realpath(__file__))
     
     # if test_config is not None:
     #     app.config.from_mapping(test_config)
     # else:
     #     tests = False
     
-    with app.app_context():
-        # Lets flask deploy react build only if it is a client+server deployment
-        if app.config["FLASK_DEPLOYMENT"] != "server" or app.config["FLASK_ENV"] == "development":
-            from .home import home
-            app.register_blueprint(home.home_blueprint)
+    
+    
+        # app.register_blueprint(home.home_blueprint)
 
+    from .utilities import utilities, file_exports
+    app.include_router(utilities.utils_api)
+    app.include_router(file_exports.utils_api)
 
-        from .utilities import utilities, xlsx_export
-
-        blueprint = Blueprint('api', __name__, url_prefix='/api')
-        CORS(blueprint, resources={r'/api/*': {'origins': '*'}})
-        api = Api(blueprint, doc='/doc/')
-
-        app.register_blueprint(blueprint)
-        api.add_namespace(utilities.utils_api)
-        api.add_namespace(xlsx_export.utils_api)
+    # Lets flask deploy react build only if it is a client+server deployment
+    if settings.FLASK_DEPLOYMENT != "server" or settings.FLASK_ENV == "development":
+        from .home import home
+        # NOTE: REGISTER home_router LAST AS IT HOSTS A CATCH ALL ROUTE AND WILL OVERRIDE OTHER ROUTES
+        app.include_router(home.home_router)
 
 
     return app

@@ -35,8 +35,8 @@ raar518@aucklanduni.ac.nz
 **Backend Technologies:**
 
 [![Python](https://img.shields.io/badge/Python-v3.11-%233776AB?logo=python)](https://www.python.org/)
-[![Flask](https://img.shields.io/badge/Flask-black?logo=flask)](https://flask.palletsprojects.com/en/2.3.x/)
-[![FlaskRestx](https://img.shields.io/badge/Flask--Restx-%2385EA2D?logo=swagger&logoColor=black)](https://flask-restx.readthedocs.io/en/latest/)
+[![FastAPI](https://img.shields.io/badge/FastAPI%20-%20%23009688?logo=fastapi&logoColor=white
+)](https://fastapi.tiangolo.com/)
 [![Tensorflow](https://img.shields.io/badge/Tensorflow-%23FF6F00?logo=Tensorflow&logoColor=white)](https://www.tensorflow.org/)
 
 
@@ -93,19 +93,27 @@ To add the models,
 
 ## Execution of the web application
 
-**Running the Flask application**
+**Running the application (Development)**
 
 From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
 
 ````shell
-$ flask run
+$ uvicorn wsgi:app --reload
 ```` 
-**Running the Flask application via Gunicorn (LINUX or WSL Only)**
+**Running the application (Production)(Windows)**
+````shell
+$ hypercorn main:app --bind 0.0.0.0:80
+```````
+or
+````shell
+$ uvicorn wsgi:app --bind 0.0.0.0:80
+```` 
+**Running the application via Gunicorn (Production)(LINUX or WSL Only)**
 
 From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
 
 ````shell
-$ gunicorn wsgi:gunicorn_app
+$ gunicorn wsgi:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:80
 ```` 
 
 # Getting Started with Create React App
@@ -158,14 +166,18 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ### `npm run lint:fix`
 run eslint and fix errors
 
-## Compilation
+## Compilation Instructions
 ### Dependencies
 - Node.js
 - npm
 - Python 3.11
-- Innosetup (for windows installer)
+- 7zip
+- Innosetup (Windows only)
 
-From the root folder run the following commands: (Windows)
+All dependencies must be available by cmdline.
+
+### Windows Instructions
+From the root folder run the following commands:
 ```shell
 .\build.ps1
 ```

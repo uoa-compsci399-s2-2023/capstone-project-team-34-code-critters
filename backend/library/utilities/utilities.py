@@ -1,71 +1,77 @@
-from flask import Blueprint, render_template, redirect, url_for, request, current_app
+from fastapi import APIRouter, UploadFile
+from fastapi.responses import JSONResponse
+from fastapi import Query
+from starlette.requests import Request
 from werkzeug.utils import secure_filename
-from werkzeug.datastructures import FileStorage
-from flask_restx import Namespace, Resource, fields
 
-# from library.utilities.standardise_images import standardise_image
-from library.utilities.inference import get_prediction
+import shutil
 
 import os
+from ..config import Settings
+
+from library.utilities.inference import get_prediction
+
 ################ Blueprint/Namespace Configuration ################
-utils_api = Namespace('utilities_api', description='Utilities related operations')
-upload_parser = utils_api.parser()
-upload_parser.add_argument('file[]', location='files', type=FileStorage, required=True, help='Image file to upload (This cannot test multiple files)')
-upload_parser.add_argument('model', location='args', type=str, help='Optional Arg to specify model to use')
+utils_api = APIRouter(tags=["Utilities"])
 
 ################ Global Variables ################
-img_path = current_app.config['UPLOAD_FOLDER']
-models_path = current_app.config['MODEL_FOLDER']
+img_path = Settings().UPLOAD_FOLDER
+models_path = Settings().MODEL_FOLDER
+isProduction = Settings().FLASK_ENV == 'production'
 
 ################ Helper Functions ################
-def isFileAllowed(filename):
+def is_file_allowed(filename):
     if not "." in filename:
         return False
     ext = filename.rsplit(".", 1)[1]
-    return ext.upper() in current_app.config["ALLOWED_IMAGE_EXTENSIONS"]
+    return ext.upper() in Settings().ALLOWED_IMAGE_EXTENSIONS
 
 ################ API Endpoints ################
 
-@utils_api.route('/upload_json')
-class upload_files_json(Resource):
-    
-    @utils_api.response(200, 'Success')
-    @utils_api.response(400, 'Bad Request')
-    @utils_api.response(405, 'Invalid File Type')
-    @utils_api.expect(upload_parser)
-    @utils_api.doc(description="Uploads an image and returns the prediction")
-    def post(self):
+@utils_api.post('/api/v1/upload_json', responses={200: {"description": "Success"}, 400: {"description": "Bad Request"}, 405: {"description": "Method Not Allowed"}, 500: {"description": "Internal Server Error"}}, tags=["Utilities"])
+# NOTE: currently files does not support documenation:
+# Intended documentation: "List of files to upload"
+async def upload_files_json(files: list[UploadFile], model: str | None = Query(None, description="Model to use for prediction. If not specified, the default model will be used.")):
+    """
+     Takes in a list of Image files and returns a list of predictions in JSON format.
+    """
+    try:
 
         # Checks if the model is valid before uploading
-        model = request.args.get('model')
-        if model and model not in available_models.get(self):
-            return "Invalid Model", 400
+        if model and model not in available_models():
+            return JSONResponse(content={"error": "Model not found"}, status_code=400)     
         
-        # Uploads the file and returns the prediction
-        f = request.files.getlist('file[]')     
-        return_list = []
-        for file in f:        
-            # Validates File name and then type
-            filename = secure_filename(file.filename)
-            if not isFileAllowed(filename):
-                return "Invalid File type", 405
-            file.save(img_path + filename)
+        returnList = []
 
+        for file in files:
+            # Check if the file extension is allowed
+            if not is_file_allowed(file.filename):
+                return JSONResponse(content={"error": "File type not allowed"}, status_code=405)
+            file_path = os.path.join(img_path, secure_filename(file.filename))
+            # Save the file to disk
+            with open(file_path, "wb") as buffer:
+                shutil.copyfileobj(file.file, buffer)
+            # Get the prediction
             if model:
-                pred = get_prediction(img_path + filename, model)
-            else:
-                pred = get_prediction(img_path + filename)
-            
-            print(pred)
-            return_list.append({"name":filename, "pred":pred})
-        return return_list
-        
+                prediction = get_prediction(file_path, model)
+            else: 
+                prediction = get_prediction(file_path)
+            returnList.append({"name": file.filename, "pred": prediction})
 
-@utils_api.route('/available_models')
-class available_models(Resource):
+        return JSONResponse(content=returnList)
+    except Exception as e:
+        if isProduction:
+            return JSONResponse(content={"error": "Internal Server Error"}, status_code=500)
+        else:
+            return JSONResponse(content={"error": str(e)}, status_code=500)
 
-    @utils_api.response(200, 'Success')
-    @utils_api.doc(description="Returns a list of available models")
-    def get(self):
-        subfolders = [os.path.basename(f.path) for f in os.scandir(models_path) if f.is_dir()]
-        return subfolders
+def available_models():
+    subfolders = [os.path.basename(f.path) for f in os.scandir(models_path) if f.is_dir()]
+    return subfolders
+
+@utils_api.get('/api/v1/available_models', tags=["Utilities"])
+async def get_available_models():
+    """
+        Returns a list of available models.
+    """
+    return JSONResponse(content=available_models())

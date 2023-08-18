@@ -1,14 +1,11 @@
-from flask import current_app
-from tensorflow.keras.models import load_model
-import cv2
-import numpy as np
-import os
+from keras.models import load_model
 import imp
 
+from ..config import Settings
 
 current_model = "trupanea_v2"
-path = current_app.config["MODEL_FOLDER"]
-isProduction = os.getenv('FLASK_ENV') == 'production'
+path = Settings().MODEL_FOLDER
+isProduction = Settings().FLASK_ENV == 'production'
 
 def get_labels(model_name="trupanea_v2"):
     filename = f'{path}/{model_name}/labels.txt'
@@ -19,7 +16,7 @@ def get_labels(model_name="trupanea_v2"):
  
 def get_prediction(image_path, current_model="trupanea_v2"):
     model_path = ""
-    if (isProduction):
+    if isProduction and Settings().FLASK_DEPLOYMENT == 'server':
         model_path = f'/var/models/model.h5'
     else:
         model_path = f'{path}/{current_model}/model.h5'
