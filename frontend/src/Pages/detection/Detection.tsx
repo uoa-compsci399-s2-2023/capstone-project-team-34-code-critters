@@ -127,12 +127,18 @@ function Detection() {
         </div>
         <div className="mt-4 w-full flex flex-col gap-4">
           {selectedImageUrls.map((imageUrl, index) => (
-            <div className="flex w-full items-center justify-around" key={index}>
-              <img
-                src={imageUrl}
-                alt={`Selected ${index + 1}`}
-                className="w-32 rounded-md"
-              />
+            <div className="flex w-full items-center justify-around gap-4" key={index}>
+              <div className="flex gap-4 items-center">
+                <img
+                  src={imageUrl}
+                  alt={`Selected ${index + 1}`}
+                  className="w-32 rounded-md"
+                />
+                {/* replace .jpg and .png */}
+                <div className="truncate hidden sm:flex">
+                  {selectedImages[index].name.replace(/\.jpg|\.png/, '')}
+                </div>
+              </div>
               <div />
 
               <div className="flex items-center gap-4">
