@@ -27,7 +27,7 @@ function LoginModal() {
       <dialog ref={modalRef} className="modal modal-bottom sm:modal-middle">
         <form method="dialog" className="modal-box grid lg:grid-cols-[1fr_1.5fr] p-0 w-full  sm:w-11/12 sm:max-w-6xl bg-white lg:bg-gradient-to-br lg:from-green-400 lg:to-cyan-500 lg:to-60%">
           <div className="relative hidden lg:flex flex-col items-start justify-center px-14">
-            <div className="text-4xl font-black text-white mb-52 font-varela">
+            <div className="text-4xl font-black text-white mb-52 font-varela cursor-default">
               Welcome back!
               <br />
               Let&apos;s continue.
@@ -42,7 +42,7 @@ function LoginModal() {
             >
               <FontAwesomeIcon icon={faXmark} />
             </button>
-            <div className="text-4xl font-black text-green-500 font-varela">
+            <div className="text-4xl font-black text-green-500 font-varela cursor-default">
               Login
             </div>
             <button className="font-varela btn btn-outline w-full text-neutral-600  border-neutral-300 hover:bg-neutral-200 hover:text-neutral-600 hover:border-neutral-300" type="button">
@@ -70,7 +70,7 @@ function LoginModal() {
               />
               Login with Github
             </button>
-            <div className="font-varela divider text-neutral-400 before:bg-neutral-200 after:bg-neutral-200">OR</div>
+            <div className="font-varela divider text-neutral-400 before:bg-neutral-200 after:bg-neutral-200 cursor-default">OR</div>
             <div className="w-full">
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <input type="text" placeholder="Enter your email" className="font-varela input input-ghost w-full bg-neutral-100  text-neutral-500 focus:text-neutral-600" />
@@ -79,14 +79,15 @@ function LoginModal() {
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <input type="text" placeholder="Enter your pasword" className="font-varela input input-ghost w-full bg-neutral-100  text-neutral-500 focus:text-neutral-600" />
             </div>
-            <button className="font-varela btn w-full text-white text-lg bg-gradient-to-r from-green-400 to-cyan-500 mt-4" type="button">
-              Login
+            <button className="relative font-varela btn w-full text-white text-lg bg-gradient-to-r from-green-400 to-cyan-500" type="button">
+              <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full bg-gradient-to-l from-green-400 to-cyan-500" />
+              <div className="z-10">Login</div>
             </button>
-            <div className="text-neutral-500 font-varela">
+            <div className="text-neutral-500 font-varela cursor-default">
               {/* eslint-disable-next-line react/no-unescaped-entities */}
               Don't have an account?
               {' '}
-              <button type="button" className="font-varela cursor-pointer text-green-500">Sign up</button>
+              <button type="button" className="relative font-varela cursor-pointer text-green-500">Sign up</button>
             </div>
           </div>
         </form>
