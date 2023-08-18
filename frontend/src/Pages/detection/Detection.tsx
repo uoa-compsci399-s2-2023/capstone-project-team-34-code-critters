@@ -103,6 +103,7 @@ function Detection() {
           className="hidden"
           onChange={onFileChange}
           multiple
+          accept="image/png, image/jpeg"
         />
         <div
           onClick={addImages}
@@ -114,7 +115,7 @@ function Detection() {
               Select a file or drag and drop here
             </h2>
             <p className="text-gray-500 mt-4 font-varela text-center">
-              JPG, PNG or PDF, file size no more than 10MB
+              JPG, PNG, file size no more than 10MB
             </p>
           </div>
           <button
