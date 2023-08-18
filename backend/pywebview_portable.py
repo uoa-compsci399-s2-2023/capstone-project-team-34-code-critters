@@ -7,6 +7,7 @@ import threading
 # Hard coded config as config file does not work with pyinstaller
 config = {}
 config['FLASK_ENV'] = "production"
+config['FLASK_DEPLOYMENT'] = "client+server"
 config['UPLOAD_FOLDER'] = './library/static/uploads/'
 config['STORAGE_FOLDER'] = './library/static/storage/'
 config['MODEL_FOLDER'] = './library/models/'

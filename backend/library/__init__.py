@@ -20,8 +20,10 @@ def create_app(config=None):
     #     tests = False
     
     with app.app_context():
-        from .home import home
-        app.register_blueprint(home.home_blueprint)
+        # Lets flask deploy react build only if it is a client+server deployment
+        if app.config["FLASK_DEPLOYMENT"] != "server" or app.config["FLASK_ENV"] == "development":
+            from .home import home
+            app.register_blueprint(home.home_blueprint)
 
 
         from .utilities import utilities, xlsx_export
