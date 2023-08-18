@@ -73,11 +73,11 @@ function LoginModal() {
             <div className="font-varela divider text-neutral-400 before:bg-neutral-200 after:bg-neutral-200 cursor-default">OR</div>
             <div className="w-full">
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <input type="text" placeholder="Enter your email" className="font-varela input input-ghost w-full bg-neutral-100  text-neutral-500 focus:text-neutral-600" />
+              <input type="text" placeholder="Enter your email" className="font-varela input w-full bg-neutral-100  text-neutral-500 focus:text-neutral-600" />
             </div>
             <div className="w-full">
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <input type="text" placeholder="Enter your pasword" className="font-varela input input-ghost w-full bg-neutral-100  text-neutral-500 focus:text-neutral-600" />
+              <input type="text" placeholder="Enter your pasword" className="font-varela input w-full bg-neutral-100  text-neutral-500 focus:text-neutral-600" />
             </div>
             <button className="relative font-varela btn w-full text-white text-lg bg-gradient-to-r from-green-400 to-cyan-500" type="button">
               <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full bg-gradient-to-l from-green-400 to-cyan-500 rounded-md flex justify-center items-center">Login</div>
