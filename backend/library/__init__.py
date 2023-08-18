@@ -1,16 +1,30 @@
 """Initialize Flask app."""
-import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .config import Settings
 
+def create_app(config=None, aargs = None):
+    settings = Settings()
+    
+    match config:
+        case "portable":
+            Settings.FLASK_ENV = "production"
+            Settings.FLASK_DEPLOYMENT = "client+server"
+        case "installed":
+            AppData = aargs[0]
+            publisherName = aargs[1]
+            appName = aargs[2]
 
-def create_app(config=None):
-    if config:
-        settings = Settings(config)
-    else:
-        settings = Settings()
+            config = {}
+            Settings.FLASK_ENV = "production"
+            Settings.FLASK_DEPLOYMENT = "client+server"
 
+            Settings.UPLOAD_FOLDER = f"{AppData}/{publisherName}/{appName}/library/static/uploads/"
+            Settings.STORAGE_FOLDER = f"{AppData}/{publisherName}/{appName}/library/static/storage/"
+            Settings.MODEL_FOLDER = './library/models/'
+        case None:
+            pass    
+    
     tags_metadata = [
         {
             "name":"Utilities",
