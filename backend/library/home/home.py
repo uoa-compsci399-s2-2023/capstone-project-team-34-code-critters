@@ -9,9 +9,8 @@ home_blueprint = Blueprint(
 )
 
 @home_blueprint.route('/')
-@home_blueprint.route('/?<results>')
 @home_blueprint.route('/<path:path>')
-def home(results=None,path=None):
+def home(path="upload"):
     # Check if react build exists
     if os.path.exists(current_app.root_path+'\index.html'):
         return send_file('index.html')
