@@ -25,8 +25,8 @@ function LoginModal() {
       </button>
       {/* Modal content */}
       <dialog ref={modalRef} className="modal modal-bottom sm:modal-middle">
-        <form method="dialog" className="modal-box grid lg:grid-cols-[1fr_1.5fr] p-0 w-full  sm:w-11/12 sm:max-w-6xl bg-white lg:bg-gradient-to-br lg:from-green-400 lg:to-cyan-500 lg:to-60%">
-          <div className="relative hidden lg:flex flex-col items-start justify-center px-14">
+        <form method="dialog" className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 w-full  md:w-11/12 sm:max-w-5xl bg-white md:bg-gradient-to-br md:from-green-400 md:to-cyan-500 md:to-60%">
+          <div className="relative hidden md:flex flex-col items-start justify-center px-14">
             <div className="text-4xl font-black text-white mb-52 font-varela cursor-default">
               Welcome back!
               <br />
