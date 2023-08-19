@@ -1,4 +1,4 @@
-#define AppName "Insect-Identification-Application"
+#define AppName "Insect Identification Application"
 #define AppVersion "1.0.0"
 #define AppPublisher "Code Critters"
 #define AppExeName "Insect-Identification-Application"
@@ -11,14 +11,14 @@ AppPublisher={#AppPublisher}
 DefaultDirName={pf}\{#AppPublisher}\{#AppName}
 DefaultGroupName={#AppName}
 OutputDir=.
-OutputBaseFilename=Complete-{#AppName}-Setup
+OutputBaseFilename=Complete-{#AppExeName}-Setup
 Compression=lzma2
 SolidCompression=yes
 
 [Files]
-Source: "dist\{#AppName}\library\static\uploads\*"; DestDir: "{userappdata}\{#AppPublisher}\{#AppName}\library\static\uploads"; Flags: recursesubdirs createallsubdirs
-Source: "dist\{#AppName}\library\static\storage\*"; DestDir: "{userappdata}\{#AppPublisher}\{#AppName}\library\static\storage"; Flags: recursesubdirs createallsubdirs
-Source: "dist\{#AppName}\*"; DestDir: "{app}"; Flags: recursesubdirs
+Source: "dist\{#AppExeName}\library\static\uploads\*"; DestDir: "{userappdata}\{#AppPublisher}\{#AppName}\library\static\uploads"; Flags: recursesubdirs createallsubdirs
+Source: "dist\{#AppExeName}\library\static\storage\*"; DestDir: "{userappdata}\{#AppPublisher}\{#AppName}\library\static\storage"; Flags: recursesubdirs createallsubdirs
+Source: "dist\{#AppExeName}\*"; DestDir: "{app}"; Flags: recursesubdirs
 
 
 [Icons]

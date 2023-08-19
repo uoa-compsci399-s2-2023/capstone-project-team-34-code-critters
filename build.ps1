@@ -22,7 +22,7 @@ npm run build
 Set-Location $rootPath
 Copy-Item -Path $frontendBuildPath\* -Destination $backendStaticPath -Force -Exclude "*.json" 
 Copy-Item -Path $frontendBuildPath\static\* -Destination $backendStaticPath -Recurse -Force
-Move-Item $backendStaticPath\index.html $backendLibraryPath\index.html -Force
+Move-Item $backendStaticPath\index.html $backendLibraryPath\templates\index.html -Force
 
 # Package Backend + Frontend into Portable Executable
 Set-Location $backendPath
@@ -61,7 +61,7 @@ npm run build
 python -m venv venv
 .\venv\Scripts\activate
 pip install -r requirements.txt
-pyinstaller .\pywebview_webapp.py --add-data "build;build" --noconfirm  --clean --name $applicationName --windowed --icon "build\favicon.ico"
+pyinstaller .\pywebview_webapp.py --add-data "build;build" --noconfirm  --clean --name $applicationName --windowed --icon "public\favicon.ico"
 
 # Package Executable into Zip
 $7zVar = Join-Path ".\dist" $applicationName
