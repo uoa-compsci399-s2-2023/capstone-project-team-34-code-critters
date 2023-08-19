@@ -1,7 +1,6 @@
 from fastapi import APIRouter, UploadFile
-from fastapi.responses import JSONResponse
+from fastapi.responses import ORJSONResponse, JSONResponse
 from fastapi import Query
-from starlette.requests import Request
 from werkzeug.utils import secure_filename
 
 import shutil
@@ -39,14 +38,14 @@ async def upload_files_json(files: list[UploadFile], model: str | None = Query(N
 
         # Checks if the model is valid before uploading
         if model and model not in available_models():
-            return JSONResponse(content={"error": "Model not found"}, status_code=400)     
+            return ORJSONResponse(content={"error": "Model not found"}, status_code=400)     
         
         returnList = []
 
         for file in files:
             # Check if the file extension is allowed
             if not is_file_allowed(file.filename):
-                return JSONResponse(content={"error": "File type not allowed"}, status_code=405)
+                return ORJSONResponse(content={"error": "File type not allowed"}, status_code=405)
             file_path = os.path.join(img_path, secure_filename(file.filename))
             # Save the file to disk
             with open(file_path, "wb") as buffer:
@@ -61,7 +60,7 @@ async def upload_files_json(files: list[UploadFile], model: str | None = Query(N
         return JSONResponse(content=returnList)
     except Exception as e:
         if isProduction:
-            return JSONResponse(content={"error": "Internal Server Error"}, status_code=500)
+            return ORJSONResponse(content={"error": "Internal Server Error"}, status_code=500)
         else:
             return JSONResponse(content={"error": str(e)}, status_code=500)
 
