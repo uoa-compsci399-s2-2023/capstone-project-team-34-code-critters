@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw, ImageOps, ImageFilter
+from PIL import Image, ImageOps, ImageFilter
 from glob import glob
 import numpy as np
 import cv2

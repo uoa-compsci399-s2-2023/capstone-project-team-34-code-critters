@@ -1,30 +1,54 @@
+from fastapi import APIRouter, Request
+from fastapi.responses import HTMLResponse, FileResponse, ORJSONResponse
+from fastapi.staticfiles import StaticFiles
 import os
-from flask import Blueprint,render_template,current_app,make_response,session, send_from_directory
 
-import library.utilities.utilities as utilities
-from secrets import token_urlsafe
+home_router = APIRouter(tags=["Home"])
+static_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..\\")
 
-home_blueprint = Blueprint(
-    'home_bp',__name__
-)
+####### Serve robots.txt ######
+# Technically not needed as this endpoint is only available to pywebview
+# which does not use or need it
+@home_router.get("/robots.txt", responses={200: {"description": "Success"}, 404: {"description": "Not Found"}})
+async def robots():
+    """
+        Serves robots.txt
+    """
 
-@home_blueprint.route('/')
-@home_blueprint.route('/?<results>')
-def home(results=None):
-    if results is None:
-        res = make_response(render_template(
-                'home/home.html'
-            ))
+    if os.path.exists(static_path+"static/robots.txt"):
+        return FileResponse(static_path+"static/robots.txt")
     else:
-        res = make_response(render_template(
-                'home/home.html',
-                results=results
-            ))
-    return res,200
+        return ORJSONResponse(content={"error": "File not found"}, status_code=404)
 
-# Add favicon
-@home_blueprint.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(current_app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+####### Serve favicon #######
+@home_router.get("/favicon.ico", responses={200: {"description": "Success"}, 404: {"description": "Not Found"}})
+async def favicon():
+    """
+        Serves the favicon
+    """
+    if os.path.exists(static_path+"static/favicon.ico"):
+        return FileResponse(static_path+"static/favicon.ico")
+    else:
+        return ORJSONResponse(content={"error": "File not found"}, status_code=404)
 
+
+####### Serve static files + React Build #######
+@home_router.get("/")
+@home_router.get("/{path:path}", responses={200: {"description": "Success"}, 404: {"description": "Not Found"}})
+async def home(request: Request, path: str=None):
+    """
+        Serves the React Build
+    """ 
+    static_file_path = os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..\\"), path)
     
+    ## Return Static Files for React Build
+    # Check if static file is a js or css file (Otherwise, it can leak uploads and exports)
+    if static_file_path.endswith(".js") or static_file_path.endswith(".css"):
+        # Checks if Static file exists
+        if os.path.isfile(static_file_path):
+            return FileResponse(static_file_path)    
+    
+    # Check if react build exists
+    if os.path.exists("library/index.html"):
+        return HTMLResponse(open("library/index.html", "r").read())
+    return ORJSONResponse(content={"error": "React Build not found"}, status_code=404)

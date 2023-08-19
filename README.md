@@ -11,13 +11,13 @@ lnil547@aucklanduni.ac.nz
 Helen Lu - UI + Frontend Developer
 hlu750@aucklanduni.ac.nz
 
-Dhiraj Pen - FullStack Developer
+Dhiraj Penumala - FullStack Developer
 dpen656@aucklanduni.ac.nz
 
-Joshua Chu - Backend Developer
+Joshua Chung - Backend Developer
 jchu634@aucklanduni.ac.nz
 
-Kei - UI + Frontend Developer
+Keisuke Hara - UI + Frontend Developer
 khar453@aucklanduni.ac.nz
 
 Rukun Aaron - FullStack Developer
@@ -35,8 +35,8 @@ raar518@aucklanduni.ac.nz
 **Backend Technologies:**
 
 [![Python](https://img.shields.io/badge/Python-v3.11-%233776AB?logo=python)](https://www.python.org/)
-[![Flask](https://img.shields.io/badge/Flask-black?logo=flask)](https://flask.palletsprojects.com/en/2.3.x/)
-[![FlaskRestx](https://img.shields.io/badge/Flask--Restx-%2385EA2D?logo=swagger&logoColor=black)](https://flask-restx.readthedocs.io/en/latest/)
+[![FastAPI](https://img.shields.io/badge/FastAPI%20-%20%23009688?logo=fastapi&logoColor=white
+)](https://fastapi.tiangolo.com/)
 [![Tensorflow](https://img.shields.io/badge/Tensorflow-%23FF6F00?logo=Tensorflow&logoColor=white)](https://www.tensorflow.org/)
 
 
@@ -51,7 +51,20 @@ This Application was last tested in Python version 3.11.1
 
 
 ## Installation
-**Installation via requirements.txt**
+Go to releases and install the latest version of the application for your operating system.<br>
+There are two versions of the application.
+1. The full version which includes the models and is around 1.5GB in size.
+2. The cutdown web version which does not include the models and is around 100MB in size.<br>
+    - The cutdown version requires an internet connection to use the models.
+
+NOTE: Each version comes either as installer or as a portable zip file.
+- The installer will install the application to your computer.
+- The zip file will need to be extracted before the application can be used.
+
+
+## Development Installation
+### Backend Installation
+**Dependency Installation via requirements.txt**
 
 ```shell
 $ py -3 -m venv venv
@@ -78,25 +91,30 @@ To add the models,
     library/models/example_model/labels.txt
     ```
 
-
-
 ## Execution of the web application
 
-**Running the Flask application**
+**Running the application (Development)**
 
 From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
 
 ````shell
-$ flask run
+$ uvicorn wsgi:app --reload
 ```` 
-**Running the Flask application via Gunicorn (LINUX or WSL Only)**
+**Running the application (Production)(Windows)**
+````shell
+$ hypercorn main:app --bind 0.0.0.0:80
+```````
+or
+````shell
+$ uvicorn wsgi:app --bind 0.0.0.0:80
+```` 
+**Running the application via Gunicorn (Production)(LINUX or WSL Only)**
 
 From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
 
 ````shell
-$ gunicorn wsgi:gunicorn_app
+$ gunicorn wsgi:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:80
 ```` 
-
 
 # Getting Started with Create React App
 
@@ -148,8 +166,23 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ### `npm run lint:fix`
 run eslint and fix errors
 
- 
+## Compilation Instructions
+### Dependencies
+- Node.js
+- npm
+- Python 3.11
+- 7zip
+- Innosetup (Windows only)
 
+All dependencies must be available by cmdline.
+
+### Windows Instructions
+From the root folder run the following commands:
+```shell
+.\build.ps1
+```
+To build the windows installer run InnoSeup and open the `package.iss` file and click build.<br>
+The build should end up in the library folder: 'library\Setup.exe'
 
 
 # Template

@@ -6,6 +6,7 @@
 ################ FRONTEND ################
 # dependencies
 **/node_modules/
+**/.yarn/
 **/.pnp
 .pnp.js
 
@@ -39,6 +40,13 @@ __pycache__/
 
 # C extensions
 *.so
+
+# Builds
+**/dist
+**/build
+.exe
+.zip
+
 
 # Distribution / packaging
 .Python
