@@ -47,7 +47,7 @@ const SignUpModal: FunctionComponent<SignUpModalProps> = function SignUpModal() 
             <div className="text-4xl font-black text-green-500 font-varela cursor-default">
               Create Account
             </div>
-            <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
+            <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
               <img
                 alt="google icon"
                 src="/logos/google.svg"
@@ -55,7 +55,7 @@ const SignUpModal: FunctionComponent<SignUpModalProps> = function SignUpModal() 
               />
               Sign Up with Google
             </button>
-            <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
+            <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
               <img
                 className="h-3/4"
                 alt="facebook icon"
@@ -63,7 +63,7 @@ const SignUpModal: FunctionComponent<SignUpModalProps> = function SignUpModal() 
               />
               Sign Up with Facebook
             </button>
-            <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
+            <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
               <img
                 className="h-3/4"
                 alt="github icon"
@@ -84,8 +84,8 @@ const SignUpModal: FunctionComponent<SignUpModalProps> = function SignUpModal() 
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <input type="text" placeholder="Enter your pasword" className="font-varela input w-full bg-neutral-100  text-neutral-500 focus:text-neutral-600" />
             </div>
-            <button className="relative font-varela btn w-full text-white text-lg bg-gradient-to-r from-green-400 to-cyan-500" type="button">
-              <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full bg-gradient-to-l from-green-400 to-cyan-500 rounded-md flex justify-center items-center">Login</div>
+            <button className="relative font-varela normal-case btn w-full text-white text-lg bg-gradient-to-r from-green-400 to-cyan-500" type="button">
+              <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full bg-gradient-to-l from-green-400 to-cyan-500 rounded-md flex justify-center items-center">Create Account</div>
               Create Account
             </button>
             <div className="text-neutral-500 font-varela cursor-default">
