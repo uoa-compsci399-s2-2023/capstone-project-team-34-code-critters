@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request, Body
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, ORJSONResponse, JSONResponse
 
 from PIL import Image as PILimg
 from PIL import ImageOps
@@ -30,7 +30,7 @@ def resize_img(path):
 
 ################ API Endpoints ################
 
-@utils_api.post('/create_xlsx', responses={200: {"description": "Success"}, 400: {"description": "Bad Request (Likely Invalid JSON)"}, 405: {"description": "Method Not Allowed"}, 500: {"description": "Internal Server Error"}}, tags=["Utilities"])
+@utils_api.post('/api/v1/create_xlsx', responses={200: {"description": "Success"}, 400: {"description": "Bad Request (Likely Invalid JSON)"}, 405: {"description": "Method Not Allowed"}, 500: {"description": "Internal Server Error"}}, tags=["Utilities"])
 async def json_to_xlsx(request: Request, results: list[dict]= Body(...)):
     """
         Creates an XLSX file from JSON prediction data
@@ -40,7 +40,7 @@ async def json_to_xlsx(request: Request, results: list[dict]= Body(...)):
         # Validate JSON
         for obj in results:
             if "name" not in obj or "pred" not in obj:
-                return JSONResponse(content={"error": "Invalid JSON"}, status_code=400)            
+                return ORJSONResponse(content={"error": "Invalid JSON"}, status_code=400)            
         
         # File name is based on the hash of the JSON data
         file_name = hashlib.md5(str(results).encode()).hexdigest()
@@ -83,11 +83,11 @@ async def json_to_xlsx(request: Request, results: list[dict]= Body(...)):
         return FileResponse(file_path, media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename=file_name+".xlsx")
     except Exception as e:
         if is_prod:
-            return JSONResponse(content={"error": "Internal Server Error"}, status_code=500)
+            return ORJSONResponse(content={"error": "Internal Server Error"}, status_code=500)
         else:
             return JSONResponse(content={"error": str(e)}, status_code=500)
 
-@utils_api.post('/create_csv', responses={200: {"description": "Success"}, 400: {"description": "Bad Request (Likely Invalid JSON)"}, 405: {"description": "Method Not Allowed"}, 500: {"description": "Internal Server Error"}}, tags=["Utilities"])
+@utils_api.post('/api/v1/create_csv', responses={200: {"description": "Success"}, 400: {"description": "Bad Request (Likely Invalid JSON)"}, 405: {"description": "Method Not Allowed"}, 500: {"description": "Internal Server Error"}}, tags=["Utilities"])
 async def json_to_csv(request: Request, results: list[dict]= Body(...)):
     """
         Creates a CSV file from JSON prediction data
@@ -95,7 +95,7 @@ async def json_to_csv(request: Request, results: list[dict]= Body(...)):
     try:
         for obj in results:
             if "name" not in obj or "pred" not in obj:
-                return JSONResponse(content={"error": "Invalid JSON"}, status_code=400)    
+                return ORJSONResponse(content={"error": "Invalid JSON"}, status_code=400)    
             
         file_name = hashlib.md5(str(results).encode()).hexdigest()
         file_path = os.path.join(storage_path, file_name+".csv")
@@ -115,7 +115,7 @@ async def json_to_csv(request: Request, results: list[dict]= Body(...)):
         return FileResponse(file_path, media_type="text/csv", filename=file_name+".csv")
     except Exception as e:
         if is_prod:
-            return JSONResponse(content={"error": "Internal Server Error"}, status_code=500)
+            return ORJSONResponse(content={"error": "Internal Server Error"}, status_code=500)
         else:
             return JSONResponse(content={"error": str(e)}, status_code=500)
            
