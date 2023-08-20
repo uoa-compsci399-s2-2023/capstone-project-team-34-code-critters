@@ -4,12 +4,22 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 interface LoginModalRef {
   loginModalRef: MutableRefObject<HTMLDialogElement | null>
+  signUpModalRef: MutableRefObject<HTMLDialogElement | null>
 }
 
-function LoginModal({ loginModalRef }: LoginModalRef) {
+function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
   const closeModal = () => {
     if (loginModalRef.current) {
       loginModalRef.current.close();
+    }
+  };
+
+  const openSignUpModal = () => {
+    if (loginModalRef.current) {
+      loginModalRef.current.close();
+    }
+    if (signUpModalRef.current) {
+      signUpModalRef.current.showModal();
     }
   };
 
@@ -28,7 +38,7 @@ function LoginModal({ loginModalRef }: LoginModalRef) {
           <button
             className="btn btn-circle btn-ghost absolute top-4 right-4"
             type="button"
-            onClick={() => closeModal()}
+            onClick={closeModal}
           >
             <FontAwesomeIcon icon={faXmark} />
           </button>
@@ -76,12 +86,12 @@ function LoginModal({ loginModalRef }: LoginModalRef) {
             {/* eslint-disable-next-line react/no-unescaped-entities */}
             Don't have an account?
             {' '}
-            <button type="button" className="relative font-varela cursor-pointer text-green-500">Sign up</button>
+            <button type="button" className="relative font-varela cursor-pointer text-green-500" onClick={openSignUpModal}>Sign up</button>
           </div>
         </div>
       </form>
       <form method="dialog" className="modal-backdrop">
-        <button type="button" onClick={() => closeModal()}>close</button>
+        <button type="button" onClick={closeModal}>close</button>
       </form>
     </dialog>
   );

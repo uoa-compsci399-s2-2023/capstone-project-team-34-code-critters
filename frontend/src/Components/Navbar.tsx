@@ -28,8 +28,8 @@ function Navbar() {
         Log In
       </button>
 
-      <SignUpModal signUpModalRef={signUpModalRef} />
-      <LoginModal loginModalRef={loginModalRef} />
+      <SignUpModal signUpModalRef={signUpModalRef} loginModalRef={loginModalRef} />
+      <LoginModal loginModalRef={loginModalRef} signUpModalRef={signUpModalRef} />
     </div>
   );
 }

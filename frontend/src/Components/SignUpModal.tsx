@@ -4,12 +4,22 @@ import React, { MutableRefObject } from 'react';
 
 interface SignUpModalProps {
   signUpModalRef: MutableRefObject<HTMLDialogElement | null>
+  loginModalRef: MutableRefObject<HTMLDialogElement | null>
 }
 
-function SignUpModal({ signUpModalRef }: SignUpModalProps) {
+function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
   const closeModal = () => {
     if (signUpModalRef.current) {
       signUpModalRef.current.close();
+    }
+  };
+
+  const openLoginModal = () => {
+    if (signUpModalRef.current) {
+      signUpModalRef.current.close();
+    }
+    if (loginModalRef.current) {
+      loginModalRef.current.showModal();
     }
   };
 
@@ -81,7 +91,7 @@ function SignUpModal({ signUpModalRef }: SignUpModalProps) {
             {/* eslint-disable-next-line react/no-unescaped-entities */}
             Already have an account?
             {' '}
-            <button type="button" className="relative font-varela cursor-pointer text-green-500">Log In</button>
+            <button type="button" className="relative font-varela cursor-pointer text-green-500" onClick={openLoginModal}>Log In</button>
           </div>
         </div>
       </form>
