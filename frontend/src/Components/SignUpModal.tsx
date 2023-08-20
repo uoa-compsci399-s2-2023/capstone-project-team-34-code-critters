@@ -43,7 +43,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
           >
             <FontAwesomeIcon icon={faXmark} />
           </button>
-          <div className="text-4xl font-black text-green-500 font-varela cursor-default">
+          <div className="text-3xl sm:text-4xl font-black text-green-500 font-varela cursor-default">
             Create Account
           </div>
           <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
