@@ -7,11 +7,11 @@ module.exports = {
     extend: {
       fontFamily: {
         'varela': ['Varela Round', 'sans-serif'],
-      }
+      },
     },
   },
   daisyui: {
-    themes: ['emerald']
+    themes: ["light", "dark", "lemonade"],
   },
   plugins: [require("daisyui")],
 }
