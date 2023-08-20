@@ -45,7 +45,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
           <div className="text-4xl font-black text-primary font-varela cursor-default">
             Login
           </div>
-          <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
+          <button className="font-varela btn btn-ghost normal-case w-full text-neutral-600 border-neutral-300" type="button">
             <img
               alt="google icon"
               src="/logos/google.svg"
@@ -53,7 +53,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
             />
             Login with Google
           </button>
-          <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
+          <button className="font-varela btn btn-ghost normal-case w-full text-neutral-600 border-neutral-300" type="button">
             <img
               className="h-3/4"
               alt="facebook icon"
@@ -61,7 +61,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
             />
             Login with Facebook
           </button>
-          <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
+          <button className="font-varela btn btn-ghost normal-case w-full text-neutral-600 border-neutral-300" type="button">
             <img
               className="h-3/4"
               alt="github icon"
@@ -78,7 +78,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <input type="text" placeholder="Enter your pasword" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
           </div>
-          <button className="relative font-varela btn w-full text-white text-lg bg-gradient-to-r from-primary to-secondary" type="button">
+          <button className="relative font-varela btn normal-case w-full text-white text-lg bg-gradient-to-r from-primary to-secondary" type="button">
             <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full bg-gradient-to-l from-primary to-secondary rounded-md flex justify-center items-center">Login</div>
             Login
           </button>
