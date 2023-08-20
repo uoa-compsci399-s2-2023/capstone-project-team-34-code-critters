@@ -69,7 +69,7 @@ NOTE: Each version comes either as installer or as a portable zip file.
 ```shell
 $ py -3 -m venv venv
 $ venv\Scripts\activate
-$ pip install -r requirements.txt
+$ pip install -r --no-deps requirements.txt
 ```
 
 **Importing and Adding models**\
