@@ -170,6 +170,7 @@ run eslint and fix errors
 create a .env file in the root directory of the frontend directory. For variables ask the team.
 ```
 
+```
 ## Compilation Instructions
 ### Dependencies
 - Node.js
