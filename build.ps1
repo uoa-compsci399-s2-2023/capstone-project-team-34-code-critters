@@ -29,7 +29,7 @@ Move-Item $backendStaticPath\index.html $backendLibraryPath\templates\index.html
 Set-Location $backendPath
 python -m venv venv
 .\venv\Scripts\activate
-pip install -r requirements.txt
+pip install -r --no-deps requirements.txt
 pyinstaller .\pywebview_portable.py --add-data "library;library" --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
 
 # Package Executable into Zip
@@ -61,7 +61,7 @@ npm run build
 # Package Frontend into Executable
 python -m venv venv
 .\venv\Scripts\activate
-pip install -r requirements.txt
+pip install -r --no-deps requirements.txt
 pyinstaller .\pywebview_webapp.py --add-data "build;build" --noconfirm  --clean --name $applicationName --windowed --icon "public\favicon.ico"
 
 # Package Executable into Zip
