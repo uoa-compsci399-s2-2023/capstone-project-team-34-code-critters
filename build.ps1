@@ -15,6 +15,7 @@ $applicationName = "Insect-Identification-Application"
 # Build Frontend
 Set-Location $frontendPath
 Set-Content -Path ".\.env" -Value "REACT_APP_BACKEND_URL=http://localhost:80/"
+Set-Content -Path ".\.env" -Value "REACT_APP_DISABLE_NAVBAR=true" -Append -Force
 npm install
 npm run build
 
