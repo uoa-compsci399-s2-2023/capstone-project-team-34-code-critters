@@ -166,6 +166,10 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ### `npm run lint:fix`
 run eslint and fix errors
 
+## Environment Variables
+create a .env file in the root directory of the frontend directory. For variables ask the team.
+```
+
 ## Compilation Instructions
 ### Dependencies
 - Node.js
