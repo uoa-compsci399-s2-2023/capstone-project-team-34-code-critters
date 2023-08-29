@@ -119,7 +119,7 @@ function Detection() {
             </p>
           </div>
           <button
-            className={`btn btn-outline btn-primary ${selectedImages.length === 0 && 'mt-10'} font-varela`}
+            className={`btn btn-outline btn-secondary ${selectedImages.length === 0 && 'mt-10'} font-varela`}
             type="button"
           >
             {selectedImages.length > 0 ? 'Add more images' : 'Upload images'}
@@ -144,7 +144,7 @@ function Detection() {
               <div className="flex items-center gap-4">
                 <button
                   type="button"
-                  className="btn btn-primary btn-square"
+                  className="btn btn-secondary btn-square"
                   onClick={() => openModel(index)}
                   disabled={isLoading[index]}
                 >
@@ -190,10 +190,10 @@ function Detection() {
                     <div key={i} className="w-full">
                       <div className="flex justify-between">
                         <p className="font-varela ">{pred[1]}</p>
-                        <p className="font-varela text-primary">{Number(pred[0]).toFixed(4)}</p>
+                        <p className="font-varela text-secondary">{Number(pred[0]).toFixed(4)}</p>
                       </div>
                       <progress
-                        className="progress progress-primary w-full"
+                        className="progress progress-secondary w-full"
                         value={Number(pred[0]) * 100}
                         max="100"
                       />
@@ -204,7 +204,7 @@ function Detection() {
                                 prediction.pred.length > numToShow ? (
                                   <button
                                     type="button"
-                                    className="btn btn-primary w-fit"
+                                    className="btn btn-secondary w-fit"
                                     onClick={() => handleShowMore(prediction.pred)}
                                   >
                                     Show more
@@ -213,7 +213,7 @@ function Detection() {
                                   : (
                                     <button
                                       type="button"
-                                      className="btn btn-primary w-fit"
+                                      className="btn btn-secondary w-fit"
                                       onClick={() => handleShowLess()}
                                     >
                                       Show less

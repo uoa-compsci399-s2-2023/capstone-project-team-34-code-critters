@@ -4,7 +4,7 @@ import Navbar from './Components/Navbar';
 
 function App() {
   return (
-    <div className="w-full h-screen bg-white">
+    <div className="w-full h-screen">
       <Navbar />
       <Routes>
         <Route path="/upload" element={<Detection />} />
