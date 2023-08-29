@@ -98,7 +98,7 @@ To add the models,
 From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
 
 ````shell
-$ uvicorn wsgi:app --reload
+$ uvicorn asgi:app --reload
 ```` 
 **Running the application (Production)(Windows)**
 ````shell
@@ -106,14 +106,14 @@ $ hypercorn main:app --bind 0.0.0.0:80
 ```````
 or
 ````shell
-$ uvicorn wsgi:app --bind 0.0.0.0:80
+$ uvicorn asgi:app --bind 0.0.0.0:80
 ```` 
 **Running the application via Gunicorn (Production)(LINUX or WSL Only)**
 
 From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
 
 ````shell
-$ gunicorn wsgi:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:80
+$ gunicorn asgi:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:80
 ```` 
 
 # Getting Started with Create React App
