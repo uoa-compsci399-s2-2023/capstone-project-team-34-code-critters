@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 import os
 
 home_router = APIRouter(tags=["Home"])
-static_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..\\")
+static_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
 ####### Serve robots.txt ######
 # Technically not needed as this endpoint is only available to pywebview
@@ -39,7 +39,7 @@ async def home(request: Request, path: str=None):
     """
         Serves the React Build
     """ 
-    static_file_path = os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..\\"), path)
+    static_file_path = os.path.join(static_path, path)
     
     ## Return Static Files for React Build
     # Check if static file is a js or css file (Otherwise, it can leak uploads and exports)
