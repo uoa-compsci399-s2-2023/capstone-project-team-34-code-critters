@@ -21,7 +21,7 @@ $applicationFolder = Join-Path $distPath $applicationName
 
 # Build Frontend
 Set-Location $frontendPath
-Set-Content -Path ".\.env" -Value "REACT_APP_BACKEND_URL=http://localhost:80/"
+Set-Content -Path ".\.env" -Value "REACT_APP_BACKEND_URL=http://localhost:6789/"
 Add-Content -Path ".\.env" -Value "REACT_APP_DISABLE_NAVBAR=true"
 npm install
 npm run build
