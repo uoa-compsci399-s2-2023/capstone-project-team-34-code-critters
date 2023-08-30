@@ -39,8 +39,8 @@ python -m venv venv
 pip install --no-deps -r requirements.txt
 pyinstaller .\pywebview_portable.py --add-data "library;library" --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
 
-# Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
-Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
+# # Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
+# Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
 
 # Package Executable into Zip
 $7zVar = Join-Path ".\dist" $applicationName
@@ -52,8 +52,8 @@ Move-Item (Join-Path $7zVar ".zip") $NewName -Force
 
 # Package Backend + Frontend into Installation Executable
 pyinstaller .\pywebview_installed.py --add-data "library;library" --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
-# Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
-Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
+# # Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
+# Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
 iscc .\package.iss
 
 # Move Installation Executable to Root
