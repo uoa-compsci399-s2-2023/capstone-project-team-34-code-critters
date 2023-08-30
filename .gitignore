@@ -57,6 +57,7 @@ __pycache__/
 **/static/csv
 **/static/storage
 **/static/uploads
+**/static/logos
 
 # Distribution / packaging
 .Python
