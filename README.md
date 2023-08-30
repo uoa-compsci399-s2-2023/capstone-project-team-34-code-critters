@@ -44,12 +44,6 @@ raar518@aucklanduni.ac.nz
 
 [![Firebase](https://img.shields.io/badge/Firebase-%23FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/) 
 
-
-## Python version
-
-This Application was last tested in Python version 3.11.1
-
-
 ## Installation
 Go to releases and install the latest version of the application for your operating system.<br>
 There are two versions of the application.
@@ -62,22 +56,27 @@ NOTE: Each version comes either as installer or as a portable zip file.
 - The zip file will need to be extracted before the application can be used.
 
 
-## Development Installation
-### Backend Installation
-**Dependency Installation via requirements.txt**
+# Development Installation
+## Backend Installation
+### Python version
+This Application was last tested in Python version 3.11.1
+#### Dependency Installation via ```requirements.txt```
 
-```shell
-$ py -3 -m venv venv
-$ venv\Scripts\activate
-$ pip install -r --no-deps requirements.txt
-```
+1. Create a virtual environment ```venv```
+   ```shell
+   $ py -3 -m venv venv
+   $ venv\Scripts\activate
+   ```
+2. Install dependencies
+   ```shell
+   $ pip install -r --no-deps requirements.txt
+   ```
 
-**Importing and Adding models**\
+#### Importing and Adding model
 Since the models are big, they are not included in the repository.\
 To add the models, 
 1. Create a new folder for each model with the name of the model in the `library/models` folder.\
     If there isn't a `library/models` folder: You should make one.
-    
     ```
     library/models/example_model/
     ```
@@ -91,16 +90,12 @@ To add the models,
     library/models/example_model/labels.txt
     ```
 
-## Execution of the web application
-
-**Running the application (Development)**
-
+#### Running the backend application (Development)
 From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
-
 ````shell
 $ uvicorn asgi:app --reload
 ```` 
-**Running the application (Production)(Windows)**
+#### Running the application (Production)(Windows)
 ````shell
 $ hypercorn main:app --bind 0.0.0.0:80
 ```````
@@ -108,16 +103,14 @@ or
 ````shell
 $ uvicorn asgi:app --bind 0.0.0.0:80
 ```` 
-**Running the application via Gunicorn (Production)(LINUX or WSL Only)**
-
+#### Running the application via Gunicorn (Production)(LINUX or WSL Only)
 From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
 
 ````shell
 $ gunicorn asgi:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:80
 ```` 
 
-# Getting Started with Create React App
-
+## FrontEnd Setup
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -157,12 +150,6 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
 ### `npm run lint:fix`
 run eslint and fix errors
 
@@ -172,22 +159,13 @@ create a .env file in the root directory of the frontend directory. For variable
 
 ```
 ## Compilation Instructions
-### Dependencies
-- Node.js
-- npm
-- Python 3.11
-- 7zip
-- Innosetup (Windows only)
+See Wiki for more detailed instructions: [[Link](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters/wiki/Compilation-Instructions)]
 
-All dependencies must be available by cmdline.
-
-### Windows Instructions
+### Windows
 From the root folder run the following commands:
 ```shell
 .\build.ps1
 ```
-To build the windows installer run InnoSeup and open the `package.iss` file and click build.<br>
-The build should end up in the library folder: 'library\Setup.exe'
 
 
 # Template
