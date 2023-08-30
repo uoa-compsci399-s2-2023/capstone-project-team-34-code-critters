@@ -1,3 +1,4 @@
+$applicationName = "CritterSleuth"
 $rootPath = $PWD
 $backendPath = Join-Path $rootPath "backend"
 $frontendPath = Join-Path $rootPath "frontend"
@@ -6,7 +7,13 @@ $frontendBuildPath = Join-Path $frontendPath "build"
 $backendLibraryPath = Join-Path $backendPath "library"
 $backendStaticPath = Join-Path $backendPath "library/static"
 
-$applicationName = "Insect-Identification-Application"
+# Used to inject cv2 dependency into application folder
+$backendVenvPath = Join-Path $backendPath "venv"
+$venvPackagePath = Join-Path $backendVenvPath "Lib\site-packages"
+$distPath = Join-Path $backendPath "dist"
+$applicationFolder = Join-Path $distPath $applicationName
+
+
 # Write-Output $backendPath
 # Write-Output $frontendPath
 # Write-Output $frontendBuildPath
@@ -15,6 +22,7 @@ $applicationName = "Insect-Identification-Application"
 # Build Frontend
 Set-Location $frontendPath
 Set-Content -Path ".\.env" -Value "REACT_APP_BACKEND_URL=http://localhost:80/"
+Add-Content -Path ".\.env" -Value "REACT_APP_DISABLE_NAVBAR=true"
 npm install
 npm run build
 
@@ -28,8 +36,11 @@ Move-Item $backendStaticPath\index.html $backendLibraryPath\templates\index.html
 Set-Location $backendPath
 python -m venv venv
 .\venv\Scripts\activate
-pip install -r requirements.txt
+pip install --no-deps -r requirements.txt
 pyinstaller .\pywebview_portable.py --add-data "library;library" --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
+
+# Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
+Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
 
 # Package Executable into Zip
 $7zVar = Join-Path ".\dist" $applicationName
@@ -40,11 +51,13 @@ $NewName = Join-Path $rootPath "Complete-$applicationName-Portable.zip"
 Move-Item (Join-Path $7zVar ".zip") $NewName -Force
 
 # Package Backend + Frontend into Installation Executable
-pyinstaller.exe .\pywebview_installed.py --add-data "library;library" --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
+pyinstaller .\pywebview_installed.py --add-data "library;library" --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
+# Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
+Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
 iscc .\package.iss
 
 # Move Installation Executable to Root
-$OldName = Join-Path ".\Complete-$applicationName-Setup.exe"
+$OldName = ".\Complete-$applicationName-Setup.exe"
 $NewName = Join-Path $rootPath "Complete-$applicationName-Setup.exe"
 Move-Item $OldName $NewName -Force
 

@@ -47,6 +47,16 @@ __pycache__/
 .exe
 .zip
 
+# Frontend
+**/static/css
+**/static/js
+**/robots.txt
+**/templates
+
+# Files
+**/static/csv
+**/static/storage
+**/static/uploads
 
 # Distribution / packaging
 .Python
