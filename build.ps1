@@ -1,3 +1,4 @@
+$applicationName = "CritterSleuth"
 $rootPath = $PWD
 $backendPath = Join-Path $rootPath "backend"
 $frontendPath = Join-Path $rootPath "frontend"
@@ -9,9 +10,10 @@ $backendStaticPath = Join-Path $backendPath "library/static"
 # Used to inject cv2 dependency into application folder
 $backendVenvPath = Join-Path $backendPath "venv"
 $venvPackagePath = Join-Path $backendVenvPath "Lib\site-packages"
-$applicationFolder = Join-Path $rootPath $applicationName
+$distPath = Join-Path $backendPath "dist"
+$applicationFolder = Join-Path $distPath $applicationName
 
-$applicationName = "Insect-Identification-Application"
+
 # Write-Output $backendPath
 # Write-Output $frontendPath
 # Write-Output $frontendBuildPath
