@@ -4,10 +4,12 @@ import webview
 import sys
 import threading
 import uvicorn
+import cv2
 
 app = create_app("portable")
 backendPort = 6789
 def start_server():
+    print(cv2.__file__) # This is to force pyinstaller to import cv2
     uvicorn.run(app, port=backendPort)
 
 if __name__ == "__main__":
