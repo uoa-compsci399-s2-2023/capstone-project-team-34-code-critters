@@ -1,8 +1,8 @@
-#define AppName "Insect Identification Application"
+#define AppName "CritterSleuth"
 #define AppVersion "1.0.0"
 #define AppPublisher "Code Critters"
-#define AppExeName "Insect-Identification-Application"
-#define AppIcon "\library\static\favicon.ico"
+#define AppExeName "CritterSleuth"
+#define AppIcon "library\static\favicon.ico"
 
 [Setup]
 AppName={#AppName}
@@ -14,6 +14,10 @@ OutputDir=.
 OutputBaseFilename=Complete-{#AppExeName}-Setup
 Compression=lzma2
 SolidCompression=yes
+UninstallDisplayIcon={app}\{#AppExeName}.exe
+
+[Tasks]
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "Do you want to create desktop icon?"; Flags: checkablealone
 
 [Files]
 Source: "dist\{#AppExeName}\library\static\uploads\*"; DestDir: "{userappdata}\{#AppPublisher}\{#AppName}\library\static\uploads"; Flags: recursesubdirs createallsubdirs
@@ -22,8 +26,9 @@ Source: "dist\{#AppExeName}\*"; DestDir: "{app}"; Flags: recursesubdirs
 
 
 [Icons]
-Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppIcon}"
-Name: "{commonprograms}\{#AppName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppIcon}"
+Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppExeName}.exe"
+Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: desktopicon; IconFilename: "{app}\{#AppExeName}.exe"
+Name: "{commonprograms}\{#AppName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppExeName}.exe"
 
 ; [Run]
 ; Filename: "{app}\{#AppExeName}"; Description: "{cm:LaunchProgram,{#AppName}}"; Flags: nowait postinstall skipifsilent
