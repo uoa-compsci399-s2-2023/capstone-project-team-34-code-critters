@@ -7,7 +7,7 @@ import uvicorn
 
 app = create_app("portable")
 def start_server():
-    uvicorn.run("pywebview_portable:app", port=80)
+    uvicorn.run(app, port=80)
 
 if __name__ == "__main__":
     t = threading.Thread(target=start_server)
