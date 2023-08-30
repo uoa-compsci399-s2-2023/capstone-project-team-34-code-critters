@@ -21,4 +21,4 @@ npm run build
 Set-Location $rootPath
 Copy-Item -Path $frontendBuildPath\* -Destination $backendStaticPath -Force -Exclude "*.json" 
 Copy-Item -Path $frontendBuildPath\static\* -Destination $backendStaticPath -Recurse -Force
-Move-Item $backendStaticPath\index.html $backendLibraryPath\index.html -Force
+Move-Item $backendStaticPath\index.html $backendLibraryPath\templates\index.html -Force
