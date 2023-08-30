@@ -14,9 +14,9 @@ async def robots():
     """
         Serves robots.txt
     """
-
-    if os.path.exists(static_path+"static/robots.txt"):
-        return FileResponse(static_path+"static/robots.txt")
+    
+    if os.path.exists(os.path.join(static_path,"static/robots.txt")):
+        return FileResponse(os.path.join(static_path,"static/robots.txt"))
     else:
         return ORJSONResponse(content={"error": "File not found"}, status_code=404)
 
@@ -26,8 +26,8 @@ async def favicon():
     """
         Serves the favicon
     """
-    if os.path.exists(static_path+"static/favicon.ico"):
-        return FileResponse(static_path+"static/favicon.ico")
+    if os.path.exists(os.path.join(static_path,"static/favicon.ico")):
+        return FileResponse(os.path.join(static_path,"static/favicon.ico"))
     else:
         return ORJSONResponse(content={"error": "File not found"}, status_code=404)
 
