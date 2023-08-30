@@ -14,9 +14,9 @@ from library.utilities.inference import get_prediction
 utils_api = APIRouter(tags=["Utilities"])
 
 ################ Global Variables ################
-img_path = Settings().UPLOAD_FOLDER
-models_path = Settings().MODEL_FOLDER
-isProduction = Settings().FLASK_ENV == 'production'
+img_path = Settings.UPLOAD_FOLDER
+models_path = Settings.MODEL_FOLDER
+isProduction = Settings.FLASK_ENV == 'production'
 
 ################ Helper Functions ################
 def is_file_allowed(filename):
