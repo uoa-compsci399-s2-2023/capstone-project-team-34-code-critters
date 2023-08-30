@@ -49,6 +49,6 @@ async def home(request: Request, path: str=None):
             return FileResponse(static_file_path)    
     
     # Check if react build exists
-    if os.path.exists("library/templates/index.html"):
-        return HTMLResponse(open("library/templates/index.html", "r").read())
+    if os.path.exists(os.path.join(static_path, "templates/index.html")):
+        return HTMLResponse(open(os.path.join(static_path, "templates/index.html"), "r").read())
     return ORJSONResponse(content={"error": "React Build not found"}, status_code=404)
