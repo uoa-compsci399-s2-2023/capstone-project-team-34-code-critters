@@ -7,7 +7,6 @@ class Settings(BaseSettings):
         model_config = SettingsConfigDict(env_file=".env")
     
     FLASK_ENV: str = "temp"
-    FLASK_APP: str = "temp"
     FLASK_DEPLOYMENT: str = "temp"
 
     UPLOAD_FOLDER: str = './library/static/uploads/'
