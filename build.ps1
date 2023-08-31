@@ -47,7 +47,7 @@ $7zVar = Join-Path ".\dist" $applicationName
 7z -tzip a (Join-Path $7zVar ".zip") (Join-Path $7zVar "*")
 
 # Move Zipped Executable to Root
-$NewName = Join-Path $rootPath "Complete-$applicationName-Portable.zip"
+$NewName = Join-Path $rootPath "Complete-$applicationName-Portable-Windows.zip"
 Move-Item (Join-Path $7zVar ".zip") $NewName -Force
 
 # Package Backend + Frontend into Installation Executable

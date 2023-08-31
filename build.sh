@@ -32,8 +32,7 @@ pyinstaller pywebview_portable.py --add-data "library:library" --noconfirm --cle
 cd "$rootPath"
 
 # # Package Executable into Zip
-# mkdir -p "$rootPath/dist"
-# zip -r "$rootPath/dist/Complete-$applicationName-Portable.zip" "$backendPath/dist/$applicationName"
+zip -r "$rootPath/Complete-$applicationName-Portable-Ubuntu.zip" "$backendPath/dist/$applicationName"
 
 # # Move Zipped Executable to Root
 # mv "$rootPath/dist/$applicationName.zip" "$rootPath/Complete-$applicationName-Portable.zip"
