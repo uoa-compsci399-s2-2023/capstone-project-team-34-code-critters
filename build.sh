@@ -19,7 +19,7 @@ npm run build
 
 # Copy Frontend to Backend
 cd "$rootPath"
-rsync -rlptgoDv --exclude '*.json' "$frontendBuildPath"/* "$backendStaticPath"
+rsync -rlptgoDv --exclude '*.json' --exclude 'static' "$frontendBuildPath"/* "$backendStaticPath"
 rsync -rlptgoDv "$frontendBuildPath/static/"* "$backendStaticPath"
 
 # Move index.html to templates folder
@@ -31,9 +31,7 @@ pyinstaller pywebview_portable.py --add-data "library:library" --noconfirm --cle
 
 cd "$rootPath"
 
-# # Package Executable into Zip
+# Package Executable into Zip
 cd "$backendPath/dist" && zip -r "$rootPath/Complete-$applicationName-Portable-Ubuntu.zip" "$applicationName"
-# zip -r "$rootPath/Complete-$applicationName-Portable-Ubuntu.zip" "$backendPath/dist/$applicationName"
 
-# # Move Zipped Executable to Root
-# mv "$rootPath/dist/$applicationName.zip" "$rootPath/Complete-$applicationName-Portable.zip"
+cd "$rootPath"
