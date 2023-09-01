@@ -2,11 +2,18 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { MutableRefObject } from 'react';
 import {
+  addDoc,
+  collection,
+  getFirestore,
+} from 'firebase/firestore';
+import {
   createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  GithubAuthProvider,
 } from 'firebase/auth';
-import { addDoc, collection, getFirestore } from 'firebase/firestore';
 import { auth } from '../enviroments/firebase';
-import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider } from "firebase/auth";
 
 interface SignUpModalProps {
   signUpModalRef: MutableRefObject<HTMLDialogElement | null>
@@ -27,30 +34,44 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
     if (loginModalRef.current) {
       loginModalRef.current.showModal();
     }
-  }; 
+  };
 
   const signInWithGoogle = async () => {
     // Implement Google sign-in logic using Firebase
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-      }).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential?.accessToken;
+      const user = result.user;
+      const email = user.email;
+      console.log(`Signed in with email: ${email}`);
+    } catch (error: any) {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      switch (errorCode) {
+        case 'auth/invalid-email':
+          // Handle invalid email error
+          break;
+        case 'auth/user-not-found':
+          // Handle user not found error
+          break;
+        case 'auth/wrong-password':
+          // Handle wrong password error
+          break;
+        case 'auth/email-already-in-use':
+          // Handle email already in use error
+          break;
+        case 'auth/weak-password':
+          // Handle weak password error
+          break;
+        default:
+          // Handle other unexpected errors
+          console.error(`Sign-in error: ${errorMessage}`);
+          break;
+      }
+    }
   };
 
   const signInWithFacebook = async () => {
@@ -114,20 +135,15 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
     const password = passwordInput.value;
 
     try {
-      // Create the user with email and password
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-      // Get the user's unique ID (UID)
       const userId = userCredential.user.uid;
-
-      // Store user data in the database (example with Firestore)
       const db = getFirestore();
       const usersCollection = collection(db, 'users');
-      await addDoc(usersCollection, { userId, email }); // Add user data to Firestore
-
-      closeModal(); // Close the modal after successful account creation
+      await addDoc(usersCollection, { userId, email }).then(() => {
+        closeModal();
+      });
     } catch (error) {
-      console.log(`There was an error: ${error}`);
+      // console.log(`There was an error: ${error}`);
     }
   };
 
