@@ -1,7 +1,8 @@
 import React, { MutableRefObject } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-// import { auth } from '../enviroments/firebase';
+import { auth } from '../enviroments/firebase';
+import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
 interface LoginModalRef {
   loginModalRef: MutableRefObject<HTMLDialogElement | null>
@@ -23,28 +24,96 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
       signUpModalRef.current.showModal();
     }
   };
-  // const signInWithGoogle = async () => {
-  //   // Implement Google sign-in logic using Firebase
-  // };
+  const signInWithGoogle = async () => {
+    // Implement Google sign-in logic using Firebase
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  };
 
-  // const signInWithFacebook = async () => {
-  //   // Implement Facebook sign-in logic using Firebase
-  // };
+  const signInWithFacebook = async () => {
+    // Implement Facebook sign-in logic using Firebase
+    const provider = new FacebookAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // The signed-in user info.
+        const user = result.user;
 
-  // const signInWithGithub = async () => {
-  //   // Implement GitHub sign-in logic using Firebase
-  // };
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const accessToken = credential?.accessToken;
 
-  // const loginEmailPassword = async () => {
-  //   const email = 'user@example.com'; // Get email value from your input
-  //   const password = 'password'; // Get password value from your input
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = FacebookAuthProvider.credentialFromError(error);
 
-  //   try {
-  //     await signInWithEmailAndPassword(auth, email, password);
-  //   } catch (error) {
-  //     console.log(`There was an error: ${error}`);
-  //   }
-  // };
+        // ...
+      });
+  };
+
+  const signInWithGithub = async () => {
+    // Implement GitHub sign-in logic using Firebase
+    const provider = new GithubAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+        const credential = GithubAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GithubAuthProvider.credentialFromError(error);
+        // ...
+      });
+  };
+
+  const loginEmailPassword = async () => {
+    const emailInput = document.getElementById('email') as HTMLInputElement;
+    const passwordInput = document.getElementById('password') as HTMLInputElement;
+
+    const email = emailInput.value;
+    const password = passwordInput.value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.log(`There was an error: ${error}`);
+    }
+  };
   return (
     <dialog ref={loginModalRef} className="modal modal-bottom sm:modal-middle">
       <form method="dialog" className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 w-full  md:w-11/12 sm:max-w-5xl bg-white md:bg-gradient-to-br md:from-green-400 md:to-cyan-500 md:to-60%">
@@ -67,7 +136,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
           <div className="text-3xl sm:text-4xl font-black text-green-500 font-varela cursor-default">
             Login
           </div>
-          <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
+          <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
             <img
               alt="google icon"
               src="/logos/google.svg"
@@ -75,7 +144,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
             />
             Login with Google
           </button>
-          <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
+          <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithFacebook}>
             <img
               className="h-3/4"
               alt="facebook icon"
@@ -83,7 +152,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
             />
             Login with Facebook
           </button>
-          <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
+          <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
             <img
               className="h-3/4"
               alt="github icon"
@@ -94,13 +163,13 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
           <div className="font-varela divider text-neutral-400 before:bg-neutral-200 after:bg-neutral-200 cursor-default">OR</div>
           <div className="w-full">
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <input type="text" placeholder="Enter your email" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
+            <input id="email" type="text" placeholder="Enter your email" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
           </div>
           <div className="w-full">
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <input type="text" placeholder="Enter your pasword" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
+            <input id="password" type="text" placeholder="Enter your password" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
           </div>
-          <button className="relative font-varela btn w-full text-white text-lg bg-gradient-to-r from-green-400 to-cyan-500" type="button">
+          <button className="relative font-varela btn w-full text-white text-lg bg-gradient-to-r from-green-400 to-cyan-500" type="button" onClick={loginEmailPassword}>
             <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full bg-gradient-to-l from-green-400 to-cyan-500 rounded-md flex justify-center items-center">Login</div>
             Login
           </button>
