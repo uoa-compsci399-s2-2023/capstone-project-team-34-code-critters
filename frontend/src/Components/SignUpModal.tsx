@@ -2,11 +2,9 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { MutableRefObject } from 'react';
 import {
-  getAuth,
   createUserWithEmailAndPassword,
-  connectAuthEmulator,
 } from 'firebase/auth';
-import { initializeApp } from 'firebase/app';
+import { auth } from '../enviroments/firebase';
 
 interface SignUpModalProps {
   signUpModalRef: MutableRefObject<HTMLDialogElement | null>
@@ -14,19 +12,6 @@ interface SignUpModalProps {
 }
 
 function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
-  const firebaseApp = initializeApp({
-    apiKey: "AIzaSyBzShBuWbvEg509oFWZGMBbAYqupWX5ZwA",
-    authDomain: "code-critters-b5d86.firebaseapp.com",
-    projectId: "code-critters-b5d86",
-    storageBucket: "code-critters-b5d86.appspot.com",
-    messagingSenderId: "587751927265",
-    appId: "1:587751927265:web:4cbe27e97077bdf58976a0",
-    measurementId: "G-0GCLPNRT5J"
-  });
-
-  const auth = getAuth(firebaseApp);
-  connectAuthEmulator(auth, "http://localhost:3000");
-
   const closeModal = () => {
     if (signUpModalRef.current) {
       signUpModalRef.current.close();
@@ -40,7 +25,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
     if (loginModalRef.current) {
       loginModalRef.current.showModal();
     }
-  };
+  }; s;
   // const signInWithGoogle = async () => {
   //   // Implement Google sign-in logic using Firebase
   // };
@@ -64,7 +49,6 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      closeModal();
     } catch (error) {
       console.log(`There was an error: ${error}`);
     }

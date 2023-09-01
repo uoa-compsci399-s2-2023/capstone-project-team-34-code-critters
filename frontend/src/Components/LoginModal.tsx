@@ -1,10 +1,7 @@
 import React, { MutableRefObject } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import { auth } from '../enviroments/firebase';
 
 interface LoginModalRef {
   loginModalRef: MutableRefObject<HTMLDialogElement | null>
@@ -12,8 +9,6 @@ interface LoginModalRef {
 }
 
 function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
-  const auth = getAuth();
-
   const closeModal = () => {
     if (loginModalRef.current) {
       loginModalRef.current.close();
