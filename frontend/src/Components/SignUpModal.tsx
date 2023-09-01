@@ -4,9 +4,7 @@ import React, { MutableRefObject } from 'react';
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  connectAuthEmulator,
 } from 'firebase/auth';
-import { initializeApp } from 'firebase/app';
 
 interface SignUpModalProps {
   signUpModalRef: MutableRefObject<HTMLDialogElement | null>
@@ -14,18 +12,7 @@ interface SignUpModalProps {
 }
 
 function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
-  const firebaseApp = initializeApp({
-    apiKey: "AIzaSyBzShBuWbvEg509oFWZGMBbAYqupWX5ZwA",
-    authDomain: "code-critters-b5d86.firebaseapp.com",
-    projectId: "code-critters-b5d86",
-    storageBucket: "code-critters-b5d86.appspot.com",
-    messagingSenderId: "587751927265",
-    appId: "1:587751927265:web:4cbe27e97077bdf58976a0",
-    measurementId: "G-0GCLPNRT5J"
-  });
-
-  const auth = getAuth(firebaseApp);
-  connectAuthEmulator(auth, "http://localhost:3000");
+  const auth = getAuth();
 
   const closeModal = () => {
     if (signUpModalRef.current) {
