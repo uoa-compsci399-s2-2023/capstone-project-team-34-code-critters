@@ -1,6 +1,10 @@
 import React, { MutableRefObject } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 
 interface LoginModalRef {
   loginModalRef: MutableRefObject<HTMLDialogElement | null>
@@ -8,6 +12,8 @@ interface LoginModalRef {
 }
 
 function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
+  const auth = getAuth();
+
   const closeModal = () => {
     if (loginModalRef.current) {
       loginModalRef.current.close();
@@ -22,6 +28,28 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
       signUpModalRef.current.showModal();
     }
   };
+  // const signInWithGoogle = async () => {
+  //   // Implement Google sign-in logic using Firebase
+  // };
+
+  // const signInWithFacebook = async () => {
+  //   // Implement Facebook sign-in logic using Firebase
+  // };
+
+  // const signInWithGithub = async () => {
+  //   // Implement GitHub sign-in logic using Firebase
+  // };
+
+  // const loginEmailPassword = async () => {
+  //   const email = 'user@example.com'; // Get email value from your input
+  //   const password = 'password'; // Get password value from your input
+
+  //   try {
+  //     await signInWithEmailAndPassword(auth, email, password);
+  //   } catch (error) {
+  //     console.log(`There was an error: ${error}`);
+  //   }
+  // };
 
   return (
     <dialog ref={loginModalRef} className="modal modal-bottom sm:modal-middle">
