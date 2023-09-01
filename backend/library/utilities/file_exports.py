@@ -16,9 +16,9 @@ utils_api = APIRouter(tags=["Utilities"])
 
 ################ Global Variables ################
 
-storage_path = Settings().STORAGE_FOLDER
-img_path = Settings().UPLOAD_FOLDER
-is_prod = Settings().FLASK_ENV == 'production'
+storage_path = Settings.STORAGE_FOLDER
+img_path = Settings.UPLOAD_FOLDER
+is_prod = Settings.FLASK_ENV == 'production'
 
 
 ################ Helper Functions ################

@@ -57,6 +57,7 @@ __pycache__/
 **/static/csv
 **/static/storage
 **/static/uploads
+**/static/logos
 
 # Distribution / packaging
 .Python
@@ -84,6 +85,8 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+.deb-package/
+deb-package/
 
 # Installer logs
 pip-log.txt
@@ -135,6 +138,10 @@ ipython_config.py
 
 # pyenv
 .python-version
+
+# Builds
+*.zip
+*.exe
 
 # pipenv
 #   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.

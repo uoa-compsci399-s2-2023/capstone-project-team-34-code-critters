@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=CritterSleuth
+Exec=/usr/bin/CritterSleuth
+Icon=/usr/share/CritterSleuth/icon.png
+Type=Application
+Categories=Utility;
