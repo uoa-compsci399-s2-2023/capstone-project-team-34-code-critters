@@ -1,10 +1,7 @@
 import React, { MutableRefObject } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+// import { auth } from '../enviroments/firebase';
 
 interface LoginModalRef {
   loginModalRef: MutableRefObject<HTMLDialogElement | null>
@@ -12,8 +9,6 @@ interface LoginModalRef {
 }
 
 function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
-  const auth = getAuth();
-
   const closeModal = () => {
     if (loginModalRef.current) {
       loginModalRef.current.close();
@@ -50,7 +45,6 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
   //     console.log(`There was an error: ${error}`);
   //   }
   // };
-  
   return (
     <dialog ref={loginModalRef} className="modal modal-bottom sm:modal-middle">
       <form method="dialog" className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 w-full  md:w-11/12 sm:max-w-5xl bg-white md:bg-gradient-to-br md:from-green-400 md:to-cyan-500 md:to-60%">

@@ -2,9 +2,11 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { MutableRefObject } from 'react';
 import {
-  getAuth,
   createUserWithEmailAndPassword,
 } from 'firebase/auth';
+import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import { auth } from '../enviroments/firebase';
+import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider } from "firebase/auth";
 
 interface SignUpModalProps {
   signUpModalRef: MutableRefObject<HTMLDialogElement | null>
@@ -12,8 +14,6 @@ interface SignUpModalProps {
 }
 
 function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
-  const auth = getAuth();
-
   const closeModal = () => {
     if (signUpModalRef.current) {
       signUpModalRef.current.close();
@@ -27,31 +27,105 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
     if (loginModalRef.current) {
       loginModalRef.current.showModal();
     }
+  }; 
+
+  const signInWithGoogle = async () => {
+    // Implement Google sign-in logic using Firebase
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
   };
-  // const signInWithGoogle = async () => {
-  //   // Implement Google sign-in logic using Firebase
-  // };
 
-  // const signInWithFacebook = async () => {
-  //   // Implement Facebook sign-in logic using Firebase
-  // };
+  const signInWithFacebook = async () => {
+    // Implement Facebook sign-in logic using Firebase
+    const provider = new FacebookAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // The signed-in user info.
+        const user = result.user;
 
-  // const signInWithGithub = async () => {
-  //   // Implement GitHub sign-in logic using Firebase
-  // };
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const accessToken = credential?.accessToken;
+
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = FacebookAuthProvider.credentialFromError(error);
+
+        // ...
+      });
+  };
+
+  const signInWithGithub = async () => {
+    // Implement GitHub sign-in logic using Firebase
+    const provider = new GithubAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+        const credential = GithubAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GithubAuthProvider.credentialFromError(error);
+        // ...
+      });
+  };
 
   const createAccount = async () => {
-    // const nameInput = document.getElementById('username') as HTMLInputElement;
     const emailInput = document.getElementById('email') as HTMLInputElement;
     const passwordInput = document.getElementById('password') as HTMLInputElement;
 
-    // const username = nameInput.value;
     const email = emailInput.value;
     const password = passwordInput.value;
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      closeModal();
+      // Create the user with email and password
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+      // Get the user's unique ID (UID)
+      const userId = userCredential.user.uid;
+
+      // Store user data in the database (example with Firestore)
+      const db = getFirestore();
+      const usersCollection = collection(db, 'users');
+      await addDoc(usersCollection, { userId, email }); // Add user data to Firestore
+
+      closeModal(); // Close the modal after successful account creation
     } catch (error) {
       console.log(`There was an error: ${error}`);
     }
@@ -80,7 +154,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
           <div className="text-3xl sm:text-4xl font-black text-green-500 font-varela cursor-default">
             Create Account
           </div>
-          <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
+          <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
             <img
               alt="google icon"
               src="/logos/google.svg"
@@ -88,7 +162,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
             />
             Sign Up with Google
           </button>
-          <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
+          <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithFacebook}>
             <img
               className="h-3/4"
               alt="facebook icon"
@@ -96,7 +170,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
             />
             Sign Up with Facebook
           </button>
-          <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button">
+          <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
             <img
               className="h-3/4"
               alt="github icon"
