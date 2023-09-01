@@ -23,7 +23,7 @@ def is_file_allowed(filename):
     if not "." in filename:
         return False
     ext = filename.rsplit(".", 1)[1]
-    return ext.upper() in Settings().ALLOWED_IMAGE_EXTENSIONS
+    return ext.upper() in Settings.ALLOWED_IMAGE_EXTENSIONS
 
 ################ API Endpoints ################
 
