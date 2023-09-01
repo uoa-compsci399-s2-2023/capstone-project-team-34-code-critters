@@ -189,6 +189,11 @@ From the root folder run the following commands:
 To build the windows installer run InnoSeup and open the `package.iss` file and click build.<br>
 The build should end up in the library folder: 'library\Setup.exe'
 
+### Linux Instructions
+From the root folder run the following commands:
+```shell
+.\build.sh
+```
 
 # Template
 
