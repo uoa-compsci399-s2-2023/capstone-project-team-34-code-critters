@@ -2,21 +2,13 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { MutableRefObject } from 'react';
 import {
-  addDoc,
-  collection,
-  getFirestore,
-} from 'firebase/firestore';
-import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
-  FacebookAuthProvider,
   GithubAuthProvider,
-  signOut,
 } from 'firebase/auth';
-import { auth } from '../enviroments/firebase';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { auth } from '../enviroments/firebase';
 
 interface SignUpModalProps {
   signUpModalRef: MutableRefObject<HTMLDialogElement | null>
@@ -39,172 +31,25 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
     }
   };
 
-  // const signInWithGoogle = async () => {
-  //   const provider = new GoogleAuthProvider(); 
-  //   signInWithPopup(auth, provider)
-  //     .then(result => {
-  //       toast.success('Signed up successfully!', {
-  //         position: toast.POSITION.TOP_CENTER,
-  //         autoClose: 2000, // Adjust the duration as needed
-  //       });
-  //       const user = result.user;
-  //       closeModal();
-  //       toast.success('Signed up successfully!', {
-  //         position: toast.POSITION.TOP_CENTER,
-  //         autoClose: 2000, // Adjust the duration as needed
-  //       });
-  //     })
-  //     .catch(error => {
-  //       console.error('Error signing in with Google:', error);
-  //     });
-  // }
-  
-  // const signInWithGoogle = async () => {
-  //   const provider = new GoogleAuthProvider();
-  //   try {
-  //     await signInWithPopup(auth, provider);
-  //     closeModal();
-  //     toast.success('Signed up successfully!', {
-  //       position: toast.POSITION.TOP_CENTER,
-  //       autoClose: 2000, // Adjust the duration as needed
-  //     });
-  //   } catch (error: any) {
-  //     console.error('Error signing in with Google:', error);
-  //   }
-  // };
-
   const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-    .then((result) => {
-      closeModal();
-      toast.success('Signed up successfully!', {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2000, // Adjust the duration as needed
-      });
-    }).catch((error) => {
-      console.error('Error signing in with Google:', error);
-    });
-  };
-
-  // const signInWithGoogle = async () => {
-  //   const provider = new GoogleAuthProvider();
-  //   signInWithPopup(auth, provider)
-  //     .then((result) => {
-  //       closeModal();
-  //       toast.success('Signed up successfully!', {
-  //         position: toast.POSITION.TOP_CENTER,
-  //         autoClose: 2000, // Adjust the duration as needed
-  //       });
-  //     }).catch((error) => {
-  //         // Handle Errors here.
-  //         const errorCode = error.code;
-  //         const errorMessage = error.message;
-  //         console.error(`Sign-in error: ${errorMessage}`);
-  //     });
-  // };
-  // const signInWithGoogle = async () => {
-  //   try {  
-  //     const provider = new GoogleAuthProvider();
-  //     const result = await signInWithPopup(auth, provider);
-  
-  //     const credential = GoogleAuthProvider.credentialFromResult(result);
-  //     const token = credential?.accessToken;
-  //     const user = result.user;
-  
-  //     // Close the modal
-  //     closeModal();
-  
-  //     // Save user information to Firestore
-  //     const db = getFirestore();
-  //     const usersCollection = collection(db, 'users');
-  //     await addDoc(usersCollection, { userId: user.uid, email: user.email });
-  
-  //     // Show a toast message
-  //     toast.success('Signed up successfully!', {
-  //       position: toast.POSITION.TOP_CENTER,
-  //       autoClose: 2000,
-  //     });
-  //   } catch (error: any) {
-  //     // Handle Errors here.
-  //     const errorCode = error.code;
-  //     const errorMessage = error.message;
-  //     // The email of the user's account used.
-  //     const email = error.customData?.email;
-  //     // The AuthCredential type that was used.
-  //     const credential = GoogleAuthProvider.credentialFromError(error);
-  //     // Handle other errors as needed.
-  //     console.error(`Sign-in error: ${errorMessage}`);
-  //   }
-  // };
-
-  const signInWithFacebook = async () => {
-    // Implement Facebook sign-in logic using Firebase
-    const provider = new FacebookAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider);
-      const credential = FacebookAuthProvider.credentialFromResult(result);
-      const token = credential?.accessToken;
-    } catch (error: any) {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      switch (errorCode) {
-        case 'auth/invalid-email':
-          // Handle invalid email error
-          break;
-        case 'auth/user-not-found':
-          // Handle user not found error
-          break;
-        case 'auth/wrong-password':
-          // Handle wrong password error
-          break;
-        case 'auth/email-already-in-use':
-          // Handle email already in use error
-          break;
-        case 'auth/weak-password':
-          // Handle weak password error
-          break;
-        default:
-          // Handle other unexpected errors
-          console.error(`Sign-in error: ${errorMessage}`);
-          break;
-      }
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      toast.success('Account created successfully!');
+      signUpModalRef.current?.close();
+    } catch (e: any) {
+      toast.error(e.message);
     }
   };
 
   const signInWithGithub = async () => {
-    // Implement GitHub sign-in logic using Firebase
-    const provider = new GithubAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider);
-      const credential = GithubAuthProvider.credentialFromResult(result);
-      const token = credential?.accessToken;
-    } catch (error: any) {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      switch (errorCode) {
-        case 'auth/invalid-email':
-          // Handle invalid email error
-          break;
-        case 'auth/user-not-found':
-          // Handle user not found error
-          break;
-        case 'auth/wrong-password':
-          // Handle wrong password error
-          break;
-        case 'auth/email-already-in-use':
-          // Handle email already in use error
-          break;
-        case 'auth/weak-password':
-          // Handle weak password error
-          break;
-        default:
-          // Handle other unexpected errors
-          console.error(`Sign-in error: ${errorMessage}`);
-          break;
-      }
+      const provider = new GithubAuthProvider();
+      await signInWithPopup(auth, provider);
+      toast.success('Account created successfully!');
+      signUpModalRef.current?.close();
+    } catch (e: any) {
+      toast.error(e.message);
     }
   };
 
@@ -216,38 +61,13 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
     const email = emailInput.value;
     const password = passwordInput.value;
 
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const userId = userCredential.user.uid;
-      const db = getFirestore();
-      const usersCollection = collection(db, 'users');
-      addDoc(usersCollection, { userId, email });
-      closeModal();
-      toast.success('Signed up successfully!', {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 2000, // Adjust the duration as needed
-      });
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    });
-    // try {
-    //   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    //   const userId = userCredential.user.uid;
-    //   const db = getFirestore();
-    //   const usersCollection = collection(db, 'users');
-    //   addDoc(usersCollection, { userId, email });
-    //   closeModal();
-    //   toast.success('Signed up successfully!', {
-    //     position: toast.POSITION.BOTTOM_RIGHT,
-    //     autoClose: 2000, // Adjust the duration as needed
-    //   });
-    // } catch (error) {
-    //   // console.log(`There was an error: ${error}`);
-    // }
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      toast.success('Account created successfully!');
+      signUpModalRef.current?.close();
+    } catch {
+      toast.error('Something went wrong!');
+    }
   };
 
   return (
@@ -281,14 +101,6 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
             />
             Sign Up with Google
           </button>
-          <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithFacebook}>
-            <img
-              className="h-3/4"
-              alt="facebook icon"
-              src="/logos/facebook.svg"
-            />
-            Sign Up with Facebook
-          </button>
           <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
             <img
               className="h-3/4"
@@ -304,11 +116,11 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
           </div>
           <div className="w-full">
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <input id="email" type="text" placeholder="Enter your email" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
+            <input id="email" type="email" placeholder="Enter your email" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
           </div>
           <div className="w-full">
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <input id="password" type="text" placeholder="Enter your pasword" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
+            <input id="password" type="password" placeholder="Enter your pasword" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
           </div>
           <button className="relative font-varela normal-case btn w-full text-white text-lg bg-gradient-to-r from-primary to-secondary" type="button" onClick={createAccount}>
             <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full bg-gradient-to-l from-primary to-secondary rounded-md flex justify-center items-center">Create Account</div>
