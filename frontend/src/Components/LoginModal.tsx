@@ -29,26 +29,24 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
   };
   
   const signInWithGoogle = async () => {
-    // Implement Google sign-in logic using Firebase
-    const provider = new GoogleAuthProvider();
     try {
+      const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
       toast.success('Logged in successfully!');
-      loginModalRef.current?.close();
+      signUpModalRef.current?.close();
     } catch (e: any) {
-      toast(e.message);
+      toast.error(e.message);
     }
   };
 
   const signInWithGithub = async () => {
-    // Implement GitHub sign-in logic using Firebase
-    const provider = new GithubAuthProvider();
     try {
+      const provider = new GithubAuthProvider();
       await signInWithPopup(auth, provider);
       toast.success('Logged in successfully!');
-      loginModalRef.current?.close();
+      signUpModalRef.current?.close();
     } catch (e: any) {
-      toast(e.message);
+      toast.error(e.message);
     }
   };
 
@@ -62,9 +60,9 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       toast.success('Logged in successfully!');
-      loginModalRef.current?.close();
-    } catch (error: any) {
-      toast(error.message);
+      signUpModalRef.current?.close();
+    } catch {
+      toast.error('Something went wrong!');
     }
   };
 
