@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { auth } from '../enviroments/firebase';
 import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { toast } from 'react-toastify';
 
 interface LoginModalRef {
   loginModalRef: MutableRefObject<HTMLDialogElement | null>
@@ -24,81 +25,38 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
       signUpModalRef.current.showModal();
     }
   };
+  
   const signInWithGoogle = async () => {
-    // Implement Google sign-in logic using Firebase
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-      }).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      toast.success('Logged in successfully!');
+      signUpModalRef.current?.close();
+    } catch (e: any) {
+      toast.error(e.message);
+    }
   };
 
   const signInWithFacebook = async () => {
-    // Implement Facebook sign-in logic using Firebase
-    const provider = new FacebookAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // The signed-in user info.
-        const user = result.user;
-
-        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        const credential = FacebookAuthProvider.credentialFromResult(result);
-        const accessToken = credential?.accessToken;
-
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = FacebookAuthProvider.credentialFromError(error);
-
-        // ...
-      });
+    try {
+      const provider = new FacebookAuthProvider();
+      await signInWithPopup(auth, provider);
+      toast.success('Logged in successfully!');
+      signUpModalRef.current?.close();
+    } catch (e: any) {
+      toast.error(e.message);
+    }
   };
 
   const signInWithGithub = async () => {
-    // Implement GitHub sign-in logic using Firebase
-    const provider = new GithubAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-        const credential = GithubAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
-
-        // The signed-in user info.
-        const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-      }).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GithubAuthProvider.credentialFromError(error);
-        // ...
-      });
+    try {
+      const provider = new GithubAuthProvider();
+      await signInWithPopup(auth, provider);
+      toast.success('Logged in successfully!');
+      signUpModalRef.current?.close();
+    } catch (e: any) {
+      toast.error(e.message);
+    }
   };
 
   const loginEmailPassword = async () => {
@@ -110,10 +68,13 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      console.log(`There was an error: ${error}`);
+      toast.success('Logged in successfully!');
+      signUpModalRef.current?.close();
+    } catch {
+      toast.error('Something went wrong!');
     }
   };
+
   return (
     <dialog ref={loginModalRef} className="modal modal-bottom sm:modal-middle">
       <form method="dialog" className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 w-full  md:w-11/12 sm:max-w-5xl bg-white md:bg-gradient-to-br md:from-green-400 md:to-cyan-500 md:to-60%">

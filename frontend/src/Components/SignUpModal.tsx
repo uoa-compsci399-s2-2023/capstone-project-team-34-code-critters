@@ -2,13 +2,21 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { MutableRefObject } from 'react';
 import {
+  addDoc,
+  collection,
+  getFirestore,
+} from 'firebase/firestore';
+import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  FacebookAuthProvider,
   GithubAuthProvider,
+  signOut,
 } from 'firebase/auth';
-import { toast } from 'react-toastify';
 import { auth } from '../enviroments/firebase';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface SignUpModalProps {
   signUpModalRef: MutableRefObject<HTMLDialogElement | null>
@@ -34,6 +42,17 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      toast.success('Account created successfully!');
+      signUpModalRef.current?.close();
+    } catch (e: any) {
+      toast.error(e.message);
+    }
+  };
+
+  const signInWithFacebook = async () => {
+    try {
+      const provider = new FacebookAuthProvider();
       await signInWithPopup(auth, provider);
       toast.success('Account created successfully!');
       signUpModalRef.current?.close();
@@ -101,6 +120,14 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
             />
             Sign Up with Google
           </button>
+          <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithFacebook}>
+            <img
+              className="h-3/4"
+              alt="facebook icon"
+              src="/logos/facebook.svg"
+            />
+            Sign Up with Facebook
+          </button>
           <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
             <img
               className="h-3/4"
@@ -116,11 +143,11 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
           </div>
           <div className="w-full">
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <input id="email" type="email" placeholder="Enter your email" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
+            <input id="email" type="text" placeholder="Enter your email" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
           </div>
           <div className="w-full">
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <input id="password" type="password" placeholder="Enter your pasword" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
+            <input id="password" type="text" placeholder="Enter your pasword" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
           </div>
           <button className="relative font-varela normal-case btn w-full text-white text-lg bg-gradient-to-r from-primary to-secondary" type="button" onClick={createAccount}>
             <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full bg-gradient-to-l from-primary to-secondary rounded-md flex justify-center items-center">Create Account</div>
