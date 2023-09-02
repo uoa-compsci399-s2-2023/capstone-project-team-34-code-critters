@@ -1,9 +1,11 @@
 import React, { MutableRefObject } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { auth } from '../enviroments/firebase';
-import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import {
+  GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup,
+} from 'firebase/auth';
 import { toast } from 'react-toastify';
+import { auth } from '../enviroments/firebase';
 
 interface LoginModalRef {
   loginModalRef: MutableRefObject<HTMLDialogElement | null>
@@ -27,35 +29,26 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
   };
   
   const signInWithGoogle = async () => {
+    // Implement Google sign-in logic using Firebase
+    const provider = new GoogleAuthProvider();
     try {
-      const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
       toast.success('Logged in successfully!');
-      signUpModalRef.current?.close();
+      loginModalRef.current?.close();
     } catch (e: any) {
-      toast.error(e.message);
-    }
-  };
-
-  const signInWithFacebook = async () => {
-    try {
-      const provider = new FacebookAuthProvider();
-      await signInWithPopup(auth, provider);
-      toast.success('Logged in successfully!');
-      signUpModalRef.current?.close();
-    } catch (e: any) {
-      toast.error(e.message);
+      toast(e.message);
     }
   };
 
   const signInWithGithub = async () => {
+    // Implement GitHub sign-in logic using Firebase
+    const provider = new GithubAuthProvider();
     try {
-      const provider = new GithubAuthProvider();
       await signInWithPopup(auth, provider);
       toast.success('Logged in successfully!');
-      signUpModalRef.current?.close();
+      loginModalRef.current?.close();
     } catch (e: any) {
-      toast.error(e.message);
+      toast(e.message);
     }
   };
 
@@ -69,9 +62,9 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       toast.success('Logged in successfully!');
-      signUpModalRef.current?.close();
-    } catch {
-      toast.error('Something went wrong!');
+      loginModalRef.current?.close();
+    } catch (error: any) {
+      toast(error.message);
     }
   };
 
@@ -105,14 +98,6 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
             />
             Login with Google
           </button>
-          <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithFacebook}>
-            <img
-              className="h-3/4"
-              alt="facebook icon"
-              src="/logos/facebook.svg"
-            />
-            Login with Facebook
-          </button>
           <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
             <img
               className="h-3/4"
@@ -128,7 +113,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
           </div>
           <div className="w-full">
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <input id="password" type="text" placeholder="Enter your password" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
+            <input id="password" type="password" placeholder="Enter your password" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
           </div>
           <button className="relative font-varela btn w-full text-white text-lg bg-gradient-to-r from-green-400 to-cyan-500" type="button" onClick={loginEmailPassword}>
             <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full bg-gradient-to-l from-green-400 to-cyan-500 rounded-md flex justify-center items-center">Login</div>
