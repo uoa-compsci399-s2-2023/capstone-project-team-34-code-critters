@@ -1,8 +1,11 @@
 import React, { MutableRefObject } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import {
+  GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup,
+} from 'firebase/auth';
+import { toast } from 'react-toastify';
 import { auth } from '../enviroments/firebase';
-import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
 interface LoginModalRef {
   loginModalRef: MutableRefObject<HTMLDialogElement | null>
@@ -27,78 +30,25 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
   const signInWithGoogle = async () => {
     // Implement Google sign-in logic using Firebase
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-      }).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
-  };
-
-  const signInWithFacebook = async () => {
-    // Implement Facebook sign-in logic using Firebase
-    const provider = new FacebookAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // The signed-in user info.
-        const user = result.user;
-
-        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        const credential = FacebookAuthProvider.credentialFromResult(result);
-        const accessToken = credential?.accessToken;
-
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = FacebookAuthProvider.credentialFromError(error);
-
-        // ...
-      });
+    try {
+      await signInWithPopup(auth, provider);
+      toast.success('Logged in successfully!');
+      loginModalRef.current?.close();
+    } catch (e: any) {
+      toast(e.message);
+    }
   };
 
   const signInWithGithub = async () => {
     // Implement GitHub sign-in logic using Firebase
     const provider = new GithubAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-        const credential = GithubAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
-
-        // The signed-in user info.
-        const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-      }).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GithubAuthProvider.credentialFromError(error);
-        // ...
-      });
+    try {
+      await signInWithPopup(auth, provider);
+      toast.success('Logged in successfully!');
+      loginModalRef.current?.close();
+    } catch (e: any) {
+      toast(e.message);
+    }
   };
 
   const loginEmailPassword = async () => {
@@ -110,8 +60,10 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      console.log(`There was an error: ${error}`);
+      toast.success('Logged in successfully!');
+      loginModalRef.current?.close();
+    } catch (error: any) {
+      toast(error.message);
     }
   };
   return (
@@ -144,14 +96,6 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
             />
             Login with Google
           </button>
-          <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithFacebook}>
-            <img
-              className="h-3/4"
-              alt="facebook icon"
-              src="/logos/facebook.svg"
-            />
-            Login with Facebook
-          </button>
           <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
             <img
               className="h-3/4"
@@ -167,7 +111,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
           </div>
           <div className="w-full">
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <input id="password" type="text" placeholder="Enter your password" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
+            <input id="password" type="password" placeholder="Enter your password" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
           </div>
           <button className="relative font-varela btn w-full text-white text-lg bg-gradient-to-r from-green-400 to-cyan-500" type="button" onClick={loginEmailPassword}>
             <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full bg-gradient-to-l from-green-400 to-cyan-500 rounded-md flex justify-center items-center">Login</div>
