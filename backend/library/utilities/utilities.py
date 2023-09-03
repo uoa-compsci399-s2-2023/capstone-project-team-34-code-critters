@@ -14,16 +14,16 @@ from library.utilities.inference import get_prediction
 utils_api = APIRouter(tags=["Utilities"])
 
 ################ Global Variables ################
-img_path = Settings().UPLOAD_FOLDER
-models_path = Settings().MODEL_FOLDER
-isProduction = Settings().FLASK_ENV == 'production'
+img_path = Settings.UPLOAD_FOLDER
+models_path = Settings.MODEL_FOLDER
+isProduction = Settings.FLASK_ENV == 'production'
 
 ################ Helper Functions ################
 def is_file_allowed(filename):
     if not "." in filename:
         return False
     ext = filename.rsplit(".", 1)[1]
-    return ext.upper() in Settings().ALLOWED_IMAGE_EXTENSIONS
+    return ext.upper() in Settings.ALLOWED_IMAGE_EXTENSIONS
 
 ################ API Endpoints ################
 
