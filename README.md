@@ -97,17 +97,17 @@ $ uvicorn asgi:app --reload
 ```` 
 #### Running the application (Production)(Windows)
 ````shell
-$ hypercorn main:app --bind 0.0.0.0:80
+$ hypercorn main:app --bind 0.0.0.0:6789
 ```````
 or
 ````shell
-$ uvicorn asgi:app --bind 0.0.0.0:80
+$ uvicorn asgi:app --bind 0.0.0.0:6789
 ```` 
 #### Running the application via Gunicorn (Production)(LINUX or WSL Only)
 From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
 
 ````shell
-$ gunicorn asgi:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:80
+$ gunicorn asgi:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:6789
 ```` 
 
 ## FrontEnd Setup
@@ -167,6 +167,11 @@ From the root folder run the following commands:
 .\build.ps1
 ```
 
+### Linux Instructions
+From the root folder run the following commands:
+```shell
+.\build.sh
+```
 
 # Template
 
