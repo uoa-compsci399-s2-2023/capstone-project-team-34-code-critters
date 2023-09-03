@@ -1,11 +1,11 @@
-import React, { MutableRefObject } from 'react';
+import React, { MutableRefObject, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import {
   GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup,
 } from 'firebase/auth';
-import { toast } from 'react-toastify';
 import { auth } from '../enviroments/firebase';
+import Toast from './Toast';
 
 interface LoginModalRef {
   loginModalRef: MutableRefObject<HTMLDialogElement | null>
@@ -13,6 +13,11 @@ interface LoginModalRef {
 }
 
 function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
+  const [toast, setToast] = useState({ message: '', type: '' });
+  const setToastMessage = (message: string, type: 'success' | 'info' | 'warning' | 'error' | '') => {
+    setToast({ message, type });
+  };
+
   const closeModal = () => {
     if (loginModalRef.current) {
       loginModalRef.current.close();
@@ -27,15 +32,15 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
       signUpModalRef.current.showModal();
     }
   };
-  
+
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-      toast.success('Logged in successfully!');
-      signUpModalRef.current?.close();
+      setToastMessage('Logged in with Google', 'success');
+      closeModal();
     } catch (e: any) {
-      toast.error(e.message);
+      setToastMessage('Google login failed', 'error');
     }
   };
 
@@ -43,10 +48,10 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
     try {
       const provider = new GithubAuthProvider();
       await signInWithPopup(auth, provider);
-      toast.success('Logged in successfully!');
-      signUpModalRef.current?.close();
+      setToastMessage('Logged in with Github', 'success');
+      closeModal();
     } catch (e: any) {
-      toast.error(e.message);
+      setToastMessage('Github login failed', 'error');
     }
   };
 
@@ -59,14 +64,22 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      toast.success('Logged in successfully!');
-      signUpModalRef.current?.close();
+      setToastMessage('Logged in with Email', 'success');
+      closeModal();
     } catch {
-      toast.error('Something went wrong!');
+      setToastMessage('Email login failed', 'error');
     }
   };
 
   return (
+    <div>
+    {toast.message && (
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: '', type: '' })}
+      />
+    )}
     <dialog ref={loginModalRef} className="modal modal-bottom sm:modal-middle">
       <form method="dialog" className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 w-full  md:w-11/12 sm:max-w-5xl bg-white md:bg-gradient-to-br md:from-green-400 md:to-cyan-500 md:to-60%">
         <div className="relative hidden md:flex flex-col px-14 py-24">
@@ -129,6 +142,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
         <button type="button" onClick={closeModal}>close</button>
       </form>
     </dialog>
+    </div>
   );
 }
 
