@@ -58,6 +58,12 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
     }
   };
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const createAccount = async () => {
     // const auth = getAuth();
     const emailInput = document.getElementById('email') as HTMLInputElement;
@@ -66,13 +72,63 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
     const email = emailInput.value;
     const password = passwordInput.value;
 
+    setIsSubmitting(true);
+
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       setToastMessage('Account created with Google', 'success');
       signUpModalRef.current?.close();
-    } catch {
-      setToastMessage('Email sign up failed', 'error');
+      setIsSubmitting(false);
+    } catch (error) {
+      const errorCode = (error as { code: string }).code;
+      setIsSubmitting(false);
+      if (email.trim() === '' && password.trim() === '') {
+        setEmailError('Please enter an Email');
+        setPasswordError('Please enter a Password');
+        return;
+      }
+      if (email.trim() === '') {
+        setEmailError('Please enter an Email');
+        return;
+      }
+      if (password.trim() === '') {
+        setPasswordError('Please enter a Password');
+        return;
+      }
+      switch (errorCode) {
+        case 'auth/email-already-in-use':
+          setEmailError('Email already in use.');
+          setPasswordError('');
+          break;
+        case 'auth/invalid-email':
+          setEmailError('Invalid email address.');
+          setPasswordError('');
+          break;
+        case 'auth/weak-password':
+          setEmailError('');
+          setPasswordError('Weak password. Please use a stronger password.');
+          break;
+        default:
+          setEmailError('');
+          setPasswordError('');
+          setToastMessage('Email sign up failed', 'error');
+          break;
+      }
     }
+  };
+
+  const isFormValid = email && password;
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    setEmailError('');
+    setIsSubmitting(false);
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    setPasswordError('');
+    setIsSubmitting(false);
   };
 
   return (
@@ -124,19 +180,39 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
           </button>
           <div className="font-varela divider text-neutral-400 before:bg-neutral-200 after:bg-neutral-200 cursor-default">OR</div>
           <div className="w-full">
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <input id="email" type="email" placeholder="Enter your email" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
+            <input id="email" type="email" placeholder="Enter your email" className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${emailError ? 'border-red-500' : ''}`}
+              value={email}
+              onChange={handleEmailChange} 
+            />
+            {emailError && (
+              <div className="text-red-500 font-varela text-sm">{emailError}</div>
+            )}
           </div>
           <div className="w-full">
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <input id="password" type="password" placeholder="Enter your pasword" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
+            <input id="password" type="password" placeholder="Enter your pasword" className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${passwordError ? 'border-red-500' : ''}`}
+              value={password}
+              onChange={handlePasswordChange}
+            />
+            {passwordError && (
+              <div className="text-red-500 font-varela text-sm">{passwordError}</div>
+            )}
           </div>
-          <button className="relative font-varela normal-case btn w-full text-white text-lg bg-gradient-to-r from-primary to-secondary" type="button" onClick={createAccount}>
-            <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full bg-gradient-to-l from-primary to-secondary rounded-md flex justify-center items-center">Create Account</div>
+          <button
+            className={`relative font-varela normal-case btn w-full text-white text-lg ${
+              (emailError || passwordError || isSubmitting) ? 'cursor-not-allowed' : 'bg-gradient-to-r from-primary to-secondary'
+            }`}
+            type="button"
+            onClick={createAccount}
+            {...((emailError || passwordError || isSubmitting) ? { disabled: true } : {})}
+          >
+            <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${
+          (emailError) ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'
+            }`}>
+              Create Account
+            </div>
             Create Account
           </button>
           <div className="text-neutral-500 font-varela cursor-default">
-            {/* eslint-disable-next-line react/no-unescaped-entities */}
             Already have an account?
             {' '}
             <button type="button" className="relative font-varela cursor-pointer text-green-500" onClick={openLoginModal}>Log In</button>
