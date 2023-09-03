@@ -1,4 +1,4 @@
-FROM python:3.11.1
+FROM python:3.11.1-slim-buster
 
 # Set environment variables
 ENV FLASK_ENV="production"
@@ -15,15 +15,15 @@ COPY ./backend /app
 COPY ./backend/library /app/library
 
 # Overwrite environment variables to .env file
-RUN echo "FLASK_ENV='${FLASK_ENV}'" > /app/.env
-RUN echo "FLASK_DEPLOYMENT='${FLASK_DEPLOYMENT}'" >> /app/.env
-RUN echo "UPLOAD_FOLDER='${UPLOAD_FOLDER}'" >> /app/.env
-RUN echo "STORAGE_FOLDER='${STORAGE_FOLDER}'" >> /app/.env
-RUN echo "MODEL_FOLDER='${MODEL_FOLDER}'" >> /app/.env
-RUN echo "ALLOWED_IMAGE_EXTENSIONS=['PNG', 'JPG', 'JPEG', 'GIF']" >> /app/.env
+RUN echo "FLASK_ENV='${FLASK_ENV}'" > /app/.env && \
+    echo "FLASK_DEPLOYMENT='${FLASK_DEPLOYMENT}'" >> /app/.env && \
+    echo "UPLOAD_FOLDER='${UPLOAD_FOLDER}'" >> /app/.env && \
+    echo "STORAGE_FOLDER='${STORAGE_FOLDER}'" >> /app/.env && \
+    echo "MODEL_FOLDER='${MODEL_FOLDER}'" >> /app/.env && \
+    echo "ALLOWED_IMAGE_EXTENSIONS=['PNG', 'JPG', 'JPEG', 'GIF']" >> /app/.env
 
 # Install dependencies
-RUN pip3 install --no-deps -r ubuntu_requirements.txt
+RUN pip3 install --no-cache-dir --no-deps -r ubuntu_requirements.txt
 
 EXPOSE 6789
 # Run the server
