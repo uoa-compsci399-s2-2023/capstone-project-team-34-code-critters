@@ -1,36 +1,37 @@
 import React, { useState, useEffect } from 'react';
 
 interface ToastProps {
-    message: string;
-    type: "success" | "info" | "warning" | "error" | string;
-    onClose: () => void;
+  message: string;
+  type: 'success' | 'info' | 'warning' | 'error' | string;
+  onClose: () => void;
 }
 
 function Toast({ message, type, onClose }: ToastProps) {
-    const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(true);
 
-    useEffect(() => {
+  useEffect(() => {
     const timer = setTimeout(() => {
-        setVisible(false);
-        onClose();
+      setVisible(false);
+      onClose();
     }, 5000); // Adjust the duration (in milliseconds) as needed
 
     return () => {
-        clearTimeout(timer);
+      clearTimeout(timer);
     };
-    }, [onClose]);
+  }, [onClose]);
 
-    const alertClass = type ? `alert alert-${type}` : 'alert';
+  const alertClass = type ? `alert alert-${type}` : 'alert';
 
-    return visible ? (
+  return visible ? (
     <div className="toast">
-        <div className={`${alertClass}`}>
-            <span>{message}</span>
-            <button onClick={() => setVisible(false)}>&times;</button>
-        </div>
+      <div className={`${alertClass}`}>
+        <span>{message}</span>
+        <button type="button" onClick={() => setVisible(false)}>
+          &times;
+        </button>
+      </div>
     </div>
-    ) : null;
+  ) : null;
 }
 
 export default Toast;
-
