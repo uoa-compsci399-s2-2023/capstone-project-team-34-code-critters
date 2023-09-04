@@ -206,7 +206,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
               className={`relative font-varela normal-case btn w-full text-white text-lg ${(emailError || passwordError || isSubmitting) ? 'cursor-not-allowed' : 'bg-gradient-to-r from-primary to-secondary'}`}
               type="button"
               onClick={createAccount}
-              {...((emailError || passwordError || isSubmitting) ? { disabled: true } : {})}
+              disabled={emailError || passwordError || isSubmitting ? true : undefined}
             >
               <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${(emailError) ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
                 Create Account
