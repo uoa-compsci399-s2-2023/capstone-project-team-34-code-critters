@@ -91,9 +91,6 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
       } else if (inputpassword.trim() === '') {
         setPasswordError('Please enter a Password');
         return;
-      } else if (password.length < 6) {
-        setPasswordError('Password must be at least 6 characters long.');
-        return;
       }
       switch (errorCode) {
         case 'auth/email-already-in-use':
@@ -106,7 +103,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
           break;
         case 'auth/weak-password':
           setEmailError('');
-          setPasswordError('Weak password. Please use a stronger password.');
+          setPasswordError('Password must be at least 6 characters long.');
           break;
         default:
           setEmailError('');
