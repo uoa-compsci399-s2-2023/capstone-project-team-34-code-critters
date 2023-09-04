@@ -85,13 +85,14 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
         setEmailError('Please enter an Email');
         setPasswordError('Please enter a Password');
         return;
-      }
-      if (inputemail.trim() === '') {
+      } else if (inputemail.trim() === '') {
         setEmailError('Please enter an Email');
         return;
-      }
-      if (inputpassword.trim() === '') {
+      } else if (inputpassword.trim() === '') {
         setPasswordError('Please enter a Password');
+        return;
+      } else if (password.length < 6) {
+        setPasswordError('Password must be at least 6 characters long.');
         return;
       }
       switch (errorCode) {
