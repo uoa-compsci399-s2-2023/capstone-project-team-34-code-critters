@@ -172,6 +172,9 @@ From the root folder run the following commands:
 ```shell
 .\build.sh
 ```
+## Deployment
+### AWS Backend
+Instructions are at the [[Wiki](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters/wiki/How-to-deploy-Backend)]
 
 # Template
 
@@ -187,7 +190,7 @@ From the root folder run the following commands:
 
 ## Usage Examples
 
-## Deployment
+
 
 ## Future Plans
 

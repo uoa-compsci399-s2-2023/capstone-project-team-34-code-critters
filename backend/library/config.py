@@ -15,5 +15,4 @@ class settingsModel(BaseSettings):
 
     ALLOWED_IMAGE_EXTENSIONS: [list] = ['PNG', 'JPG', 'JPEG', 'GIF']
 
-
 Settings = settingsModel()
