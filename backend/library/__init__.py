@@ -41,7 +41,9 @@ def create_app(config=None, aargs = None):
     origins = [
     "http://localhost",
     "http://localhost:80",
-    "http://localhost:5000"
+    "http://localhost:5000",
+    "http://localhost:3000"
+
     ]
 
     app.add_middleware(
