@@ -1,3 +1,8 @@
+############# MODEL TAR CREATION #############
+# This script will create a tar archive of each model file in the backend/library/models folder
+# and place it in the root directory of the project.
+# This is intended for uploads to AWS S3 storage for deployment to sageMaker.
+
 # Navigate to root and sets a var
 Set-Location ..
 $rootDir = Get-Location

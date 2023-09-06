@@ -1,4 +1,6 @@
-#!/bin/bash
+################ Build Linux Package ################
+# This script builds the frontend and copies it to the backend
+# The script then packages the backend into a portable executable
 
 # Set variables
 rootPath=$(pwd)
