@@ -191,3 +191,4 @@ model.h5
 /misc/**.json
 /misc/.env
 **.tflite
+**.gz
