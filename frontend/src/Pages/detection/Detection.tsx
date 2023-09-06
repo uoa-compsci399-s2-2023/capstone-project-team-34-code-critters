@@ -11,6 +11,7 @@ function Detection() {
   const [isLoading, setIsLoading] = useState<boolean[]>([]);
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [numToShow, setNumToShow] = useState(5);
+  const [isChecked, setIsChecked] = useState<boolean[]>(new Array(selectedImages.length).fill(false));
 
   const handleShowMore = (pred: string[][]) => {
     setNumToShow(pred.length); // Show all predictions
@@ -28,6 +29,12 @@ function Detection() {
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedImages([...selectedImages, ...Array.from(event.target.files!)]);
     setIsLoading([...isLoading, ...Array.from(event.target.files!).map(() => false)]);
+  };
+
+  const handleCheckbox = (index: number) => {
+    const newCheck = [...isChecked];
+    newCheck[index] = !newCheck[index]
+    setIsChecked(newCheck);
   };
 
   useEffect(() => {
@@ -90,6 +97,33 @@ function Detection() {
     }
   };
 
+  const downloadPredictions = async () => {
+    const selectedPredictions = predictions.filter((_, index) => isChecked[index]);
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/v1/create_csv', {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(selectedPredictions),
+      });
+      if (response.ok){
+        const data = await response.text();
+        const blob = new Blob([data], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'predictions.csv';
+        a.click();
+        window.URL.revokeObjectURL(url);
+      } else{
+        console.error('Failed to fetch CSV data');
+      }
+    } catch (error) {
+      console.error('Error fetching CSV data:', error);
+    }
+  };
+
   return (
     <div className="w-full h-full flex justify-center overflow-y-auto">
       <div className="max-w-4xl w-11/12 flex flex-col items-center px-4 py-10 my-10 h-fit">
@@ -127,8 +161,19 @@ function Detection() {
         </div>
         <div className="mt-4 w-full flex flex-col gap-4">
           {selectedImageUrls.map((imageUrl, index) => (
-            <div className="flex w-full items-center justify-between px-4 gap-4" key={index}>
+            <div className="flex w-full items-center justify-between px-4 gap-4" key={index} onClick={() => handleCheckbox(index)}>
               <div className="flex gap-4 items-center">
+                <input
+                  type='checkbox'
+                  checked = {isChecked[index]}
+                  onChange={() => handleCheckbox(index)}
+                  style={{
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '7px',
+                    cursor: 'pointer',
+                  }}
+                />
                 <img
                   src={imageUrl}
                   alt={`Selected ${index + 1}`}
@@ -200,6 +245,13 @@ function Detection() {
                     </div>
                   ))
               }
+              <div>
+              <button className="relative px-8 py-4 text-white font-semibold rounded-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-purple-500 hover:to-blue-500 shadow-2xl transform hover:scale-110 transition-all duration-300">
+                  <span className="relative z-10"
+                  onClick={downloadPredictions}
+                  >Download </span>
+                </button>
+              </div>
               {
                                 prediction.pred.length > numToShow ? (
                                   <button
