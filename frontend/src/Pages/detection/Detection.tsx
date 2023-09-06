@@ -100,10 +100,16 @@ function Detection() {
   const downloadPredictions = async () => {
     const selectedPredictions = predictions.filter((_, index) => isChecked[index]);
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/v1/create_csv', {
+      let apiUrl = '';
+      if (process.env.REACT_APP_BACKEND_URL) {
+        apiUrl = process.env.REACT_APP_BACKEND_URL;
+      } else {
+        apiUrl = 'http://code-critters.onrender.com/';
+      }
+      const response = await fetch(`${apiUrl}/api/v1/create_csv`, {
         method: 'POST',
         headers: {
-          'Content-Type' : 'application/json'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(selectedPredictions),
       });
