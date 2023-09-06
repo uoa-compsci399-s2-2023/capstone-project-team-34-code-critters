@@ -33,7 +33,7 @@ function Detection() {
 
   const handleCheckbox = (index: number) => {
     const newCheck = [...isChecked];
-    newCheck[index] = !newCheck[index]
+    newCheck[index] = !newCheck[index];
     setIsChecked(newCheck);
   };
 
@@ -104,7 +104,7 @@ function Detection() {
       if (process.env.REACT_APP_BACKEND_URL) {
         apiUrl = process.env.REACT_APP_BACKEND_URL;
       } else {
-        apiUrl = 'http://code-critters.onrender.com/';
+        apiUrl = 'http://code-critters.onrender.com';
       }
       const response = await fetch(`${apiUrl}/api/v1/create_csv`, {
         method: 'POST',
@@ -256,7 +256,7 @@ function Detection() {
                   <span className="relative z-10"
                   onClick={downloadPredictions}
                   >Download </span>
-                </button>
+              </button>
               </div>
               {
                                 prediction.pred.length > numToShow ? (

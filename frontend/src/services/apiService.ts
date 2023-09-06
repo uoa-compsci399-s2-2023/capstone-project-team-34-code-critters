@@ -9,7 +9,7 @@ if (process.env.REACT_APP_BACKEND_URL) {
   apiUrl = 'http://code-critters.onrender.com/';
 }
 
-export const getPredictions = (formData: FormData) => axios.post<Prediction[]>(`${apiUrl}api/v1/upload_json`, formData, {
+export const getPredictions = (formData: FormData) => axios.post<Prediction[]>(`${apiUrl}/api/v1/upload_json`, formData, {
   headers: {
 
     'Content-Type': 'multipart/form-data',
