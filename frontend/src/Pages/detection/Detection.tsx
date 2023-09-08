@@ -12,7 +12,7 @@ function Detection() {
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [numToShow, setNumToShow] = useState(5);
   // eslint-disable-next-line max-len
-  const [isChecked, setIsChecked] = useState<boolean[]>(new Array(selectedImages.length).fill(false));
+  const [isChecked, setIsChecked] = useState<boolean[]>([]);
   const handleShowMore = (pred: string[][]) => {
     setNumToShow(pred.length); // Show all predictions
   };
@@ -29,6 +29,7 @@ function Detection() {
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedImages([...selectedImages, ...Array.from(event.target.files!)]);
     setIsLoading([...isLoading, ...Array.from(event.target.files!).map(() => false)]);
+    setIsChecked([...isChecked, ...Array.from(event.target.files!).map(() => false)]);
   };
 
   const handleCheckbox = (index: number) => {
@@ -36,7 +37,21 @@ function Detection() {
     newCheck[index] = !newCheck[index];
     setIsChecked(newCheck);
   };
+  
+  const removeCheckboxState = (index: number) => {
+    const newCheck = [...isChecked];
+    newCheck.splice(index, 1);
+    setIsChecked(newCheck);
+  };
 
+  const toggleAllCheckboxes = () => {
+    if (isChecked.every(value => value === true)) {
+      setIsChecked(new Array(selectedImages.length).fill(false));
+    } else {
+      setIsChecked(new Array(selectedImages.length).fill(true));
+    }
+  };
+  
   useEffect(() => {
     if (selectedImages.length < 1) return;
     const newImageUrls: string[] = [];
@@ -80,6 +95,8 @@ function Detection() {
     const newPredictions = [...predictions];
     newPredictions.splice(index, 1);
     setPredictions(newPredictions);
+
+    removeCheckboxState(index);
   };
 
   const openModel = (index: number) => {
@@ -99,6 +116,9 @@ function Detection() {
 
   const downloadPredictions = async () => {
     const selectedPredictions = predictions.filter((_, index) => isChecked[index]);
+    if (selectedPredictions.length === 0) {
+      return;
+    }
     try {
       let apiUrl = '';
       if (process.env.REACT_APP_BACKEND_URL) {
@@ -106,7 +126,7 @@ function Detection() {
       } else {
         apiUrl = 'http://code-critters.onrender.com';
       }
-      const response = await fetch(`${apiUrl}/api/v1/create_csv`, {
+      const response = await fetch(`${apiUrl}api/v1/create_csv`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -165,20 +185,32 @@ function Detection() {
             {selectedImages.length > 0 ? 'Add more images' : 'Upload images'}
           </button>
         </div>
+        <div className="mt-auto flex space-x-5 mt-9 mb-4">
+         <button
+           type="button"
+           className="btn btn-secondary hover:text-white hover:bg-black text-black font-bold py-2 px-4 transform hover:scale-110 transition-all duration-300"
+           onClick={downloadPredictions}
+           disabled={isChecked.every((value) => !value)}
+         >
+          <span className="relative z-10">Download</span>
+        </button>
+        <button 
+          type="button"
+          className="btn btn-secondary text-black hover:bg-black hover:text-white font-bold py-2 px-4 transform hover:scale-110 transition-all duration-300"
+          onClick={toggleAllCheckboxes}
+          >
+          <span className="relative z-10">Toggle All</span>
+        </button>
+      </div>
         <div className="mt-4 w-full flex flex-col gap-4">
           {selectedImageUrls.map((imageUrl, index) => (
             <div className="flex w-full items-center justify-between px-4 gap-4" key={index} onClick={() => handleCheckbox(index)}>
               <div className="flex gap-4 items-center">
                 <input
                   type="checkbox"
-                  checked={isChecked[index]}
+                  checked={isChecked[index] || false}
                   onChange={() => handleCheckbox(index)}
-                  style={{
-                    width: '42px',
-                    height: '42px',
-                    borderRadius: '7px',
-                    cursor: 'pointer',
-                  }}
+                  className="form-checkbox h-10 w-10 text-blue-600"
                 />
                 <img
                   src={imageUrl}
@@ -217,7 +249,7 @@ function Detection() {
           ))}
         </div>
       </div>
-
+      
       {predictions.map((prediction, index) => (
         <dialog id={`prediction-${index}`} className="modal  modal-bottom sm:modal-middle" key={index}>
           <form method="dialog" className="modal-box sm:w-11/12 sm:max-w-3xl">
@@ -233,7 +265,6 @@ function Detection() {
             <h3 className="font-bold text-lg font-varela ">
               Results:
             </h3>
-
             <div className="flex flex-col gap-4 mt-4 items-center">
               {
                 // eslint-disable-next-line max-len
@@ -251,16 +282,6 @@ function Detection() {
                     </div>
                   ))
               }
-              <div>
-                <button type="button" className="relative px-8 py-4 text-white font-semibold rounded-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-purple-500 hover:to-blue-500 shadow-2xl transform hover:scale-110 transition-all duration-300">
-                  <span
-                    className="relative z-10"
-                    onClick={downloadPredictions}
-                  >
-                    Download
-                  </span>
-                </button>
-              </div>
               {
                                 prediction.pred.length > numToShow ? (
                                   <button
