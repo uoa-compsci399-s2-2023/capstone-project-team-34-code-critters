@@ -13,14 +13,14 @@ function Toast({ message, type, onClose }: ToastProps) {
     const timer = setTimeout(() => {
       setVisible(false);
       onClose();
-    }, 5000); // Adjust the duration (in milliseconds) as needed
+    }, 3000); // Adjust the duration (in milliseconds) as needed
 
     return () => {
       clearTimeout(timer);
     };
   }, [onClose]);
 
-  const alertClass = type ? `alert alert-${type}` : 'alert';
+  const alertClass = type ? `alert bg-${type}` : 'alert';
 
   return visible ? (
     <div className="toast">
