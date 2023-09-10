@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartBar, faCloudArrowUp, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { getPredictions } from '../../services/apiService';
+import {
+  faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv,
+} from '@fortawesome/free-solid-svg-icons';
+import { getCSV, getPredictions } from '../../services/apiService';
 import { Prediction } from '../../models/Prediction';
 
 function Detection() {
   const inputFile = useRef<HTMLInputElement>(null);
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
-  const [selectedImageUrls, setSelectedImageUrls] = useState<string[]>([]);
+  const [images, setImages] = useState<File[]>([]);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean[]>([]);
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [numToShow, setNumToShow] = useState(5);
@@ -27,7 +29,7 @@ function Detection() {
   };
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedImages([...selectedImages, ...Array.from(event.target.files!)]);
+    setImages([...images, ...Array.from(event.target.files!)]);
     setIsLoading([...isLoading, ...Array.from(event.target.files!).map(() => false)]);
     setIsChecked([...isChecked, ...Array.from(event.target.files!).map(() => false)]);
   };
@@ -37,30 +39,22 @@ function Detection() {
     newCheck[index] = !newCheck[index];
     setIsChecked(newCheck);
   };
-  
+
   const removeCheckboxState = (index: number) => {
     const newCheck = [...isChecked];
     newCheck.splice(index, 1);
     setIsChecked(newCheck);
   };
 
-  const toggleAllCheckboxes = () => {
-    if (isChecked.every(value => value === true)) {
-      setIsChecked(new Array(selectedImages.length).fill(false));
-    } else {
-      setIsChecked(new Array(selectedImages.length).fill(true));
-    }
-  };
-  
   useEffect(() => {
-    if (selectedImages.length < 1) return;
+    if (images.length < 1 || images.length === predictions.length) return;
     const newImageUrls: string[] = [];
-    selectedImages.forEach((image:any) => newImageUrls.push(URL.createObjectURL(image)));
-    setSelectedImageUrls(newImageUrls);
+    images.forEach((image:any) => newImageUrls.push(URL.createObjectURL(image)));
+    setImageUrls(newImageUrls);
     const loadingIndexes: number[] = [];
     (async () => {
       const formData = new FormData();
-      selectedImages.forEach((imageUrl, i) => {
+      images.forEach((imageUrl, i) => {
         if (predictions[i] !== undefined) return;
         formData.append('files', imageUrl);
         setIsLoading((prev) => {
@@ -81,16 +75,16 @@ function Detection() {
         return newPrev;
       });
     })();
-  }, [selectedImages]);
+  }, [images]);
 
   const deleteImage = (index: number) => {
-    const newImages = [...selectedImages];
+    const newImages = [...images];
     newImages.splice(index, 1);
-    setSelectedImages(newImages);
+    setImages(newImages);
 
-    const newImageUrls = [...selectedImageUrls];
+    const newImageUrls = [...imageUrls];
     newImageUrls.splice(index, 1);
-    setSelectedImageUrls(newImageUrls);
+    setImageUrls(newImageUrls);
 
     const newPredictions = [...predictions];
     newPredictions.splice(index, 1);
@@ -116,38 +110,33 @@ function Detection() {
 
   const downloadPredictions = async () => {
     const selectedPredictions = predictions.filter((_, index) => isChecked[index]);
-    if (selectedPredictions.length === 0) {
-      return;
-    }
     try {
-      let apiUrl = '';
-      if (process.env.REACT_APP_BACKEND_URL) {
-        apiUrl = process.env.REACT_APP_BACKEND_URL;
-      } else {
-        apiUrl = 'http://code-critters.onrender.com';
-      }
-      const response = await fetch(`${apiUrl}api/v1/create_csv`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(selectedPredictions),
-      });
-      if (response.ok) {
-        const data = await response.text();
-        const blob = new Blob([data], { type: 'text/csv' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'predictions.csv';
-        a.click();
-        window.URL.revokeObjectURL(url);
-      } else {
-        console.error('Failed to fetch CSV data');
-      }
+      const response = await getCSV(selectedPredictions);
+      const { data } = response;
+      const blob = new Blob([data], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'predictions.csv';
+      a.click();
+      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error fetching CSV data:', error);
     }
+  };
+
+  const toggleAll = () => {
+    const newCheck = [...isChecked];
+    if (newCheck.every((check) => check)) {
+      newCheck.forEach((_, index) => {
+        newCheck[index] = false;
+      });
+    } else {
+      newCheck.forEach((_, index) => {
+        newCheck[index] = true;
+      });
+    }
+    setIsChecked(newCheck);
   };
 
   return (
@@ -167,11 +156,11 @@ function Detection() {
         />
         <div
           onClick={addImages}
-          className={selectedImages.length > 0 ? 'cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 flex flex-row justify-around items-center p-4' : 'card w-full max-w-4xl border-2 border-dashed border-gray-300 mt-10 aspect-video flex items-center justify-center cursor-pointer p-4'}
+          className={images.length > 0 ? 'cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 flex flex-row justify-around items-center p-4' : 'card w-full max-w-4xl border-2 border-dashed border-gray-300 mt-10 aspect-video flex items-center justify-center cursor-pointer p-4'}
         >
-          <FontAwesomeIcon icon={faCloudArrowUp} size={selectedImages.length > 0 ? '3x' : '5x'} />
+          <FontAwesomeIcon icon={faCloudArrowUp} size={images.length > 0 ? '3x' : '5x'} />
           <div className="md:flex flex-col hidden">
-            <h2 className={` text-lg font-varela ${selectedImages.length === 0 && 'mt-8'} text-center`}>
+            <h2 className={` text-lg font-varela ${images.length === 0 && 'mt-8'} text-center`}>
               Select a file or drag and drop here
             </h2>
             <p className="text-gray-500 mt-4 font-varela text-center">
@@ -179,55 +168,54 @@ function Detection() {
             </p>
           </div>
           <button
-            className={`btn btn-outline btn-secondary ${selectedImages.length === 0 && 'mt-10'} font-varela`}
+            className={`btn btn-outline btn-primary ${images.length === 0 && 'mt-10'} font-varela`}
             type="button"
           >
-            {selectedImages.length > 0 ? 'Add more images' : 'Upload images'}
+            {images.length > 0 ? 'Add more images' : 'Upload images'}
           </button>
         </div>
-        <div className="mt-auto flex space-x-5 mt-9 mb-4">
-         <button
-           type="button"
-           className="btn btn-secondary hover:text-white hover:bg-black text-black font-bold py-2 px-4 transform hover:scale-110 transition-all duration-300"
-           onClick={downloadPredictions}
-           disabled={isChecked.every((value) => !value)}
-         >
-          <span className="relative z-10">Download</span>
-        </button>
-        <button 
-          type="button"
-          className="btn btn-secondary text-black hover:bg-black hover:text-white font-bold py-2 px-4 transform hover:scale-110 transition-all duration-300"
-          onClick={toggleAllCheckboxes}
+        {(images.length > 0 && predictions.length > 0) && (
+        <div className="mt-4 flex gap-4">
+          <button className="btn btn-primary" type="button" onClick={() => toggleAll()}>
+            Toggle All
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={downloadPredictions}
+            disabled={isChecked.every((value) => !value)}
           >
-          <span className="relative z-10">Toggle All</span>
-        </button>
-      </div>
+            <FontAwesomeIcon icon={faDownload} className="mr-2" />
+            <FontAwesomeIcon icon={faFileCsv} />
+          </button>
+        </div>
+        )}
+
         <div className="mt-4 w-full flex flex-col gap-4">
-          {selectedImageUrls.map((imageUrl, index) => (
-            <div className="flex w-full items-center justify-between px-4 gap-4" key={index} onClick={() => handleCheckbox(index)}>
+          {imageUrls.map((imageUrl, index) => (
+            <div className="flex w-full items-center justify-between px-4 gap-4" key={index}>
               <div className="flex gap-4 items-center">
-                <input
-                  type="checkbox"
-                  checked={isChecked[index] || false}
-                  onChange={() => handleCheckbox(index)}
-                  className="form-checkbox h-10 w-10 text-blue-600"
-                />
                 <img
                   src={imageUrl}
                   alt={`Selected ${index + 1}`}
                   className="w-32 rounded-md"
                 />
-                {/* replace .jpg and .png */}
                 <div className="truncate hidden sm:flex">
-                  {selectedImages[index].name.replace(/\.jpg|\.png/, '')}
+                  {images[index].name}
                 </div>
               </div>
               <div />
 
               <div className="flex items-center gap-4">
+                <input
+                  type="checkbox"
+                  checked={isChecked[index] || false}
+                  onChange={() => handleCheckbox(index)}
+                  className="checkbox"
+                />
                 <button
                   type="button"
-                  className="btn btn-secondary btn-square"
+                  className="btn btn-primary btn-square"
                   onClick={() => openModel(index)}
                   disabled={isLoading[index]}
                 >
@@ -249,7 +237,7 @@ function Detection() {
           ))}
         </div>
       </div>
-      
+
       {predictions.map((prediction, index) => (
         <dialog id={`prediction-${index}`} className="modal  modal-bottom sm:modal-middle" key={index}>
           <form method="dialog" className="modal-box sm:w-11/12 sm:max-w-3xl">
@@ -272,10 +260,10 @@ function Detection() {
                     <div key={i} className="w-full">
                       <div className="flex justify-between">
                         <p className="font-varela ">{pred[1]}</p>
-                        <p className="font-varela text-secondary">{Number(pred[0]).toFixed(4)}</p>
+                        <p className="font-varela text-primary">{Number(pred[0]).toFixed(4)}</p>
                       </div>
                       <progress
-                        className="progress progress-secondary w-full"
+                        className="progress progress-primary w-full"
                         value={Number(pred[0]) * 100}
                         max="100"
                       />
@@ -286,7 +274,7 @@ function Detection() {
                                 prediction.pred.length > numToShow ? (
                                   <button
                                     type="button"
-                                    className="btn btn-secondary w-fit"
+                                    className="btn btn-primary w-fit"
                                     onClick={() => handleShowMore(prediction.pred)}
                                   >
                                     Show more
@@ -295,7 +283,7 @@ function Detection() {
                                   : (
                                     <button
                                       type="button"
-                                      className="btn btn-secondary w-fit"
+                                      className="btn btn-primary w-fit"
                                       onClick={() => handleShowLess()}
                                     >
                                       Show less

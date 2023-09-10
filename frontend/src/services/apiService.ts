@@ -6,12 +6,17 @@ let apiUrl = '';
 if (process.env.REACT_APP_BACKEND_URL) {
   apiUrl = process.env.REACT_APP_BACKEND_URL;
 } else {
-  apiUrl = 'http://code-critters.onrender.com';
+  apiUrl = 'http://code-critters.onrender.com/';
 }
 
 export const getPredictions = (formData: FormData) => axios.post<Prediction[]>(`${apiUrl}api/v1/upload_json`, formData, {
   headers: {
-
     'Content-Type': 'multipart/form-data',
+  },
+});
+
+export const getCSV = (predictions: Prediction[]) => axios.post<string>(`${apiUrl}api/v1/create_csv`, predictions, {
+  headers: {
+    'Content-Type': 'application/json',
   },
 });
