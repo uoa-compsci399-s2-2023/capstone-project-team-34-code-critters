@@ -246,7 +246,7 @@ function Detection() {
                   alt={`Selected ${index + 1}`}
                   className="w-32 rounded-md"
                 />
-                <div className="truncate hidden sm:flex">
+                <div className="truncate hidden md:flex">
                   {images[index].name}
                 </div>
               </div>
