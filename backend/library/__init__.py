@@ -4,7 +4,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from .config import Settings
 
 def create_app(config=None, aargs = None):
-    settings = Settings()
     
     match config:
         case "portable":
@@ -24,7 +23,6 @@ def create_app(config=None, aargs = None):
             Settings.MODEL_FOLDER = './library/models/'
         case None:
             pass    
-    
     tags_metadata = [
         {
             "name":"Utilities",
@@ -36,14 +34,16 @@ def create_app(config=None, aargs = None):
         }
 
     ]
-    app = FastAPI(openapi_tags=tags_metadata)
+    if Settings.FLASK_ENV == "development":
+        app = FastAPI(openapi_tags=tags_metadata)
+    else:
+        app = FastAPI(openapi_tags=tags_metadata, docs_url=None, redoc_url=None)
 
     origins = [
     "http://localhost",
     "http://localhost:80",
-    "http://localhost:5000",
-    "http://localhost:3000",
-    "http://192.168.56.1:3000"
+    "http://localhost:5000"
+    "http://localhost:6789"
     ]
 
     app.add_middleware(
@@ -76,7 +76,7 @@ def create_app(config=None, aargs = None):
     app.include_router(file_exports.utils_api)
 
     # Lets flask deploy react build only if it is a client+server deployment
-    if settings.FLASK_DEPLOYMENT != "server" or settings.FLASK_ENV == "development":
+    if Settings.FLASK_DEPLOYMENT != "server" or Settings.FLASK_ENV == "development":
         from .home import home
         # NOTE: REGISTER home_router LAST AS IT HOSTS A CATCH ALL ROUTE AND WILL OVERRIDE OTHER ROUTES
         app.include_router(home.home_router)

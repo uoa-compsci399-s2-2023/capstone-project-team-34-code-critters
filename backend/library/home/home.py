@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 import os
 
 home_router = APIRouter(tags=["Home"])
-static_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..\\")
+static_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
 ####### Serve robots.txt ######
 # Technically not needed as this endpoint is only available to pywebview
@@ -14,9 +14,9 @@ async def robots():
     """
         Serves robots.txt
     """
-
-    if os.path.exists(static_path+"static/robots.txt"):
-        return FileResponse(static_path+"static/robots.txt")
+    
+    if os.path.exists(os.path.join(static_path,"static/robots.txt")):
+        return FileResponse(os.path.join(static_path,"static/robots.txt"))
     else:
         return ORJSONResponse(content={"error": "File not found"}, status_code=404)
 
@@ -26,8 +26,8 @@ async def favicon():
     """
         Serves the favicon
     """
-    if os.path.exists(static_path+"static/favicon.ico"):
-        return FileResponse(static_path+"static/favicon.ico")
+    if os.path.exists(os.path.join(static_path,"static/favicon.ico")):
+        return FileResponse(os.path.join(static_path,"static/favicon.ico"))
     else:
         return ORJSONResponse(content={"error": "File not found"}, status_code=404)
 
@@ -39,7 +39,7 @@ async def home(request: Request, path: str=None):
     """
         Serves the React Build
     """ 
-    static_file_path = os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..\\"), path)
+    static_file_path = os.path.join(static_path, path)
     
     ## Return Static Files for React Build
     # Check if static file is a js or css file (Otherwise, it can leak uploads and exports)
@@ -49,6 +49,6 @@ async def home(request: Request, path: str=None):
             return FileResponse(static_file_path)    
     
     # Check if react build exists
-    if os.path.exists("library/templates/index.html"):
-        return HTMLResponse(open("library/templates/index.html", "r").read())
+    if os.path.exists(os.path.join(static_path, "templates/index.html")):
+        return HTMLResponse(open(os.path.join(static_path, "templates/index.html"), "r").read())
     return ORJSONResponse(content={"error": "React Build not found"}, status_code=404)

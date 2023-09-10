@@ -13,7 +13,7 @@ $backendStaticPath = Join-Path $backendPath "library/static"
 
 # Build Frontend
 Set-Location $frontendPath
-Set-Content -Path ".\.env" -Value "REACT_APP_BACKEND_URL=http://localhost:80/"
+Set-Content -Path ".\.env" -Value "REACT_APP_BACKEND_URL=http://localhost:6789/"
 npm install
 npm run build
 
@@ -21,4 +21,4 @@ npm run build
 Set-Location $rootPath
 Copy-Item -Path $frontendBuildPath\* -Destination $backendStaticPath -Force -Exclude "*.json" 
 Copy-Item -Path $frontendBuildPath\static\* -Destination $backendStaticPath -Recurse -Force
-Move-Item $backendStaticPath\index.html $backendLibraryPath\index.html -Force
+Move-Item $backendStaticPath\index.html $backendLibraryPath\templates\index.html -Force

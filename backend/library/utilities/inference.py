@@ -4,8 +4,8 @@ import imp
 from ..config import Settings
 
 current_model = "trupanea_v2"
-path = Settings().MODEL_FOLDER
-isProduction = Settings().FLASK_ENV == 'production'
+path = Settings.MODEL_FOLDER
+isProduction = Settings.FLASK_ENV == 'production'
 
 def get_labels(model_name="trupanea_v2"):
     filename = f'{path}/{model_name}/labels.txt'
@@ -15,11 +15,7 @@ def get_labels(model_name="trupanea_v2"):
     return labels
  
 def get_prediction(image_path, current_model="trupanea_v2"):
-    model_path = ""
-    if isProduction and Settings().FLASK_DEPLOYMENT == 'server':
-        model_path = f'/var/models/model.h5'
-    else:
-        model_path = f'{path}/{current_model}/model.h5'
+    model_path = f'{path}/{current_model}/model.h5'
     model = load_model(model_path)
     labels = get_labels(current_model)
     
