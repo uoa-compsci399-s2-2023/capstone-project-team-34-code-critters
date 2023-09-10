@@ -10,6 +10,7 @@ import Toast from './Toast';
 interface LoginModalRef {
   loginModalRef: MutableRefObject<HTMLDialogElement | null>
   signUpModalRef: MutableRefObject<HTMLDialogElement | null>
+  // setUser: (user: any) => void;
 }
 
 function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
@@ -36,6 +37,8 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
+      // const result = await signInWithPopup(auth, provider);
+      // setUser(result.user);
       await signInWithPopup(auth, provider);
       setToastMessage('Logged in with Google', 'success');
       closeModal();
@@ -47,6 +50,8 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
   const signInWithGithub = async () => {
     try {
       const provider = new GithubAuthProvider();
+      // const result = await signInWithPopup(auth, provider);
+      // setUser(result.user);
       await signInWithPopup(auth, provider);
       setToastMessage('Logged in with Github', 'success');
       closeModal();
@@ -55,20 +60,71 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
     }
   };
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const loginEmailPassword = async () => {
-    const emailInput = document.getElementById('email') as HTMLInputElement;
-    const passwordInput = document.getElementById('password') as HTMLInputElement;
-
-    const email = emailInput.value;
-    const password = passwordInput.value;
-
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      setToastMessage('Logged in with Email', 'success');
-      closeModal();
-    } catch {
-      setToastMessage('Email login failed', 'error');
+    const inputemail = email.trim();
+    const inputpassword = password.trim();
+  
+    // setIsSubmitting(true);
+    let hasError = false;
+  
+    if (inputemail === '') {
+      setEmailError('Please enter an Email');
+      hasError = true;
+      setIsSubmitting(false);
+    } else {
+      setEmailError(''); // Clear the email error message
     }
+  
+    if (inputpassword === '') {
+      setPasswordError('Please enter a Password');
+      hasError = true;
+      setIsSubmitting(false);
+    } else {
+      setPasswordError(''); // Clear the password error message
+    }
+  
+    if (!hasError) {
+      setIsSubmitting(true);
+      try {
+        await signInWithEmailAndPassword(auth, inputemail, inputpassword);
+        setToastMessage('Logged in with Email', 'success');
+        closeModal();
+        setIsSubmitting(false);
+      } catch (error) {
+        const errorCode = (error as { code: string }).code;
+        setIsSubmitting(false);
+  
+        switch (errorCode) {
+          case 'auth/invalid-email':
+            setEmailError('Invalid email address.');
+            break;
+          case 'auth/wrong-password':
+            setPasswordError('Invalid password');
+            break;
+          default:
+            break;
+        }
+        setToastMessage('Email log in failed', 'error');
+      }
+    }
+  };    
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    setEmailError('');
+    setIsSubmitting(false);
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    setPasswordError('');
+    setIsSubmitting(false);
   };
 
   return (
@@ -94,7 +150,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
             <button
               className="btn btn-circle btn-ghost absolute top-4 right-4"
               type="button"
-              onClick={closeModal}
+              onClick={() => closeModal()}
             >
               <FontAwesomeIcon icon={faXmark} />
             </button>
@@ -119,27 +175,51 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
             </button>
             <div className="font-varela divider text-neutral-400 before:bg-neutral-200 after:bg-neutral-200 cursor-default">OR</div>
             <div className="w-full">
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <input id="email" type="text" placeholder="Enter your email" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
+              <input
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${emailError ? 'border-red-500' : ''}`}
+                value={email}
+                onChange={handleEmailChange}
+              />
+              {emailError && (
+                <div className="text-red-500 font-varela text-sm">{emailError}</div>
+              )}
             </div>
             <div className="w-full">
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <input id="password" type="password" placeholder="Enter your password" className="font-varela input w-full bg-neutral-200  text-neutral-500 focus:text-neutral-600" />
+              <input
+                id="password"
+                type="password"
+                placeholder="Enter your password"
+                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${passwordError ? 'border-red-500' : ''}`}
+                value={password}
+                onChange={handlePasswordChange}
+              />
+              {passwordError && (
+                <div className="text-red-500 font-varela text-sm">{passwordError}</div>
+              )}
             </div>
-            <button className="relative font-varela btn w-full text-white text-lg bg-gradient-to-r from-green-400 to-cyan-500" type="button" onClick={loginEmailPassword}>
-              <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full bg-gradient-to-l from-green-400 to-cyan-500 rounded-md flex justify-center items-center">Login</div>
+            <button
+              className={`relative font-varela normal-case btn w-full text-white text-lg ${(emailError || passwordError || isSubmitting) ? 'cursor-not-allowed' : 'bg-gradient-to-r from-primary to-secondary'}`}
+              type="button"
+              onClick={loginEmailPassword}
+              disabled={emailError || passwordError || isSubmitting ? true : undefined}
+            >
+              <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${(emailError || passwordError || isSubmitting) ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
+                Login
+              </div>
               Login
             </button>
             <div className="text-neutral-500 font-varela cursor-default">
-              {/* eslint-disable-next-line react/no-unescaped-entities */}
-              Don't have an account?
+              Don`&apos;`t have an account?
               {' '}
               <button type="button" className="relative font-varela cursor-pointer text-green-500" onClick={openSignUpModal}>Sign up</button>
             </div>
           </div>
         </form>
         <form method="dialog" className="modal-backdrop">
-          <button type="button" onClick={closeModal}>close</button>
+          <button type="button" onClick={() => closeModal()}>close</button>
         </form>
       </dialog>
     </div>

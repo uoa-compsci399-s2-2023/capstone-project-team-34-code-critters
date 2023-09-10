@@ -64,7 +64,6 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const createAccount = async () => {
-    // const auth = getAuth();
     const emailInput = document.getElementById('email') as HTMLInputElement;
     const passwordInput = document.getElementById('password') as HTMLInputElement;
 
@@ -81,35 +80,29 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
     } catch (error) {
       const errorCode = (error as { code: string }).code;
       setIsSubmitting(false);
+
       if (inputemail.trim() === '' && inputpassword.trim() === '') {
         setEmailError('Please enter an Email');
         setPasswordError('Please enter a Password');
-        return;
       } else if (inputemail.trim() === '') {
         setEmailError('Please enter an Email');
-        return;
       } else if (inputpassword.trim() === '') {
         setPasswordError('Please enter a Password');
-        return;
-      }
-      switch (errorCode) {
-        case 'auth/email-already-in-use':
-          setEmailError('Email already in use.');
-          setPasswordError('');
-          break;
-        case 'auth/invalid-email':
-          setEmailError('Invalid email address.');
-          setPasswordError('');
-          break;
-        case 'auth/weak-password':
-          setEmailError('');
-          setPasswordError('Password must be at least 6 characters long.');
-          break;
-        default:
-          setEmailError('');
-          setPasswordError('');
-          setToastMessage('Email sign up failed', 'error');
-          break;
+      } else {
+        switch (errorCode) {
+          case 'auth/email-already-in-use':
+            setEmailError('Email already in use.');
+            break;
+          case 'auth/invalid-email':
+            setEmailError('Invalid email address.');
+            break;
+          case 'auth/weak-password':
+            setPasswordError('Password must be at least 6 characters long.');
+            break;
+          default:
+            break;
+        }
+        setToastMessage('Email sign up failed', 'error');
       }
     }
   };
@@ -191,7 +184,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
               <input
                 id="password"
                 type="password"
-                placeholder="Enter your pasword"
+                placeholder="Enter your password"
                 className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${passwordError ? 'border-red-500' : ''}`}
                 value={password}
                 onChange={handlePasswordChange}
@@ -206,7 +199,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
               onClick={createAccount}
               disabled={emailError || passwordError || isSubmitting ? true : undefined}
             >
-              <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${(emailError) ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
+              <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${(emailError || passwordError || isSubmitting) ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
                 Create Account
               </div>
               Create Account
