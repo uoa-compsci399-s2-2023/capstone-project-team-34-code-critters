@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect, useRef, useState, MouseEvent,
+} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv,
@@ -24,7 +26,9 @@ function Detection() {
     setNumToShow(5); // Show 5 predictions
   };
 
-  const addImages = () => {
+  const addImages = (event: MouseEvent<HTMLDivElement | HTMLButtonElement>) => {
+    event.preventDefault();
+    if (event.target !== event.currentTarget) return;
     inputFile.current!.value = '';
     inputFile.current!.click();
   };
@@ -50,7 +54,6 @@ function Detection() {
   };
 
   useEffect(() => {
-    console.log('a');
     (async () => {
       const res = await getModels();
       setModels(res.data);
@@ -176,7 +179,8 @@ function Detection() {
           accept="image/png, image/jpeg"
         />
         <div
-          className={images.length > 0 ? 'card w-full border-2 border-dashed border-gray-300 mt-10 flex flex-col sm:flex-row justify-around items-center p-4' : 'card w-full max-w-4xl border-2 border-dashed border-gray-300 mt-10 aspect-video flex items-center justify-center cursor-pointer p-4'}
+          className={images.length > 0 ? 'cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 flex flex-col sm:flex-row justify-around items-center p-4' : 'cursor-pointer card w-full max-w-4xl border-2 border-dashed border-gray-300 mt-10 aspect-video flex items-center justify-center cursor-pointer p-4'}
+          onClick={(event) => addImages(event)}
         >
           <FontAwesomeIcon icon={faCloudArrowUp} size={images.length > 0 ? '3x' : '5x'} />
           <div className="md:flex flex-col hidden">
@@ -202,7 +206,7 @@ function Detection() {
               <button
                 className="btn btn-outline btn-primary font-varela"
                 type="button"
-                onClick={addImages}
+                onClick={(event) => addImages(event)}
               >
                 {images.length > 0 ? 'Add images' : 'Upload images'}
               </button>
@@ -212,7 +216,7 @@ function Detection() {
         {(images.length > 0 && predictions.length > 0) && (
         <div className="mt-4 flex gap-4">
           <button
-            className="btn btn-primary"
+            className="btn btn-secondary"
             type="button"
             onClick={() => toggleAll()}
           >
@@ -220,7 +224,7 @@ function Detection() {
           </button>
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-secondary"
             onClick={downloadPredictions}
             disabled={isChecked.every((value) => !value)}
           >
@@ -253,7 +257,7 @@ function Detection() {
                   type="checkbox"
                   checked={isChecked[index] || false}
                   onChange={() => handleCheckbox(index)}
-                  className="checkbox checkbox-lg"
+                  className="checkbox checkbox-lg checkbox-secondary"
                   disabled={isLoading[index]}
                 />
                 <button
