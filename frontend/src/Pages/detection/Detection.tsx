@@ -26,9 +26,9 @@ function Detection() {
     setNumToShow(5); // Show 5 predictions
   };
 
-  const addImages = (event: MouseEvent<HTMLDivElement | HTMLButtonElement>) => {
+  const addImages = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    if (event.target !== event.currentTarget) return;
+    if (event.target instanceof HTMLSelectElement) return;
     inputFile.current!.value = '';
     inputFile.current!.click();
   };
@@ -236,7 +236,6 @@ function Detection() {
               <button
                 className="btn btn-outline btn-primary font-varela"
                 type="button"
-                onClick={(event) => addImages(event)}
               >
                 {images.length > 0 ? 'Add images' : 'Upload images'}
               </button>
