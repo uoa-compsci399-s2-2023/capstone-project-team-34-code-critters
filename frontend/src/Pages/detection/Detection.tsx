@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect, useRef, useState, MouseEvent,
+} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv,
 } from '@fortawesome/free-solid-svg-icons';
-import { getCSV, getPredictions } from '../../services/apiService';
+import { getCSV, getModels, getPredictions } from '../../services/apiService';
 import { Prediction } from '../../models/Prediction';
 
 function Detection() {
@@ -14,6 +16,8 @@ function Detection() {
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [numToShow, setNumToShow] = useState(5);
   const [isChecked, setIsChecked] = useState<boolean[]>([]);
+  const [models, setModels] = useState<string[]>([]);
+  const [selectedModel, setSelectedModel] = useState<string>('');
   const handleShowMore = (pred: string[][]) => {
     setNumToShow(pred.length); // Show all predictions
   };
@@ -22,15 +26,19 @@ function Detection() {
     setNumToShow(5); // Show 5 predictions
   };
 
-  const addImages = () => {
+  const addImages = (event: MouseEvent<HTMLDivElement | HTMLButtonElement>) => {
+    event.preventDefault();
+    if (event.target !== event.currentTarget) return;
     inputFile.current!.value = '';
     inputFile.current!.click();
   };
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setImages([...images, ...Array.from(event.target.files!)]);
-    setIsLoading([...isLoading, ...Array.from(event.target.files!).map(() => false)]);
-    setIsChecked([...isChecked, ...Array.from(event.target.files!).map(() => false)]);
+    setIsLoading([...isLoading, ...Array.from(event.target.files!)
+      .map(() => false)]);
+    setIsChecked([...isChecked, ...Array.from(event.target.files!)
+      .map(() => false)]);
   };
 
   const handleCheckbox = (index: number) => {
@@ -46,9 +54,17 @@ function Detection() {
   };
 
   useEffect(() => {
+    (async () => {
+      const res = await getModels();
+      setModels(res.data);
+      setSelectedModel(res.data[0]);
+    })();
+  }, []);
+
+  useEffect(() => {
     if (images.length < 1 || images.length === predictions.length) return;
     const newImageUrls: string[] = [];
-    images.forEach((image:any) => newImageUrls.push(URL.createObjectURL(image)));
+    images.forEach((image: any) => newImageUrls.push(URL.createObjectURL(image)));
     setImageUrls(newImageUrls);
     const loadingIndexes: number[] = [];
     (async () => {
@@ -63,8 +79,7 @@ function Detection() {
         });
         loadingIndexes.push(i);
       });
-
-      const response = await getPredictions(formData); // Assuming getPredictions is defined
+      const response = await getPredictions(formData, selectedModel);
       setPredictions((prev) => [...prev, ...response.data]);
       setIsLoading((prev) => {
         const newPrev = [...prev];
@@ -138,11 +153,21 @@ function Detection() {
     setIsChecked(newCheck);
   };
 
+  const selectModel = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedModel(event.target.value);
+  };
+
   return (
     <div className="w-full h-full flex justify-center overflow-y-auto">
       <div className="max-w-4xl w-11/12 flex flex-col items-center px-4 py-10 my-10 h-fit">
-        <h1 className=" text-xl font-varela text-center">Drag and Drop or Browse to Upload Image</h1>
-        <p className="text-gray-500 mt-4 font-varela text-center">Upload up to 40 images at once</p>
+        <h1 className=" text-xl font-varela text-center">
+          Drag and Drop or Browse to Upload
+          Image
+        </h1>
+        <p className="text-gray-500 mt-4 font-varela text-center">
+          Upload up to 40 images at
+          once
+        </p>
         <input
           alt="file"
           type="file"
@@ -154,8 +179,8 @@ function Detection() {
           accept="image/png, image/jpeg"
         />
         <div
-          onClick={addImages}
-          className={images.length > 0 ? 'cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 flex flex-row justify-around items-center p-4' : 'card w-full max-w-4xl border-2 border-dashed border-gray-300 mt-10 aspect-video flex items-center justify-center cursor-pointer p-4'}
+          className={images.length > 0 ? 'cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 flex flex-col sm:flex-row justify-around items-center p-4' : 'cursor-pointer card w-full max-w-4xl border-2 border-dashed border-gray-300 mt-10 aspect-video flex items-center justify-center cursor-pointer p-4'}
+          onClick={(event) => addImages(event)}
         >
           <FontAwesomeIcon icon={faCloudArrowUp} size={images.length > 0 ? '3x' : '5x'} />
           <div className="md:flex flex-col hidden">
@@ -166,21 +191,40 @@ function Detection() {
               JPG, PNG, file size no more than 10MB
             </p>
           </div>
-          <button
-            className={`btn btn-outline btn-primary ${images.length === 0 && 'mt-10'} font-varela`}
-            type="button"
-          >
-            {images.length > 0 ? 'Add more images' : 'Upload images'}
-          </button>
+          {models.length > 0 && (
+            <div className={`flex items-end gap-4 ${images.length === 0 && 'mt-10'}`}>
+              <div className="form-control">
+                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                <label className="label">
+                  <span className="label-text">Pick model</span>
+                </label>
+                <select onChange={selectModel} className="select select-primary w-full max-w-xs">
+                  {models.map((model, i) => (
+                    <option key={i} value={model}>{model}</option>))}
+                </select>
+              </div>
+              <button
+                className="btn btn-outline btn-primary font-varela"
+                type="button"
+                onClick={(event) => addImages(event)}
+              >
+                {images.length > 0 ? 'Add images' : 'Upload images'}
+              </button>
+            </div>
+          )}
         </div>
         {(images.length > 0 && predictions.length > 0) && (
         <div className="mt-4 flex gap-4">
-          <button className="btn btn-primary" type="button" onClick={() => toggleAll()}>
+          <button
+            className="btn btn-secondary"
+            type="button"
+            onClick={() => toggleAll()}
+          >
             Toggle All
           </button>
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-secondary"
             onClick={downloadPredictions}
             disabled={isChecked.every((value) => !value)}
           >
@@ -192,14 +236,17 @@ function Detection() {
 
         <div className="mt-4 w-full flex flex-col gap-4">
           {imageUrls.map((imageUrl, index) => (
-            <div className="flex w-full items-center justify-between px-4 gap-4" key={index}>
+            <div
+              className="flex w-full items-center justify-between px-4 gap-4"
+              key={index}
+            >
               <div className="flex gap-4 items-center">
                 <img
                   src={imageUrl}
                   alt={`Selected ${index + 1}`}
                   className="w-32 rounded-md"
                 />
-                <div className="truncate hidden sm:flex">
+                <div className="truncate hidden md:flex">
                   {images[index].name}
                 </div>
               </div>
@@ -210,7 +257,8 @@ function Detection() {
                   type="checkbox"
                   checked={isChecked[index] || false}
                   onChange={() => handleCheckbox(index)}
-                  className="checkbox"
+                  className="checkbox checkbox-lg checkbox-secondary"
+                  disabled={isLoading[index]}
                 />
                 <button
                   type="button"
@@ -238,7 +286,11 @@ function Detection() {
       </div>
 
       {predictions.map((prediction, index) => (
-        <dialog id={`prediction-${index}`} className="modal  modal-bottom sm:modal-middle" key={index}>
+        <dialog
+          id={`prediction-${index}`}
+          className="modal  modal-bottom sm:modal-middle"
+          key={index}
+        >
           <form method="dialog" className="modal-box sm:w-11/12 sm:max-w-3xl">
             <button
               onClick={() => closeModel(index)}
@@ -254,21 +306,26 @@ function Detection() {
             </h3>
             <div className="flex flex-col gap-4 mt-4 items-center">
               {
-                // eslint-disable-next-line max-len
-                  prediction.pred.sort((a, b) => Number(b[0]) - Number(a[0])).slice(0, numToShow).map((pred, i) => (
-                    <div key={i} className="w-full">
-                      <div className="flex justify-between">
-                        <p className="font-varela ">{pred[1]}</p>
-                        <p className="font-varela text-primary">{Number(pred[0]).toFixed(4)}</p>
-                      </div>
-                      <progress
-                        className="progress progress-primary w-full"
-                        value={Number(pred[0]) * 100}
-                        max="100"
-                      />
-                    </div>
-                  ))
-              }
+                                // eslint-disable-next-line max-len
+                                prediction.pred.sort((a, b) => Number(b[0]) - Number(a[0]))
+                                  .slice(0, numToShow)
+                                  .map((pred, i) => (
+                                    <div key={i} className="w-full">
+                                      <div className="flex justify-between">
+                                        <p className="font-varela ">{pred[1]}</p>
+                                        <p className="font-varela text-primary">
+                                          {Number(pred[0])
+                                            .toFixed(4)}
+                                        </p>
+                                      </div>
+                                      <progress
+                                        className="progress progress-primary w-full"
+                                        value={Number(pred[0]) * 100}
+                                        max="100"
+                                      />
+                                    </div>
+                                  ))
+                            }
               {
                                 prediction.pred.length > numToShow ? (
                                   <button
