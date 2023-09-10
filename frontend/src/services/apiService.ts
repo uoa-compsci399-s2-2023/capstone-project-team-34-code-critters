@@ -11,7 +11,12 @@ if (process.env.REACT_APP_BACKEND_URL) {
 
 export const getPredictions = (formData: FormData) => axios.post<Prediction[]>(`${apiUrl}api/v1/upload_json`, formData, {
   headers: {
-
     'Content-Type': 'multipart/form-data',
+  },
+});
+
+export const getCSV = (predictions: Prediction[]) => axios.post<string>(`${apiUrl}api/v1/create_csv`, predictions, {
+  headers: {
+    'Content-Type': 'application/json',
   },
 });
