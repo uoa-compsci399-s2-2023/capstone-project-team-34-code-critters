@@ -69,26 +69,25 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
   const loginEmailPassword = async () => {
     const inputemail = email.trim();
     const inputpassword = password.trim();
-  
-    // setIsSubmitting(true);
+
     let hasError = false;
-  
+
     if (inputemail === '') {
       setEmailError('Please enter an Email');
       hasError = true;
       setIsSubmitting(false);
     } else {
-      setEmailError(''); // Clear the email error message
+      setEmailError('');
     }
-  
+
     if (inputpassword === '') {
       setPasswordError('Please enter a Password');
       hasError = true;
       setIsSubmitting(false);
     } else {
-      setPasswordError(''); // Clear the password error message
+      setPasswordError('');
     }
-  
+
     if (!hasError) {
       setIsSubmitting(true);
       try {
@@ -99,7 +98,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
       } catch (error) {
         const errorCode = (error as { code: string }).code;
         setIsSubmitting(false);
-  
+
         switch (errorCode) {
           case 'auth/invalid-email':
             setEmailError('Invalid email address.');
@@ -113,7 +112,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
         setToastMessage('Email log in failed', 'error');
       }
     }
-  };    
+  };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
