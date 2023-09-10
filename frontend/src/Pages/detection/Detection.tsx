@@ -26,9 +26,9 @@ function Detection() {
     setNumToShow(5); // Show 5 predictions
   };
 
-  const addImages = (event: MouseEvent<HTMLDivElement | HTMLButtonElement>) => {
+  const addImages = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    if (event.target !== event.currentTarget) return;
+    if (event.target instanceof HTMLSelectElement) return;
     inputFile.current!.value = '';
     inputFile.current!.click();
   };
@@ -57,9 +57,39 @@ function Detection() {
     (async () => {
       const res = await getModels();
       setModels(res.data);
+      setModels(res.data);
       setSelectedModel(res.data[0]);
     })();
   }, []);
+
+  useEffect(() => {
+    if (images.length < 1) return;
+    const newImageUrls: string[] = [];
+    images.forEach((image: any) => newImageUrls.push(URL.createObjectURL(image)));
+    setImageUrls(newImageUrls);
+    const loadingIndexes: number[] = [];
+    (async () => {
+      const formData = new FormData();
+      images.forEach((imageUrl, i) => {
+        formData.append('files', imageUrl);
+        setIsLoading((prev) => {
+          const newPrev = [...prev];
+          newPrev[i] = true;
+          return newPrev;
+        });
+        loadingIndexes.push(i);
+      });
+      const response = await getPredictions(formData, selectedModel);
+      setPredictions([...response.data]);
+      setIsLoading((prev) => {
+        const newPrev = [...prev];
+        loadingIndexes.forEach((i) => {
+          newPrev[i] = false;
+        });
+        return newPrev;
+      });
+    })();
+  }, [selectedModel]);
 
   useEffect(() => {
     if (images.length < 1 || images.length === predictions.length) return;
@@ -206,7 +236,6 @@ function Detection() {
               <button
                 className="btn btn-outline btn-primary font-varela"
                 type="button"
-                onClick={(event) => addImages(event)}
               >
                 {images.length > 0 ? 'Add images' : 'Upload images'}
               </button>
