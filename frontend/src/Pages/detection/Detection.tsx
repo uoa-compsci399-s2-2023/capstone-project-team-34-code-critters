@@ -13,7 +13,6 @@ function Detection() {
   const [isLoading, setIsLoading] = useState<boolean[]>([]);
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [numToShow, setNumToShow] = useState(5);
-  // eslint-disable-next-line max-len
   const [isChecked, setIsChecked] = useState<boolean[]>([]);
   const handleShowMore = (pred: string[][]) => {
     setNumToShow(pred.length); // Show all predictions
