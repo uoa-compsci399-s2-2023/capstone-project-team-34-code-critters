@@ -3,9 +3,11 @@ import React, {
 } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv,
+  faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv, faFileExcel,
 } from '@fortawesome/free-solid-svg-icons';
-import { getCSV, getModels, getPredictions } from '../../services/apiService';
+import {
+  getCSV, getXLSX, getModels, getPredictions,
+} from '../../services/apiService';
 import { Prediction } from '../../models/Prediction';
 
 function Detection() {
@@ -168,6 +170,22 @@ function Detection() {
       console.error('Error fetching CSV data:', error);
     }
   };
+  const downloadPredictionsXLSX = async () => {
+    const selectedPredictions = predictions.filter((_, index) => isChecked[index]);
+    try {
+      const response = await getXLSX(selectedPredictions);
+      const { data } = response;
+      const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'predictions.xlsx';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error fetching XLSX data:', error);
+    }
+  };
 
   const toggleAll = () => {
     const newCheck = [...isChecked];
@@ -259,6 +277,15 @@ function Detection() {
           >
             <FontAwesomeIcon icon={faDownload} className="mr-2" />
             <FontAwesomeIcon icon={faFileCsv} />
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={downloadPredictionsXLSX}
+            disabled={isChecked.every((value) => !value)}
+          >
+            <FontAwesomeIcon icon={faDownload} className="mr-2" />
+            <FontAwesomeIcon icon={faFileExcel} />
           </button>
         </div>
         )}
