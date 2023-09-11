@@ -8,7 +8,7 @@ import {
   GithubAuthProvider,
 } from 'firebase/auth';
 import { auth } from '../enviroments/firebase';
-import Toast from './Toast';
+import Toast, { ToastMessage } from './Toast';
 
 interface SignUpModalProps {
   signUpModalRef: MutableRefObject<HTMLDialogElement | null>
@@ -16,8 +16,8 @@ interface SignUpModalProps {
 }
 
 function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
-  const [toast, setToast] = useState({ message: '', type: '' });
-  const setToastMessage = (message: string, type: 'success' | 'info' | 'warning' | 'error' | '') => {
+  const [toast, setToast] = useState<ToastMessage>({ message: '', type: 'success' });
+  const setToastMessage = (message: string, type: 'success' | 'error') => {
     setToast({ message, type });
   };
   const closeModal = () => {
@@ -43,6 +43,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
       signUpModalRef.current?.close();
     } catch (e: any) {
       setToastMessage('Google sign up failed', 'error');
+      signUpModalRef.current?.close();
     }
   };
 
@@ -54,6 +55,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
       signUpModalRef.current?.close();
     } catch (e: any) {
       setToastMessage('Github sign up failed', 'error');
+      signUpModalRef.current?.close();
     }
   };
 
@@ -125,7 +127,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
         <Toast
           message={toast.message}
           type={toast.type}
-          onClose={() => setToast({ message: '', type: '' })}
+          onClose={() => setToast({ message: '', type: 'success' })}
         />
       )}
       <dialog ref={signUpModalRef} className="modal modal-bottom sm:modal-middle">
