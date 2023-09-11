@@ -24,4 +24,11 @@ export const getCSV = (predictions: Prediction[]) => axios.post<string>(`${apiUr
   },
 });
 
+export const getXLSX = (predictions: Prediction[]) => axios.post<string>(`${apiUrl}api/v1/create_xlsx`, predictions, {
+  responseType: 'blob',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
 export const getModels = () => axios.get<string[]>(`${apiUrl}api/v1/available_models`);
