@@ -226,7 +226,7 @@ function Detection() {
               <div className="form-control">
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="label">
-                  <span className="label-text">Pick model</span>
+                  <span className="label-text">Pick a model</span>
                 </label>
                 <select onChange={selectModel} className="select select-primary w-full max-w-xs">
                   {models.map((model, i) => (
