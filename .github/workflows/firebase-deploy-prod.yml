@@ -30,6 +30,22 @@ jobs:
       - name: Build
         run: npm run build
         working-directory: ./frontend
+      
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_REACT_APP_BACKEND_URL: ${{ secrets.REACT_APP_BACKEND_URL }}
+          envkey_REACT_APP_DISABLE_NAVBAR: ${{ secrets.REACT_APP_DISABLE_NAVBAR }}
+          envkey_REACT_APP_APIKEY: ${{ secrets.REACT_APP_APIKEY }}
+          envkey_REACT_APP_AUTHDOMAIN: ${{ secrets.REACT_APP_AUTHDOMAIN }}
+          envkey_REACT_APP_PROJECTID: ${{ secrets.REACT_APP_PROJECTID }}
+          envkey_REACT_APP_STORAGEBUCKET: ${{ secrets.REACT_APP_STORAGEBUCKET }}
+          envkey_REACT_APP_MESSAGINGSENDERID: ${{ secrets.REACT_APP_MESSAGINGSENDERID }}
+          envkey_REACT_APP_APPID: ${{ secrets.REACT_APP_APPID }}
+          envkey_REACT_APP_MEASUREMENTID: ${{ secrets.REACT_APP_MEASUREMENTID }}
+          directory: './frontend'
+          filename: '.env'
+
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
