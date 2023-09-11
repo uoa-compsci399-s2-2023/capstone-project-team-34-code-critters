@@ -23,7 +23,6 @@ def create_app(config=None, aargs = None):
             Settings.MODEL_FOLDER = './library/models/'
         case None:
             pass    
-    
     tags_metadata = [
         {
             "name":"Utilities",
@@ -35,13 +34,17 @@ def create_app(config=None, aargs = None):
         }
 
     ]
-    app = FastAPI(openapi_tags=tags_metadata)
+    if Settings.FLASK_ENV == "development":
+        app = FastAPI(openapi_tags=tags_metadata)
+    else:
+        app = FastAPI(openapi_tags=tags_metadata, docs_url=None, redoc_url=None)
 
     origins = [
     "http://localhost",
     "http://localhost:80",
     "http://localhost:5000"
-    "http://localhost:6789"
+    "http://localhost:6789",
+    "http://localhost:3000",
     ]
 
     app.add_middleware(

@@ -15,11 +15,7 @@ def get_labels(model_name="trupanea_v2"):
     return labels
  
 def get_prediction(image_path, current_model="trupanea_v2"):
-    model_path = ""
-    if isProduction and Settings.FLASK_DEPLOYMENT == 'server':
-        model_path = f'/var/models/model.h5'
-    else:
-        model_path = f'{path}/{current_model}/model.h5'
+    model_path = f'{path}/{current_model}/model.h5'
     model = load_model(model_path)
     labels = get_labels(current_model)
     
