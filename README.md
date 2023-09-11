@@ -71,6 +71,10 @@ This Application was last tested in Python version 3.11.1
    ```shell
    $ pip install -r --no-deps requirements.txt
    ```
+   Note: If running on a linux instance: use this instead
+   ```shell
+   $ pip install -r --no-deps ubuntu_requirements.txt
+   ```
 
 #### Importing and Adding model
 Since the models are big, they are not included in the repository.\
