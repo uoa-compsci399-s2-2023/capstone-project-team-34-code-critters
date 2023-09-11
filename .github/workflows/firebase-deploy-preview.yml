@@ -24,14 +24,6 @@ jobs:
         with:
           node-version: 18.16.1
 
-      - name: Install Node.js dependencies
-        run: npm ci --legacy-peer-deps
-        working-directory: ./frontend
-
-      - name: Build
-        run: npm run build
-        working-directory: ./frontend
-      
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v2.0
         with:
@@ -46,8 +38,14 @@ jobs:
           envkey_REACT_APP_MEASUREMENTID: ${{ secrets.REACT_APP_MEASUREMENTID }}
           directory: ./frontend
           file_name: .env
-      - name: Print out the contents of the .env file
-        run: cat ./frontend/.env
+
+      - name: Install Node.js dependencies
+        run: npm ci --legacy-peer-deps
+        working-directory: ./frontend
+
+      - name: Build
+        run: npm run build
+        working-directory: ./frontend
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         id: firebase-preview
