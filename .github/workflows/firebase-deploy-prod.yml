@@ -45,9 +45,12 @@ jobs:
           envkey_REACT_APP_MEASUREMENTID: ${{ secrets.REACT_APP_MEASUREMENTID }}
           directory: ./frontend
           file_name: .env
-          # printing
-      - name: Print out the contents of the .env file
-        run: cat ./frontend/.env
+
+      - name: printing secret
+        env:
+          REACT_APP_BACKEND_URL: ${{ secrets.REACT_APP_BACKEND_URL }}
+        run: |
+          echo $REACT_APP_BACKEND_URL >> secrets.txt
         
 
 
