@@ -1,3 +1,7 @@
+############## Frontend Packaging (Windows) ##############
+# This script builds the frontend and copies it to the backend for local application testing.
+# This script is not used in production. 
+
 $rootPath = $PWD
 $backendPath = Join-Path $rootPath "backend"
 $frontendPath = Join-Path $rootPath "frontend"

@@ -1,3 +1,9 @@
+################ Build Windows Executables ################
+# This script builds the frontend and copies it to the backend
+# The script then packages the backend into a portable executable
+# The script then rebuilds the application for an installation executable
+# Finally the script then packages the frontend into a portable executable
+
 $applicationName = "CritterSleuth"
 $rootPath = $PWD
 $backendPath = Join-Path $rootPath "backend"

@@ -1,4 +1,6 @@
-#!/bin/bash
+############## Frontend Packaging (Linux) ##############
+# This script builds the frontend and copies it to the backend for local application testing.
+# This script is not used in production. 
 
 rootPath=$(pwd)
 backendPath="$rootPath/backend"
