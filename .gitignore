@@ -187,8 +187,10 @@ dmypy.json
 .pyre/
 
 ## MISC
-model.h5
 /misc/**.json
 /misc/.env
 **.tflite
 **.gz
+model.h5
+
+.fleet/
