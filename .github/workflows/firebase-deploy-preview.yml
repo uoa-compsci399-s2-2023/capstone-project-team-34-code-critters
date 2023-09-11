@@ -44,8 +44,10 @@ jobs:
           envkey_REACT_APP_MESSAGINGSENDERID: ${{ secrets.REACT_APP_MESSAGINGSENDERID }}
           envkey_REACT_APP_APPID: ${{ secrets.REACT_APP_APPID }}
           envkey_REACT_APP_MEASUREMENTID: ${{ secrets.REACT_APP_MEASUREMENTID }}
-          directory: frontend
+          directory: ./frontend
           file_name: .env
+      - name: Print out the contents of the .env file
+        run: cat ./frontend/.env
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         id: firebase-preview
