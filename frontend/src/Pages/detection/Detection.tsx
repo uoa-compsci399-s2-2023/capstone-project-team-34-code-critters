@@ -154,7 +154,7 @@ function Detection() {
     }
   };
 
-  const downloadPredictions = async () => {
+  const downloadPredictionsCSV = async () => {
     const selectedPredictions = predictions.filter((_, index) => isChecked[index]);
     try {
       const response = await getCSV(selectedPredictions);
@@ -272,7 +272,7 @@ function Detection() {
           <button
             type="button"
             className="btn btn-secondary"
-            onClick={downloadPredictions}
+            onClick={downloadPredictionsCSV}
             disabled={isChecked.every((value) => !value)}
           >
             <FontAwesomeIcon icon={faDownload} className="mr-2" />
