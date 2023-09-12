@@ -194,3 +194,8 @@ dmypy.json
 model.h5
 
 .fleet/
+
+
+################ Builds ################
+.Complete-CritterSleuth-Portable-Ubuntu/
+**/CritterSleuth/
