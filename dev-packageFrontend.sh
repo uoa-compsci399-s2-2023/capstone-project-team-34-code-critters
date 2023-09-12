@@ -27,6 +27,8 @@ npm run build
 
 # Copy Frontend to Backend
 cd "$rootPath"
-rsync -rlv --exclude '*.json' "$frontendBuildPath"/* "$backendStaticPath" 
-rsync -rlv --exclude '*.json' "$frontendBuildPath"/static/* "$backendStaticPath"
+rsync -rlptgoDv --exclude '*.json' --exclude 'static' "$frontendBuildPath"/* "$backendStaticPath"
+rsync -rlptgoDv "$frontendBuildPath/static/"* "$backendStaticPath"
 mv "$backendStaticPath/index.html" "$backendLibraryPath/templates/index.html"
+
+cd "$rootPath"
