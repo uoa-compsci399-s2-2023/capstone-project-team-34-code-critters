@@ -207,7 +207,7 @@ function Detection() {
 
   return (
     <div className="w-full h-full flex justify-center overflow-y-auto">
-      <div className="max-w-4xl w-11/12 flex flex-col items-center px-4 py-10 my-10 h-fit">
+      <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit">
         <h1 className=" text-xl font-varela text-center">
           Drag and Drop or Browse to Upload
           Image

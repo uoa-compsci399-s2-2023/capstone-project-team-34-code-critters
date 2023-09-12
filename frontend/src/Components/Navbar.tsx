@@ -1,36 +1,65 @@
-// import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faDoorClosed, faDoorOpen, faBurger,
+} from '@fortawesome/free-solid-svg-icons';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import React, { useRef } from 'react';
-import SignUpModal from './SignUpModal';
-import LoginModal from './LoginModal';
-
-function Navbar() {
-  const loginModalRef = useRef<HTMLDialogElement | null>(null);
-  const signUpModalRef = useRef<HTMLDialogElement | null>(null);
-
+interface NavbarProps {
+  loginModalRef: React.MutableRefObject<HTMLDialogElement | null>;
+}
+function Navbar({ loginModalRef }: NavbarProps) {
+  const [isLoginButtonHovered, setIsLoginButtonHovered] = useState(false);
+  const [title, setTitle] = useState('Home');
   const openLoginModal = () => {
     if (loginModalRef.current) {
       loginModalRef.current.showModal();
     }
   };
 
-  const openSignUpModal = () => {
-    if (signUpModalRef.current) {
-      signUpModalRef.current.showModal();
+  const location = useLocation();
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case '/':
+        setTitle('Home');
+        break;
+      case '/upload':
+        setTitle('Upload');
+        break;
     }
-  };
+  }, [location.pathname]);
+  const navigate = useNavigate();
   const navbarEnabled = process.env.REACT_APP_DISABLE_NAVBAR !== 'true';
   if (navbarEnabled) {
     return (
-      <div>
-        <button onClick={openSignUpModal} className="btn btn-primary" type="button">
-          Sign Up
-        </button>
-        <button onClick={openLoginModal} className="btn btn-primary" type="button">
-          Log In
-        </button>
-        <SignUpModal signUpModalRef={signUpModalRef} loginModalRef={loginModalRef} />
-        <LoginModal loginModalRef={loginModalRef} signUpModalRef={signUpModalRef} />
+      <div
+        className="navbar max-w-4xl rounded-xl w-11/12 fixed z-10 left-1/2 -translate-x-1/2 top-4 shadow backdrop-blur-sm"
+      >
+        <div className="navbar-start">
+          <div className="dropdown dropdown-hover">
+            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex,jsx-a11y/label-has-associated-control */}
+            <label tabIndex={0} className="btn m-1">Hover</label>
+            {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+            <ul tabIndex={0} className="dropdown-content z-10 menu p-2 bg-base-100 rounded-lg shadow">
+              <li><button type="button" onClick={() => navigate('/')}>Home</button></li>
+              <li><button type="button" onClick={() => navigate('/upload')}>Detect</button></li>
+            </ul>
+          </div>
+        </div>
+        <div className="navbar-center">
+          <h1 className="font-varela text-lg font-bold">{title}</h1>
+        </div>
+        <div className="navbar-end gap-2">
+          <button onMouseEnter={() => setIsLoginButtonHovered(!isLoginButtonHovered)} onMouseLeave={() => setIsLoginButtonHovered(!isLoginButtonHovered)} onClick={openLoginModal} className="btn btn-ghost" type="button">
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+            <label className="swap">
+              <input type="checkbox" checked={isLoginButtonHovered} />
+              <FontAwesomeIcon className="swap-on" icon={faDoorOpen} size="2xl" />
+              <FontAwesomeIcon className="swap-off" icon={faDoorClosed} size="2xl" />
+            </label>
+          </button>
+        </div>
       </div>
     );
   }
