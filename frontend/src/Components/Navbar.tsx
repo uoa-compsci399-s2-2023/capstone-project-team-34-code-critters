@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faDoorClosed, faDoorOpen, faBurger,
+  faDoorClosed, faDoorOpen,
 } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -27,6 +27,8 @@ function Navbar({ loginModalRef }: NavbarProps) {
       case '/upload':
         setTitle('Upload');
         break;
+      default:
+        break;
     }
   }, [location.pathname]);
   const navigate = useNavigate();
@@ -38,6 +40,7 @@ function Navbar({ loginModalRef }: NavbarProps) {
       >
         <div className="navbar-start">
           <div className="dropdown dropdown-hover">
+            {/* eslint-disable-next-line max-len */}
             {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex,jsx-a11y/label-has-associated-control */}
             <label tabIndex={0} className="btn m-1">Hover</label>
             {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
