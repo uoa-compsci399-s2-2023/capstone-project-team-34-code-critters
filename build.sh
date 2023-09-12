@@ -23,6 +23,7 @@ echo "REACT_APP_STORAGEBUCKET=NULL" >> .env
 echo "REACT_APP_MESSAGINGSENDERID=NULL" >> .env
 echo "REACT_APP_APPID=NULL" >> .env
 echo "REACT_APP_MEASUREMENTID=NULL" >> .env
+echo "REACT_APP_DISABLE_UPGRADE_SECURE_REQUESTS=true" >> .env
 
 npm install
 npm run build
