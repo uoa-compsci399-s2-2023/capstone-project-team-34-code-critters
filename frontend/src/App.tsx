@@ -12,7 +12,7 @@ function App() {
   return (
     <div className="w-full h-screen">
       <Navbar loginModalRef={loginModalRef} />
-      <div className="mt-28 h-full w-full">
+      <div className="pt-28 h-full w-full">
         <Routes>
           <Route path="/upload" element={<Detection />} />
           <Route path="/" element={<Home />} />
