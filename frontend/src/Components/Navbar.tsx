@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faDoorClosed, faDoorOpen,
+  faDoorClosed, faDoorOpen, faBurger,
 } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -42,7 +42,7 @@ function Navbar({ loginModalRef }: NavbarProps) {
           <div className="dropdown dropdown-hover">
             {/* eslint-disable-next-line max-len */}
             {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex,jsx-a11y/label-has-associated-control */}
-            <label tabIndex={0} className="btn m-1">Hover</label>
+            <label tabIndex={0} className="btn btn-ghost"><FontAwesomeIcon size="2xl" icon={faBurger} /></label>
             {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
             <ul tabIndex={0} className="dropdown-content z-10 menu p-2 bg-base-100 rounded-lg shadow">
               <li><button type="button" onClick={() => navigate('/')}>Home</button></li>
