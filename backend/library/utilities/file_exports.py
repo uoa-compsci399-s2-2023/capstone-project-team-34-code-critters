@@ -102,13 +102,14 @@ async def json_to_csv(request: Request, results: list[dict]= Body(...)):
 
         if not os.path.isfile(file_path):
             with open(file_path, 'w') as f:
-                f.write("Filename,Predictions,Label\n")
+                f.write("Filename,Predictions,Label,Rank\n")
+
                 for result in results:
                     filename = result["name"]
                     pred = [item for subpred in result["pred"] for item in subpred]
                     # f.write(filename)
                     for i in range(0, len(pred), 2):
-                        f.write(filename+","+pred[i]+","+pred[i+1])
+                        f.write(filename+","+pred[i]+","+pred[i+1]+f",{i//2+1}")
                         f.write("\n")
                     # f.write("\n")
                     # f.write(filename+",".join(pred)+"\n")
