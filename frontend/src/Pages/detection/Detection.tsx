@@ -3,9 +3,11 @@ import React, {
 } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv,
+  faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv, faFileExcel,
 } from '@fortawesome/free-solid-svg-icons';
-import { getCSV, getModels, getPredictions } from '../../services/apiService';
+import {
+  getCSV, getXLSX, getModels, getPredictions,
+} from '../../services/apiService';
 import { Prediction } from '../../models/Prediction';
 
 function Detection() {
@@ -152,7 +154,7 @@ function Detection() {
     }
   };
 
-  const downloadPredictions = async () => {
+  const downloadPredictionsCSV = async () => {
     const selectedPredictions = predictions.filter((_, index) => isChecked[index]);
     try {
       const response = await getCSV(selectedPredictions);
@@ -166,6 +168,22 @@ function Detection() {
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error fetching CSV data:', error);
+    }
+  };
+  const downloadPredictionsXLSX = async () => {
+    const selectedPredictions = predictions.filter((_, index) => isChecked[index]);
+    try {
+      const response = await getXLSX(selectedPredictions);
+      const { data } = response;
+      const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'predictions.xlsx';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error fetching XLSX data:', error);
     }
   };
 
@@ -189,7 +207,7 @@ function Detection() {
 
   return (
     <div className="w-full h-full flex justify-center overflow-y-auto">
-      <div className="max-w-4xl w-11/12 flex flex-col items-center px-4 py-10 my-10 h-fit">
+      <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit">
         <h1 className=" text-xl font-varela text-center">
           Drag and Drop or Browse to Upload
           Image
@@ -254,11 +272,20 @@ function Detection() {
           <button
             type="button"
             className="btn btn-secondary"
-            onClick={downloadPredictions}
+            onClick={downloadPredictionsCSV}
             disabled={isChecked.every((value) => !value)}
           >
             <FontAwesomeIcon icon={faDownload} className="mr-2" />
             <FontAwesomeIcon icon={faFileCsv} />
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={downloadPredictionsXLSX}
+            disabled={isChecked.every((value) => !value)}
+          >
+            <FontAwesomeIcon icon={faDownload} className="mr-2" />
+            <FontAwesomeIcon icon={faFileExcel} />
           </button>
         </div>
         )}

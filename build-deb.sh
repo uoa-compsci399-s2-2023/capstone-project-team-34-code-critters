@@ -1,4 +1,12 @@
-#!/bin/bash
+################ Build Debian Package ################
+# This script builds the frontend and copies it to the backend
+# The script then packages the backend into a portable executable
+# The script then packages the portable executable into a debian package
+
+############### THIS SCRIPT DOES NOT CURRENTLY WORK ###############
+
+echo "This script is currently not working. Please use the build.sh script instead."
+exit 1
 
 # Set variables
 rootPath=$(pwd)

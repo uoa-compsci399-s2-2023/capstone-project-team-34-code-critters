@@ -186,6 +186,16 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+## MISC
+/misc/**.json
+/misc/.env
+**.tflite
+**.gz
 model.h5
 
 .fleet/
+
+
+################ Builds ################
+.Complete-CritterSleuth-Portable-Ubuntu/
+**/CritterSleuth/

@@ -1,3 +1,9 @@
+################ Build Windows Executables ################
+# This script builds the frontend and copies it to the backend
+# The script then packages the backend into a portable executable
+# The script then rebuilds the application for an installation executable
+# Finally the script then packages the frontend into a portable executable
+
 $applicationName = "CritterSleuth"
 $rootPath = $PWD
 $backendPath = Join-Path $rootPath "backend"
@@ -23,6 +29,13 @@ $applicationFolder = Join-Path $distPath $applicationName
 Set-Location $frontendPath
 Set-Content -Path ".\.env" -Value "REACT_APP_BACKEND_URL=http://localhost:6789/"
 Add-Content -Path ".\.env" -Value "REACT_APP_DISABLE_NAVBAR=true"
+Add-Content -Path ".\.env" -Value "REACT_APP_APIKEY=NULL"
+Add-Content -Path ".\.env" -Value "REACT_APP_AUTHDOMAIN=NULL"
+Add-Content -Path ".\.env" -Value "REACT_APP_PROJECTID=NULL"
+Add-Content -Path ".\.env" -Value "REACT_APP_STORAGEBUCKET=NULL"
+Add-Content -Path ".\.env" -Value "REACT_APP_MESSAGINGSENDERID=NULL"
+Add-Content -Path ".\.env" -Value "REACT_APP_APPID=NULL"
+Add-Content -Path ".\.env" -Value "REACT_APP_MEASUREMENTID=NULL"
 npm install
 npm run build
 
