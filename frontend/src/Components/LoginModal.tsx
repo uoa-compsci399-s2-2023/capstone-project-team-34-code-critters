@@ -4,6 +4,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import {
   GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup,
 } from 'firebase/auth';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { auth } from '../enviroments/firebase';
 import Toast, { ToastMessage } from './Toast';
 
@@ -13,11 +14,22 @@ interface LoginModalRef {
   // setUser: (user: any) => void;
 }
 
+interface FormData {
+  email: string;
+  password: string;
+}
+
 function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
   const [toast, setToast] = useState<ToastMessage>({ message: '', type: 'success' });
   const setToastMessage = (message: string, type: 'success' | 'error') => {
     setToast({ message, type });
   };
+
+  const {
+    register, handleSubmit, formState: { errors, isValid }, reset,
+  } = useForm<FormData>({
+    mode: 'onChange',
+  });
 
   const closeModal = () => {
     if (loginModalRef.current) {
@@ -62,15 +74,18 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
     }
   };
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isInputClicked, setIsInputClicked] = useState(false);
 
-  const loginEmailPassword = async () => {
-    const inputemail = email.trim();
-    const inputpassword = password.trim();
+  const handleInputClick = () => {
+    setIsInputClicked(true);
+  };
+
+  const loginEmailPassword: SubmitHandler<FormData> = async (data) => {
+    const inputemail = data.email.trim();
+    const inputpassword = data.password.trim();
 
     let hasError = false;
 
@@ -93,10 +108,10 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
     if (!hasError) {
       setIsSubmitting(true);
       try {
-        await signInWithEmailAndPassword(auth, inputemail, inputpassword);
+        await signInWithEmailAndPassword(auth, data.email, data.password);
         setToastMessage('Logged in with Email', 'success');
         closeModal();
-        setIsSubmitting(false);
+        reset();
       } catch (error) {
         const errorCode = (error as { code: string }).code;
         setIsSubmitting(false);
@@ -116,16 +131,24 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
     }
   };
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    setEmailError('');
-    setIsSubmitting(false);
-  };
+  // const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setEmail(e.target.value);
+  //   setEmailError('');
+  //   setIsSubmitting(false);
+  // };
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-    setPasswordError('');
-    setIsSubmitting(false);
+  // const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setPassword(e.target.value);
+  //   setPasswordError('');
+  //   setIsSubmitting(false);
+  // };
+
+  const emailValidationRules = {
+    required: 'Email is required',
+    pattern: {
+      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
+      message: 'Invalid email address',
+    },
   };
 
   return (
@@ -138,7 +161,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
         />
       )}
       <dialog ref={loginModalRef} className="modal modal-bottom sm:modal-middle">
-        <form method="dialog" className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 w-full  md:w-11/12 sm:max-w-5xl bg-white md:bg-gradient-to-br md:from-green-400 md:to-cyan-500 md:to-60%">
+        <form onSubmit={handleSubmit(loginEmailPassword)} className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 w-full  md:w-11/12 sm:max-w-5xl bg-white md:bg-gradient-to-br md:from-green-400 md:to-cyan-500 md:to-60%">
           <div className="relative hidden md:flex flex-col px-14 py-24">
             <div className="text-4xl font-black text-white font-varela cursor-default">
               Welcome back!
@@ -180,10 +203,21 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
                 id="email"
                 type="email"
                 placeholder="Enter your email"
-                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${emailError ? 'border-red-500' : ''}`}
-                value={email}
-                onChange={handleEmailChange}
+                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${
+                  (errors.email || emailError) ? 'border-red-500' : ''
+                }`}
+                {...register('email', {
+                  required: 'Email is required',
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
+                    message: 'Invalid email address',
+                  },
+                })}
+                onClick={handleInputClick}
               />
+              {errors.email && (
+                <div className="text-red-500 font-varela text-sm">{errors.email.message}</div>
+              )}
               {emailError && (
                 <div className="text-red-500 font-varela text-sm">{emailError}</div>
               )}
@@ -193,19 +227,23 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
                 id="password"
                 type="password"
                 placeholder="Enter your password"
-                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${passwordError ? 'border-red-500' : ''}`}
-                value={password}
-                onChange={handlePasswordChange}
+                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${errors.password ? 'border-red-500' : ''}`}
+                {...register('password', {
+                  required: true,
+                  minLength: 6,
+                })}
+                onClick={handleInputClick}
               />
-              {passwordError && (
-                <div className="text-red-500 font-varela text-sm">{passwordError}</div>
+              {errors.password && (
+                <div className="text-red-500 font-varela text-sm">
+                  {errors.password.type === 'required' ? 'Password is required' : 'Password must be at least 6 characters long'}
+                </div>
               )}
             </div>
             <button
-              className={`relative font-varela normal-case btn w-full text-white text-lg ${(emailError || passwordError || isSubmitting) ? 'cursor-not-allowed' : 'bg-gradient-to-r from-primary to-secondary'}`}
-              type="button"
-              onClick={loginEmailPassword}
-              disabled={emailError || passwordError || isSubmitting ? true : undefined}
+              type="submit"
+              className={`relative font-varela normal-case btn w-full text-white text-lg ${isSubmitting || (isInputClicked && !isValid) ? 'cursor-not-allowed' : 'bg-gradient-to-r from-primary to-secondary'}`}
+              disabled={isSubmitting || (isInputClicked && !isValid)}
             >
               <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${(emailError || passwordError || isSubmitting) ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
                 Login

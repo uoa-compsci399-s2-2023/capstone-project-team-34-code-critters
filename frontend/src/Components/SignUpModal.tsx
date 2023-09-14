@@ -87,7 +87,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
       await createUserWithEmailAndPassword(auth, data.email, data.password);
       setToastMessage('Account created with Google', 'success');
       signUpModalRef.current?.close();
-      reset(); // Clear the form on success
+      reset();
     } catch (error) {
       setToastMessage('Email sign up failed', 'error');
     }
