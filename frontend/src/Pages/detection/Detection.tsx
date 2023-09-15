@@ -204,7 +204,10 @@ function Detection() {
   const selectModel = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedModel(event.target.value);
   };
-
+  const handleDragOver = (event :React.DragEvent<HTMLDivElement>)=> {
+    event.preventDefault();
+    console.log(event);
+  };
   return (
     <div className="w-full h-full flex justify-center overflow-y-auto">
       <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit">
@@ -229,6 +232,8 @@ function Detection() {
         <div
           className={images.length > 0 ? 'cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 flex flex-col sm:flex-row justify-around items-center p-4' : 'cursor-pointer card w-full max-w-4xl border-2 border-dashed border-gray-300 mt-10 aspect-video flex items-center justify-center cursor-pointer p-4'}
           onClick={(event) => addImages(event)}
+          onDragOver={handleDragOver} //code needs to the changed later
+          onDrop = {(event) => addImages(event)} //code needs to be changed later 
         >
           <FontAwesomeIcon icon={faCloudArrowUp} size={images.length > 0 ? '3x' : '5x'} />
           <div className="md:flex flex-col hidden">
