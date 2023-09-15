@@ -8,6 +8,7 @@ import {
   GithubAuthProvider,
 } from 'firebase/auth';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { FirebaseError } from '@firebase/util';
 import { auth } from '../enviroments/firebase';
 import Toast, { ToastMessage } from './Toast';
 
@@ -28,7 +29,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
   };
 
   const {
-    register, handleSubmit, formState: { errors, isValid, isSubmitting }, reset, trigger,
+    register, handleSubmit, formState: { errors, isValid, isSubmitting }, reset,
   } = useForm<FormData>({
     mode: 'onChange',
   });
@@ -53,9 +54,19 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
       setToastMessage('Account created with Google', 'success');
-      signUpModalRef.current?.close();
-    } catch (e: any) {
-      setToastMessage('Google sign up failed', 'error');
+    } catch (e: unknown) {
+      if (e instanceof FirebaseError) {
+        if (e.code === 'auth/account-exists-with-different-credential') {
+          setToastMessage('Email already exists', 'error');
+        } else {
+          loginModalRef.current?.close();
+          setToastMessage('Google login failed', 'error');
+        }
+      } else {
+        loginModalRef.current?.close();
+        setToastMessage('Google login failed', 'error');
+      }
+    } finally {
       signUpModalRef.current?.close();
     }
   };
@@ -65,9 +76,19 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
       const provider = new GithubAuthProvider();
       await signInWithPopup(auth, provider);
       setToastMessage('Account created with Github', 'success');
-      signUpModalRef.current?.close();
-    } catch (e: any) {
-      setToastMessage('Github sign up failed', 'error');
+    } catch (e: unknown) {
+      if (e instanceof FirebaseError) {
+        if (e.code === 'auth/account-exists-with-different-credential') {
+          setToastMessage('Email already exists', 'error');
+        } else {
+          loginModalRef.current?.close();
+          setToastMessage('Github login failed', 'error');
+        }
+      } else {
+        loginModalRef.current?.close();
+        setToastMessage('Github login failed', 'error');
+      }
+    } finally {
       signUpModalRef.current?.close();
     }
   };
@@ -76,24 +97,25 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
     try {
       await createUserWithEmailAndPassword(auth, data.email, data.password);
       setToastMessage('Account created with Google', 'success');
-      signUpModalRef.current?.close();
       reset();
-    } catch (error) {
-      const errorCode = (error as { code: string }).code;
-
-      switch (errorCode) {
-        case 'auth/invalid-email':
-          setToastMessage('Invalid email address', 'error');
-          break;
-        case 'auth/wrong-password':
-          setToastMessage('Invalid password', 'error');
-          break;
-        case 'auth/email-already-in-use':
-          setToastMessage('Email already in use', 'error');
-          break;
-        default:
-          break;
+    } catch (e) {
+      if (e instanceof FirebaseError) {
+        switch (e.code) {
+          case 'auth/invalid-email':
+            setToastMessage('Invalid email address', 'error');
+            break;
+          case 'auth/wrong-password':
+            setToastMessage('Invalid password', 'error');
+            break;
+          case 'auth/email-already-in-use':
+            setToastMessage('Email already in use', 'error');
+            break;
+          default:
+            break;
+        }
       }
+    } finally {
+      signUpModalRef.current?.close();
     }
   };
 
@@ -161,11 +183,6 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
                     message: 'Invalid email address',
                   },
                 })}
-                onChange={async () => {
-                  if (errors.email) {
-                    await trigger('email');
-                  }
-                }}
               />
               {errors.email && (
               // eslint-disable-next-line jsx-a11y/label-has-associated-control
@@ -184,11 +201,6 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
                   required: true,
                   minLength: 6,
                 })}
-                onChange={async () => {
-                  if (errors.password) {
-                    await trigger('password');
-                  }
-                }}
               />
               {errors.password && (
               // eslint-disable-next-line jsx-a11y/label-has-associated-control

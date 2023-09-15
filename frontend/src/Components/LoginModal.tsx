@@ -1,10 +1,11 @@
-import React, { MutableRefObject, useEffect, useState } from 'react';
+import React, { MutableRefObject, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import {
   GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup,
 } from 'firebase/auth';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { FirebaseError } from '@firebase/util';
 import { auth } from '../enviroments/firebase';
 import Toast, { ToastMessage } from './Toast';
 
@@ -29,7 +30,6 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
     register, handleSubmit, formState: { errors, isValid, isSubmitting }, reset,
   } = useForm<FormData>({
     mode: 'onChange',
-    reValidateMode: 'onChange',
   });
 
   const closeModal = () => {
@@ -53,10 +53,20 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
       // setUser(result.user);
       await signInWithPopup(auth, provider);
       setToastMessage('Logged in with Google', 'success');
+    } catch (e: unknown) {
+      if (e instanceof FirebaseError) {
+        if (e.code === 'auth/account-exists-with-different-credential') {
+          setToastMessage('Email already exists', 'error');
+        } else {
+          loginModalRef.current?.close();
+          setToastMessage('Google login failed', 'error');
+        }
+      } else {
+        loginModalRef.current?.close();
+        setToastMessage('Google login failed', 'error');
+      }
+    } finally {
       closeModal();
-    } catch (e: any) {
-      setToastMessage('Google login failed', 'error');
-      loginModalRef.current?.close();
     }
   };
 
@@ -66,9 +76,20 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
       await signInWithPopup(auth, provider);
       setToastMessage('Logged in with Github', 'success');
       closeModal();
-    } catch (e: any) {
-      setToastMessage('Github login failed', 'error');
-      loginModalRef.current?.close();
+    } catch (e: unknown) {
+      if (e instanceof FirebaseError) {
+        if (e.code === 'auth/account-exists-with-different-credential') {
+          setToastMessage('Email already exists', 'error');
+        } else {
+          loginModalRef.current?.close();
+          setToastMessage('Github login failed', 'error');
+        }
+      } else {
+        loginModalRef.current?.close();
+        setToastMessage('Github login failed', 'error');
+      }
+    } finally {
+      closeModal();
     }
   };
 
@@ -77,24 +98,25 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
       try {
         await signInWithEmailAndPassword(auth, data.email, data.password);
         setToastMessage('Logged in with Email', 'success');
-        closeModal();
         reset();
-      } catch (error) {
-        const errorCode = (error as { code: string }).code;
-
-        switch (errorCode) {
-          case 'auth/invalid-email':
-            setToastMessage('Invalid email address', 'error');
-            break;
-          case 'auth/wrong-password':
-            setToastMessage('Wrong password', 'error');
-            break;
-          case 'auth/user-not-found':
-            setToastMessage('Email not found', 'error');
-            break;
-          default:
-            break;
+      } catch (e) {
+        if (e instanceof FirebaseError) {
+          switch (e.code) {
+            case 'auth/invalid-email':
+              setToastMessage('Invalid email address', 'error');
+              break;
+            case 'auth/wrong-password':
+              setToastMessage('Wrong password', 'error');
+              break;
+            case 'auth/user-not-found':
+              setToastMessage('Email not found', 'error');
+              break;
+            default:
+              break;
+          }
         }
+      } finally {
+        closeModal();
       }
     }
   };
