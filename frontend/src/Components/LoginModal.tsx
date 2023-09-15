@@ -227,7 +227,8 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
               Login
             </button>
             <div className="text-neutral-500 font-varela cursor-default">
-              Don`&apos;`t have an account?
+              {/* eslint-disable-next-line react/no-unescaped-entities */}
+              Don't have an account?
               {' '}
               <button type="button" className="relative font-varela cursor-pointer text-green-500" onClick={openSignUpModal}>Sign up</button>
             </div>
