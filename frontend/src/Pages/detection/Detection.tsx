@@ -210,8 +210,8 @@ function Detection() {
     // setImages([event.dataTransfer.files]);
   };
   const handleDrop = (event :React.DragEvent<HTMLDivElement>)=> {
-event.preventDefault();
-const droppedFiles = Array.from(event.dataTransfer.files);
+    event.preventDefault();
+    const droppedFiles = Array.from(event.dataTransfer.files);
   setImages([...images, ...Array.from(droppedFiles)]);
   setIsLoading([...isLoading, ...Array.from(droppedFiles)
     .map(() => false)]);
