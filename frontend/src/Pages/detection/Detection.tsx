@@ -206,7 +206,17 @@ function Detection() {
   };
   const handleDragOver = (event :React.DragEvent<HTMLDivElement>)=> {
     event.preventDefault();
-    console.log(event);
+    event.dataTransfer.dropEffect = 'copy';
+    // setImages([event.dataTransfer.files]);
+  };
+  const handleDrop = (event :React.DragEvent<HTMLDivElement>)=> {
+event.preventDefault();
+const droppedFiles = Array.from(event.dataTransfer.files);
+  setImages([...images, ...Array.from(droppedFiles)]);
+  setIsLoading([...isLoading, ...Array.from(droppedFiles)
+    .map(() => false)]);
+  setIsChecked([...isChecked, ...Array.from(droppedFiles)
+    .map(() => false)]);
   };
   return (
     <div className="w-full h-full flex justify-center overflow-y-auto">
@@ -233,7 +243,7 @@ function Detection() {
           className={images.length > 0 ? 'cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 flex flex-col sm:flex-row justify-around items-center p-4' : 'cursor-pointer card w-full max-w-4xl border-2 border-dashed border-gray-300 mt-10 aspect-video flex items-center justify-center cursor-pointer p-4'}
           onClick={(event) => addImages(event)}
           onDragOver={handleDragOver} //code needs to the changed later
-          onDrop = {(event) => addImages(event)} //code needs to be changed later 
+          onDrop = {handleDrop} //code needs to be changed later 
         >
           <FontAwesomeIcon icon={faCloudArrowUp} size={images.length > 0 ? '3x' : '5x'} />
           <div className="md:flex flex-col hidden">
