@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useState } from 'react';
+import React, { MutableRefObject, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -26,9 +26,10 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
   };
 
   const {
-    register, handleSubmit, formState: { errors, isValid }, reset, trigger,
+    register, handleSubmit, formState: { errors, isValid, isSubmitting }, reset,
   } = useForm<FormData>({
     mode: 'onChange',
+    reValidateMode: 'onChange',
   });
 
   const closeModal = () => {
@@ -45,7 +46,6 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
       signUpModalRef.current.showModal();
     }
   };
-
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
@@ -63,8 +63,6 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
   const signInWithGithub = async () => {
     try {
       const provider = new GithubAuthProvider();
-      // const result = await signInWithPopup(auth, provider);
-      // setUser(result.user);
       await signInWithPopup(auth, provider);
       setToastMessage('Logged in with Github', 'success');
       closeModal();
@@ -74,41 +72,8 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
     }
   };
 
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isInputClicked, setIsInputClicked] = useState(false);
-
-  const handleInputClick = () => {
-    setIsInputClicked(true);
-    trigger(['email', 'password']);
-    setIsSubmitting(false);
-  };
-
   const loginEmailPassword: SubmitHandler<FormData> = async (data) => {
-    const inputemail = data.email.trim();
-    const inputpassword = data.password.trim();
-
-    let hasError = false;
-
-    if (inputemail === '') {
-      setEmailError('Please enter an Email');
-      hasError = true;
-      setIsSubmitting(false);
-    } else {
-      setEmailError('');
-    }
-
-    if (inputpassword === '') {
-      setPasswordError('Please enter a Password');
-      hasError = true;
-      setIsSubmitting(false);
-    } else {
-      setPasswordError('');
-    }
-
-    if (!hasError) {
-      setIsSubmitting(false);
+    if (isValid) {
       try {
         await signInWithEmailAndPassword(auth, data.email, data.password);
         setToastMessage('Logged in with Email', 'success');
@@ -116,22 +81,20 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
         reset();
       } catch (error) {
         const errorCode = (error as { code: string }).code;
-        setIsSubmitting(true);
 
         switch (errorCode) {
           case 'auth/invalid-email':
-            setEmailError('Invalid email address');
+            setToastMessage('Invalid email address', 'error');
             break;
           case 'auth/wrong-password':
-            setPasswordError('Invalid password');
+            setToastMessage('Wrong password', 'error');
             break;
           case 'auth/user-not-found':
-            setEmailError('Email not found');
+            setToastMessage('Email not found', 'error');
             break;
           default:
             break;
         }
-        setToastMessage('Email log in failed', 'error');
       }
     }
   };
@@ -189,8 +152,8 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
                 id="email"
                 type="email"
                 placeholder="Enter your email"
-                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${
-                  (errors.email || emailError) ? 'border-red-500' : ''
+                className={`font-varela input w-full text-neutral-500 focus:text-neutral-600 ${
+                  errors.email && 'input-error'
                 }`}
                 {...register('email', {
                   required: 'Email is required',
@@ -199,13 +162,12 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
                     message: 'Invalid email address',
                   },
                 })}
-                onClick={handleInputClick}
               />
               {errors.email && (
-                <div className="text-red-500 font-varela text-sm">{errors.email.message}</div>
-              )}
-              {emailError && (
-                <div className="text-red-500 font-varela text-sm">{emailError}</div>
+              // eslint-disable-next-line jsx-a11y/label-has-associated-control
+              <label className="label">
+                <div className="text-error font-varela label-text-alt">{errors.email.message}</div>
+              </label>
               )}
             </div>
             <div className="w-full">
@@ -213,31 +175,29 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
                 id="password"
                 type="password"
                 placeholder="Enter your password"
-                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${(errors.password || passwordError) ? 'border-red-500' : ''}`}
+                className={`font-varela input w-full text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
                 {...register('password', {
                   required: true,
                   minLength: 6,
                 })}
-                onClick={handleInputClick}
               />
               {errors.password && (
-                <div className="text-red-500 font-varela text-sm">
+              // eslint-disable-next-line jsx-a11y/label-has-associated-control
+              <label className="label">
+                <div className="text-error font-varela label-text-alt">
                   {errors.password.type === 'required' ? 'Password is required' : 'Password must be at least 6 characters long'}
                 </div>
-              )}
-              {passwordError && (
-                <div className="text-red-500 font-varela text-sm">{passwordError}</div>
+              </label>
               )}
             </div>
             <button
               type="submit"
               className={`relative font-varela normal-case btn w-full text-white text-lg ${
-                (isInputClicked && isSubmitting) || (isInputClicked && !isValid)
+                (!isValid)
                   ? 'cursor-not-allowed'
                   : 'bg-gradient-to-r from-primary to-secondary'
               }`}
-              disabled={(isInputClicked && isSubmitting) || (isInputClicked && !isValid)}
-              onClick={handleInputClick}
+              disabled={!isValid}
             >
               <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
                 Login
