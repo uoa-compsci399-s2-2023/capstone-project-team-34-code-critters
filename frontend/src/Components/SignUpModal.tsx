@@ -221,9 +221,9 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
               disabled={!isValid}
             >
               <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
-                Login
+                Create Account
               </div>
-              Login
+              Create Account
             </button>
             <div className="text-neutral-500 font-varela cursor-default">
               Already have an account?
