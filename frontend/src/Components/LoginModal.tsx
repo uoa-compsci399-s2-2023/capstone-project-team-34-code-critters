@@ -26,7 +26,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
   };
 
   const {
-    register, handleSubmit, formState: { errors, isValid }, reset, trigger, 
+    register, handleSubmit, formState: { errors, isValid }, reset, trigger,
   } = useForm<FormData>({
     mode: 'onChange',
   });
@@ -184,6 +184,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
             </button>
             <div className="font-varela divider text-neutral-400 before:bg-neutral-200 after:bg-neutral-200 cursor-default">OR</div>
             <div className="w-full">
+              {/* eslint-disable react/jsx-props-no-spreading */}
               <input
                 id="email"
                 type="email"
@@ -231,8 +232,8 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
             <button
               type="submit"
               className={`relative font-varela normal-case btn w-full text-white text-lg ${
-                (isInputClicked && isSubmitting) || (isInputClicked && !isValid) 
-                  ? 'cursor-not-allowed' 
+                (isInputClicked && isSubmitting) || (isInputClicked && !isValid)
+                  ? 'cursor-not-allowed'
                   : 'bg-gradient-to-r from-primary to-secondary'
               }`}
               disabled={(isInputClicked && isSubmitting) || (isInputClicked && !isValid)}

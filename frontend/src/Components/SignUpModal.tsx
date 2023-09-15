@@ -28,7 +28,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
   };
 
   const {
-    register, handleSubmit, formState: { errors, isValid }, reset, trigger, 
+    register, handleSubmit, formState: { errors, isValid }, reset, trigger,
   } = useForm<FormData>({
     mode: 'onChange',
   });
@@ -71,7 +71,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
       signUpModalRef.current?.close();
     }
   };
-  
+
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -161,6 +161,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
             </button>
             <div className="font-varela divider text-neutral-400 before:bg-neutral-200 after:bg-neutral-200 cursor-default">OR</div>
             <div className="w-full">
+              {/* eslint-disable react/jsx-props-no-spreading */}
               <input
                 id="email"
                 type="email"
