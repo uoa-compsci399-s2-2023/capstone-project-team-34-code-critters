@@ -97,7 +97,6 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
     try {
       await createUserWithEmailAndPassword(auth, data.email, data.password);
       setToastMessage('Account created with Google', 'success');
-      reset();
     } catch (e) {
       if (e instanceof FirebaseError) {
         switch (e.code) {
@@ -115,6 +114,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
         }
       }
     } finally {
+      reset();
       signUpModalRef.current?.close();
     }
   };

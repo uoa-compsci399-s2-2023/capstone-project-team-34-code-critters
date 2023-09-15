@@ -98,7 +98,6 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
       try {
         await signInWithEmailAndPassword(auth, data.email, data.password);
         setToastMessage('Logged in with Email', 'success');
-        reset();
       } catch (e) {
         if (e instanceof FirebaseError) {
           switch (e.code) {
@@ -116,6 +115,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
           }
         }
       } finally {
+        reset();
         closeModal();
       }
     }
