@@ -31,7 +31,7 @@ function Toast({ message, type, onClose }: ToastProps) {
 
   return visible ? (
     <div className="toast toast-top toast-end z-40">
-      <div className={`alert ${alertClass}`}>
+      <div className={`border-none alert ${alertClass}`}>
         <span>{message}</span>
         <button type="button" onClick={() => setVisible(false)}>
           <FontAwesomeIcon icon={faXmark} />
