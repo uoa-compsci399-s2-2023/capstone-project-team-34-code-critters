@@ -26,7 +26,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
   };
 
   const {
-    register, handleSubmit, formState: { errors, isValid }, reset,
+    register, handleSubmit, formState: { errors, isValid }, reset, trigger, 
   } = useForm<FormData>({
     mode: 'onChange',
   });
@@ -81,6 +81,8 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
 
   const handleInputClick = () => {
     setIsInputClicked(true);
+    trigger(['email', 'password']);
+    setIsSubmitting(false);
   };
 
   const loginEmailPassword: SubmitHandler<FormData> = async (data) => {
@@ -106,7 +108,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
     }
 
     if (!hasError) {
-      setIsSubmitting(true);
+      setIsSubmitting(false);
       try {
         await signInWithEmailAndPassword(auth, data.email, data.password);
         setToastMessage('Logged in with Email', 'success');
@@ -114,14 +116,17 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
         reset();
       } catch (error) {
         const errorCode = (error as { code: string }).code;
-        setIsSubmitting(false);
+        setIsSubmitting(true);
 
         switch (errorCode) {
           case 'auth/invalid-email':
-            setEmailError('Invalid email address.');
+            setEmailError('Invalid email address');
             break;
           case 'auth/wrong-password':
             setPasswordError('Invalid password');
+            break;
+          case 'auth/user-not-found':
+            setEmailError('Email not found');
             break;
           default:
             break;
@@ -129,26 +134,6 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
         setToastMessage('Email log in failed', 'error');
       }
     }
-  };
-
-  // const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setEmail(e.target.value);
-  //   setEmailError('');
-  //   setIsSubmitting(false);
-  // };
-
-  // const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPassword(e.target.value);
-  //   setPasswordError('');
-  //   setIsSubmitting(false);
-  // };
-
-  const emailValidationRules = {
-    required: 'Email is required',
-    pattern: {
-      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
-      message: 'Invalid email address',
-    },
   };
 
   return (
@@ -181,7 +166,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
             <div className="text-3xl sm:text-4xl font-black text-green-500 font-varela cursor-default">
               Login
             </div>
-            <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
+            <button className="font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
               <img
                 alt="google icon"
                 src="/logos/google.svg"
@@ -189,7 +174,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
               />
               Login with Google
             </button>
-            <button className="font-varela btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
+            <button className="font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
               <img
                 className="h-3/4"
                 alt="github icon"
@@ -227,7 +212,7 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
                 id="password"
                 type="password"
                 placeholder="Enter your password"
-                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${errors.password ? 'border-red-500' : ''}`}
+                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${(errors.password || passwordError) ? 'border-red-500' : ''}`}
                 {...register('password', {
                   required: true,
                   minLength: 6,
@@ -239,13 +224,21 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
                   {errors.password.type === 'required' ? 'Password is required' : 'Password must be at least 6 characters long'}
                 </div>
               )}
+              {passwordError && (
+                <div className="text-red-500 font-varela text-sm">{passwordError}</div>
+              )}
             </div>
             <button
               type="submit"
-              className={`relative font-varela normal-case btn w-full text-white text-lg ${isSubmitting || (isInputClicked && !isValid) ? 'cursor-not-allowed' : 'bg-gradient-to-r from-primary to-secondary'}`}
-              disabled={isSubmitting || (isInputClicked && !isValid)}
+              className={`relative font-varela normal-case btn w-full text-white text-lg ${
+                (isInputClicked && isSubmitting) || (isInputClicked && !isValid) 
+                  ? 'cursor-not-allowed' 
+                  : 'bg-gradient-to-r from-primary to-secondary'
+              }`}
+              disabled={(isInputClicked && isSubmitting) || (isInputClicked && !isValid)}
+              onClick={handleInputClick}
             >
-              <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${(emailError || passwordError || isSubmitting) ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
+              <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
                 Login
               </div>
               Login

@@ -28,7 +28,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
   };
 
   const {
-    register, handleSubmit, formState: { errors, isValid }, reset,
+    register, handleSubmit, formState: { errors, isValid }, reset, trigger, 
   } = useForm<FormData>({
     mode: 'onChange',
   });
@@ -71,13 +71,16 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
       signUpModalRef.current?.close();
     }
   };
-
-  const [emailError] = useState('');
+  
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isInputClicked, setIsInputClicked] = useState(false);
 
   const handleInputClick = () => {
     setIsInputClicked(true);
+    trigger(['email', 'password']);
+    setIsSubmitting(false);
   };
 
   const createAccount: SubmitHandler<FormData> = async (data) => {
@@ -89,9 +92,24 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
       signUpModalRef.current?.close();
       reset();
     } catch (error) {
+      const errorCode = (error as { code: string }).code;
+      setIsSubmitting(true);
+
+      switch (errorCode) {
+        case 'auth/invalid-email':
+          setEmailError('Invalid email address');
+          break;
+        case 'auth/wrong-password':
+          setPasswordError('Invalid password');
+          break;
+        case 'auth/email-already-in-use':
+          setEmailError('Email already in use');
+          break;
+        default:
+          break;
+      }
       setToastMessage('Email sign up failed', 'error');
     }
-    setIsSubmitting(false);
   };
 
   return (
@@ -171,7 +189,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
                 id="password"
                 type="password"
                 placeholder="Enter your password"
-                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${errors.password ? 'border-red-500' : ''}`}
+                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${(errors.password || passwordError) ? 'border-red-500' : ''}`}
                 {...register('password', {
                   required: true,
                   minLength: 6,
@@ -183,11 +201,19 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
                   {errors.password.type === 'required' ? 'Password is required' : 'Password must be at least 6 characters long'}
                 </div>
               )}
+              {passwordError && (
+                <div className="text-red-500 font-varela text-sm">{passwordError}</div>
+              )}
             </div>
             <button
               type="submit"
-              className={`relative font-varela normal-case btn w-full text-white text-lg ${isSubmitting || (isInputClicked && !isValid) ? 'cursor-not-allowed' : 'bg-gradient-to-r from-primary to-secondary'}`}
-              disabled={isSubmitting || (isInputClicked && !isValid)}
+              className={`relative font-varela normal-case btn w-full text-white text-lg ${
+                (isInputClicked && isSubmitting) || (isInputClicked && !isValid)
+                  ? 'cursor-not-allowed'
+                  : 'bg-gradient-to-r from-primary to-secondary'
+              }`}
+              disabled={(isInputClicked && isSubmitting) || (isInputClicked && !isValid)}
+              onClick={handleInputClick}
             >
               <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
                 Create Account
