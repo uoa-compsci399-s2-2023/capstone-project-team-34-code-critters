@@ -29,6 +29,7 @@ function Navbar({ loginModalRef }: NavbarProps) {
 
   // Use the useAuthState hook to get the user's authentication status
   const [user] = useAuthState(auth);
+  // const userEmail = user ? user.email : '';
 
   useEffect(() => {
     switch (location.pathname) {
