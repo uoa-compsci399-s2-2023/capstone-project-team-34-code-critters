@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useState, useEffect } from 'react';
+import React, { MutableRefObject, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -24,7 +24,9 @@ interface FormData {
   password: string;
 }
 
-function LoginModal({ loginModalRef, signUpModalRef, toast, setToastMessage }: LoginModalRef) {
+function LoginModal({
+  loginModalRef, signUpModalRef, toast, setToastMessage,
+}: LoginModalRef) {
   const [errorToast, setErrorToast] = useState<ToastMessage>({ message: '', type: 'success' });
   const setErrorToastMessage = (message: string, type: 'success' | 'error') => {
     setErrorToast({ message, type });

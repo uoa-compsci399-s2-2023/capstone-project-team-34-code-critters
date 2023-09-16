@@ -24,7 +24,9 @@ interface FormData {
   password: string;
 }
 
-function SignUpModal({ signUpModalRef, loginModalRef, toast, setToastMessage }: SignUpModalProps) {
+function SignUpModal({
+  signUpModalRef, loginModalRef, toast, setToastMessage,
+}: SignUpModalProps) {
   const [errorToast, setErrorToast] = useState<ToastMessage>({ message: '', type: 'success' });
   const setErrorToastMessage = (message: string, type: 'success' | 'error') => {
     setErrorToast({ message, type });

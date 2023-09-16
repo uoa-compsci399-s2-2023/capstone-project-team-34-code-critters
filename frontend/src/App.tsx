@@ -26,8 +26,18 @@ function App() {
           <Route path="/" element={<Home />} />
         </Routes>
       </div>
-      <SignUpModal signUpModalRef={signUpModalRef} loginModalRef={loginModalRef} toast={toast} setToastMessage={setToastMessage} />
-      <LoginModal loginModalRef={loginModalRef} signUpModalRef={signUpModalRef} toast={toast} setToastMessage={setToastMessage} />
+      <SignUpModal
+        signUpModalRef={signUpModalRef}
+        loginModalRef={loginModalRef}
+        toast={toast}
+        setToastMessage={setToastMessage}
+      />
+      <LoginModal
+        loginModalRef={loginModalRef}
+        signUpModalRef={signUpModalRef}
+        toast={toast}
+        setToastMessage={setToastMessage}
+      />
       {toast.message && (
         <Toast
           message={toast.message}
