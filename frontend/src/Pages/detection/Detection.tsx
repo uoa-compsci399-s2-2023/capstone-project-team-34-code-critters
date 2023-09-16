@@ -206,10 +206,9 @@ function Detection() {
     setSelectedModel(event.target.value);
   };
   const handleDragOver = (event :React.DragEvent<HTMLDivElement>)=> {
-    event.preventDefault();
-    // setIsDraggingOver(true);
-    event.dataTransfer.dropEffect = 'copy';
-    // setImages([event.dataTransfer.files]);
+    const newEvent = event;
+    newEvent.preventDefault();
+    newEvent.dataTransfer.dropEffect = 'copy';
   };
   const handleDragEnter = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
