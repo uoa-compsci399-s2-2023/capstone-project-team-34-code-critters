@@ -21,6 +21,11 @@ function Detection() {
   const [models, setModels] = useState<string[]>([]);
   const [selectedModel, setSelectedModel] = useState<string>('');
   const [isDraggingOver, setIsDraggingOver] = useState(false);
+  const className = `cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 ${
+    images.length > 0
+      ? 'flex flex-col sm:flex-row justify-around items-center p-4'
+      : 'aspect-video flex items-center justify-center p-4'
+  } ${isDraggingOver ? 'bg-green-200' : ''}`;
   const handleShowMore = (pred: string[][]) => {
     setNumToShow(pred.length); // Show all predictions
   };
@@ -257,9 +262,7 @@ function Detection() {
         />
         <div
           // className={images.length > 0 ? 'cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 flex flex-col sm:flex-row justify-around items-center p-4' : 'cursor-pointer card w-full max-w-4xl border-2 border-dashed border-gray-300 mt-10 aspect-video flex items-center justify-center cursor-pointer p-4'}
-          className={`cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 ${
-            images.length > 0 ? 'flex flex-col sm:flex-row justify-around items-center p-4' : 'aspect-video flex items-center justify-center p-4'
-          } ${isDraggingOver ? 'bg-green-200' : ''}`}
+          className={className}
           onClick={(event) => addImages(event)}
           onDragOver={handleDragOver} //code needs to the changed later
           onDrop = {handleDrop} //code needs to be changed later 
