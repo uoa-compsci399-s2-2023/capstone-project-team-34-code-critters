@@ -25,10 +25,10 @@ interface FormData {
 }
 
 function SignUpModal({ signUpModalRef, loginModalRef, toast, setToastMessage }: SignUpModalProps) {
-  // const [toast, setToast] = useState<ToastMessage>({ message: '', type: 'success' });
-  // const setToastMessage = (message: string, type: 'success' | 'error') => {
-  //   setToast({ message, type });
-  // };
+  const [errorToast, setErrorToast] = useState<ToastMessage>({ message: '', type: 'success' });
+  const setErrorToastMessage = (message: string, type: 'success' | 'error') => {
+    setErrorToast({ message, type });
+  };
 
   const {
     register, handleSubmit, formState: { errors, isValid, isSubmitting }, reset,
@@ -37,7 +37,7 @@ function SignUpModal({ signUpModalRef, loginModalRef, toast, setToastMessage }: 
   });
 
   const closeModal = () => {
-    if (!toast.message && signUpModalRef.current) {
+    if (!toast.message && !errorToast.message && signUpModalRef.current) {
       signUpModalRef.current.close();
     }
   };
@@ -60,14 +60,14 @@ function SignUpModal({ signUpModalRef, loginModalRef, toast, setToastMessage }: 
     } catch (e: unknown) {
       if (e instanceof FirebaseError) {
         if (e.code === 'auth/account-exists-with-different-credential') {
-          setToastMessage('Email already exists', 'error');
+          setErrorToastMessage('Email already exists', 'error');
         } else {
           loginModalRef.current?.close();
-          setToastMessage('Google login failed', 'error');
+          setErrorToastMessage('Google login failed', 'error');
         }
       } else {
         loginModalRef.current?.close();
-        setToastMessage('Google login failed', 'error');
+        setErrorToastMessage('Google login failed', 'error');
       }
     }
   };
@@ -81,14 +81,14 @@ function SignUpModal({ signUpModalRef, loginModalRef, toast, setToastMessage }: 
     } catch (e: unknown) {
       if (e instanceof FirebaseError) {
         if (e.code === 'auth/account-exists-with-different-credential') {
-          setToastMessage('Email already exists', 'error');
+          setErrorToastMessage('Email already exists', 'error');
         } else {
           loginModalRef.current?.close();
-          setToastMessage('Github login failed', 'error');
+          setErrorToastMessage('Github login failed', 'error');
         }
       } else {
         loginModalRef.current?.close();
-        setToastMessage('Github login failed', 'error');
+        setErrorToastMessage('Github login failed', 'error');
       }
     }
   };
@@ -103,15 +103,16 @@ function SignUpModal({ signUpModalRef, loginModalRef, toast, setToastMessage }: 
       if (e instanceof FirebaseError) {
         switch (e.code) {
           case 'auth/invalid-email':
-            setToastMessage('Invalid email address', 'error');
+            setErrorToastMessage('Invalid email address', 'error');
             break;
           case 'auth/wrong-password':
-            setToastMessage('Invalid password', 'error');
+            setErrorToastMessage('Invalid password', 'error');
             break;
           case 'auth/email-already-in-use':
-            setToastMessage('Email already in use', 'error');
+            setErrorToastMessage('Email already in use', 'error');
             break;
           default:
+            setErrorToastMessage('Email login failed', 'error');
             break;
         }
       }
@@ -121,13 +122,13 @@ function SignUpModal({ signUpModalRef, loginModalRef, toast, setToastMessage }: 
   return (
     <div>
       <dialog ref={signUpModalRef} className="modal modal-bottom sm:modal-middle">
-        {/* {toast.message && (
+        {errorToast.message && (
           <Toast
-            message={toast.message}
-            type={toast.type}
-            onClose={() => setToast({ message: '', type: 'success' })}
+            message={errorToast.message}
+            type={errorToast.type}
+            onClose={() => setErrorToast({ message: '', type: 'success' })}
           />
-        )} */}
+        )}
         <form onSubmit={handleSubmit(createAccount)} className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 w-full  md:w-11/12 sm:max-w-5xl bg-white md:bg-gradient-to-br md:from-green-400 md:to-cyan-500 md:to-60%">
           <div className="relative hidden md:flex flex-col px-14 py-24">
             <div className="text-4xl font-black text-white font-varela cursor-default">
