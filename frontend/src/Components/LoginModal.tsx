@@ -1,8 +1,11 @@
-import React, { MutableRefObject, useState } from 'react';
+import React, { MutableRefObject, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import {
-  GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup,
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
 } from 'firebase/auth';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { FirebaseError } from '@firebase/util';
@@ -12,7 +15,7 @@ import Toast, { ToastMessage } from './Toast';
 interface LoginModalRef {
   loginModalRef: MutableRefObject<HTMLDialogElement | null>
   signUpModalRef: MutableRefObject<HTMLDialogElement | null>
-  // setUser: (user: any) => void;
+  setToastMessage: (message: string, type: 'success' | 'error') => void;
 }
 
 interface FormData {
@@ -20,11 +23,11 @@ interface FormData {
   password: string;
 }
 
-function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
+function LoginModal({ loginModalRef, signUpModalRef, setToastMessage }: LoginModalRef) {
   const [toast, setToast] = useState<ToastMessage>({ message: '', type: 'success' });
-  const setToastMessage = (message: string, type: 'success' | 'error') => {
-    setToast({ message, type });
-  };
+  // const setToastMessage = (message: string, type: 'success' | 'error') => {
+  //   setToast({ message, type });
+  // };
 
   const {
     register, handleSubmit, formState: { errors, isValid, isSubmitting }, reset,
@@ -50,11 +53,9 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      // const result = await signInWithPopup(auth, provider);
-      // setUser(result.user);
       await signInWithPopup(auth, provider);
-      setToastMessage('Logged in with Google', 'success');
       closeModal();
+      setToastMessage('Logged in with Google', 'success');
     } catch (e: unknown) {
       if (e instanceof FirebaseError) {
         if (e.code === 'auth/account-exists-with-different-credential') {
@@ -74,8 +75,8 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
     try {
       const provider = new GithubAuthProvider();
       await signInWithPopup(auth, provider);
-      setToastMessage('Logged in with Github', 'success');
       closeModal();
+      setToastMessage('Logged in with Github', 'success');
     } catch (e: unknown) {
       if (e instanceof FirebaseError) {
         if (e.code === 'auth/account-exists-with-different-credential') {
@@ -95,9 +96,9 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
     if (isValid) {
       try {
         await signInWithEmailAndPassword(auth, data.email, data.password);
+        closeModal();
         setToastMessage('Logged in with Email', 'success');
         reset();
-        closeModal();
       } catch (e) {
         if (e instanceof FirebaseError) {
           switch (e.code) {
@@ -232,7 +233,9 @@ function LoginModal({ loginModalRef, signUpModalRef }: LoginModalRef) {
           </div>
         </form>
         <form method="dialog" className="modal-backdrop">
-          <button type="button" onClick={() => closeModal()}>close</button>
+          <button type="button" onClick={() => closeModal()}>
+            close
+          </button>
         </form>
       </dialog>
     </div>

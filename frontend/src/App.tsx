@@ -1,14 +1,22 @@
+import React, { useRef, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import React, { useRef } from 'react';
 import Detection from './Pages/detection/Detection';
 import Navbar from './Components/Navbar';
 import SignUpModal from './Components/SignUpModal';
 import LoginModal from './Components/LoginModal';
 import Home from './Pages/home/Home';
+import Toast, { ToastMessage } from './Components/Toast'; // Import the Toast component
 
 function App() {
   const loginModalRef = useRef<HTMLDialogElement | null>(null);
   const signUpModalRef = useRef<HTMLDialogElement | null>(null);
+
+  const [toast, setToast] = useState<ToastMessage>({ message: '', type: 'success' });
+
+  const setToastMessage = (message: string, type: 'success' | 'error') => {
+    setToast({ message, type });
+  };
+
   return (
     <div className="w-full h-screen">
       <Navbar loginModalRef={loginModalRef} />
@@ -18,8 +26,15 @@ function App() {
           <Route path="/" element={<Home />} />
         </Routes>
       </div>
-      <SignUpModal signUpModalRef={signUpModalRef} loginModalRef={loginModalRef} />
-      <LoginModal loginModalRef={loginModalRef} signUpModalRef={signUpModalRef} />
+      <SignUpModal signUpModalRef={signUpModalRef} loginModalRef={loginModalRef} setToastMessage={setToastMessage} />
+      <LoginModal loginModalRef={loginModalRef} signUpModalRef={signUpModalRef} setToastMessage={setToastMessage} />
+      {toast.message && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast({ message: '', type: 'success' })}
+        />
+      )}
     </div>
   );
 }

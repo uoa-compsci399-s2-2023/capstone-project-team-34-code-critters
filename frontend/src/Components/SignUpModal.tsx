@@ -15,6 +15,7 @@ import Toast, { ToastMessage } from './Toast';
 interface SignUpModalProps {
   signUpModalRef: MutableRefObject<HTMLDialogElement | null>;
   loginModalRef: MutableRefObject<HTMLDialogElement | null>;
+  setToastMessage: (message: string, type: 'success' | 'error') => void;
 }
 
 interface FormData {
@@ -22,11 +23,11 @@ interface FormData {
   password: string;
 }
 
-function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
+function SignUpModal({ signUpModalRef, loginModalRef, setToastMessage }: SignUpModalProps) {
   const [toast, setToast] = useState<ToastMessage>({ message: '', type: 'success' });
-  const setToastMessage = (message: string, type: 'success' | 'error') => {
-    setToast({ message, type });
-  };
+  // const setToastMessage = (message: string, type: 'success' | 'error') => {
+  //   setToast({ message, type });
+  // };
 
   const {
     register, handleSubmit, formState: { errors, isValid, isSubmitting }, reset,
