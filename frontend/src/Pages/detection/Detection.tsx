@@ -261,7 +261,6 @@ function Detection() {
           accept="image/png, image/jpeg"
         />
         <div
-          // className={images.length > 0 ? 'cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 flex flex-col sm:flex-row justify-around items-center p-4' : 'cursor-pointer card w-full max-w-4xl border-2 border-dashed border-gray-300 mt-10 aspect-video flex items-center justify-center cursor-pointer p-4'}
           className={className}
           onClick={(event) => addImages(event)}
           onDragOver={handleDragOver} //code needs to the changed later
