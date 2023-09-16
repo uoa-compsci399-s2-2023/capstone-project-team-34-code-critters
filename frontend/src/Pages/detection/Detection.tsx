@@ -207,6 +207,7 @@ function Detection() {
   };
   const handleDragOver = (event :React.DragEvent<HTMLDivElement>)=> {
     event.preventDefault();
+    // setIsDraggingOver(true);
     event.dataTransfer.dropEffect = 'copy';
     // setImages([event.dataTransfer.files]);
   };
@@ -223,7 +224,7 @@ function Detection() {
     setIsDraggingOver(false);
     
     const droppedFiles = Array.from(event.dataTransfer.files);
-    console.log(isDraggingOver)
+    
   setImages([...images, ...Array.from(droppedFiles)]);
   setIsLoading([...isLoading, ...Array.from(droppedFiles)
     .map(() => false)]);
@@ -231,9 +232,9 @@ function Detection() {
     .map(() => false)]);
   };
 
-  useEffect(() => {
-    console.log("entering:", isDraggingOver);
-  }, [isDraggingOver]);
+  // useEffect(() => {
+  //   console.log("entering:", isDraggingOver);
+  // }, [isDraggingOver]);
   return (
     <div className="w-full h-full flex justify-center overflow-y-auto">
       <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit">
