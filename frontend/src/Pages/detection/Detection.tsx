@@ -21,11 +21,6 @@ function Detection() {
   const [models, setModels] = useState<string[]>([]);
   const [selectedModel, setSelectedModel] = useState<string>('');
   const [isDraggingOver, setIsDraggingOver] = useState(false);
-  const className = `cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 ${
-    images.length > 0
-      ? 'flex flex-col sm:flex-row justify-around items-center p-4'
-      : 'aspect-video flex items-center justify-center p-4'
-  } ${isDraggingOver ? 'bg-green-200' : ''}`;
   const handleShowMore = (pred: string[][]) => {
     setNumToShow(pred.length); // Show all predictions
   };
@@ -210,10 +205,10 @@ function Detection() {
   const selectModel = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedModel(event.target.value);
   };
-  const handleDragOver = (event :React.DragEvent<HTMLDivElement>)=> {
-    const newEvent = event;
-    newEvent.preventDefault();
-    newEvent.dataTransfer.dropEffect = 'copy';
+  const handleDragOver = (event :React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    // eslint-disable-next-line no-param-reassign
+    event.dataTransfer.dropEffect = 'copy';
   };
   const handleDragEnter = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -223,22 +218,18 @@ function Detection() {
     event.preventDefault();
     setIsDraggingOver(false); // Remove the style change when drag leaves the div
   };
-  const handleDrop = (event :React.DragEvent<HTMLDivElement>)=> {
+  const handleDrop = (event :React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDraggingOver(false);
-    
-    const droppedFiles = Array.from(event.dataTransfer.files);
-    
-  setImages([...images, ...Array.from(droppedFiles)]);
-  setIsLoading([...isLoading, ...Array.from(droppedFiles)
-    .map(() => false)]);
-  setIsChecked([...isChecked, ...Array.from(droppedFiles)
-    .map(() => false)]);
-  };
 
-  // useEffect(() => {
-  //   console.log("entering:", isDraggingOver);
-  // }, [isDraggingOver]);
+    const droppedFiles = Array.from(event.dataTransfer.files);
+
+    setImages([...images, ...droppedFiles]);
+    setIsLoading([...isLoading, ...droppedFiles
+      .map(() => false)]);
+    setIsChecked([...isChecked, ...droppedFiles
+      .map(() => false)]);
+  };
   return (
     <div className="w-full h-full flex justify-center overflow-y-auto">
       <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit">
@@ -261,12 +252,16 @@ function Detection() {
           accept="image/png, image/jpeg"
         />
         <div
-          className={className}
-          onClick={(event) => addImages(event)}
-          onDragOver={handleDragOver} //code needs to the changed later
-          onDrop = {handleDrop} //code needs to be changed later 
-          onDragEnter={handleDragEnter}
-          onDragLeave={handleDragLeave}
+          className={`transition-all cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 ${
+            images.length > 0
+              ? 'flex flex-col sm:flex-row justify-around items-center p-4'
+              : 'aspect-video flex items-center justify-center p-4'
+          } ${isDraggingOver ? 'bg-green-200' : ''}`}
+          onClick={(e) => addImages(e)}
+          onDragOver={(e) => handleDragOver(e)} // code needs to the changed later
+          onDrop={(e) => handleDrop(e)} // code needs to be changed later
+          onDragEnter={(e) => handleDragEnter(e)}
+          onDragLeave={(e) => handleDragLeave(e)}
         >
           <FontAwesomeIcon icon={faCloudArrowUp} size={images.length > 0 ? '3x' : '5x'} />
           <div className="md:flex flex-col hidden">
