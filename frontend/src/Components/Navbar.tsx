@@ -30,6 +30,7 @@ function Navbar({ loginModalRef, setToastMessage }: NavbarProps) {
   const [user] = useAuthState(auth);
 
   useEffect(() => {
+    console.log(user);
     switch (location.pathname) {
       case '/':
         setTitle('Home');
@@ -83,12 +84,16 @@ function Navbar({ loginModalRef, setToastMessage }: NavbarProps) {
           {user ? (
             <div className="dropdown dropdown-hover">
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label className="btn btn-ghost">
-                <div className="avatar placeholder">
-                  <div className="bg-neutral-focus text-neutral-content rounded-full w-8">
+              <label className="btn btn-ghost avatar placeholder p-0 rounded-full border-none w-fit aspect-square">
+                {user.photoURL ? (
+                  <div className="bg-neutral-focus text-neutral-content w-10 aspect-square rounded-full placeholder">
+                    <img className="w-10 rounded-full" src={user.photoURL} alt="User avatar" />
+                  </div>
+                ) : (
+                  <div className="bg-neutral-focus text-neutral-content w-10 aspect-square rounded-full placeholder">
                     <span>{user.email ? user.email.charAt(0).toUpperCase() : 'A'}</span>
                   </div>
-                </div>
+                )}
               </label>
               <ul className="dropdown-content z-10 menu p-2 bg-base-100 rounded-lg shadow">
                 <li>
