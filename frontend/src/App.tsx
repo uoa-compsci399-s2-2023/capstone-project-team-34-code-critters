@@ -24,7 +24,7 @@ function App() {
         setToastMessage={setToastMessage}
       />
       <div className="h-full w-full">
-        <div className="pt-28 h-full w-full">
+        <div className="pt-28">
           <Routes>
             <Route path="/upload" element={<Detection />} />
             <Route path="/" element={<Home />} />
