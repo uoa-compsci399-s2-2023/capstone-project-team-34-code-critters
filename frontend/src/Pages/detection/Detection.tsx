@@ -210,7 +210,7 @@ function Detection() {
   const selectModel = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedModel(event.target.value);
   };
-  const handleDragOver = (event :React.DragEvent<HTMLDivElement>)=> {
+  const handleDragOver = (event :React.DragEvent<HTMLDivElement>) => {
     const newEvent = event;
     newEvent.preventDefault();
     newEvent.dataTransfer.dropEffect = 'copy';
@@ -223,17 +223,17 @@ function Detection() {
     event.preventDefault();
     setIsDraggingOver(false); // Remove the style change when drag leaves the div
   };
-  const handleDrop = (event :React.DragEvent<HTMLDivElement>)=> {
+  const handleDrop = (event :React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDraggingOver(false);
-    
+
     const droppedFiles = Array.from(event.dataTransfer.files);
-    
-  setImages([...images, ...Array.from(droppedFiles)]);
-  setIsLoading([...isLoading, ...Array.from(droppedFiles)
-    .map(() => false)]);
-  setIsChecked([...isChecked, ...Array.from(droppedFiles)
-    .map(() => false)]);
+
+    setImages([...images, ...Array.from(droppedFiles)]);
+    setIsLoading([...isLoading, ...Array.from(droppedFiles)
+      .map(() => false)]);
+    setIsChecked([...isChecked, ...Array.from(droppedFiles)
+      .map(() => false)]);
   };
 
   // useEffect(() => {
@@ -263,8 +263,8 @@ function Detection() {
         <div
           className={className}
           onClick={(event) => addImages(event)}
-          onDragOver={handleDragOver} //code needs to the changed later
-          onDrop = {handleDrop} //code needs to be changed later 
+          onDragOver={handleDragOver} // code needs to the changed later
+          onDrop={handleDrop} // code needs to be changed later
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
         >

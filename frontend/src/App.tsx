@@ -23,11 +23,13 @@ function App() {
         loginModalRef={loginModalRef}
         setToastMessage={setToastMessage}
       />
-      <div className="pt-28 h-full w-full">
-        <Routes>
-          <Route path="/upload" element={<Detection />} />
-          <Route path="/" element={<Home />} />
-        </Routes>
+      <div className="h-full w-full">
+        <div className="pt-28 h-full w-full">
+          <Routes>
+            <Route path="/upload" element={<Detection />} />
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </div>
       </div>
       <SignUpModal
         signUpModalRef={signUpModalRef}
