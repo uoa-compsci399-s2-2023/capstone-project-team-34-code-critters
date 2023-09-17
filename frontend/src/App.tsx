@@ -24,12 +24,10 @@ function App() {
         setToastMessage={setToastMessage}
       />
       <div className="h-full w-full">
-        <div className="pt-28">
-          <Routes>
-            <Route path="/upload" element={<Detection />} />
-            <Route path="/" element={<Home />} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/upload" element={<Detection />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
       </div>
       <SignUpModal
         signUpModalRef={signUpModalRef}

@@ -240,7 +240,7 @@ function Detection() {
   //   console.log("entering:", isDraggingOver);
   // }, [isDraggingOver]);
   return (
-    <div className="w-full h-full flex justify-center overflow-y-auto">
+    <div className="w-full h-full flex justify-center overflow-y-auto pt-28">
       <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit">
         <h1 className=" text-xl font-varela text-center">
           Drag and Drop or Browse to Upload
