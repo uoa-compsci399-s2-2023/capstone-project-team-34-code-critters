@@ -4,7 +4,6 @@ import {
   faDoorClosed,
   faDoorOpen,
   faBurger,
-  faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -13,9 +12,10 @@ import 'firebase/auth';
 
 interface NavbarProps {
   loginModalRef: React.MutableRefObject<HTMLDialogElement | null>;
+  setToastMessage: (message: string, type: 'success' | 'error') => void;
 }
 
-function Navbar({ loginModalRef }: NavbarProps) {
+function Navbar({ loginModalRef, setToastMessage }: NavbarProps) {
   const [isLoginButtonHovered, setIsLoginButtonHovered] = useState(false);
   const [title, setTitle] = useState('Home');
   const openLoginModal = () => {
@@ -27,9 +27,7 @@ function Navbar({ loginModalRef }: NavbarProps) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Use the useAuthState hook to get the user's authentication status
   const [user] = useAuthState(auth);
-  // const userEmail = user ? user.email : '';
 
   useEffect(() => {
     switch (location.pathname) {
@@ -45,6 +43,15 @@ function Navbar({ loginModalRef }: NavbarProps) {
   }, [location.pathname]);
 
   const navbarEnabled = process.env.REACT_APP_DISABLE_NAVBAR !== 'true';
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      setToastMessage('Logged out successfully', 'success');
+    } catch (error) {
+      setToastMessage('Failed to log out', 'error');
+    }
+  };
 
   if (navbarEnabled) {
     return (
@@ -77,21 +84,25 @@ function Navbar({ loginModalRef }: NavbarProps) {
             <div className="dropdown dropdown-hover">
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="btn btn-ghost">
-                <FontAwesomeIcon size="2x" icon={faUser} />
+                <div className="avatar placeholder">
+                  <div className="bg-neutral-focus text-neutral-content rounded-full w-8">
+                    <span>{user.email ? user.email.charAt(0).toUpperCase() : 'A'}</span>
+                  </div>
+                </div>
               </label>
               <ul className="dropdown-content z-10 menu p-2 bg-base-100 rounded-lg shadow">
                 <li>
                   <button
                     type="button"
                     onClick={() => {
-                      // Handle user history click
+                      // Handle user history
                     }}
                   >
                     User History
                   </button>
                 </li>
                 <li>
-                  <button type="button" onClick={() => { auth.signOut(); }}>
+                  <button type="button" onClick={handleLogout}>
                     Log Out
                   </button>
                 </li>

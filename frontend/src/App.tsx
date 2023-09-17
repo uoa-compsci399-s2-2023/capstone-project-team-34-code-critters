@@ -19,7 +19,10 @@ function App() {
 
   return (
     <div className="w-full h-screen">
-      <Navbar loginModalRef={loginModalRef} />
+      <Navbar
+        loginModalRef={loginModalRef}
+        setToastMessage={setToastMessage}
+      />
       <div className="pt-28 h-full w-full">
         <Routes>
           <Route path="/upload" element={<Detection />} />
