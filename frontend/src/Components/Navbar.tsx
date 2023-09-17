@@ -30,7 +30,6 @@ function Navbar({ loginModalRef, setToastMessage }: NavbarProps) {
   const [user] = useAuthState(auth);
 
   useEffect(() => {
-    console.log(user);
     switch (location.pathname) {
       case '/':
         setTitle('Home');
