@@ -25,7 +25,7 @@ interface FormData {
 }
 
 function LoginModal({
-  loginModalRef, signUpModalRef, toast, setToastMessage,
+  loginModalRef, signUpModalRef, setToastMessage,
 }: LoginModalRef) {
   const [errorToast, setErrorToast] = useState<ToastMessage>({ message: '', type: 'success' });
   const setErrorToastMessage = (message: string, type: 'success' | 'error') => {
@@ -37,12 +37,6 @@ function LoginModal({
   } = useForm<FormData>({
     mode: 'onChange',
   });
-
-  const closeModal = () => {
-    if (!toast.message && !errorToast.message && loginModalRef.current) {
-      loginModalRef.current.close();
-    }
-  };
 
   const openSignUpModal = () => {
     if (loginModalRef.current) {
@@ -57,8 +51,8 @@ function LoginModal({
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-      closeModal();
       setToastMessage('Logged in with Google', 'success');
+      loginModalRef.current?.close();
     } catch (e: unknown) {
       if (e instanceof FirebaseError) {
         if (e.code === 'auth/account-exists-with-different-credential') {
@@ -78,7 +72,7 @@ function LoginModal({
     try {
       const provider = new GithubAuthProvider();
       await signInWithPopup(auth, provider);
-      closeModal();
+      loginModalRef.current?.close();
       setToastMessage('Logged in with Github', 'success');
     } catch (e: unknown) {
       if (e instanceof FirebaseError) {
@@ -99,8 +93,8 @@ function LoginModal({
     if (isValid) {
       try {
         await signInWithEmailAndPassword(auth, data.email, data.password);
-        closeModal();
         setToastMessage('Logged in with Email', 'success');
+        loginModalRef.current?.close();
         reset();
       } catch (e) {
         if (e instanceof FirebaseError) {
@@ -145,7 +139,7 @@ function LoginModal({
             <button
               className="btn btn-circle btn-ghost absolute top-4 right-4"
               type="button"
-              onClick={() => closeModal()}
+              onClick={() => loginModalRef.current?.close()}
             >
               <FontAwesomeIcon icon={faXmark} />
             </button>
@@ -236,7 +230,10 @@ function LoginModal({
           </div>
         </form>
         <form method="dialog" className="modal-backdrop">
-          <button type="button" onClick={() => closeModal()}>
+          <button
+            type="button"
+            onClick={() => loginModalRef.current?.close()}
+          >
             close
           </button>
         </form>

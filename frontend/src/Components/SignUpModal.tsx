@@ -25,7 +25,7 @@ interface FormData {
 }
 
 function SignUpModal({
-  signUpModalRef, loginModalRef, toast, setToastMessage,
+  signUpModalRef, loginModalRef, setToastMessage,
 }: SignUpModalProps) {
   const [errorToast, setErrorToast] = useState<ToastMessage>({ message: '', type: 'success' });
   const setErrorToastMessage = (message: string, type: 'success' | 'error') => {
@@ -37,13 +37,6 @@ function SignUpModal({
   } = useForm<FormData>({
     mode: 'onChange',
   });
-
-  const closeModal = () => {
-    if (!toast.message && !errorToast.message && signUpModalRef.current) {
-      signUpModalRef.current.close();
-    }
-  };
-
   const openLoginModal = () => {
     if (signUpModalRef.current) {
       signUpModalRef.current.close();
@@ -145,7 +138,7 @@ function SignUpModal({
             <button
               className="btn btn-circle btn-ghost absolute top-4 right-4"
               type="button"
-              onClick={() => closeModal()}
+              onClick={() => signUpModalRef.current?.close()}
             >
               <FontAwesomeIcon icon={faXmark} />
             </button>
@@ -235,7 +228,8 @@ function SignUpModal({
           </div>
         </form>
         <form method="dialog" className="modal-backdrop">
-          <button type="button" onClick={() => closeModal()}>close</button>
+
+          <button type="button" onClick={() => signUpModalRef.current?.close()}>close</button>
         </form>
       </dialog>
     </div>
