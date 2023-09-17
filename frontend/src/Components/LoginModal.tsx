@@ -126,7 +126,7 @@ function LoginModal({
             onClose={() => setErrorToast({ message: '', type: 'success' })}
           />
         )}
-        <form onSubmit={handleSubmit(loginEmailPassword)} className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 w-full  md:w-11/12 sm:max-w-5xl bg-white md:bg-gradient-to-br md:from-green-400 md:to-cyan-500 md:to-60%">
+        <form onSubmit={handleSubmit(loginEmailPassword)} className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 w-full  md:w-11/12 sm:max-w-4xl bg-white md:bg-gradient-to-br md:from-green-400 md:to-cyan-500 md:to-60%">
           <div className="relative hidden md:flex flex-col px-14 py-24">
             <div className="text-4xl font-black text-white font-varela cursor-default">
               Welcome back!
