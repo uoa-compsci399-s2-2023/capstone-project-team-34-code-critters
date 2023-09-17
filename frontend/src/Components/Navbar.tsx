@@ -83,13 +83,11 @@ function Navbar({ loginModalRef, setToastMessage }: NavbarProps) {
           {user ? (
             <div className="dropdown dropdown-hover">
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label className="btn btn-ghost avatar placeholder p-0 rounded-full border-none w-fit aspect-square">
+              <label className="btn btn-ghost">
                 {user.photoURL ? (
-                  <div className="bg-neutral-focus text-neutral-content w-10 aspect-square rounded-full placeholder">
-                    <img className="w-10 rounded-full" src={user.photoURL} alt="User avatar" />
-                  </div>
+                  <img className="w-10 rounded-full" src={user.photoURL} alt="User avatar" />
                 ) : (
-                  <div className="bg-neutral-focus text-neutral-content w-10 aspect-square rounded-full placeholder">
+                  <div className="bg-neutral-focus text-neutral-content w-10 aspect-square rounded-full flex justify-center items-center">
                     <span>{user.email ? user.email.charAt(0).toUpperCase() : 'A'}</span>
                   </div>
                 )}
