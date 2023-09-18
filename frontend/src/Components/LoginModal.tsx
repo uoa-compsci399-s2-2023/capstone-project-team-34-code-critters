@@ -6,10 +6,12 @@ import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
+  User,
 } from 'firebase/auth';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { FirebaseError } from '@firebase/util';
-import { auth } from '../enviroments/firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../enviroments/firebase';
 import Toast, { ToastMessage } from './Toast';
 
 interface LoginModalRef {
@@ -38,6 +40,17 @@ function LoginModal({
     mode: 'onChange',
   });
 
+  const createUserCollection = async (user: User) => {
+    const docRef = doc(db, 'users', user.uid);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
+      await setDoc(doc(db, 'users', user.uid), {
+        name: user.displayName,
+        email: user.email,
+      });
+    }
+  };
+
   const openSignUpModal = () => {
     if (loginModalRef.current) {
       loginModalRef.current.close();
@@ -51,6 +64,7 @@ function LoginModal({
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
+      await createUserCollection(auth.currentUser as User);
       setToastMessage('Logged in with Google', 'success');
       loginModalRef.current?.close();
     } catch (e: unknown) {
@@ -72,6 +86,7 @@ function LoginModal({
     try {
       const provider = new GithubAuthProvider();
       await signInWithPopup(auth, provider);
+      await createUserCollection(auth.currentUser as User);
       loginModalRef.current?.close();
       setToastMessage('Logged in with Github', 'success');
     } catch (e: unknown) {
@@ -94,6 +109,7 @@ function LoginModal({
       try {
         await signInWithEmailAndPassword(auth, data.email, data.password);
         setToastMessage('Logged in with Email', 'success');
+        await createUserCollection(auth.currentUser as User);
         loginModalRef.current?.close();
         reset();
       } catch (e) {
