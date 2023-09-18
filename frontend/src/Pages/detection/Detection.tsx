@@ -51,12 +51,6 @@ function Detection() {
     setIsChecked(newCheck);
   };
 
-  const removeCheckboxState = (index: number) => {
-    const newCheck = [...isChecked];
-    newCheck.splice(index, 1);
-    setIsChecked(newCheck);
-  };
-
   useEffect(() => {
     (async () => {
       const res = await getModels();
@@ -99,8 +93,9 @@ function Detection() {
   }, [selectedModel]);
 
   // for prediction
-
   useEffect(() => {
+    console.log(predictions);
+    console.log(isLoading);
     if (images.length < 1) return;
     const newImageUrls: string[] = [];
     images.forEach((image: any) => newImageUrls.push(URL.createObjectURL(image)));
@@ -121,7 +116,13 @@ function Detection() {
     newPredictions.splice(index, 1);
     setPredictions(newPredictions);
 
-    removeCheckboxState(index);
+    const newCheck = [...isChecked];
+    newCheck.splice(index, 1);
+    setIsChecked(newCheck);
+
+    const newLoading = [...isLoading];
+    newLoading.splice(index, 1);
+    setIsLoading(newLoading);
   };
 
   const openModel = (index: number) => {
@@ -155,6 +156,7 @@ function Detection() {
       console.error('Error fetching CSV data:', error);
     }
   };
+
   const downloadPredictionsXLSX = async () => {
     const selectedPredictions = predictions.filter((_, index) => isChecked[index]);
     try {
@@ -364,7 +366,7 @@ function Detection() {
           className="modal  modal-bottom sm:modal-middle"
           key={index}
         >
-          <form method="dialog" className="modal-box sm:w-11/12 sm:max-w-3xl">
+          <form method="dialog" className="modal-box sm:w-11/12 sm:max-w-4xl">
             <button
               onClick={() => closeModel(index)}
               type="button"
