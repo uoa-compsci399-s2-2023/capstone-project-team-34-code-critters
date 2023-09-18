@@ -5,11 +5,12 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
-  GithubAuthProvider,
+  GithubAuthProvider, User,
 } from 'firebase/auth';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { FirebaseError } from '@firebase/util';
-import { auth } from '../enviroments/firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../enviroments/firebase';
 import Toast, { ToastMessage } from './Toast';
 
 interface SignUpModalProps {
@@ -46,10 +47,21 @@ function SignUpModal({
     }
   };
 
+  const createUserCollection = async (user: User) => {
+    const docRef = doc(db, 'users', user.uid);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
+      await setDoc(doc(db, 'user', user.uid), {
+        email: user.email,
+      });
+    }
+  };
+
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
+      await createUserCollection(auth.currentUser as User);
       setToastMessage('Account created with Google', 'success');
       signUpModalRef.current?.close();
     } catch (e: unknown) {
@@ -71,6 +83,7 @@ function SignUpModal({
     try {
       const provider = new GithubAuthProvider();
       await signInWithPopup(auth, provider);
+      await createUserCollection(auth.currentUser as User);
       setToastMessage('Account created with Github', 'success');
       signUpModalRef.current?.close();
     } catch (e: unknown) {
@@ -91,6 +104,7 @@ function SignUpModal({
   const createAccount: SubmitHandler<FormData> = async (data) => {
     try {
       await createUserWithEmailAndPassword(auth, data.email, data.password);
+      await createUserCollection(auth.currentUser as User);
       setToastMessage('Account created with Google', 'success');
       reset();
       signUpModalRef.current?.close();
