@@ -92,7 +92,7 @@ function Navbar({ loginModalRef, setToastMessage }: NavbarProps) {
                   </div>
                 )}
               </label>
-              <ul className="dropdown-content z-10 menu p-2 bg-base-100 rounded-lg shadow">
+              <ul className="dropdown-content z-10 menu p-2 bg-base-100 rounded-lg shadow w-max">
                 <li>
                   <button
                     type="button"
