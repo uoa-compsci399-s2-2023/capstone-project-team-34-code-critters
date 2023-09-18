@@ -44,8 +44,7 @@ function LoginModal({
     const docRef = doc(db, 'user', user.uid);
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) {
-      await setDoc(doc(db, 'users', user.uid), {
-        name: user.displayName,
+      await setDoc(doc(db, 'user', user.uid), {
         email: user.email,
       });
     }
@@ -108,8 +107,8 @@ function LoginModal({
     if (isValid) {
       try {
         await signInWithEmailAndPassword(auth, data.email, data.password);
-        setToastMessage('Logged in with Email', 'success');
         await createUserCollection(auth.currentUser as User);
+        setToastMessage('Logged in with Email', 'success');
         loginModalRef.current?.close();
         reset();
       } catch (e) {

@@ -52,7 +52,6 @@ function SignUpModal({
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) {
       await setDoc(doc(db, 'user', user.uid), {
-        name: user.displayName,
         email: user.email,
       });
     }
