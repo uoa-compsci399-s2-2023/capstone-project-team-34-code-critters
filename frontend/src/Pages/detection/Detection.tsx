@@ -288,24 +288,28 @@ function Detection() {
           >
             Select All
           </button>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={downloadPredictionsCSV}
-            disabled={isChecked.every((value) => !value)}
-          >
-            <FontAwesomeIcon icon={faDownload} className="mr-2" />
-            <FontAwesomeIcon icon={faFileCsv} />
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={downloadPredictionsXLSX}
-            disabled={isChecked.every((value) => !value)}
-          >
-            <FontAwesomeIcon icon={faDownload} className="mr-2" />
-            <FontAwesomeIcon icon={faFileExcel} />
-          </button>
+          <div className="tooltip" data-tip="Download predictions as CSV">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={downloadPredictionsCSV}
+              disabled={isChecked.every((value) => !value)}
+            >
+              <FontAwesomeIcon icon={faDownload} className="mr-2" />
+              <FontAwesomeIcon icon={faFileCsv} />
+            </button>
+          </div>
+          <div className="tooltip" data-tip="Download predictions as XLSX">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={downloadPredictionsXLSX}
+              disabled={isChecked.every((value) => !value)}
+            >
+              <FontAwesomeIcon icon={faDownload} className="mr-2" />
+              <FontAwesomeIcon icon={faFileExcel} />
+            </button>
+          </div>
         </div>
         )}
 
