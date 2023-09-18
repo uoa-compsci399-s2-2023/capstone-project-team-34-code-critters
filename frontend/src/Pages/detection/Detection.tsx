@@ -99,34 +99,37 @@ function Detection() {
     })();
   }, [selectedModel]);
 
+  // for prediction
+
+  const getPrediction = async (imageUrl: string, index: number) => {
+    setIsChecked((prev) => {
+      const newPrev = [...prev];
+      newPrev[index] = false;
+      return newPrev;
+    });
+    const formData = new FormData();
+    formData.append('files', imageUrl);
+    const response = await getPredictions(formData, selectedModel);
+    setPredictions((prev) => {
+      const newPrev = [...prev];
+      newPrev[index] = response.data[0];
+      return newPrev;
+    });
+    setIsChecked((prev) => {
+      const newPrev = [...prev];
+      newPrev[index] = true;
+      return newPrev;
+    });
+  };
+
   useEffect(() => {
     if (images.length < 1 || images.length === predictions.length) return;
     const newImageUrls: string[] = [];
     images.forEach((image: any) => newImageUrls.push(URL.createObjectURL(image)));
     setImageUrls(newImageUrls);
-    const loadingIndexes: number[] = [];
-    (async () => {
-      const formData = new FormData();
-      images.forEach((imageUrl, i) => {
-        if (predictions[i] !== undefined) return;
-        formData.append('files', imageUrl);
-        setIsLoading((prev) => {
-          const newPrev = [...prev];
-          newPrev[i] = true;
-          return newPrev;
-        });
-        loadingIndexes.push(i);
-      });
-      const response = await getPredictions(formData, selectedModel);
-      setPredictions((prev) => [...prev, ...response.data]);
-      setIsLoading((prev) => {
-        const newPrev = [...prev];
-        loadingIndexes.forEach((i) => {
-          newPrev[i] = false;
-        });
-        return newPrev;
-      });
-    })();
+    imageUrls.forEach(async (imageUrl, i) => {
+      await getPrediction(imageUrl, i);
+    });
   }, [images]);
 
   const deleteImage = (index: number) => {
