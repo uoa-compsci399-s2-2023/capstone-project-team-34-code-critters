@@ -20,7 +20,7 @@ function Toast({ message, type, onClose }: ToastProps) {
     const timer = setTimeout(() => {
       setVisible(false);
       onClose();
-    }, 300000);
+    }, 3000);
 
     return () => {
       clearTimeout(timer);
