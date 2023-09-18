@@ -174,7 +174,7 @@ function Detection() {
     }
   };
 
-  const toggleAll = () => {
+  const selectAll = () => {
     const newCheck = [...isChecked];
     if (newCheck.every((check) => check)) {
       newCheck.forEach((_, index) => {
@@ -284,9 +284,9 @@ function Detection() {
           <button
             className="btn btn-secondary"
             type="button"
-            onClick={() => toggleAll()}
+            onClick={() => selectAll()}
           >
-            Toggle All
+            Select All
           </button>
           <button
             type="button"
