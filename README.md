@@ -43,6 +43,7 @@ raar518@aucklanduni.ac.nz
 **Hosting Technologies:**
 
 [![Firebase](https://img.shields.io/badge/Firebase-%23FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/) 
+[![AWS](https://img.shields.io/badge/AWS-%23232F3E?logo=amazonaws&logoColor=white)](https://aws.amazon.com) 
 
 ## Installation
 Go to releases and install the latest version of the application for your operating system.<br>
