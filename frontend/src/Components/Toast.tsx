@@ -20,7 +20,7 @@ function Toast({ message, type, onClose }: ToastProps) {
     const timer = setTimeout(() => {
       setVisible(false);
       onClose();
-    }, 3000);
+    }, 300000);
 
     return () => {
       clearTimeout(timer);
@@ -31,7 +31,7 @@ function Toast({ message, type, onClose }: ToastProps) {
 
   return visible ? (
     <div className="toast toast-center z-40">
-      <div className={`border-none alert ${alertClass}`}>
+      <div className={`border-none alert ${alertClass} flex`}>
         <span>{message}</span>
         <button type="button" onClick={() => setVisible(false)}>
           <FontAwesomeIcon icon={faXmark} />
