@@ -6,7 +6,6 @@ import {
   faBurger,
 } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../enviroments/firebase';
 import 'firebase/auth';
 
@@ -18,6 +17,7 @@ interface NavbarProps {
 function Navbar({ loginModalRef, setToastMessage }: NavbarProps) {
   const [isLoginButtonHovered, setIsLoginButtonHovered] = useState(false);
   const [title, setTitle] = useState('Home');
+  const [user, setUser] = useState(auth.currentUser);
   const openLoginModal = () => {
     if (loginModalRef.current) {
       loginModalRef.current.showModal();
@@ -27,8 +27,11 @@ function Navbar({ loginModalRef, setToastMessage }: NavbarProps) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [user] = useAuthState(auth);
-
+  useEffect(() => {
+    auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
+  }, []);
   useEffect(() => {
     switch (location.pathname) {
       case '/':
