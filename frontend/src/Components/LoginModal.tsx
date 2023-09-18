@@ -41,7 +41,7 @@ function LoginModal({
   });
 
   const createUserCollection = async (user: User) => {
-    const docRef = doc(db, 'users', user.uid);
+    const docRef = doc(db, 'user', user.uid);
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) {
       await setDoc(doc(db, 'users', user.uid), {
