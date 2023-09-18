@@ -7,25 +7,36 @@ import {
   GoogleAuthProvider,
   GithubAuthProvider,
 } from 'firebase/auth';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { FirebaseError } from '@firebase/util';
 import { auth } from '../enviroments/firebase';
 import Toast, { ToastMessage } from './Toast';
 
 interface SignUpModalProps {
-  signUpModalRef: MutableRefObject<HTMLDialogElement | null>
-  loginModalRef: MutableRefObject<HTMLDialogElement | null>
+  signUpModalRef: MutableRefObject<HTMLDialogElement | null>;
+  loginModalRef: MutableRefObject<HTMLDialogElement | null>;
+  toast: ToastMessage;
+  setToastMessage: (message: string, type: 'success' | 'error') => void;
 }
 
-function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
-  const [toast, setToast] = useState<ToastMessage>({ message: '', type: 'success' });
-  const setToastMessage = (message: string, type: 'success' | 'error') => {
-    setToast({ message, type });
-  };
-  const closeModal = () => {
-    if (signUpModalRef.current) {
-      signUpModalRef.current.close();
-    }
+interface FormData {
+  email: string;
+  password: string;
+}
+
+function SignUpModal({
+  signUpModalRef, loginModalRef, setToastMessage,
+}: SignUpModalProps) {
+  const [errorToast, setErrorToast] = useState<ToastMessage>({ message: '', type: 'success' });
+  const setErrorToastMessage = (message: string, type: 'success' | 'error') => {
+    setErrorToast({ message, type });
   };
 
+  const {
+    register, handleSubmit, formState: { errors, isValid, isSubmitting }, reset,
+  } = useForm<FormData>({
+    mode: 'onChange',
+  });
   const openLoginModal = () => {
     if (signUpModalRef.current) {
       signUpModalRef.current.close();
@@ -41,9 +52,18 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
       await signInWithPopup(auth, provider);
       setToastMessage('Account created with Google', 'success');
       signUpModalRef.current?.close();
-    } catch (e: any) {
-      setToastMessage('Google sign up failed', 'error');
-      signUpModalRef.current?.close();
+    } catch (e: unknown) {
+      if (e instanceof FirebaseError) {
+        if (e.code === 'auth/account-exists-with-different-credential') {
+          setErrorToastMessage('Email already exists', 'error');
+        } else {
+          loginModalRef.current?.close();
+          setErrorToastMessage('Google login failed', 'error');
+        }
+      } else {
+        loginModalRef.current?.close();
+        setErrorToastMessage('Google login failed', 'error');
+      }
     }
   };
 
@@ -53,85 +73,58 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
       await signInWithPopup(auth, provider);
       setToastMessage('Account created with Github', 'success');
       signUpModalRef.current?.close();
-    } catch (e: any) {
-      setToastMessage('Github sign up failed', 'error');
-      signUpModalRef.current?.close();
-    }
-  };
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const createAccount = async () => {
-    const emailInput = document.getElementById('email') as HTMLInputElement;
-    const passwordInput = document.getElementById('password') as HTMLInputElement;
-
-    const inputemail = emailInput.value;
-    const inputpassword = passwordInput.value;
-
-    setIsSubmitting(true);
-
-    try {
-      await createUserWithEmailAndPassword(auth, inputemail, inputpassword);
-      setToastMessage('Account created with Google', 'success');
-      signUpModalRef.current?.close();
-      setIsSubmitting(false);
-    } catch (error) {
-      const errorCode = (error as { code: string }).code;
-      setIsSubmitting(false);
-
-      if (inputemail.trim() === '' && inputpassword.trim() === '') {
-        setEmailError('Please enter an Email');
-        setPasswordError('Please enter a Password');
-      } else if (inputemail.trim() === '') {
-        setEmailError('Please enter an Email');
-      } else if (inputpassword.trim() === '') {
-        setPasswordError('Please enter a Password');
-      } else {
-        switch (errorCode) {
-          case 'auth/email-already-in-use':
-            setEmailError('Email already in use.');
-            break;
-          case 'auth/invalid-email':
-            setEmailError('Invalid email address.');
-            break;
-          case 'auth/weak-password':
-            setPasswordError('Password must be at least 6 characters long.');
-            break;
-          default:
-            break;
+    } catch (e: unknown) {
+      if (e instanceof FirebaseError) {
+        if (e.code === 'auth/account-exists-with-different-credential') {
+          setErrorToastMessage('Email already exists', 'error');
+        } else {
+          loginModalRef.current?.close();
+          setErrorToastMessage('Github login failed', 'error');
         }
-        setToastMessage('Email sign up failed', 'error');
+      } else {
+        loginModalRef.current?.close();
+        setErrorToastMessage('Github login failed', 'error');
       }
     }
   };
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    setEmailError('');
-    setIsSubmitting(false);
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-    setPasswordError('');
-    setIsSubmitting(false);
+  const createAccount: SubmitHandler<FormData> = async (data) => {
+    try {
+      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      setToastMessage('Account created with Google', 'success');
+      reset();
+      signUpModalRef.current?.close();
+    } catch (e) {
+      if (e instanceof FirebaseError) {
+        switch (e.code) {
+          case 'auth/invalid-email':
+            setErrorToastMessage('Invalid email address', 'error');
+            break;
+          case 'auth/wrong-password':
+            setErrorToastMessage('Invalid password', 'error');
+            break;
+          case 'auth/email-already-in-use':
+            setErrorToastMessage('Email already in use', 'error');
+            break;
+          default:
+            setErrorToastMessage('Email login failed', 'error');
+            break;
+        }
+      }
+    }
   };
 
   return (
     <div>
-      {toast.message && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast({ message: '', type: 'success' })}
-        />
-      )}
       <dialog ref={signUpModalRef} className="modal modal-bottom sm:modal-middle">
-        <form method="dialog" className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 w-full  md:w-11/12 sm:max-w-5xl bg-white md:bg-gradient-to-br md:from-green-400 md:to-cyan-500 md:to-60%">
+        {errorToast.message && (
+          <Toast
+            message={errorToast.message}
+            type={errorToast.type}
+            onClose={() => setErrorToast({ message: '', type: 'success' })}
+          />
+        )}
+        <form onSubmit={handleSubmit(createAccount)} className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 w-full  md:w-11/12 sm:max-w-4xl bg-white md:bg-gradient-to-br md:from-green-400 md:to-cyan-500 md:to-60%">
           <div className="relative hidden md:flex flex-col px-14 py-24">
             <div className="text-4xl font-black text-white font-varela cursor-default">
               Unlock more features with an account!
@@ -145,7 +138,7 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
             <button
               className="btn btn-circle btn-ghost absolute top-4 right-4"
               type="button"
-              onClick={() => closeModal()}
+              onClick={() => signUpModalRef.current?.close()}
             >
               <FontAwesomeIcon icon={faXmark} />
             </button>
@@ -170,16 +163,27 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
             </button>
             <div className="font-varela divider text-neutral-400 before:bg-neutral-200 after:bg-neutral-200 cursor-default">OR</div>
             <div className="w-full">
+              {/* eslint-disable react/jsx-props-no-spreading */}
               <input
                 id="email"
                 type="email"
                 placeholder="Enter your email"
-                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${emailError ? 'border-red-500' : ''}`}
-                value={email}
-                onChange={handleEmailChange}
+                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${
+                  (errors.email) && 'input-error'
+                }`}
+                {...register('email', {
+                  required: 'Email is required',
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
+                    message: 'Invalid email address',
+                  },
+                })}
               />
-              {emailError && (
-                <div className="text-red-500 font-varela text-sm">{emailError}</div>
+              {errors.email && (
+              // eslint-disable-next-line jsx-a11y/label-has-associated-control
+              <label className="label">
+                <div className="text-error font-varela label-text-alt">{errors.email.message}</div>
+              </label>
               )}
             </div>
             <div className="w-full">
@@ -187,21 +191,31 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
                 id="password"
                 type="password"
                 placeholder="Enter your password"
-                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${passwordError ? 'border-red-500' : ''}`}
-                value={password}
-                onChange={handlePasswordChange}
+                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
+                {...register('password', {
+                  required: true,
+                  minLength: 6,
+                })}
               />
-              {passwordError && (
-                <div className="text-red-500 font-varela text-sm">{passwordError}</div>
+              {errors.password && (
+              // eslint-disable-next-line jsx-a11y/label-has-associated-control
+              <label className="label">
+                <div className="text-error font-varela label-text-alt">
+                  {errors.password.type === 'required' ? 'Password is required' : 'Password must be at least 6 characters long'}
+                </div>
+              </label>
               )}
             </div>
             <button
-              className={`relative font-varela normal-case btn w-full text-white text-lg ${(emailError || passwordError || isSubmitting) ? 'cursor-not-allowed' : 'bg-gradient-to-r from-primary to-secondary'}`}
-              type="button"
-              onClick={createAccount}
-              disabled={emailError || passwordError || isSubmitting ? true : undefined}
+              type="submit"
+              className={`relative font-varela normal-case btn w-full text-white text-lg ${
+                (!isValid)
+                  ? 'cursor-not-allowed'
+                  : 'bg-gradient-to-r from-primary to-secondary'
+              }`}
+              disabled={!isValid}
             >
-              <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${(emailError || passwordError || isSubmitting) ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
+              <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
                 Create Account
               </div>
               Create Account
@@ -214,7 +228,8 @@ function SignUpModal({ signUpModalRef, loginModalRef }: SignUpModalProps) {
           </div>
         </form>
         <form method="dialog" className="modal-backdrop">
-          <button type="button" onClick={() => closeModal()}>close</button>
+
+          <button type="button" onClick={() => signUpModalRef.current?.close()}>close</button>
         </form>
       </dialog>
     </div>
