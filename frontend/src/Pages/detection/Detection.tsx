@@ -6,7 +6,7 @@ import {
   faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv, faFileExcel,
 } from '@fortawesome/free-solid-svg-icons';
 import {
-  getCSV, getXLSX, getModels, getPredictions,
+  getCSV, getXLSX, getModels, getPredictions as getPredictionsAPI,
 } from '../../services/apiService';
 import { Prediction } from '../../models/Prediction';
 
@@ -15,7 +15,7 @@ function Detection() {
   const [images, setImages] = useState<File[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean[]>([]);
-  const [predictions, setPredictions] = useState<Prediction[]>([]);
+  const [predictions, setPredictions] = useState<(Prediction | undefined)[]>([]);
   const [numToShow, setNumToShow] = useState(5);
   const [isChecked, setIsChecked] = useState<boolean[]>([]);
   const [models, setModels] = useState<string[]>([]);
@@ -39,7 +39,8 @@ function Detection() {
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setImages([...images, ...Array.from(event.target.files!)]);
     setIsLoading([...isLoading, ...Array.from(event.target.files!)
-      .map(() => false)]);
+      .map(() => true)]);
+    setPredictions([...predictions, ...Array.from(event.target.files!).map(() => undefined)]);
     setIsChecked([...isChecked, ...Array.from(event.target.files!)
       .map(() => false)]);
   };
@@ -60,71 +61,51 @@ function Detection() {
     (async () => {
       const res = await getModels();
       setModels(res.data);
-      setModels(res.data);
       setSelectedModel(res.data[0]);
     })();
   }, []);
+
+  const getPredictions = () => {
+    images.forEach(async (image, i) => {
+      if (predictions[i] !== undefined) return;
+      const formData = new FormData();
+      formData.append('files', image);
+      const response = await getPredictionsAPI(formData, selectedModel);
+      setIsLoading((prev) => {
+        const newPrev = [...prev];
+        newPrev[i] = true;
+        return newPrev;
+      });
+      setPredictions((prev) => {
+        const newPrev = [...prev];
+        // eslint-disable-next-line prefer-destructuring
+        newPrev[i] = response.data[0];
+        return newPrev;
+      });
+      setIsLoading((prev) => {
+        const newPrev = [...prev];
+        newPrev[i] = false;
+        return newPrev;
+      });
+    });
+  };
 
   useEffect(() => {
     if (images.length < 1) return;
     const newImageUrls: string[] = [];
     images.forEach((image: any) => newImageUrls.push(URL.createObjectURL(image)));
     setImageUrls(newImageUrls);
-    const loadingIndexes: number[] = [];
-    (async () => {
-      const formData = new FormData();
-      images.forEach((imageUrl, i) => {
-        formData.append('files', imageUrl);
-        setIsLoading((prev) => {
-          const newPrev = [...prev];
-          newPrev[i] = true;
-          return newPrev;
-        });
-        loadingIndexes.push(i);
-      });
-      const response = await getPredictions(formData, selectedModel);
-      setPredictions([...response.data]);
-      setIsLoading((prev) => {
-        const newPrev = [...prev];
-        loadingIndexes.forEach((i) => {
-          newPrev[i] = false;
-        });
-        return newPrev;
-      });
-    })();
+    getPredictions();
   }, [selectedModel]);
 
   // for prediction
 
-  const getPrediction = async (imageUrl: string, index: number) => {
-    setIsChecked((prev) => {
-      const newPrev = [...prev];
-      newPrev[index] = false;
-      return newPrev;
-    });
-    const formData = new FormData();
-    formData.append('files', imageUrl);
-    const response = await getPredictions(formData, selectedModel);
-    setPredictions((prev) => {
-      const newPrev = [...prev];
-      newPrev[index] = response.data[0];
-      return newPrev;
-    });
-    setIsChecked((prev) => {
-      const newPrev = [...prev];
-      newPrev[index] = true;
-      return newPrev;
-    });
-  };
-
   useEffect(() => {
-    if (images.length < 1 || images.length === predictions.length) return;
+    if (images.length < 1) return;
     const newImageUrls: string[] = [];
     images.forEach((image: any) => newImageUrls.push(URL.createObjectURL(image)));
     setImageUrls(newImageUrls);
-    imageUrls.forEach(async (imageUrl, i) => {
-      await getPrediction(imageUrl, i);
-    });
+    getPredictions();
   }, [images]);
 
   const deleteImage = (index: number) => {
@@ -161,7 +142,7 @@ function Detection() {
   const downloadPredictionsCSV = async () => {
     const selectedPredictions = predictions.filter((_, index) => isChecked[index]);
     try {
-      const response = await getCSV(selectedPredictions);
+      const response = await getCSV(selectedPredictions as Prediction[]);
       const { data } = response;
       const blob = new Blob([data], { type: 'text/csv' });
       const url = window.URL.createObjectURL(blob);
@@ -177,7 +158,7 @@ function Detection() {
   const downloadPredictionsXLSX = async () => {
     const selectedPredictions = predictions.filter((_, index) => isChecked[index]);
     try {
-      const response = await getXLSX(selectedPredictions);
+      const response = await getXLSX(selectedPredictions as Prediction[]);
       const { data } = response;
       const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);
@@ -234,7 +215,7 @@ function Detection() {
       .map(() => false)]);
   };
   return (
-    <div className="w-full h-full flex justify-center overflow-y-auto pt-28">
+    <div className="w-full h-full flex justify-center overflow-y-auto pt-28 pb-4">
       <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit">
         <h1 className=" text-xl font-varela text-center">
           Drag and Drop or Browse to Upload
@@ -399,7 +380,7 @@ function Detection() {
             <div className="flex flex-col gap-4 mt-4 items-center">
               {
                                 // eslint-disable-next-line max-len
-                                prediction.pred.sort((a, b) => Number(b[0]) - Number(a[0]))
+                                prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))
                                   .slice(0, numToShow)
                                   .map((pred, i) => (
                                     <div key={i} className="w-full">
@@ -419,11 +400,11 @@ function Detection() {
                                   ))
                             }
               {
-                                prediction.pred.length > numToShow ? (
+                                prediction?.pred.length! > numToShow ? (
                                   <button
                                     type="button"
                                     className="btn btn-primary w-fit"
-                                    onClick={() => handleShowMore(prediction.pred)}
+                                    onClick={() => handleShowMore(prediction!.pred)}
                                   >
                                     Show more
                                   </button>
