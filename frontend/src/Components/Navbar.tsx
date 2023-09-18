@@ -111,20 +111,22 @@ function Navbar({ loginModalRef, setToastMessage }: NavbarProps) {
               </ul>
             </div>
           ) : (
-            <button
-              onMouseEnter={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
-              onMouseLeave={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
-              onClick={openLoginModal}
-              className="btn btn-ghost"
-              type="button"
-            >
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              <label className="swap">
-                <input type="checkbox" checked={isLoginButtonHovered} />
-                <FontAwesomeIcon className="swap-on" icon={faDoorOpen} size="2xl" />
-                <FontAwesomeIcon className="swap-off" icon={faDoorClosed} size="2xl" />
-              </label>
-            </button>
+            <div className="tooltip tooltip-bottom" data-tip="Login">
+              <button
+                onMouseEnter={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
+                onMouseLeave={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
+                onClick={openLoginModal}
+                className="btn btn-ghost"
+                type="button"
+              >
+                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                <label className="swap">
+                  <input type="checkbox" checked={isLoginButtonHovered} />
+                  <FontAwesomeIcon className="swap-on" icon={faDoorOpen} size="2xl" />
+                  <FontAwesomeIcon className="swap-off" icon={faDoorClosed} size="2xl" />
+                </label>
+              </button>
+            </div>
           )}
         </div>
       </div>
