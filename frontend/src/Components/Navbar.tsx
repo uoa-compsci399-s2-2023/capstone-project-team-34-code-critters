@@ -81,7 +81,7 @@ function Navbar({ loginModalRef, setToastMessage }: NavbarProps) {
         </div>
         <div className="navbar-end gap-2">
           {user ? (
-            <div className="dropdown dropdown-hover">
+            <div className="dropdown dropdown-hover dropdown-bottom dropdown-end">
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="btn btn-ghost">
                 {user.photoURL ? (
@@ -92,7 +92,7 @@ function Navbar({ loginModalRef, setToastMessage }: NavbarProps) {
                   </div>
                 )}
               </label>
-              <ul className="dropdown-content z-10 menu p-2 bg-base-100 rounded-lg shadow w-max">
+              <ul className="dropdown-content  z-10 menu p-2 bg-base-100 rounded-lg shadow w-max">
                 <li>
                   <button
                     type="button"
