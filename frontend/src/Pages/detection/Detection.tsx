@@ -9,6 +9,9 @@ import {
   getCSV, getXLSX, getModels, getPredictions as getPredictionsAPI,
 } from '../../services/apiService';
 import { Prediction } from '../../models/Prediction';
+import { collection,doc, getDoc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../../enviroments/firebase';
+import { User } from '@firebase/auth';
 
 function Detection() {
   const inputFile = useRef<HTMLInputElement>(null);
@@ -59,30 +62,73 @@ function Detection() {
     })();
   }, []);
 
-  const getPredictions = () => {
-    images.forEach(async (image, i) => {
-      if (predictions[i] !== undefined) return;
-      const formData = new FormData();
-      formData.append('files', image);
-      const response = await getPredictionsAPI(formData, selectedModel);
-      setIsLoading((prev) => {
-        const newPrev = [...prev];
-        newPrev[i] = true;
-        return newPrev;
-      });
-      setPredictions((prev) => {
-        const newPrev = [...prev];
-        // eslint-disable-next-line prefer-destructuring
-        newPrev[i] = response.data[0];
-        return newPrev;
-      });
-      setIsLoading((prev) => {
-        const newPrev = [...prev];
-        newPrev[i] = false;
-        return newPrev;
-      });
+  //ADDED
+  const addPredictionToUserHistory = async (user: User, imageFileNames: string[], predictionData: Prediction[]) => {
+    // Create a reference to the user's document
+    const userDoc = doc(db, 'user', user.uid);
+    
+    // Create a reference to the predictions sub-collection under the user's document
+    const predictionsCollectionRef = collection(userDoc, 'predictions');
+
+    // Create a new document in the predictions collection
+    const predictionDocRef = doc(predictionsCollectionRef);
+    // Set the data in the new document
+    await setDoc(predictionDocRef, {
+      timestamp: new Date().toISOString(),
+      imageFileNames: imageFileNames,
+      predictionData: predictionData
     });
   };
+  
+
+  const getPredictions = async () => {
+    const predictionsArray: Prediction[] = []; // Temporary array to hold prediction data
+    const imageFileNames: string[] = []; // Temporary array to hold image filenames
+  
+    await Promise.all(
+      images.map(async (image, i) => {
+        if (predictions[i] !== undefined) return;
+        const formData = new FormData();
+        formData.append('files', image);
+        const response = await getPredictionsAPI(formData, selectedModel);
+  
+        setIsLoading((prev) => {
+          const newPrev = [...prev];
+          newPrev[i] = true;
+          return newPrev;
+        });
+  
+        predictionsArray[i] = response.data[0]; // Store prediction to a temporary array
+        imageFileNames.push(image.name); // Store image filename to a temporary array
+  
+        setPredictions((prev) => {
+          const newPrev = [...prev];
+          // eslint-disable-next-line prefer-destructuring
+          newPrev[i] = response.data[0];
+          return newPrev;
+        });
+  
+        setIsLoading((prev) => {
+          const newPrev = [...prev];
+          newPrev[i] = false;
+          return newPrev;
+        });
+      })
+    );
+    console.log('test firestore save')
+    // console.log(user.uid)
+    // // Check if the user is signed in or not
+    // if (user) {
+    //   console.log('saving to user')
+    //   // Save to Firestore
+    //   await addPredictionToUserHistory(user, imageFileNames, predictionsArray);
+    // } else {
+    //   // Store predictions in local storage for guests
+    //   console.log('local')
+    //   localStorage.setItem('guestPredictions', JSON.stringify(predictionsArray));
+    // }
+  };
+  
 
   useEffect(() => {
     if (images.length < 1) return;
