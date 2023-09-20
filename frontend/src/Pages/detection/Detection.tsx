@@ -62,29 +62,34 @@ function Detection() {
     })();
   }, []);
 
-  //ADDED
-  const addPredictionToUserHistory = async (user: User, imageFileNames: string[], predictionData: Prediction[]) => {
-    // Create a reference to the user's document
+  const addPredictionToUserHistory = async (user: User, combinedData: {imageName: string, predictions: Prediction}[]) => {
     const userDoc = doc(db, 'user', user.uid);
-    
-    // Create a reference to the predictions sub-collection under the user's document
     const predictionsCollectionRef = collection(userDoc, 'predictions');
-
-    // Create a new document in the predictions collection
-    const predictionDocRef = doc(predictionsCollectionRef);
-    // Set the data in the new document
-    await setDoc(predictionDocRef, {
-      timestamp: new Date().toISOString(),
-      imageFileNames: imageFileNames,
-      predictionData: predictionData
-    });
+    
+    for (const data of combinedData) {
+      const predictionDocRef = doc(predictionsCollectionRef);
+      
+      // Sort predictions from highest to lowest
+      const sortedPredictions = data.predictions.pred.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]));
+      const objectToSerialize = {
+        pred: sortedPredictions,
+      };
+      
+      const Predictions = JSON.stringify(objectToSerialize);
+    
+      await setDoc(predictionDocRef, {
+        timestamp: new Date().toISOString(),
+        imageName: data.imageName,
+        Predictions
+      });
+    }
   };
   
-
-  const getPredictions = async () => {
-    const predictionsArray: Prediction[] = []; // Temporary array to hold prediction data
-    const imageFileNames: string[] = []; // Temporary array to hold image filenames
   
+  const getPredictions = async () => {
+    const predictionsArray: Prediction[] = [];
+    const imageFileNames: string[] = [];
+    
     await Promise.all(
       images.map(async (image, i) => {
         if (predictions[i] !== undefined) return;
@@ -98,12 +103,11 @@ function Detection() {
           return newPrev;
         });
   
-        predictionsArray[i] = response.data[0]; // Store prediction to a temporary array
-        imageFileNames.push(image.name); // Store image filename to a temporary array
+        predictionsArray[i] = response.data[0];
+        imageFileNames.push(image.name);
   
         setPredictions((prev) => {
           const newPrev = [...prev];
-          // eslint-disable-next-line prefer-destructuring
           newPrev[i] = response.data[0];
           return newPrev;
         });
@@ -115,20 +119,26 @@ function Detection() {
         });
       })
     );
-    console.log('test firestore save')
-    // console.log(user.uid)
-    // // Check if the user is signed in or not
-    // if (user) {
-    //   console.log('saving to user')
-    //   // Save to Firestore
-    //   await addPredictionToUserHistory(user, imageFileNames, predictionsArray);
-    // } else {
-    //   // Store predictions in local storage for guests
-    //   console.log('local')
-    //   localStorage.setItem('guestPredictions', JSON.stringify(predictionsArray));
-    // }
-  };
+    
+    const combinedData = imageFileNames.map((imageName, i) => ({
+      imageName,
+      predictions: predictionsArray[i]
+    }));
   
+    console.log('test firestore save');
+    console.log(predictionsArray);
+  
+    // Check if the user is signed in or not
+    if (auth.currentUser) {
+      console.log('saving to user');
+      // Save to Firestore
+      await addPredictionToUserHistory(auth.currentUser, combinedData);  // Pass the array
+    } else {
+      // Store predictions in local storage for guests
+      console.log('local');
+      localStorage.setItem('guestPredictions', JSON.stringify(predictionsArray));
+    }
+  };
 
   useEffect(() => {
     if (images.length < 1) return;
