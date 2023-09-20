@@ -62,28 +62,45 @@ function Detection() {
     })();
   }, []);
 
+  const formatTimestamp = (date: Date) => {
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZoneName: 'short',
+    };
+    const formatter = new Intl.DateTimeFormat('en-US', options);
+    return formatter.format(date);
+  };
   const addPredictionToUserHistory = async (user: User, combinedData: {imageName: string, predictions: Prediction}[]) => {
     const userDoc = doc(db, 'user', user.uid);
     const predictionsCollectionRef = collection(userDoc, 'predictions');
     
     for (const data of combinedData) {
       const predictionDocRef = doc(predictionsCollectionRef);
-      
-      // Sort predictions from highest to lowest
       const sortedPredictions = data.predictions.pred.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]));
       const objectToSerialize = {
         pred: sortedPredictions,
       };
+
+      const timestamp = new Date();
+      const formattedTimestamp = formatTimestamp(timestamp); // Format the date
       
-      const Predictions = JSON.stringify(objectToSerialize);
+      const Prediction = JSON.stringify(objectToSerialize);
     
       await setDoc(predictionDocRef, {
-        timestamp: new Date().toISOString(),
+        timestamp: formattedTimestamp,
         imageName: data.imageName,
-        Predictions
+        Prediction  // store the serialized version
       });
     }
   };
+  
+  
   
   
   const getPredictions = async () => {
