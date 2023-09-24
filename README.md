@@ -159,10 +159,28 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 run eslint and fix errors
 
 ## Environment Variables
-create a .env file in the root directory of the frontend directory. For variables ask the team.
+create a .env file in the root directory of the frontend directory. 
+Add the following variables to your .env file.
+
+The following environment variables can be found under Project settings on Firebase.
+```
+ESLINT_NO_DEV_ERRORS=true
+REACT_APP_BACKEND_URL=http://localhost:6789
+REACT_APP_APIKEY=API_KEY [REQUIRED]
+REACT_APP_AUTHDOMAIN=AUTH_DOMAIN [REQUIRED]
+REACT_APP_PROJECTID=PROJECT_ID [REQUIRED]
+REACT_APP_STORAGEBUCKET=STORAGE_BUCKET [REQUIRED]
+REACT_APP_MESSAGINGSENDERID=SENDER_ID [REQUIRED]
+REACT_APP_APPID=FIREBASE_APP_ID [REQUIRED]
+REACT_APP_MEASUREMENTID=MEAUREMENT_ID [REQUIRED]
 ```
 
+There are some optional variables for testing purposes:
 ```
+REACT_APP_DISABLE_NAVBAR=(Default: false)
+REACT_APP_DISABLE_UPGRADE_SECURE_REQUESTS=(Default: false)
+```
+
 ## Compilation Instructions
 See Wiki for more detailed instructions: [[Link](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters/wiki/Compilation-Instructions)]
 
