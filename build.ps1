@@ -80,6 +80,14 @@ deactivate
 # Create Web-only Executable
 Set-Location $frontendPath
 Set-Content -Path (Join-Path "." ".env") -Value "REACT_APP_BACKEND_URL=http://code-critters.onrender.com/"
+Add-Content -Path ".\.env" -Value "REACT_APP_DISABLE_NAVBAR=false"
+Add-Content -Path ".\.env" -Value "REACT_APP_APIKEY=NULL"
+Add-Content -Path ".\.env" -Value "REACT_APP_AUTHDOMAIN=NULL"
+Add-Content -Path ".\.env" -Value "REACT_APP_PROJECTID=NULL"
+Add-Content -Path ".\.env" -Value "REACT_APP_STORAGEBUCKET=NULL"
+Add-Content -Path ".\.env" -Value "REACT_APP_MESSAGINGSENDERID=NULL"
+Add-Content -Path ".\.env" -Value "REACT_APP_APPID=NULL"
+Add-Content -Path ".\.env" -Value "REACT_APP_MEASUREMENTID=NULL"
 npm install
 npm run build
 
