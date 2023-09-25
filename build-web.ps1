@@ -1,7 +1,7 @@
 ################ Build Windows Executables ################
 # This script builds and packages the frontend into a portable web application
 
-$applicationName = "CritterSleuth"
+$applicationName = "CritterSleuthWeb"
 $rootPath = $PWD
 $backendPath = Join-Path $rootPath "backend"
 $frontendPath = Join-Path $rootPath "frontend"
@@ -49,11 +49,17 @@ $zipName = $applicationName + ".zip"
 
 # Move Zipped Executable to Root
 $OldName = Join-Path ".\dist" ($applicationName + ".zip")
-$NewName = Join-Path $rootPath ("Web-" + $applicationName + "-Portable.zip")
+$NewName = Join-Path $rootPath ($applicationName + "-Portable.zip")
 Move-Item $OldName $NewName -Force
 
 # Disable Venv
 deactivate
+
+iscc .\package.iss
+
+# Move Installation Executable to Root
+$NewLocation = Join-Path $rootPath "$applicationName-Setup.exe"
+Move-Item "Web-$applicationName-Setup.exe" $NewLocation -Force
 
 # Set Location back to Root
 Set-Location $rootPath

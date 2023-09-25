@@ -78,6 +78,8 @@ Move-Item $OldName $NewName -Force
 deactivate
 
 # Create Web-only Executable
+$applicationName = "CritterSleuthWeb"
+
 Set-Location $frontendPath
 Set-Content -Path (Join-Path "." ".env") -Value "REACT_APP_BACKEND_URL=http://code-critters.onrender.com/"
 Add-Content -Path ".\.env" -Value "REACT_APP_DISABLE_NAVBAR=false"
@@ -104,11 +106,17 @@ $zipName = $applicationName + ".zip"
 
 # Move Zipped Executable to Root
 $OldName = Join-Path ".\dist" ($applicationName + ".zip")
-$NewName = Join-Path $rootPath ("Web-" + $applicationName + "-Portable.zip")
+$NewName = Join-Path $rootPath ($applicationName + "-Portable.zip")
 Move-Item $OldName $NewName -Force
 
 # Disable Venv
 deactivate
+
+iscc .\package.iss
+
+# Move Installation Executable to Root
+$NewLocation = Join-Path $rootPath "$applicationName-Setup.exe"
+Move-Item "Web-$applicationName-Setup.exe" $NewLocation -Force
 
 # Set Location back to Root
 Set-Location $rootPath
