@@ -76,32 +76,24 @@ function Detection() {
     const formatter = new Intl.DateTimeFormat('en-US', options);
     return formatter.format(date);
   };
-  const addPredictionToUserHistory = async (user: User, combinedData: {imageName: string, predictions: Prediction}[]) => {
-    const userDoc = doc(db, 'user', user.uid);
-    const predictionsCollectionRef = collection(userDoc, 'predictions');
-    
-    for (const data of combinedData) {
-      const predictionDocRef = doc(predictionsCollectionRef);
-      const sortedPredictions = data.predictions.pred.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]));
-      const objectToSerialize = {
-        pred: sortedPredictions,
-      };
 
-      const timestamp = new Date();
-      const formattedTimestamp = formatTimestamp(timestamp); // Format the date
-      
-      const Prediction = JSON.stringify(objectToSerialize);
-    
-      await setDoc(predictionDocRef, {
-        timestamp: formattedTimestamp,
-        imageName: data.imageName,
-        Prediction  // store the serialized version
-      });
-    }
-  };
+const addPredictionToUserHistory = async (user: User, combinedData: {imageName: string, predictions: Prediction}[]) => {
+  const userDoc = doc(db, 'user', user.uid);
+  const predictionsCollectionRef = collection(userDoc, 'predictions');
   
+  for (const data of combinedData) {
+    const predictionDocRef = doc(predictionsCollectionRef);
+
+    // Format the timestamp
+    const formattedTimestamp = formatTimestamp(new Date());
   
-  
+    await setDoc(predictionDocRef, {
+      timestamp: formattedTimestamp,
+      imageName: data.imageName,
+      predictions: JSON.stringify(data.predictions.pred) // assuming data.predictions.pred is already sorted
+    });
+  }
+};
   
   const getPredictions = async () => {
     const predictionsArray: Prediction[] = [];
