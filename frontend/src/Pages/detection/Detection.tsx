@@ -5,13 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv, faFileExcel,
 } from '@fortawesome/free-solid-svg-icons';
+import { collection, doc, setDoc } from 'firebase/firestore';
+import { User } from '@firebase/auth';
+import { auth, db } from '../../enviroments/firebase';
 import {
   getCSV, getXLSX, getModels, getPredictions as getPredictionsAPI,
 } from '../../services/apiService';
 import { Prediction } from '../../models/Prediction';
-import { collection,doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db } from '../../enviroments/firebase';
-import { User } from '@firebase/auth';
 
 function Detection() {
   const inputFile = useRef<HTMLInputElement>(null);
@@ -77,74 +77,74 @@ function Detection() {
     return formatter.format(date);
   };
 
-const addPredictionToUserHistory = async (user: User, combinedData: {imageName: string, predictions: Prediction}[]) => {
-  const userDoc = doc(db, 'user', user.uid);
-  const predictionsCollectionRef = collection(userDoc, 'predictions');
-  
-  for (const data of combinedData) {
-    const predictionDocRef = doc(predictionsCollectionRef);
+  const addPredictionToUserHistory = async (
+    user: User,
+    combinedData: { imageName: string, predictions: Prediction }[],
+  ) => {
+    const userDoc = doc(db, 'user', user.uid);
+    const predictionsCollectionRef = collection(userDoc, 'predictions');
 
-    // Format the timestamp
-    const formattedTimestamp = formatTimestamp(new Date());
-  
-    await setDoc(predictionDocRef, {
-      timestamp: formattedTimestamp,
-      imageName: data.imageName,
-      predictions: JSON.stringify(data.predictions.pred) // assuming data.predictions.pred is already sorted
+    const promises = combinedData.map(async (data) => {
+      const predictionDocRef = doc(predictionsCollectionRef);
+
+      // Format the timestamp
+      const formattedTimestamp = formatTimestamp(new Date());
+
+      return setDoc(predictionDocRef, {
+        timestamp: formattedTimestamp,
+        imageName: data.imageName,
+        predictions: JSON.stringify(data.predictions.pred),
+      });
     });
-  }
-};
-  
+
+    await Promise.all(promises);
+  };
+
   const getPredictions = async () => {
     const predictionsArray: Prediction[] = [];
     const imageFileNames: string[] = [];
-    
+
     await Promise.all(
       images.map(async (image, i) => {
         if (predictions[i] !== undefined) return;
         const formData = new FormData();
         formData.append('files', image);
         const response = await getPredictionsAPI(formData, selectedModel);
-  
+
         setIsLoading((prev) => {
           const newPrev = [...prev];
           newPrev[i] = true;
           return newPrev;
         });
-  
-        predictionsArray[i] = response.data[0];
+
+        [predictionsArray[i]] = response.data;
         imageFileNames.push(image.name);
-  
+
         setPredictions((prev) => {
           const newPrev = [...prev];
-          newPrev[i] = response.data[0];
+          [newPrev[i]] = response.data;
           return newPrev;
         });
-  
+
         setIsLoading((prev) => {
           const newPrev = [...prev];
           newPrev[i] = false;
           return newPrev;
         });
-      })
+      }),
     );
-    
+
     const combinedData = imageFileNames.map((imageName, i) => ({
       imageName,
-      predictions: predictionsArray[i]
+      predictions: predictionsArray[i],
     }));
-  
-    console.log('test firestore save');
-    console.log(predictionsArray);
-  
+
     // Check if the user is signed in or not
     if (auth.currentUser) {
-      console.log('saving to user');
       // Save to Firestore
-      await addPredictionToUserHistory(auth.currentUser, combinedData);  // Pass the array
+      await addPredictionToUserHistory(auth.currentUser, combinedData);
     } else {
       // Store predictions in local storage for guests
-      console.log('local');
       localStorage.setItem('guestPredictions', JSON.stringify(predictionsArray));
     }
   };
@@ -159,8 +159,6 @@ const addPredictionToUserHistory = async (user: User, combinedData: {imageName: 
 
   // for prediction
   useEffect(() => {
-    console.log(predictions);
-    console.log(isLoading);
     if (images.length < 1) return;
     const newImageUrls: string[] = [];
     images.forEach((image: any) => newImageUrls.push(URL.createObjectURL(image)));
