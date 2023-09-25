@@ -77,4 +77,4 @@ chmod -R 755 "$debPackagePath/usr"
 chmod 644 "$rootPath/$applicationName.desktop"
 
 # Build the package
-dpkg-deb --build "$debPackagePath" "$rootPath/Complete-$applicationName-Ubuntu.deb"
+dpkg-deb --build "$debPackagePath" "$rootPath/$applicationName-Ubuntu.deb"

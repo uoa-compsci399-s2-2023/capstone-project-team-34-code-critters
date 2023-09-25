@@ -60,7 +60,7 @@ $7zVar = Join-Path ".\dist" $applicationName
 7z -tzip a (Join-Path $7zVar ".zip") (Join-Path $7zVar "*")
 
 # Move Zipped Executable to Root
-$NewName = Join-Path $rootPath "Complete-$applicationName-Portable-Windows.zip"
+$NewName = Join-Path $rootPath "$applicationName-Portable-Windows.zip"
 Move-Item (Join-Path $7zVar ".zip") $NewName -Force
 
 # Package Backend + Frontend into Installation Executable
@@ -70,8 +70,8 @@ pyinstaller .\pywebview_installed.py --add-data "library;library" --noconfirm --
 iscc .\package.iss
 
 # Move Installation Executable to Root
-$OldName = ".\Complete-$applicationName-Setup.exe"
-$NewName = Join-Path $rootPath "Complete-$applicationName-Setup.exe"
+$OldName = ".\$applicationName-Setup.exe"
+$NewName = Join-Path $rootPath "$applicationName-Setup.exe"
 Move-Item $OldName $NewName -Force
 
 # Disable Venv

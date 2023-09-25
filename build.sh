@@ -43,9 +43,10 @@ pyinstaller pywebview_portable.py --add-data "library:library" --noconfirm --cle
 cd "$rootPath"
 
 # Package Executable into Zip
-cd "$backendPath/dist" && zip -r "$rootPath/Complete-$applicationName-Portable-Ubuntu.zip" "$applicationName"
+cd "$backendPath/dist" && zip -r "$rootPath/$applicationName-Portable-Ubuntu.zip" "$applicationName"
 
 # Create Web-only Executable
+applicationName="CritterSleuthWeb"
 cd "$frontendPath"
 
 echo "REACT_APP_BACKEND_URL=http://54.206.138.203:6789/" > .env
@@ -69,7 +70,7 @@ pip install -r requirements.txt
 pyinstaller pywebview_webapp.py --add-data "build:build" --noconfirm  --clean --name $applicationName --windowed --icon "public\favicon.ico"
 
 # Package Executable into Zip
-cd "$frontendPath/dist" && zip -r "$rootPath/Web-$applicationName-Portable-Ubuntu.zip" "$applicationName"
+cd "$frontendPath/dist" && zip -r "$rootPath/$applicationName-Portable-Ubuntu.zip" "$applicationName"
 
 deactivate
 
