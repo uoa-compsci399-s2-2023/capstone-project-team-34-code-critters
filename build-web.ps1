@@ -49,7 +49,7 @@ $zipName = $applicationName + ".zip"
 
 # Move Zipped Executable to Root
 $OldName = Join-Path ".\dist" ($applicationName + ".zip")
-$NewName = Join-Path $rootPath ($applicationName + "-Portable.zip")
+$NewName = Join-Path $rootPath ($applicationName + "-Portable-windows.zip")
 Move-Item $OldName $NewName -Force
 
 # Disable Venv
