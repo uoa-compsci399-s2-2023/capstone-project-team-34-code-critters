@@ -21,6 +21,7 @@ function App() {
     <div className="w-full h-screen">
       <Navbar
         loginModalRef={loginModalRef}
+        signUpModalRef={signUpModalRef}
         setToastMessage={setToastMessage}
       />
       <div className="h-full w-full">

@@ -6,7 +6,7 @@ import {
   faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv, faFileExcel,
 } from '@fortawesome/free-solid-svg-icons';
 import {
-  getCSV, getXLSX, getModels, getPredictions,
+  getCSV, getXLSX, getModels, getPredictions as getPredictionsAPI,
 } from '../../services/apiService';
 import { Prediction } from '../../models/Prediction';
 
@@ -15,17 +15,12 @@ function Detection() {
   const [images, setImages] = useState<File[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean[]>([]);
-  const [predictions, setPredictions] = useState<Prediction[]>([]);
+  const [predictions, setPredictions] = useState<(Prediction | undefined)[]>([]);
   const [numToShow, setNumToShow] = useState(5);
   const [isChecked, setIsChecked] = useState<boolean[]>([]);
   const [models, setModels] = useState<string[]>([]);
   const [selectedModel, setSelectedModel] = useState<string>('');
   const [isDraggingOver, setIsDraggingOver] = useState(false);
-  const className = `cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 ${
-    images.length > 0
-      ? 'flex flex-col sm:flex-row justify-around items-center p-4'
-      : 'aspect-video flex items-center justify-center p-4'
-  } ${isDraggingOver ? 'bg-green-200' : ''}`;
   const handleShowMore = (pred: string[][]) => {
     setNumToShow(pred.length); // Show all predictions
   };
@@ -44,7 +39,8 @@ function Detection() {
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setImages([...images, ...Array.from(event.target.files!)]);
     setIsLoading([...isLoading, ...Array.from(event.target.files!)
-      .map(() => false)]);
+      .map(() => true)]);
+    setPredictions([...predictions, ...Array.from(event.target.files!).map(() => undefined)]);
     setIsChecked([...isChecked, ...Array.from(event.target.files!)
       .map(() => false)]);
   };
@@ -55,78 +51,56 @@ function Detection() {
     setIsChecked(newCheck);
   };
 
-  const removeCheckboxState = (index: number) => {
-    const newCheck = [...isChecked];
-    newCheck.splice(index, 1);
-    setIsChecked(newCheck);
-  };
-
   useEffect(() => {
     (async () => {
       const res = await getModels();
       setModels(res.data);
-      setModels(res.data);
       setSelectedModel(res.data[0]);
     })();
   }, []);
+
+  const getPredictions = () => {
+    images.forEach(async (image, i) => {
+      if (predictions[i] !== undefined) return;
+      const formData = new FormData();
+      formData.append('files', image);
+      const response = await getPredictionsAPI(formData, selectedModel);
+      setIsLoading((prev) => {
+        const newPrev = [...prev];
+        newPrev[i] = true;
+        return newPrev;
+      });
+      setPredictions((prev) => {
+        const newPrev = [...prev];
+        // eslint-disable-next-line prefer-destructuring
+        newPrev[i] = response.data[0];
+        return newPrev;
+      });
+      setIsLoading((prev) => {
+        const newPrev = [...prev];
+        newPrev[i] = false;
+        return newPrev;
+      });
+    });
+  };
 
   useEffect(() => {
     if (images.length < 1) return;
     const newImageUrls: string[] = [];
     images.forEach((image: any) => newImageUrls.push(URL.createObjectURL(image)));
     setImageUrls(newImageUrls);
-    const loadingIndexes: number[] = [];
-    (async () => {
-      const formData = new FormData();
-      images.forEach((imageUrl, i) => {
-        formData.append('files', imageUrl);
-        setIsLoading((prev) => {
-          const newPrev = [...prev];
-          newPrev[i] = true;
-          return newPrev;
-        });
-        loadingIndexes.push(i);
-      });
-      const response = await getPredictions(formData, selectedModel);
-      setPredictions([...response.data]);
-      setIsLoading((prev) => {
-        const newPrev = [...prev];
-        loadingIndexes.forEach((i) => {
-          newPrev[i] = false;
-        });
-        return newPrev;
-      });
-    })();
+    getPredictions();
   }, [selectedModel]);
 
+  // for prediction
   useEffect(() => {
-    if (images.length < 1 || images.length === predictions.length) return;
+    console.log(predictions);
+    console.log(isLoading);
+    if (images.length < 1) return;
     const newImageUrls: string[] = [];
     images.forEach((image: any) => newImageUrls.push(URL.createObjectURL(image)));
     setImageUrls(newImageUrls);
-    const loadingIndexes: number[] = [];
-    (async () => {
-      const formData = new FormData();
-      images.forEach((imageUrl, i) => {
-        if (predictions[i] !== undefined) return;
-        formData.append('files', imageUrl);
-        setIsLoading((prev) => {
-          const newPrev = [...prev];
-          newPrev[i] = true;
-          return newPrev;
-        });
-        loadingIndexes.push(i);
-      });
-      const response = await getPredictions(formData, selectedModel);
-      setPredictions((prev) => [...prev, ...response.data]);
-      setIsLoading((prev) => {
-        const newPrev = [...prev];
-        loadingIndexes.forEach((i) => {
-          newPrev[i] = false;
-        });
-        return newPrev;
-      });
-    })();
+    getPredictions();
   }, [images]);
 
   const deleteImage = (index: number) => {
@@ -142,7 +116,13 @@ function Detection() {
     newPredictions.splice(index, 1);
     setPredictions(newPredictions);
 
-    removeCheckboxState(index);
+    const newCheck = [...isChecked];
+    newCheck.splice(index, 1);
+    setIsChecked(newCheck);
+
+    const newLoading = [...isLoading];
+    newLoading.splice(index, 1);
+    setIsLoading(newLoading);
   };
 
   const openModel = (index: number) => {
@@ -163,7 +143,7 @@ function Detection() {
   const downloadPredictionsCSV = async () => {
     const selectedPredictions = predictions.filter((_, index) => isChecked[index]);
     try {
-      const response = await getCSV(selectedPredictions);
+      const response = await getCSV(selectedPredictions as Prediction[]);
       const { data } = response;
       const blob = new Blob([data], { type: 'text/csv' });
       const url = window.URL.createObjectURL(blob);
@@ -176,10 +156,11 @@ function Detection() {
       console.error('Error fetching CSV data:', error);
     }
   };
+
   const downloadPredictionsXLSX = async () => {
     const selectedPredictions = predictions.filter((_, index) => isChecked[index]);
     try {
-      const response = await getXLSX(selectedPredictions);
+      const response = await getXLSX(selectedPredictions as Prediction[]);
       const { data } = response;
       const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);
@@ -193,7 +174,7 @@ function Detection() {
     }
   };
 
-  const toggleAll = () => {
+  const selectAll = () => {
     const newCheck = [...isChecked];
     if (newCheck.every((check) => check)) {
       newCheck.forEach((_, index) => {
@@ -211,9 +192,9 @@ function Detection() {
     setSelectedModel(event.target.value);
   };
   const handleDragOver = (event :React.DragEvent<HTMLDivElement>) => {
-    const newEvent = event;
-    newEvent.preventDefault();
-    newEvent.dataTransfer.dropEffect = 'copy';
+    event.preventDefault();
+    // eslint-disable-next-line no-param-reassign
+    event.dataTransfer.dropEffect = 'copy';
   };
   const handleDragEnter = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -229,20 +210,17 @@ function Detection() {
 
     const droppedFiles = Array.from(event.dataTransfer.files);
 
-    setImages([...images, ...Array.from(droppedFiles)]);
-    setIsLoading([...isLoading, ...Array.from(droppedFiles)
+    setImages([...images, ...droppedFiles]);
+    setIsLoading([...isLoading, ...droppedFiles
       .map(() => false)]);
-    setIsChecked([...isChecked, ...Array.from(droppedFiles)
+    setIsChecked([...isChecked, ...droppedFiles
       .map(() => false)]);
   };
-
-  // useEffect(() => {
-  //   console.log("entering:", isDraggingOver);
-  // }, [isDraggingOver]);
   return (
-    <div className="w-full h-full flex justify-center overflow-y-auto pt-28">
+    <div className="w-full h-full flex justify-center overflow-y-auto pt-28 pb-4">
       <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit">
-        <h1 className=" text-xl font-varela text-center">
+        <h1 className="p-4 font-varela text-xl font-bold">Upload</h1>
+        <h1 className="text-xl font-varela text-center">
           Drag and Drop or Browse to Upload
           Image
         </h1>
@@ -261,14 +239,18 @@ function Detection() {
           accept="image/png, image/jpeg"
         />
         <div
-          className={className}
-          onClick={(event) => addImages(event)}
-          onDragOver={handleDragOver} // code needs to the changed later
-          onDrop={handleDrop} // code needs to be changed later
-          onDragEnter={handleDragEnter}
-          onDragLeave={handleDragLeave}
+          className={`transition-all cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 ${
+            images.length > 0
+              ? 'flex flex-col sm:flex-row justify-around items-center p-4'
+              : 'aspect-video flex items-center justify-center p-4'
+          } ${isDraggingOver ? 'bg-green-200' : 'bg-white'}`}
+          onClick={(e) => addImages(e)}
+          onDragOver={(e) => handleDragOver(e)} // code needs to the changed later
+          onDrop={(e) => handleDrop(e)} // code needs to be changed later
+          onDragEnter={(e) => handleDragEnter(e)}
+          onDragLeave={(e) => handleDragLeave(e)}
         >
-          <FontAwesomeIcon icon={faCloudArrowUp} size={images.length > 0 ? '3x' : '5x'} />
+          <FontAwesomeIcon className="text-primary" icon={faCloudArrowUp} size={images.length > 0 ? '3x' : '5x'} />
           <div className="md:flex flex-col hidden">
             <h2 className={` text-lg font-varela ${images.length === 0 && 'mt-8'} text-center`}>
               Select a file or drag and drop here
@@ -301,30 +283,34 @@ function Detection() {
         {(images.length > 0 && predictions.length > 0) && (
         <div className="mt-4 flex gap-4">
           <button
-            className="btn btn-secondary"
+            className="btn btn-primary"
             type="button"
-            onClick={() => toggleAll()}
+            onClick={() => selectAll()}
           >
-            Toggle All
+            Select All
           </button>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={downloadPredictionsCSV}
-            disabled={isChecked.every((value) => !value)}
-          >
-            <FontAwesomeIcon icon={faDownload} className="mr-2" />
-            <FontAwesomeIcon icon={faFileCsv} />
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={downloadPredictionsXLSX}
-            disabled={isChecked.every((value) => !value)}
-          >
-            <FontAwesomeIcon icon={faDownload} className="mr-2" />
-            <FontAwesomeIcon icon={faFileExcel} />
-          </button>
+          <div className="tooltip" data-tip="Download predictions as CSV">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={downloadPredictionsCSV}
+              disabled={isChecked.every((value) => !value)}
+            >
+              <FontAwesomeIcon icon={faDownload} className="mr-2" />
+              <FontAwesomeIcon icon={faFileCsv} />
+            </button>
+          </div>
+          <div className="tooltip" data-tip="Download predictions as XLSX">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={downloadPredictionsXLSX}
+              disabled={isChecked.every((value) => !value)}
+            >
+              <FontAwesomeIcon icon={faDownload} className="mr-2" />
+              <FontAwesomeIcon icon={faFileExcel} />
+            </button>
+          </div>
         </div>
         )}
 
@@ -351,12 +337,12 @@ function Detection() {
                   type="checkbox"
                   checked={isChecked[index] || false}
                   onChange={() => handleCheckbox(index)}
-                  className="checkbox checkbox-lg checkbox-secondary"
+                  className="checkbox checkbox-lg checkbox-primary"
                   disabled={isLoading[index]}
                 />
                 <button
                   type="button"
-                  className="btn btn-primary btn-square"
+                  className="btn btn-secondary btn-square"
                   onClick={() => openModel(index)}
                   disabled={isLoading[index]}
                 >
@@ -365,7 +351,7 @@ function Detection() {
                 </button>
 
                 <button
-                  className="btn btn-square btn-outline btn-accent"
+                  className="btn btn-square btn-outline btn-error"
                   type="button"
                   onClick={() => deleteImage(index)}
                   disabled={isLoading[index]}
@@ -385,7 +371,7 @@ function Detection() {
           className="modal  modal-bottom sm:modal-middle"
           key={index}
         >
-          <form method="dialog" className="modal-box sm:w-11/12 sm:max-w-3xl">
+          <form method="dialog" className="modal-box sm:w-11/12 sm:max-w-4xl">
             <button
               onClick={() => closeModel(index)}
               type="button"
@@ -401,7 +387,7 @@ function Detection() {
             <div className="flex flex-col gap-4 mt-4 items-center">
               {
                                 // eslint-disable-next-line max-len
-                                prediction.pred.sort((a, b) => Number(b[0]) - Number(a[0]))
+                                prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))
                                   .slice(0, numToShow)
                                   .map((pred, i) => (
                                     <div key={i} className="w-full">
@@ -421,11 +407,11 @@ function Detection() {
                                   ))
                             }
               {
-                                prediction.pred.length > numToShow ? (
+                                prediction?.pred.length! > numToShow ? (
                                   <button
                                     type="button"
                                     className="btn btn-primary w-fit"
-                                    onClick={() => handleShowMore(prediction.pred)}
+                                    onClick={() => handleShowMore(prediction!.pred)}
                                   >
                                     Show more
                                   </button>

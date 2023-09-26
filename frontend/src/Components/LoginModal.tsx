@@ -126,7 +126,7 @@ function LoginModal({
             onClose={() => setErrorToast({ message: '', type: 'success' })}
           />
         )}
-        <form onSubmit={handleSubmit(loginEmailPassword)} className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 w-full  md:w-11/12 sm:max-w-4xl bg-white md:bg-gradient-to-br md:from-green-400 md:to-cyan-500 md:to-60%">
+        <form onSubmit={handleSubmit(loginEmailPassword)} className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 w-full  md:w-11/12 sm:max-w-4xl bg-white md:bg-gradient-to-br md:from-primary md:to-secondary md:to-60%">
           <div className="relative hidden md:flex flex-col px-14 py-24">
             <div className="text-4xl font-black text-white font-varela cursor-default">
               Welcome back!
@@ -143,7 +143,7 @@ function LoginModal({
             >
               <FontAwesomeIcon icon={faXmark} />
             </button>
-            <div className="text-3xl sm:text-4xl font-black text-green-500 font-varela cursor-default">
+            <div className="text-3xl sm:text-4xl text-primary font-black font-varela cursor-default">
               Login
             </div>
             <button className="font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
@@ -225,7 +225,7 @@ function LoginModal({
               {/* eslint-disable-next-line react/no-unescaped-entities */}
               Don't have an account?
               {' '}
-              <button type="button" className="relative font-varela cursor-pointer text-green-500" onClick={openSignUpModal}>Sign up</button>
+              <button type="button" className="relative font-varela cursor-pointer text-primary" onClick={openSignUpModal}>Sign up</button>
             </div>
           </div>
         </form>
