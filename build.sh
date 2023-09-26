@@ -43,6 +43,35 @@ pyinstaller pywebview_portable.py --add-data "library:library" --noconfirm --cle
 cd "$rootPath"
 
 # Package Executable into Zip
-cd "$backendPath/dist" && zip -r "$rootPath/Complete-$applicationName-Portable-Ubuntu.zip" "$applicationName"
+cd "$backendPath/dist" && zip -r "$rootPath/$applicationName-Portable-Ubuntu.zip" "$applicationName"
+
+# Create Web-only Executable
+applicationName="CritterSleuthWeb"
+cd "$frontendPath"
+
+echo "REACT_APP_BACKEND_URL=http://54.206.138.203:6789/" > .env
+echo "REACT_APP_DISABLE_NAVBAR=false" >> .env
+echo "REACT_APP_APIKEY=NULL" >> .env
+echo "REACT_APP_AUTHDOMAIN=NULL" >> .env
+echo "REACT_APP_PROJECTID=NULL" >> .env
+echo "REACT_APP_STORAGEBUCKET=NULL" >> .env
+echo "REACT_APP_MESSAGINGSENDERID=NULL" >> .env
+echo "REACT_APP_APPID=NULL" >> .env
+echo "REACT_APP_MEASUREMENTID=NULL" >> .env
+echo "REACT_APP_DISABLE_UPGRADE_SECURE_REQUESTS=true" >> .env
+
+npm install
+npm run build
+
+# Package Frontend into Executable
+python -m venv venv
+source venv/bin/activate
+pip install -r ubuntu_requirements.txt
+pyinstaller pywebview_webapp.py --add-data "build:build" --noconfirm  --clean --name $applicationName --windowed --icon "public\favicon.ico"
+
+# Package Executable into Zip
+cd "$frontendPath/dist" && zip -r "$rootPath/$applicationName-Portable-Ubuntu.zip" "$applicationName"
+
+deactivate
 
 cd "$rootPath"
