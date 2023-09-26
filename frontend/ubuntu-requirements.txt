@@ -1,0 +1,16 @@
+altgraph==0.17.3
+bottle==0.12.25
+packaging==23.1
+Pillow==10.0.0
+proxy-tools==0.1.0
+pyinstaller==5.13.0
+pyinstaller-hooks-contrib==2023.8
+PySide2==5.15.2.1
+pywebview==4.2.2
+QtPy==2.4.0
+ruamel.yaml==0.17.32
+ruamel.yaml.clib==0.2.7
+shiboken2==5.15.2.1
+typing_extensions==4.8.0
+vext==0.7.6
+vext.gi==0.7.4

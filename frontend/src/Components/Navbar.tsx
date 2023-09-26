@@ -6,7 +6,6 @@ import {
   faBurger,
 } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../enviroments/firebase';
 import 'firebase/auth';
 
@@ -20,6 +19,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
   const [isLoginButtonHovered, setIsLoginButtonHovered] = useState(false);
   const [isSignUpButtonHovered, setIsSignUpButtonHovered] = useState(false);
   const [title, setTitle] = useState('Home');
+  const [user, setUser] = useState(auth.currentUser);
   const openLoginModal = () => {
     if (loginModalRef.current) {
       loginModalRef.current.showModal();
@@ -35,8 +35,11 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [user] = useAuthState(auth);
-
+  useEffect(() => {
+    auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
+  }, []);
   useEffect(() => {
     switch (location.pathname) {
       case '/':
@@ -95,7 +98,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
             </button>
           </div>
           {user ? (
-            <div className="dropdown dropdown-hover">
+            <div className="dropdown dropdown-hover dropdown-bottom dropdown-end">
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="btn btn-ghost">
                 {user.photoURL ? (
@@ -142,12 +145,6 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
               className="btn btn-ghost bg-primary text-white hover:text-black"
               type="button"
             >
-              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-              {/* <label className="swap">
-                <input type="checkbox" checked={isLoginButtonHovered} />
-                <FontAwesomeIcon className="swap-on" icon={faDoorOpen} size="2xl" />
-                <FontAwesomeIcon className="swap-off" icon={faDoorClosed} size="2xl" />
-              </label> */}
               Sign up
             </button>
             </div>
