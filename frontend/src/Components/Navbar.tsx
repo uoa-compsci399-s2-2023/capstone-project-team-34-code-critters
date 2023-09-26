@@ -49,7 +49,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
       <div className="navbar rounded-xl w-11/12 fixed z-10 left-1/2 -translate-x-1/2 top-4 shadow bg-white backdrop-blur-sm">
         <div className="navbar-start gap-2">
           <div>
-            <img className="pl-3" src="/logos/logoV2.svg" alt="logo" style={{ fill: 'green', width: '95%' }} />
+            <img className="pl-3" src="static/logos/logoV2.svg" alt="logo" style={{ fill: 'green', width: '95%' }} />
           </div>
           <div>
             <h1 className="font-varela text-2xl font-bold">
