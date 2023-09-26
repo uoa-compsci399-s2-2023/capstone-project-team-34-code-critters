@@ -64,14 +64,14 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
         <div className="navbar-end gap-2">
           <div className="space-x-2">
             <button
-              className="btn btn-ghost hover:text-black"
+              className="btn btn-ghost navbar-button hover:text-black"
               type="button"
               onClick={() => navigate('/')}
             >
               Home
             </button>
             <button
-              className="btn btn-ghost hover:text-black"
+              className="btn btn-ghost navbar-button  hover:text-black"
               type="button"
               onClick={() => navigate('/upload')}
             >
@@ -114,7 +114,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                 onMouseEnter={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
                 onMouseLeave={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
                 onClick={openLoginModal}
-                className="btn btn-ghost hover:text-black"
+                className="btn btn-ghost navbar-button  hover:text-black"
                 type="button"
               >
                 Login
