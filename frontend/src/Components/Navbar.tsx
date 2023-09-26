@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faDoorClosed,
-  faDoorOpen,
-  faBurger,
-} from '@fortawesome/free-solid-svg-icons';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { auth } from '../enviroments/firebase';
 import 'firebase/auth';
 
@@ -18,7 +12,6 @@ interface NavbarProps {
 function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps) {
   const [isLoginButtonHovered, setIsLoginButtonHovered] = useState(false);
   const [isSignUpButtonHovered, setIsSignUpButtonHovered] = useState(false);
-  const [title, setTitle] = useState('Home');
   const [user, setUser] = useState(auth.currentUser);
   const openLoginModal = () => {
     if (loginModalRef.current) {
@@ -32,7 +25,6 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
     }
   };
 
-  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,18 +32,6 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
       setUser(currentUser);
     });
   }, []);
-  useEffect(() => {
-    switch (location.pathname) {
-      case '/':
-        setTitle('Home');
-        break;
-      case '/upload':
-        setTitle('Upload');
-        break;
-      default:
-        break;
-    }
-  }, [location.pathname]);
 
   const navbarEnabled = process.env.REACT_APP_DISABLE_NAVBAR !== 'true';
 
@@ -69,19 +49,20 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
       <div className="navbar rounded-xl w-11/12 fixed z-10 left-1/2 -translate-x-1/2 top-4 shadow bg-white backdrop-blur-sm">
         <div className="navbar-start gap-2">
           <div>
-            <img className="pl-3" src="/logos/logoV2.svg" alt="logo" style={{ fill: "green", width: '95%' }}/>
+            <img className="pl-3" src="/logos/logoV2.svg" alt="logo" style={{ fill: 'green', width: '95%' }} />
           </div>
           <div>
-          <h1 className="font-varela text-2xl font-bold">
-            Code<span style={{ background: 'linear-gradient(to bottom right, #4ade80, #38bdf8)', WebkitBackgroundClip: 'text', color: 'transparent' }}>Critters</span>
-          </h1>
+            <h1 className="font-varela text-2xl font-bold">
+              Code
+              <span style={{ background: 'linear-gradient(to bottom right, #4ade80, #38bdf8)', WebkitBackgroundClip: 'text', color: 'transparent' }}>Critters</span>
+            </h1>
           </div>
         </div>
         <div className="navbar-center">
           {/* <h1 className="font-varela text-lg font-bold">{title}</h1> */}
         </div>
         <div className="navbar-end gap-2">
-          <div className='space-x-2'>
+          <div className="space-x-2">
             <button
               className="btn btn-ghost hover:text-black"
               type="button"
@@ -128,25 +109,25 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
               </ul>
             </div>
           ) : (
-            <div className='space-x-2'>
-            <button
-              onMouseEnter={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
-              onMouseLeave={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
-              onClick={openLoginModal}
-              className="btn btn-ghost hover:text-black"
-              type="button"
-            >
-              Login
-            </button>
-            <button
-              onMouseEnter={() => setIsSignUpButtonHovered(!isSignUpButtonHovered)}
-              onMouseLeave={() => setIsSignUpButtonHovered(!isSignUpButtonHovered)}
-              onClick={openSignUpModal}
-              className="btn btn-ghost bg-primary text-white hover:text-black"
-              type="button"
-            >
-              Sign up
-            </button>
+            <div className="space-x-2">
+              <button
+                onMouseEnter={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
+                onMouseLeave={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
+                onClick={openLoginModal}
+                className="btn btn-ghost hover:text-black"
+                type="button"
+              >
+                Login
+              </button>
+              <button
+                onMouseEnter={() => setIsSignUpButtonHovered(!isSignUpButtonHovered)}
+                onMouseLeave={() => setIsSignUpButtonHovered(!isSignUpButtonHovered)}
+                onClick={openSignUpModal}
+                className="btn btn-ghost bg-primary text-white hover:text-black"
+                type="button"
+              >
+                Sign up
+              </button>
             </div>
           )}
         </div>
