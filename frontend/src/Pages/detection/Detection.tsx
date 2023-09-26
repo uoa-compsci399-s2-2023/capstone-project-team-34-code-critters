@@ -282,7 +282,8 @@ function Detection() {
   return (
     <div className="w-full h-full flex justify-center overflow-y-auto pt-28 pb-4">
       <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit">
-        <h1 className=" text-xl font-varela text-center">
+        <h1 className="p-4 font-varela text-xl font-bold">Upload</h1>
+        <h1 className="text-xl font-varela text-center">
           Drag and Drop or Browse to Upload
           Image
         </h1>
@@ -305,14 +306,14 @@ function Detection() {
             images.length > 0
               ? 'flex flex-col sm:flex-row justify-around items-center p-4'
               : 'aspect-video flex items-center justify-center p-4'
-          } ${isDraggingOver ? 'bg-green-200' : ''}`}
+          } ${isDraggingOver ? 'bg-green-200' : 'bg-white'}`}
           onClick={(e) => addImages(e)}
           onDragOver={(e) => handleDragOver(e)} // code needs to the changed later
           onDrop={(e) => handleDrop(e)} // code needs to be changed later
           onDragEnter={(e) => handleDragEnter(e)}
           onDragLeave={(e) => handleDragLeave(e)}
         >
-          <FontAwesomeIcon icon={faCloudArrowUp} size={images.length > 0 ? '3x' : '5x'} />
+          <FontAwesomeIcon className="text-primary" icon={faCloudArrowUp} size={images.length > 0 ? '3x' : '5x'} />
           <div className="md:flex flex-col hidden">
             <h2 className={` text-lg font-varela ${images.length === 0 && 'mt-8'} text-center`}>
               Select a file or drag and drop here
@@ -345,7 +346,7 @@ function Detection() {
         {(images.length > 0 && predictions.length > 0) && (
         <div className="mt-4 flex gap-4">
           <button
-            className="btn btn-secondary"
+            className="btn btn-primary"
             type="button"
             onClick={() => selectAll()}
           >
@@ -399,12 +400,12 @@ function Detection() {
                   type="checkbox"
                   checked={isChecked[index] || false}
                   onChange={() => handleCheckbox(index)}
-                  className="checkbox checkbox-lg checkbox-secondary"
+                  className="checkbox checkbox-lg checkbox-primary"
                   disabled={isLoading[index]}
                 />
                 <button
                   type="button"
-                  className="btn btn-primary btn-square"
+                  className="btn btn-secondary btn-square"
                   onClick={() => openModel(index)}
                   disabled={isLoading[index]}
                 >
@@ -413,7 +414,7 @@ function Detection() {
                 </button>
 
                 <button
-                  className="btn btn-square btn-outline btn-accent"
+                  className="btn btn-square btn-outline btn-error"
                   type="button"
                   onClick={() => deleteImage(index)}
                   disabled={isLoading[index]}

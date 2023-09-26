@@ -1,8 +1,8 @@
-#define AppName "CritterSleuth"
+#define AppName "CritterSleuthWeb"
 #define AppVersion "1.1.0"
 #define AppPublisher "Code Critters"
-#define AppExeName "CritterSleuth"
-#define AppIcon "library\static\favicon.ico"
+#define AppExeName "CritterSleuthWeb"
+#define AppIcon "public\favicon.ico"
 
 [Setup]
 AppName={#AppName}
@@ -11,7 +11,7 @@ AppPublisher={#AppPublisher}
 DefaultDirName={pf}\{#AppPublisher}\{#AppName}
 DefaultGroupName={#AppName}
 OutputDir=.
-OutputBaseFilename={#AppExeName}-Setup
+OutputBaseFilename=Web-{#AppExeName}-Setup
 Compression=lzma2
 SolidCompression=yes
 UninstallDisplayIcon={app}\{#AppExeName}.exe
@@ -20,8 +20,6 @@ UninstallDisplayIcon={app}\{#AppExeName}.exe
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "Do you want to create desktop icon?"; Flags: checkablealone
 
 [Files]
-Source: "dist\{#AppExeName}\library\static\uploads\*"; DestDir: "{userappdata}\{#AppPublisher}\{#AppName}\library\static\uploads"; Flags: recursesubdirs createallsubdirs
-Source: "dist\{#AppExeName}\library\static\storage\*"; DestDir: "{userappdata}\{#AppPublisher}\{#AppName}\library\static\storage"; Flags: recursesubdirs createallsubdirs
 Source: "dist\{#AppExeName}\*"; DestDir: "{app}"; Flags: recursesubdirs
 
 
