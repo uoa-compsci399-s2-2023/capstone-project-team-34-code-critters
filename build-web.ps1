@@ -33,6 +33,7 @@ Add-Content -Path ".\.env" -Value "REACT_APP_STORAGEBUCKET=NULL"
 Add-Content -Path ".\.env" -Value "REACT_APP_MESSAGINGSENDERID=NULL"
 Add-Content -Path ".\.env" -Value "REACT_APP_APPID=NULL"
 Add-Content -Path ".\.env" -Value "REACT_APP_MEASUREMENTID=NULL"
+Add-Content -Path ".\.env" -Value "DISABLE_ESLINT_PLUGIN=true"
 npm install
 npm run build
 

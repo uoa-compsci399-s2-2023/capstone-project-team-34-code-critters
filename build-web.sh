@@ -25,7 +25,7 @@ echo "REACT_APP_MESSAGINGSENDERID=NULL" >> .env
 echo "REACT_APP_APPID=NULL" >> .env
 echo "REACT_APP_MEASUREMENTID=NULL" >> .env
 echo "REACT_APP_DISABLE_UPGRADE_SECURE_REQUESTS=true" >> .env
-
+echo "DISABLE_ESLINT_PLUGIN=true" >> .env
 npm install
 npm run build
 
