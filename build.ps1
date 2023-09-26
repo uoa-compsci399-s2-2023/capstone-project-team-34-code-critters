@@ -81,7 +81,7 @@ deactivate
 $applicationName = "CritterSleuthWeb"
 
 Set-Location $frontendPath
-Set-Content -Path (Join-Path "." ".env") -Value "REACT_APP_BACKEND_URL=http://code-critters.onrender.com/"
+Set-Content -Path (Join-Path "." ".env") -Value "REACT_APP_BACKEND_URL=https://crittersleuthbackend.keshuac.com/"
 Add-Content -Path ".\.env" -Value "REACT_APP_DISABLE_NAVBAR=false"
 Add-Content -Path ".\.env" -Value "REACT_APP_APIKEY=NULL"
 Add-Content -Path ".\.env" -Value "REACT_APP_AUTHDOMAIN=NULL"

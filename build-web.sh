@@ -15,7 +15,7 @@ applicationFolder="$backendLibraryPath/application"
 # Create Web-only Executable
 cd "$frontendPath"
 
-echo "REACT_APP_BACKEND_URL=http://54.206.138.203:6789/" > .env
+echo "REACT_APP_BACKEND_URL=https://crittersleuthbackend.keshuac.com/" > .env
 echo "REACT_APP_DISABLE_NAVBAR=false" >> .env
 echo "REACT_APP_APIKEY=NULL" >> .env
 echo "REACT_APP_AUTHDOMAIN=NULL" >> .env
