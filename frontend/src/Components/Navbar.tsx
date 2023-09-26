@@ -46,7 +46,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
 
   if (navbarEnabled) {
     return (
-      <div className="navbar rounded-xl w-11/12 fixed z-10 left-1/2 -translate-x-1/2 top-4 shadow bg-white backdrop-blur-sm">
+      <div className="navbar max-w-4xl rounded-xl w-11/12 fixed z-10 left-1/2 -translate-x-1/2 top-4 shadow backdrop-blur-sm">
         <div className="navbar-start gap-2">
           <div>
             <img className="pl-3" src="/logos/logoV2.svg" alt="logo" style={{ fill: 'green', width: '95%' }} />
@@ -71,7 +71,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
               Home
             </button>
             <button
-              className="btn btn-ghost navbar-button  hover:text-black hover:border-none"
+              className="btn btn-ghost navbar-button hover:text-black hover:border-none"
               type="button"
               onClick={() => navigate('/upload')}
             >
@@ -114,7 +114,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                 onMouseEnter={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
                 onMouseLeave={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
                 onClick={openLoginModal}
-                className="btn btn-ghost navbar-button  hover:text-black hover:border-none"
+                className="btn btn-ghost navbar-button hover:text-black hover:border-none"
                 type="button"
               >
                 Login
@@ -123,8 +123,9 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                 onMouseEnter={() => setIsSignUpButtonHovered(!isSignUpButtonHovered)}
                 onMouseLeave={() => setIsSignUpButtonHovered(!isSignUpButtonHovered)}
                 onClick={openSignUpModal}
-                className="btn btn-ghost bg-primary text-white hover:text-black"
+                className="btn btn-ghost bg-primary text-white hover:text-black " 
                 type="button"
+                // style={{ background: 'linear-gradient(to bottom right, #4ade80, #38bdf8)' }}
               >
                 Sign up
               </button>

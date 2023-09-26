@@ -243,7 +243,7 @@ function Detection() {
             images.length > 0
               ? 'flex flex-col sm:flex-row justify-around items-center p-4'
               : 'aspect-video flex items-center justify-center p-4'
-          } ${isDraggingOver ? 'bg-green-200' : 'bg-white'}`}
+          } ${isDraggingOver ? 'bg-green-200' : ''}`}
           onClick={(e) => addImages(e)}
           onDragOver={(e) => handleDragOver(e)} // code needs to the changed later
           onDrop={(e) => handleDrop(e)} // code needs to be changed later
