@@ -71,6 +71,7 @@ def create_app(config=None, aargs=None):
 
     # app.register_blueprint(home.home_blueprint)
 
+    # print(Settings.model_dump())
     from .utilities import utilities, file_exports
     app.include_router(utilities.utils_api)
     app.include_router(file_exports.utils_api)
