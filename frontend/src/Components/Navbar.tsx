@@ -97,12 +97,13 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                     onClick={() => {
                       // Handle user history
                     }}
+                    className="text-black"
                   >
                     User History
                   </button>
                 </li>
                 <li>
-                  <button type="button" onClick={handleLogout}>
+                  <button type="button" className="text-black" onClick={handleLogout}>
                     Log Out
                   </button>
                 </li>
