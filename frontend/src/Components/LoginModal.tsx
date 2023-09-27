@@ -224,14 +224,14 @@ function LoginModal({
             </div>
             <button
               type="submit"
-              className={`relative font-varela normal-case btn w-full text-white text-lg ${
+              className={`border-none relative font-varela normal-case btn w-full text-white text-lg ${
                 (!isValid)
                   ? 'cursor-not-allowed'
                   : 'bg-gradient-to-r from-primary to-secondary'
               }`}
               disabled={!isValid}
             >
-              <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
+              <div className={`border-none opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-lg flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
                 Login
               </div>
               Login
