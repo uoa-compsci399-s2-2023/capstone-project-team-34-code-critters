@@ -18,7 +18,7 @@ def test_post_image(client):
 # Test that the image is served correctly after inference
 # @pytest.mark.dependency(depends=["test_post_image"]])
 def test_get_image(client):
-    response = client.get('/api/v1/get_image?image_name=placeholder.png')
+    response = client.get('/api/v1/get_image?image_name=placeholder.png&hash=')
 
     assert response.status_code == 200
     assert response.headers['Content-Type'] == 'image/png'
@@ -26,7 +26,7 @@ def test_get_image(client):
 # Test for directory traversal
 @pytest.mark.dependency(depends=["test_get_image"])
 def test_get_image_sanitation(client):
-    response = client.get('/api/v1/get_image?image_name=../../config.py')
+    response = client.get('/api/v1/get_image?image_name=../../config.py&hash=')
 
     assert response.status_code == 200
     assert response.json() == {"error": "File not found"}
