@@ -4,4 +4,4 @@ from library import create_app
 app = create_app(config="server")
 
 if __name__ == "__main__":
-    uvicorn.run(app, port=6789)
+    uvicorn.run(app, port=6789, host="0.0.0.0")
