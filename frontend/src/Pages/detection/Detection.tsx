@@ -5,7 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv, faFileExcel,
 } from '@fortawesome/free-solid-svg-icons';
-import { collection, doc, increment, setDoc, updateDoc } from 'firebase/firestore';
+import {
+  collection, doc, increment, setDoc, updateDoc,
+} from 'firebase/firestore';
 import { User } from '@firebase/auth';
 import { auth, db } from '../../enviroments/firebase';
 import {
@@ -62,20 +64,19 @@ function Detection() {
     })();
   }, []);
 
-
   const addPredictionToUserHistory = async (
     user: User,
-    predictions: Prediction[]
+    newPredictions: Prediction[],
   ) => {
     const userDoc = doc(db, 'user', user.uid);
     const predictionsCollectionRef = collection(userDoc, 'predictions');
-    const predictionsFirestoreFormat = predictions.map((prediction) => (
+    const predictionsFirestoreFormat = newPredictions.map((prediction) => (
       {
         name: prediction.name,
         date: new Date(),
         prediction: JSON.stringify(prediction.pred),
       }
-    ))
+    ));
     predictionsFirestoreFormat.forEach(async (prediction) => {
       const predictionDoc = doc(predictionsCollectionRef);
       await setDoc(predictionDoc, prediction);
@@ -121,10 +122,10 @@ function Detection() {
         const counterDoc = doc(db, 'predictionsCounter', 'counter');
         await updateDoc(counterDoc, {
           count: increment(1),
-        })
+        });
       }
 
-      return prediction !== undefined
+      return prediction !== undefined;
     });
 
     if (auth.currentUser) {
@@ -288,7 +289,7 @@ function Detection() {
           className={`transition-all cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 ${images.length > 0
             ? 'flex flex-col sm:flex-row justify-around items-center p-4'
             : 'aspect-video flex items-center justify-center p-4'
-            } ${isDraggingOver ? 'bg-green-200' : 'bg-white'}`}
+          } ${isDraggingOver ? 'bg-green-200' : 'bg-white'}`}
           onClick={(e) => addImages(e)}
           onDragOver={(e) => handleDragOver(e)} // code needs to the changed later
           onDrop={(e) => handleDrop(e)} // code needs to be changed later
