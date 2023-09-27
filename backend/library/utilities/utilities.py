@@ -1,5 +1,5 @@
 from fastapi import APIRouter, UploadFile
-from fastapi.responses import ORJSONResponse, JSONResponse
+from fastapi.responses import ORJSONResponse, JSONResponse, FileResponse
 from fastapi import Query
 from werkzeug.utils import secure_filename
 
@@ -74,3 +74,22 @@ async def get_available_models():
         Returns a list of available models.
     """
     return JSONResponse(content=available_models())
+
+@utils_api.get('/api/v1/get_image', tags=["Utilities"])
+async def get_image(image_name: str):
+    """ 
+        Returns an image from the uploads folder.
+    """
+    try:
+        filename = secure_filename(image_name)
+        filepath = os.path.join(img_path, filename)
+        
+        if not os.path.isfile(filepath) or is_file_allowed(filename) == False:
+            return {"error": "File not found"}
+        
+        return FileResponse(filepath)
+    except Exception as e:
+        if isProduction:
+            return ORJSONResponse(content={"error": "Internal Server Error"}, status_code=500)
+        else:
+            return JSONResponse(content={"error": str(e)}, status_code=500)
