@@ -56,11 +56,19 @@ async def json_to_xlsx(request: Request, results: list[dict]= Body(...)):
             for result in results:
                 filename = result["name"]
                 pred = [item for subpred in result["pred"] for item in subpred]
-                ws.append([filename]+[""]+pred)
-                if os.path.isfile(img_path+filename):
-                    resize_img(img_path+filename)
+                hash = result["hash"]
+                
+                file_ext = os.path.splitext(filename)[1]
+                filename_without_ext = os.path.splitext(filename)[0]
+                filename_with_hash = f"{filename_without_ext}.{hash}{file_ext}"
 
-                    img = Image(img_path+filename)
+                ws.append([filename]+[""]+pred)
+
+                filepath = os.path.join(img_path, filename_with_hash)
+                if os.path.isfile(filepath):
+                    resize_img(filepath)
+
+                    img = Image(filepath)
                     ws.add_image(img, "B"+str(ws.max_row))
             
             #Auto adjust column width A (FILENAME)
