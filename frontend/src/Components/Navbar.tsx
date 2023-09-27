@@ -44,7 +44,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
 
   if (navbarEnabled) {
     return (
-      <div className="navbar rounded-xl w-11/12 fixed z-10 left-1/2 -translate-x-1/2 top-4 shadow backdrop-blur-sm">
+      <div className="navbar rounded-xl w-11/12 fixed z-10 left-1/2 -translate-x-1/2 top-4 shadow backdrop-blur-sm max-w-4xl">
         <div className="navbar-start gap-2">
           <div className="cursor-pointer" onClick={() => navigate('/')}>
             <img className="pl-3" src="/logos/logoV2.svg" alt="logo" />
