@@ -24,6 +24,7 @@ echo "REACT_APP_MESSAGINGSENDERID=NULL" >> .env
 echo "REACT_APP_APPID=NULL" >> .env
 echo "REACT_APP_MEASUREMENTID=NULL" >> .env
 echo "REACT_APP_DISABLE_UPGRADE_SECURE_REQUESTS=true" >> .env
+echo "DISABLE_ESLINT_PLUGIN=true" >> .env
 
 npm install
 npm run build
@@ -49,7 +50,7 @@ cd "$backendPath/dist" && zip -r "$rootPath/$applicationName-Portable-Ubuntu.zip
 applicationName="CritterSleuthWeb"
 cd "$frontendPath"
 
-echo "REACT_APP_BACKEND_URL=http://54.206.138.203:6789/" > .env
+echo "REACT_APP_BACKEND_URL=https://crittersleuthbackend.keshuac.com/" > .env
 echo "REACT_APP_DISABLE_NAVBAR=false" >> .env
 echo "REACT_APP_APIKEY=NULL" >> .env
 echo "REACT_APP_AUTHDOMAIN=NULL" >> .env
@@ -59,7 +60,7 @@ echo "REACT_APP_MESSAGINGSENDERID=NULL" >> .env
 echo "REACT_APP_APPID=NULL" >> .env
 echo "REACT_APP_MEASUREMENTID=NULL" >> .env
 echo "REACT_APP_DISABLE_UPGRADE_SECURE_REQUESTS=true" >> .env
-
+echo "DISABLE_ESLINT_PLUGIN=true" >> .env
 npm install
 npm run build
 

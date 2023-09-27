@@ -46,15 +46,15 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
 
   if (navbarEnabled) {
     return (
-      <div className="navbar max-w-4xl rounded-xl w-11/12 fixed z-10 left-1/2 -translate-x-1/2 top-4 shadow backdrop-blur-sm">
+      <div className="navbar rounded-xl w-11/12 fixed z-10 left-1/2 -translate-x-1/2 top-4 shadow backdrop-blur-sm">
         <div className="navbar-start gap-2">
-          <div>
-            <img className="pl-3" src="/logos/logoV2.svg" alt="logo" style={{ fill: 'green', width: '95%' }} />
+          <div className="cursor-pointer" onClick={() => navigate('/')}>
+            <img className="pl-3" src="/logos/logoV2.svg" alt="logo" />
           </div>
-          <div>
+          <div className="cursor-pointer" onClick={() => navigate('/')}>
             <h1 className="font-varela text-2xl font-bold">
               Code
-              <span style={{ background: 'linear-gradient(to bottom right, #4ade80, #38bdf8)', WebkitBackgroundClip: 'text', color: 'transparent' }}>Critters</span>
+              <span className="bg-clip-text from-primary to-secondary bg-gradient-to-r text-transparent">Critters</span>
             </h1>
           </div>
         </div>
@@ -97,12 +97,13 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                     onClick={() => {
                       // Handle user history
                     }}
+                    className="text-black"
                   >
                     User History
                   </button>
                 </li>
                 <li>
-                  <button type="button" onClick={handleLogout}>
+                  <button type="button" className="text-black" onClick={handleLogout}>
                     Log Out
                   </button>
                 </li>
@@ -123,9 +124,9 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                 onMouseEnter={() => setIsSignUpButtonHovered(!isSignUpButtonHovered)}
                 onMouseLeave={() => setIsSignUpButtonHovered(!isSignUpButtonHovered)}
                 onClick={openSignUpModal}
-                className="btn btn-ghost bg-primary text-white hover:text-black " 
+                className="btn btn-ghost bg-primary text-white hover:text-black "
                 type="button"
-                // style={{ background: 'linear-gradient(to bottom right, #4ade80, #38bdf8)' }}
+              // style={{ background: 'linear-gradient(to bottom right, #4ade80, #38bdf8)' }}
               >
                 Sign up
               </button>
