@@ -61,14 +61,14 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
         </div>
         <div className="navbar-end gap-2">
           <button
-            className="btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-200 duration-200 before:rounded-lg hover:text-white"
+            className="font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-200 duration-200 before:rounded-lg hover:text-white"
             type="button"
             onClick={() => navigate('/')}
           >
             Home
           </button>
           <button
-            className="btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-200 duration-200 before:rounded-lg hover:text-white"
+            className="font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-200 duration-200 before:rounded-lg hover:text-white"
             type="button"
             onClick={() => navigate('/upload')}
           >
@@ -109,17 +109,17 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
             <div className="flex gap-2">
               <button
                 onClick={openLoginModal}
-                className="btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-200 duration-200 before:rounded-lg hover:text-white"
+                className="font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-200 duration-200 before:rounded-lg hover:text-white"
                 type="button"
               >
                 Login
               </button>
               <button
                 type="submit"
-                className="relative border-none btn text-white bg-gradient-to-tl from-primary to-secondary"
+                className="font-varela relative border-none btn text-white bg-gradient-to-tl from-primary to-secondary"
                 onClick={openSignUpModal}
               >
-                <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full rounded-lg flex justify-center items-center bg-gradient-to-br from-primary to-secondary">
+                <div className="font-varela opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full rounded-lg flex justify-center items-center bg-gradient-to-br from-primary to-secondary">
                   Sign Up
                 </div>
                 Sign Up
