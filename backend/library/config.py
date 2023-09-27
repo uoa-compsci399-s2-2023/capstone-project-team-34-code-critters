@@ -17,7 +17,8 @@ class settingsModel(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(
             ".env",
-            ".env.production.local"
+            ".env.production.local",
+            ".env.development.local"
         )
     )
         
