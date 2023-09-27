@@ -5,8 +5,8 @@ import Navbar from './Components/Navbar';
 import SignUpModal from './Components/SignUpModal';
 import LoginModal from './Components/LoginModal';
 import Home from './Pages/home/Home';
-import Toast, { ToastMessage } from './Components/Toast'; // Import the Toast component
-import './navbar.css';
+import Toast, { ToastMessage } from './Components/Toast';
+// Import the Toast component
 function App() {
   const loginModalRef = useRef<HTMLDialogElement | null>(null);
   const signUpModalRef = useRef<HTMLDialogElement | null>(null);

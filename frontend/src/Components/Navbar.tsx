@@ -10,8 +10,6 @@ interface NavbarProps {
 }
 
 function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps) {
-  const [isLoginButtonHovered, setIsLoginButtonHovered] = useState(false);
-  const [isSignUpButtonHovered, setIsSignUpButtonHovered] = useState(false);
   const [user, setUser] = useState(auth.currentUser);
   const openLoginModal = () => {
     if (loginModalRef.current) {
@@ -62,22 +60,20 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
           {/* <h1 className="font-varela text-lg font-bold">{title}</h1> */}
         </div>
         <div className="navbar-end gap-2">
-          <div className="space-x-2">
-            <button
-              className="btn btn-ghost navbar-button hover:text-black hover:border-none"
-              type="button"
-              onClick={() => navigate('/')}
-            >
-              Home
-            </button>
-            <button
-              className="btn btn-ghost navbar-button hover:text-black hover:border-none"
-              type="button"
-              onClick={() => navigate('/upload')}
-            >
-              Detect
-            </button>
-          </div>
+          <button
+            className="btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-200 duration-200 before:rounded-lg hover:text-white"
+            type="button"
+            onClick={() => navigate('/')}
+          >
+            Home
+          </button>
+          <button
+            className="btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-200 duration-200 before:rounded-lg hover:text-white"
+            type="button"
+            onClick={() => navigate('/upload')}
+          >
+            Detect
+          </button>
           {user ? (
             <div className="dropdown dropdown-hover dropdown-bottom dropdown-end">
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -110,25 +106,23 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
               </ul>
             </div>
           ) : (
-            <div className="space-x-2">
+            <div className="flex gap-2">
               <button
-                onMouseEnter={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
-                onMouseLeave={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
                 onClick={openLoginModal}
-                className="btn btn-ghost navbar-button hover:text-black hover:border-none"
+                className="btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-200 duration-200 before:rounded-lg hover:text-white"
                 type="button"
               >
                 Login
               </button>
               <button
-                onMouseEnter={() => setIsSignUpButtonHovered(!isSignUpButtonHovered)}
-                onMouseLeave={() => setIsSignUpButtonHovered(!isSignUpButtonHovered)}
+                type="submit"
+                className="relative border-none btn text-white bg-gradient-to-tl from-primary to-secondary"
                 onClick={openSignUpModal}
-                className="btn btn-ghost bg-primary text-white hover:text-black "
-                type="button"
-              // style={{ background: 'linear-gradient(to bottom right, #4ade80, #38bdf8)' }}
               >
-                Sign up
+                <div className="opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full rounded-lg flex justify-center items-center bg-gradient-to-br from-primary to-secondary">
+                  Sign Up
+                </div>
+                Sign Up
               </button>
             </div>
           )}
