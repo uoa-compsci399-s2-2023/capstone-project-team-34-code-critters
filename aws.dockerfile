@@ -1,4 +1,4 @@
-FROM python:3.11.1-slim-buster
+FROM python:3.11.1-bullseye
 
 # Set environment variables
 ENV FLASK_ENV="production"
@@ -24,4 +24,4 @@ RUN pip3 install --no-cache-dir --no-deps -r ubuntu_requirements.txt
 EXPOSE 6789
 # Run the server
 # CMD ["cat", "/app/.env"]
-CMD ["uvicorn", "prod_asgi:app", "--host", "0.0.0.0", "--port", "6789"]
+ENTRYPOINT  ["uvicorn", "prod_asgi:app", "--host", "0.0.0.0", "--port", "6789"]
