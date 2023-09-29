@@ -48,16 +48,16 @@ def check_if_cache_expired(last_updated):
 
 ################ DEV API Endpoints ################
 
-@utils_api.post('/api/v1/DEV_check_database_for_insect', responses={200: {"description": "Success"}, 400: {"description": "Bad Request (Likely Invalid JSON)"}, 500: {"description": "Internal Server Error"}}, tags=["Utilities"])
-async def DEV_check_database_for_insect(name: str, db: Session = Depends(get_db)):
-    """
-        Checks database for insect
-    """
-    db_insect = crud.get_genus_by_genus_key(db, name)
-    if db_insect:
-        return {"insect": db_insect}
-    else:
-        return "Insect not found"
+# @utils_api.post('/api/v1/DEV_check_database_for_insect', responses={200: {"description": "Success"}, 400: {"description": "Bad Request (Likely Invalid JSON)"}, 500: {"description": "Internal Server Error"}}, tags=["Utilities"])
+# async def DEV_check_database_for_insect(name: str, db: Session = Depends(get_db)):
+#     """
+#         Checks database cache for insect
+#     """
+#     db_insect = crud.get_genus_by_genus_key(db, name)
+#     if db_insect:
+#         return {"insect": db_insect}
+#     else:
+#         return "Insect not found"
 
 ################ API Endpoints ################
 
