@@ -61,8 +61,15 @@ def check_if_cache_expired(last_updated):
 
 ################ API Endpoints ################
 
+@utils_api.get('/api/v1/is_insect_info_feature_enabled', responses={200: {"description": "Success"}, 400: {"description": "Bad Request"}, 500: {"description": "Internal Server Error"}}, tags=["Utilities"])
+async def is_insect_info_feature_enabled():
+    """
+        Checks if the insect info feature is enabled
+    """
+    return {"enabled": info_feature_is_enabled}
+
 @utils_api.post('/api/v1/get_insect_info', responses={200: {"description": "Success"}, 400: {"description": "Bad Request (Likely Invalid JSON)"}, 500: {"description": "Internal Server Error"}}, tags=["Utilities"])
-async def getInsectInfo(name: str, db: Session = Depends(get_db)):
+async def get_Insect_Info(name: str, db: Session = Depends(get_db)):
     """
         Gets insect info from GBIF
     """
@@ -96,7 +103,7 @@ async def getInsectInfo(name: str, db: Session = Depends(get_db)):
             return JSONResponse(content={"error": str(e)}, status_code=500)
            
 @utils_api.post('/api/v1/get_insect_occurances', responses={200: {"description": "Success"}, 400: {"description": "Bad Request (Likely Invalid JSON)"}, 500: {"description": "Internal Server Error"}}, tags=["Utilities"])
-async def getInsectOccurances(genusKey: str, db: Session = Depends(get_db)):
+async def get_Insect_Occurances(genusKey: str, db: Session = Depends(get_db)):
     """
         Gets insect Occurances from GBIF
     """
