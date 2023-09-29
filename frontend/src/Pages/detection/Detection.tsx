@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv, faFileExcel,
+  faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv, faFileExcel, faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   getCSV, getXLSX, getModels, getPredictions,
@@ -201,6 +201,14 @@ function Detection() {
     setIsChecked(newCheck);
   };
 
+  const clearAll = () => {
+    setImages([]);
+    setImageUrls([]);
+    setIsLoading([]);
+    setPredictions([]);
+    setIsChecked([]);
+  }
+
   const selectModel = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedModel(event.target.value);
   };
@@ -286,6 +294,13 @@ function Detection() {
           >
             <FontAwesomeIcon icon={faDownload} className="mr-2" />
             <FontAwesomeIcon icon={faFileExcel} />
+          </button>
+          <button
+          className="btn btn-outline btn-danger btn-accent"
+          type="button"
+          onClick={clearAll}
+          >
+            <FontAwesomeIcon icon={faTrash} />
           </button>
         </div>
         )}
