@@ -90,6 +90,11 @@ async def get_Insect_Info(name: str, db: Session = Depends(get_db)):
         else:
             basic_auth = HTTPBasicAuth(gbif_user, gbif_password)
             response = requests.get(endpoint, params=query, auth=basic_auth)
+            
+            # If insect not found, return error
+            if response.json()["matchType"] == "NONE":
+                return ORJSONResponse(content={"error": "Insect not found"}, status_code=500)
+            
             # If genus exists, update genus, else create genus
             if genus:
                 crud.update_genus(db, data=response)
@@ -97,6 +102,10 @@ async def get_Insect_Info(name: str, db: Session = Depends(get_db)):
                 crud.create_genus(db, data=response)
             return filter_genus_json(response.json())
     except Exception as e:
+        import sys
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
         if is_prod:
             return ORJSONResponse(content={"error": "Internal Server Error"}, status_code=500)
         else:
@@ -120,6 +129,10 @@ async def get_Insect_Occurances(genusKey: str, db: Session = Depends(get_db)):
             basic_auth = HTTPBasicAuth(gbif_user, gbif_password)
             query = {"genusKey": genusKey}
             response = requests.get(endpoint, params=query, auth=basic_auth)
+            
+            # If insect not found, return error
+            if response.status_code != 200:
+                return ORJSONResponse(content={"error": "Insect not found"}, status_code=500)
 
             # If genus exists, update genus, else create genus
             if db_insect_occurances:
