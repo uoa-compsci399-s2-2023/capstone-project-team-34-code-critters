@@ -53,6 +53,9 @@ __pycache__/
 **/robots.txt
 **/templates
 
+# Database
+**.db
+
 # Files
 **/static/csv
 **/static/storage
