@@ -115,6 +115,15 @@ From the project's backend directory, and within the activated virtual environme
 $ gunicorn asgi:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:6789
 ```` 
 
+### `.env` Variables
+In the backend directory, there are these optional environment variables that can be set in a `.env` file:
+
+```shell
+GBIF_USER = "GBIF_USERNAME"
+GBIF_PASSWORD = "GBIF_PASSWORD"
+```
+If these variables are not set, the application will disable use of the insect information features.
+
 ## FrontEnd Setup
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
