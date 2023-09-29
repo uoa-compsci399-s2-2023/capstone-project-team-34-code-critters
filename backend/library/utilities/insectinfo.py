@@ -36,9 +36,11 @@ def get_db():
     finally:
         db.close()
 
-def filter_genus_json(json_obj):
-    filter = ["genusKey", "scientificName", "canonicalName", "genus", "status", "kingdom", "phylum", "order", "family", "class"]
+def filter_json(json_obj, filter):
     return {k: v for k, v in json_obj.items() if k in filter}
+
+def filter_json_except(json_obj, filter):
+    return {k: v for k, v in json_obj.items() if k not in filter}
 
 def check_if_cache_expired(last_updated):
     current_time = str(time())
@@ -100,12 +102,8 @@ async def get_Insect_Info(name: str, db: Session = Depends(get_db)):
                 crud.update_genus(db, data=response)
             else:    
                 crud.create_genus(db, data=response)
-            return filter_genus_json(response.json())
+            return filter_json(response.json(), ["genusKey", "scientificName", "canonicalName", "genus", "status", "kingdom", "phylum", "order", "family", "class"])
     except Exception as e:
-        import sys
-        exc_type, exc_obj, exc_tb = sys.exc_info()
-        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        print(exc_type, fname, exc_tb.tb_lineno)
         if is_prod:
             return ORJSONResponse(content={"error": "Internal Server Error"}, status_code=500)
         else:
@@ -115,6 +113,7 @@ async def get_Insect_Info(name: str, db: Session = Depends(get_db)):
 async def get_Insect_Occurances(genusKey: str, db: Session = Depends(get_db)):
     """
         Gets insect Occurances from GBIF
+        (All info)
     """
     if not info_feature_is_enabled:
         return ORJSONResponse(content={"error": "This feature is not enabled"}, status_code=500)
@@ -142,12 +141,49 @@ async def get_Insect_Occurances(genusKey: str, db: Session = Depends(get_db)):
             
             return response.json()
         except Exception as e:
-            import sys
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            print(exc_type, fname, exc_tb.tb_lineno)
             if is_prod:
                 return ORJSONResponse(content={"error": "Internal Server Error"}, status_code=500)
             else:
                 return JSONResponse(content={"error": str(e)}, status_code=500)
+            
+@utils_api.post('/api/v1/get_insect_occurances_count', responses={200: {"description": "Success"}, 400: {"description": "Bad Request (Likely Invalid JSON)"}, 500: {"description": "Internal Server Error"}}, tags=["Utilities"])
+async def get_Insect_Occurances_Count(genusKey: str, db: Session = Depends(get_db)):
+    """
+        Gets insect Occurances from GBIF
+        (Count only)
+    """
+    if not info_feature_is_enabled:
+        return ORJSONResponse(content={"error": "This feature is not enabled"}, status_code=500)
+    
+    # Check database cache for insect
+    db_insect_occurances = crud.get_genus_occurances_by_genus_key(db, int(genusKey))
+    if db_insect_occurances and not check_if_cache_expired(db_insect_occurances.time_updated):
+        return filter_json(db_insect_occurances.as_dict(), ["count"])
+    else:
+        endpoint = "https://api.gbif.org/v1/occurrence/search"
+        try:
+            basic_auth = HTTPBasicAuth(gbif_user, gbif_password)
+            query = {"genusKey": genusKey}
+            response = requests.get(endpoint, params=query, auth=basic_auth)
+            
+            # If insect not found, return error
+            if response.status_code != 200:
+                return ORJSONResponse(content={"error": "Insect not found"}, status_code=500)
 
+            # If genus exists, update genus, else create genus
+            if db_insect_occurances:
+                crud.update_genus_occurances(db, data=response, genus_key=genusKey)
+            else:
+                crud.create_genus_occurances(db, data=response, genusKey=genusKey)
+            return filter_json(response.json(), ["count"])
+        except Exception as e:
+            
+            import sys
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
+
+            if is_prod:
+                return ORJSONResponse(content={"error": "Internal Server Error"}, status_code=500)
+            else:
+                return JSONResponse(content={"error": str(e)}, status_code=500)
