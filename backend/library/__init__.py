@@ -71,9 +71,11 @@ def create_app(config=None, aargs=None):
 
     # app.register_blueprint(home.home_blueprint)
 
-    from .utilities import utilities, file_exports
+    # print(Settings.model_dump())
+    from .utilities import utilities, file_exports, insectinfo
     app.include_router(utilities.utils_api)
     app.include_router(file_exports.utils_api)
+    app.include_router(insectinfo.utils_api)
 
     # Lets flask deploy react build only if it is a client+server deployment
     if Settings.FLASK_DEPLOYMENT != "server" or Settings.FLASK_ENV == "development":
