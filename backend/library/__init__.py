@@ -31,6 +31,10 @@ def create_app(config=None, aargs=None):
         {
             "name": "Home",
             "description": "Api dedicated to serving the React App for local app client+server deployment.\n This API is not used for web-based deployment."
+        },
+        {
+            "name": "Insects",
+            "description": "API dedicated to serving insect information.\n This API fetches data from GBIF.\n This API requires a GBIF account to be configured in the .env file."
         }
 
     ]
@@ -50,7 +54,7 @@ def create_app(config=None, aargs=None):
 
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=origins,
+        allow_origins=["*"],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -71,9 +75,12 @@ def create_app(config=None, aargs=None):
 
     # app.register_blueprint(home.home_blueprint)
 
+    # print(Settings.model_dump())
     from .utilities import utilities, file_exports
+    from .insects import insectinfo
     app.include_router(utilities.utils_api)
     app.include_router(file_exports.utils_api)
+    app.include_router(insectinfo.insect_api)
 
     # Lets flask deploy react build only if it is a client+server deployment
     if Settings.FLASK_DEPLOYMENT != "server" or Settings.FLASK_ENV == "development":

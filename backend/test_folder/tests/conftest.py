@@ -1,29 +1,25 @@
-import pytest
-
-from library import create_app
-
-from utils import get_project_root
-
-TEST_DATA_PATH = get_project_root() /'test_folder'/ "tests" / "data"
-
 import os
 import pytest
+from library import create_app
+from fastapi.testclient import TestClient
 
+# from utils import get_project_root
+# TEST_DATA_PATH = get_project_root() /'test_folder'/ "tests" / "data"
 
 @pytest.fixture
 def client():
     my_app = create_app({
-        'TESTING': True,                                # Set to True during testing.
-        'WTF_CSRF_ENABLED': False,                       # test_client will not send a CSRF token, so disable validation.
-        'REPOSITORY': 'memory'
+        # 'TESTING': True,                                # Set to True during testing.
+        # 'WTF_CSRF_ENABLED': False,                       # test_client will not send a CSRF token, so disable validation.
+        # 'REPOSITORY': 'memory'
     })
 
-    return my_app.test_client()
+    return TestClient(my_app)
 
 
-class AuthenticationManager:
-    def __init__(self, client):
-        self.__client = client
+# class AuthenticationManager:
+#     def __init__(self, client):
+#         self.__client = client
 
     # def login(self, user_name='thorke', password='cLQ^C#oFXloS'):
     #     return self.__client.post(

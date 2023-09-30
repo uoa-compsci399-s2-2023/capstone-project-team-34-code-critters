@@ -1,7 +1,8 @@
 from fastapi import APIRouter, UploadFile
-from fastapi.responses import ORJSONResponse, JSONResponse
+from fastapi.responses import ORJSONResponse, JSONResponse, FileResponse
 from fastapi import Query
 from werkzeug.utils import secure_filename
+import mmh3
 
 import shutil
 
@@ -50,12 +51,22 @@ async def upload_files_json(files: list[UploadFile], model: str | None = Query(N
             # Save the file to disk
             with open(file_path, "wb") as buffer:
                 shutil.copyfileobj(file.file, buffer)
+            # Get the hash of the file and rename the file
+            with open(file_path, "rb") as buffer:
+                hash = mmh3.hash(buffer.read())
+
+            file_ext = os.path.splitext(file_path)[1]
+            filename_without_ext = os.path.splitext(secure_filename(file.filename))[0]
+
+            new_path = os.path.join(img_path, f"{filename_without_ext}.{str(hash)}{file_ext}")
+            if not os.path.isfile(new_path):
+                os.rename(file_path, new_path)
             # Get the prediction
             if model:
-                prediction = get_prediction(file_path, model)
+                prediction = get_prediction(file_path, new_path, model)
             else: 
-                prediction = get_prediction(file_path)
-            returnList.append({"name": file.filename, "pred": prediction})
+                prediction = get_prediction(file_path, new_path)
+            returnList.append({"name": file.filename, "pred": prediction, "hash": hash})
 
         return JSONResponse(content=returnList)
     except Exception as e:
@@ -74,3 +85,26 @@ async def get_available_models():
         Returns a list of available models.
     """
     return JSONResponse(content=available_models())
+
+@utils_api.get('/api/v1/get_image', tags=["Utilities"])
+async def get_image(image_name: str, hash: str):
+    """ 
+        Returns an image from the uploads folder.
+    """
+    try:
+        filename = secure_filename(image_name)
+        file_ext = os.path.splitext(filename)[1]
+        filename_without_ext = os.path.splitext(filename)[0]
+        filename_with_hash = f"{filename_without_ext}.{hash}{file_ext}"
+
+        filepath = os.path.join(img_path, filename_with_hash)
+        
+        if not os.path.isfile(filepath) or is_file_allowed(filename) == False:
+            return {"error": "File not found"}
+        
+        return FileResponse(filepath)
+    except Exception as e:
+        if isProduction:
+            return ORJSONResponse(content={"error": "Internal Server Error"}, status_code=500)
+        else:
+            return JSONResponse(content={"error": str(e)}, status_code=500)
