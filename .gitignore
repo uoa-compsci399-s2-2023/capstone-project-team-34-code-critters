@@ -53,6 +53,9 @@ __pycache__/
 **/robots.txt
 **/templates
 
+# Database
+**.db
+
 # Files
 **/static/csv
 **/static/storage
@@ -200,3 +203,7 @@ model.h5
 .Complete-CritterSleuth-Portable-Ubuntu/
 .CritterSleuth-Portable-Ubuntu/
 **/CritterSleuth/
+
+################ Exceptions ################
+!placeholder.png
+!placeholder.1.png

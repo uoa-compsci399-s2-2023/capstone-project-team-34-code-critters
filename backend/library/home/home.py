@@ -43,7 +43,7 @@ async def home(request: Request, path: str=None):
     
     ## Return Static Files for React Build
     # Check if static file is a js or css file (Otherwise, it can leak uploads and exports)
-    if static_file_path.endswith(".js") or static_file_path.endswith(".css"):
+    if static_file_path.endswith(".js") or static_file_path.endswith(".css") or static_file_path.endswith(".svg"):
         # Checks if Static file exists
         if os.path.isfile(static_file_path):
             return FileResponse(static_file_path)    
