@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../enviroments/firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faMagnifyingGlass, faUserAlt, faRightToBracket} from '@fortawesome/free-solid-svg-icons';
+import {
+  faHome, faMagnifyingGlass, faUserAlt, faRightToBracket,
+} from '@fortawesome/free-solid-svg-icons';
+import { auth } from '../enviroments/firebase';
 import 'firebase/auth';
 
 interface NavbarProps {
@@ -70,7 +72,6 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
             Home
             <FontAwesomeIcon icon={faHome} className="mt-[-0.2rem] h-4 w-4" />
 
-
           </button>
           <button
             className="font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
@@ -119,7 +120,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                 className="font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
                 type="button"
               >
-                Login 
+                Login
                 <FontAwesomeIcon icon={faRightToBracket} />
 
               </button>
@@ -130,7 +131,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
               >
                 <div className="font-varela opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full rounded-lg flex justify-center items-center bg-gradient-to-br from-primary to-secondary">
                   Sign Up
-                  <FontAwesomeIcon icon={faUserAlt} className='pl-2'/>
+                  <FontAwesomeIcon icon={faUserAlt} className="pl-2" />
                 </div>
                 Sign Up
                 <FontAwesomeIcon icon={faUserAlt} />
