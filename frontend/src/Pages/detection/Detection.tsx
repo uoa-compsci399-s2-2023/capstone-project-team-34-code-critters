@@ -259,7 +259,9 @@ function Detection() {
 
     setImages([...images, ...droppedFiles]);
     setIsLoading([...isLoading, ...droppedFiles
-      .map(() => false)]);
+      .map(() => true)]);
+      setPredictions([...predictions, ...Array.from(event.dataTransfer.files!).map(() => undefined)]);
+
     setIsChecked([...isChecked, ...droppedFiles
       .map(() => false)]);
   };
