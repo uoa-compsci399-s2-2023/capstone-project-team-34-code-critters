@@ -156,7 +156,7 @@ function SignUpModal({
             >
               <FontAwesomeIcon icon={faXmark} />
             </button>
-            <div className="text-3xl sm:text-4xl font-black text-green-500 font-varela cursor-default">
+            <div className="text-3xl sm:text-4xl font-black text-primary font-varela cursor-default">
               Create Account
             </div>
             <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
@@ -222,14 +222,14 @@ function SignUpModal({
             </div>
             <button
               type="submit"
-              className={`relative font-varela normal-case btn w-full text-white text-lg ${
+              className={`border-none relative font-varela normal-case btn w-full text-white text-lg ${
                 (!isValid)
                   ? 'cursor-not-allowed'
                   : 'bg-gradient-to-r from-primary to-secondary'
               }`}
               disabled={!isValid}
             >
-              <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
+              <div className={`border-none opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-lg flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
                 Create Account
               </div>
               Create Account
@@ -237,7 +237,7 @@ function SignUpModal({
             <div className="text-neutral-500 font-varela cursor-default">
               Already have an account?
               {' '}
-              <button type="button" className="relative font-varela cursor-pointer text-green-500" onClick={openLoginModal}>Log In</button>
+              <button type="button" className="relative font-varela cursor-pointer text-primary" onClick={openLoginModal}>Log In</button>
             </div>
           </div>
         </form>

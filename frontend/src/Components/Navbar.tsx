@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faHome, faMagnifyingGlass, faUserAlt, faRightToBracket,
+} from '@fortawesome/free-solid-svg-icons';
 import { auth } from '../enviroments/firebase';
 import 'firebase/auth';
 
@@ -10,8 +14,6 @@ interface NavbarProps {
 }
 
 function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps) {
-  const [isLoginButtonHovered, setIsLoginButtonHovered] = useState(false);
-  const [isSignUpButtonHovered, setIsSignUpButtonHovered] = useState(false);
   const [user, setUser] = useState(auth.currentUser);
   const openLoginModal = () => {
     if (loginModalRef.current) {
@@ -46,7 +48,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
 
   if (navbarEnabled) {
     return (
-      <div className="navbar rounded-xl w-11/12 fixed z-10 left-1/2 -translate-x-1/2 top-4 shadow backdrop-blur-sm">
+      <div className="navbar rounded-xl w-11/12 fixed z-10 left-1/2 -translate-x-1/2 top-4 shadow backdrop-blur-sm max-w-4xl">
         <div className="navbar-start gap-2">
           <div className="cursor-pointer" onClick={() => navigate('/')}>
             <img className="pl-3" src="/logos/logoV2.svg" alt="logo" />
@@ -62,22 +64,24 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
           {/* <h1 className="font-varela text-lg font-bold">{title}</h1> */}
         </div>
         <div className="navbar-end gap-2">
-          <div className="space-x-2">
-            <button
-              className="btn btn-ghost hover:text-black"
-              type="button"
-              onClick={() => navigate('/')}
-            >
-              Home
-            </button>
-            <button
-              className="btn btn-ghost hover:text-black"
-              type="button"
-              onClick={() => navigate('/upload')}
-            >
-              Detect
-            </button>
-          </div>
+          <button
+            className="font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
+            type="button"
+            onClick={() => navigate('/')}
+          >
+            Home
+            <FontAwesomeIcon icon={faHome} className="mt-[-0.2rem] h-4 w-4" />
+
+          </button>
+          <button
+            className="font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
+            type="button"
+            onClick={() => navigate('/upload')}
+          >
+            Detect
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+
+          </button>
           {user ? (
             <div className="dropdown dropdown-hover dropdown-bottom dropdown-end">
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -110,24 +114,27 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
               </ul>
             </div>
           ) : (
-            <div className="space-x-2">
+            <div className="flex gap-2">
               <button
-                onMouseEnter={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
-                onMouseLeave={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
                 onClick={openLoginModal}
-                className="btn btn-ghost hover:text-black"
+                className="font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
                 type="button"
               >
                 Login
+                <FontAwesomeIcon icon={faRightToBracket} />
+
               </button>
               <button
-                onMouseEnter={() => setIsSignUpButtonHovered(!isSignUpButtonHovered)}
-                onMouseLeave={() => setIsSignUpButtonHovered(!isSignUpButtonHovered)}
+                type="submit"
+                className="font-varela relative border-none btn text-white bg-gradient-to-tl from-primary to-secondary"
                 onClick={openSignUpModal}
-                className="btn btn-ghost bg-primary text-white hover:text-black"
-                type="button"
               >
-                Sign up
+                <div className="font-varela opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full rounded-lg flex justify-center items-center bg-gradient-to-br from-primary to-secondary">
+                  Sign Up
+                  <FontAwesomeIcon icon={faUserAlt} className="pl-2" />
+                </div>
+                Sign Up
+                <FontAwesomeIcon icon={faUserAlt} />
               </button>
             </div>
           )}

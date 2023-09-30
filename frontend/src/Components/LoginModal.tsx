@@ -184,7 +184,7 @@ function LoginModal({
                 id="email"
                 type="email"
                 placeholder="Enter your email"
-                className={`font-varela input w-full text-neutral-500 focus:text-neutral-600 ${
+                className={`font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${
                   errors.email && 'input-error'
                 }`}
                 {...register('email', {
@@ -207,7 +207,7 @@ function LoginModal({
                 id="password"
                 type="password"
                 placeholder="Enter your password"
-                className={`font-varela input w-full text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
+                className={`font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
                 {...register('password', {
                   required: true,
                   minLength: 6,
@@ -224,14 +224,14 @@ function LoginModal({
             </div>
             <button
               type="submit"
-              className={`relative font-varela normal-case btn w-full text-white text-lg ${
+              className={`border-none relative font-varela normal-case btn w-full text-white text-lg ${
                 (!isValid)
                   ? 'cursor-not-allowed'
                   : 'bg-gradient-to-r from-primary to-secondary'
               }`}
               disabled={!isValid}
             >
-              <div className={`opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-md flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
+              <div className={`border-none opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-lg flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
                 Login
               </div>
               Login
