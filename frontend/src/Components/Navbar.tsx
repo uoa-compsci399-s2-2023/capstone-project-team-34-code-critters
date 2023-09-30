@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../enviroments/firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faMagnifyingGlass, faArrowRightToFile, faUserAlt, faRightToBracket} from '@fortawesome/free-solid-svg-icons';
+import { faHome, faMagnifyingGlass, faUserAlt, faRightToBracket} from '@fortawesome/free-solid-svg-icons';
 import 'firebase/auth';
 
 interface NavbarProps {
