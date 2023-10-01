@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome, faMagnifyingGlass, faBook, faDoorOpen, faRightToBracket, faUserAlt,
 } from '@fortawesome/free-solid-svg-icons';
+import History from './Pages/history/History';
 import Detection from './Pages/detection/Detection';
 import Navbar from './Components/Navbar';
 import SignUpModal from './Components/SignUpModal';
@@ -67,6 +68,7 @@ function App() {
         <Routes>
           <Route path="/upload" element={<Detection />} />
           <Route path="/" element={<Home />} />
+          <Route path="/history" element={<History/>} />
         </Routes>
         <input id="drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-side z-20">
