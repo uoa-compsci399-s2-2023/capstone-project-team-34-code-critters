@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faHome, faMagnifyingGlass, faUserAlt, faRightToBracket,
+  faHome, faMagnifyingGlass, faUserAlt, faRightToBracket, faBars,
 } from '@fortawesome/free-solid-svg-icons';
 import { auth } from '../enviroments/firebase';
 import 'firebase/auth';
@@ -48,10 +48,10 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
 
   if (navbarEnabled) {
     return (
-      <div className="navbar rounded-xl w-11/12 fixed z-10 left-1/2 -translate-x-1/2 top-4 shadow backdrop-blur-sm max-w-4xl">
-        <div className="navbar-start gap-2">
+      <div className="navbar rounded-xl w-11/12 fixed left-1/2 -translate-x-1/2 top-4 shadow backdrop-blur-sm max-w-4xl">
+        <div className="flex-1 flex gap-2">
           <div className="cursor-pointer" onClick={() => navigate('/')}>
-            <img className="pl-3" src="/logos/logoV2.svg" alt="logo" />
+            <img src="/logos/logoV2.svg" alt="logo" />
           </div>
           <div className="cursor-pointer" onClick={() => navigate('/')}>
             <h1 className="font-varela text-2xl font-bold">
@@ -60,17 +60,19 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
             </h1>
           </div>
         </div>
-        <div className="navbar-center">
-          {/* <h1 className="font-varela text-lg font-bold">{title}</h1> */}
+        <div className="flex md:hidden">
+          <label htmlFor="drawer" aria-label="open sidebar" className="btn btn-square btn-ghost">
+            <FontAwesomeIcon icon={faBars} size="2x" />
+          </label>
         </div>
-        <div className="navbar-end gap-2">
+        <div className="md:flex gap-2 hidden">
           <button
             className="font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
             type="button"
             onClick={() => navigate('/')}
           >
             Home
-            <FontAwesomeIcon icon={faHome} className="mt-[-0.2rem] h-4 w-4" />
+            <FontAwesomeIcon icon={faHome} className="-mt-[0.2rem]" />
 
           </button>
           <button
