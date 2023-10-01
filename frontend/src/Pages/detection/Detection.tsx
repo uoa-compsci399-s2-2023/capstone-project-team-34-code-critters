@@ -260,7 +260,7 @@ function Detection() {
     setImages([...images, ...droppedFiles]);
     setIsLoading([...isLoading, ...droppedFiles
       .map(() => true)]);
-      setPredictions([...predictions, ...Array.from(event.dataTransfer.files!).map(() => undefined)]);
+    setPredictions([...predictions, ...Array.from(event.dataTransfer.files!).map(() => undefined)]);
 
     setIsChecked([...isChecked, ...droppedFiles
       .map(() => false)]);
@@ -320,7 +320,7 @@ function Detection() {
                 </select>
               </div>
               <button
-                className="btn btn-outline btn-primary font-varela"
+                className="btn btn-outline hover:!text-white btn-primary font-varela"
                 type="button"
               >
                 {images.length > 0 ? 'Add images' : 'Upload images'}
@@ -331,7 +331,7 @@ function Detection() {
         {(images.length > 0 && predictions.length > 0) && (
           <div className="mt-4 flex gap-4">
             <button
-              className="btn btn-primary"
+              className="btn btn-primary btn-outline hover:!text-white"
               type="button"
               onClick={() => selectAll()}
             >
@@ -340,7 +340,7 @@ function Detection() {
             <div className="tooltip" data-tip="Download predictions as CSV">
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-secondary btn-outline hover:!text-white"
                 onClick={downloadPredictionsCSV}
                 disabled={isChecked.every((value) => !value)}
               >
@@ -351,7 +351,7 @@ function Detection() {
             <div className="tooltip" data-tip="Download predictions as XLSX">
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-secondary btn-outline hover:!text-white"
                 onClick={downloadPredictionsXLSX}
                 disabled={isChecked.every((value) => !value)}
               >
@@ -388,25 +388,27 @@ function Detection() {
                   className="checkbox checkbox-lg checkbox-primary"
                   disabled={isLoading[index]}
                 />
-                <button
-                  type="button"
-                  className="btn btn-secondary btn-square"
-                  onClick={() => openModel(index)}
-                  disabled={isLoading[index]}
-                >
-                  {isLoading[index] ? <span className="loading loading-spinner" />
-                    : <FontAwesomeIcon icon={faChartBar} />}
-                </button>
-
-                <button
-                  className="btn btn-square btn-outline btn-error"
-                  type="button"
-                  onClick={() => deleteImage(index)}
-                  disabled={isLoading[index]}
-                >
-                  <FontAwesomeIcon icon={faXmark} />
-                </button>
-
+                <div className="tooltip" data-tip="Show predictions">
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-outline hover:!text-white btn-square"
+                    onClick={() => openModel(index)}
+                    disabled={isLoading[index]}
+                  >
+                    {isLoading[index] ? <span className="loading loading-spinner" />
+                      : <FontAwesomeIcon icon={faChartBar} />}
+                  </button>
+                </div>
+                <div className="tooltip" data-tip="Delte this prediction">
+                  <button
+                    className="btn btn-square btn-outline hover:!text-white btn-error"
+                    type="button"
+                    onClick={() => deleteImage(index)}
+                    disabled={isLoading[index]}
+                  >
+                    <FontAwesomeIcon icon={faXmark} />
+                  </button>
+                </div>
               </div>
             </div>
           ))}
@@ -458,7 +460,7 @@ function Detection() {
                 prediction?.pred.length! > numToShow ? (
                   <button
                     type="button"
-                    className="btn btn-primary w-fit"
+                    className="btn btn-primary text-white w-fit"
                     onClick={() => handleShowMore(prediction!.pred)}
                   >
                     Show more
@@ -467,7 +469,7 @@ function Detection() {
                   : (
                     <button
                       type="button"
-                      className="btn btn-primary w-fit"
+                      className="btn btn-primary text-white w-fit"
                       onClick={() => handleShowLess()}
                     >
                       Show less
