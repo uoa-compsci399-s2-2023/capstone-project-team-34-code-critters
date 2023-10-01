@@ -366,12 +366,14 @@ function Detection() {
                 <FontAwesomeIcon icon={faDownload} className="mr-2" />
                 <FontAwesomeIcon icon={faFileExcel} />
               </button>
-              <button
-                className="btn btn-outline btn-danger btn-accent"
-                type="button"
-                onClick={removeAll}
-              >
-                <FontAwesomeIcon icon={faBroom} />
+            </div>
+              <div className="tooltip" data-tip="Remove all images">
+                <button
+                  className="btn btn-outline btn-danger btn-accent"
+                  type="button"
+                  onClick={removeAll}
+                >
+                <FontAwesomeIcon icon={faBroom}/>
               </button>
             </div>
           </div>
