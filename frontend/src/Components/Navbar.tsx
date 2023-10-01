@@ -61,6 +61,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
           </div>
         </div>
         <div className="flex md:hidden">
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label htmlFor="drawer" aria-label="open sidebar" className="btn btn-square btn-ghost">
             <FontAwesomeIcon icon={faBars} size="2x" />
           </label>

@@ -70,6 +70,7 @@ function App() {
         </Routes>
         <input id="drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-side">
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label htmlFor="drawer" aria-label="close sidebar" className="drawer-overlay" />
           <div className="p-4">
             <ul className="menu w-80  bg-base-200 rounded-lg">
