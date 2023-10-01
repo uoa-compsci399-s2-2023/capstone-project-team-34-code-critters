@@ -75,7 +75,7 @@ function App() {
           <div className="p-4">
             <ul className="menu w-80 bg-white rounded-lg">
               <button
-                className="font-varela btn"
+                className="font-varela btn btn-ghost"
                 type="button"
                 onClick={() => {
                   closeDrawer();
@@ -87,7 +87,7 @@ function App() {
 
               </button>
               <button
-                className="font-varela btn"
+                className="font-varela btn btn-ghost"
                 type="button"
                 onClick={() => {
                   closeDrawer();
@@ -105,7 +105,7 @@ function App() {
                     onClick={() => {
                       closeDrawer();
                     }}
-                    className="font-varela btn"
+                    className="font-varela btn btn-ghost"
                   >
                     User History
                     <FontAwesomeIcon icon={faBook} />
@@ -116,7 +116,7 @@ function App() {
                       closeDrawer();
                       await handleLogout();
                     }}
-                    className="font-varela btn"
+                    className="font-varela btn btn-ghost"
                   >
                     Log Out
                     <FontAwesomeIcon icon={faDoorOpen} />
@@ -125,7 +125,7 @@ function App() {
               ) : (
                 <div className="flex flex-col">
                   <button
-                    className="font-varela btn"
+                    className="font-varela btn btn-ghost"
                     type="button"
                     onClick={() => {
                       closeDrawer();
@@ -136,7 +136,7 @@ function App() {
                     <FontAwesomeIcon icon={faRightToBracket} />
                   </button>
                   <button
-                    className="font-varela btn"
+                    className="font-varela btn btn-ghost"
                     type="button"
                     onClick={() => {
                       closeDrawer();
