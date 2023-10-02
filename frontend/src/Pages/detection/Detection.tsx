@@ -148,7 +148,9 @@ function Detection() {
     const newImageUrls: string[] = [];
     images.forEach((image: any) => newImageUrls.push(URL.createObjectURL(image)));
     setImageUrls(newImageUrls);
-    getPredictions();
+    (async () => {
+      await getPredictions();
+    })();
   }, [images]);
 
   const deleteImage = (index: number) => {
