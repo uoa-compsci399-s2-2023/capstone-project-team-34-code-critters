@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv, faFileExcel, faBroom,
+  faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv, faFileExcel,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   collection, doc, increment, setDoc, updateDoc,
@@ -369,11 +369,11 @@ function Detection() {
             </div>
               <div className="tooltip" data-tip="Remove all images">
                 <button
-                  className="btn btn-outline btn-danger btn-accent"
+                  className="btn btn-danger btn-outline btn-accent"
                   type="button"
                   onClick={removeAll}
                 >
-                <FontAwesomeIcon icon={faBroom}/>
+                Delete All
               </button>
             </div>
           </div>
