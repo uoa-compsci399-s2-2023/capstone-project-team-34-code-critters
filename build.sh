@@ -50,25 +50,11 @@ cd "$backendPath/dist" && zip -r "$rootPath/$applicationName-Portable-Ubuntu.zip
 applicationName="CritterSleuthWeb"
 cd "$frontendPath"
 
-echo "REACT_APP_BACKEND_URL=https://crittersleuthbackend.keshuac.com/" > .env
-echo "REACT_APP_DISABLE_NAVBAR=false" >> .env
-echo "REACT_APP_APIKEY=NULL" >> .env
-echo "REACT_APP_AUTHDOMAIN=NULL" >> .env
-echo "REACT_APP_PROJECTID=NULL" >> .env
-echo "REACT_APP_STORAGEBUCKET=NULL" >> .env
-echo "REACT_APP_MESSAGINGSENDERID=NULL" >> .env
-echo "REACT_APP_APPID=NULL" >> .env
-echo "REACT_APP_MEASUREMENTID=NULL" >> .env
-echo "REACT_APP_DISABLE_UPGRADE_SECURE_REQUESTS=true" >> .env
-echo "DISABLE_ESLINT_PLUGIN=true" >> .env
-npm install
-npm run build
-
 # Package Frontend into Executable
 python -m venv venv
 source venv/bin/activate
 pip install -r ubuntu_requirements.txt
-pyinstaller pywebview_webapp.py --add-data "build:build" --noconfirm  --clean --name $applicationName --windowed --icon "public\favicon.ico"
+pyinstaller pywebview_webapp.py --noconfirm  --clean --name $applicationName --windowed --icon "public\favicon.ico"
 
 # Package Executable into Zip
 cd "$frontendPath/dist" && zip -r "$rootPath/$applicationName-Portable-Ubuntu.zip" "$applicationName"
