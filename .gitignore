@@ -203,6 +203,7 @@ model.h5
 .Complete-CritterSleuth-Portable-Ubuntu/
 .CritterSleuth-Portable-Ubuntu/
 **/CritterSleuth/
+**/CritterSleuthWeb/
 
 ################ Exceptions ################
 !placeholder.png
