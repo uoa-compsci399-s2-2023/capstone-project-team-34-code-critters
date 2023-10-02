@@ -39,12 +39,15 @@ mv "$backendStaticPath/index.html" "$backendLibraryPath/templates/index.html"
 
 # Package Backend + Frontend into Portable Executable
 cd "$backendPath"
+python -m venv venv
+source venv/bin/activate
+pip install -r --no-deps ubuntu_requirements.txt
 pyinstaller pywebview_portable.py --add-data "library:library" --noconfirm --clean --name "$applicationName" --windowed --icon "library/static/favicon.ico"
 
 cd "$rootPath"
 
 # Package Executable into Zip
-cd "$backendPath/dist" && zip -r "$rootPath/$applicationName-Portable-Ubuntu.zip" "$applicationName"
+cd "$backendPath/dist" && zip -r -Z bzip2 "$rootPath/$applicationName-Portable-Ubuntu.zip" "$applicationName"
 
 # Create Web-only Executable
 applicationName="CritterSleuthWeb"
@@ -53,11 +56,11 @@ cd "$frontendPath"
 # Package Frontend into Executable
 python -m venv venv
 source venv/bin/activate
-pip install -r ubuntu_requirements.txt
+pip install -r --no-deps ubuntu_requirements.txt
 pyinstaller pywebview_webapp.py --noconfirm  --clean --name $applicationName --windowed --icon "public\favicon.ico"
 
 # Package Executable into Zip
-cd "$frontendPath/dist" && zip -r "$rootPath/$applicationName-Portable-Ubuntu.zip" "$applicationName"
+cd "$frontendPath/dist" && zip -r -Z bzip2 "$rootPath/$applicationName-Portable-Ubuntu.zip" "$applicationName"
 
 deactivate
 
