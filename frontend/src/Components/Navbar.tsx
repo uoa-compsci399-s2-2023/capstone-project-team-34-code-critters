@@ -97,24 +97,25 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                   </div>
                 )}
               </label>
-              <ul className="dropdown-content text-primary z-10 menu p-2 bg-base-100 rounded-lg shadow">
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      // Handle user history
-                    }}
-                    className="text-black font-varela"
-                  >
-                    User History
-                  </button>
-                </li>
-                <li>
-                  <button type="button" className="text-black font-varela" onClick={handleLogout}>
-                    Log Out
-                  </button>
-                </li>
-              </ul>
+              <div className="pt-4 dropdown-content text-primary z-10 menu">
+                <ul className="rounded-lg shadow p-2">
+                  <li>
+                    <div
+                      className="text-black font-varela whitespace-nowrap"
+                      onClick={() => {
+                        // Handle user history
+                      }}
+                    >
+                      User History
+                    </div>
+                  </li>
+                  <li>
+                    <div onClick={handleLogout} className="text-black font-varela whitespace-nowrap">
+                      Log Out
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
           ) : (
             <div className="flex gap-2">
