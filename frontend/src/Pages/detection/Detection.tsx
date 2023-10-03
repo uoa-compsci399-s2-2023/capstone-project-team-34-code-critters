@@ -75,6 +75,7 @@ function Detection() {
         name: prediction.name,
         date: new Date(),
         prediction: JSON.stringify(prediction.pred),
+        imageHash: prediction.hash,
       }
     ));
     predictionsFirestoreFormat.forEach(async (prediction) => {
@@ -147,7 +148,9 @@ function Detection() {
     const newImageUrls: string[] = [];
     images.forEach((image: any) => newImageUrls.push(URL.createObjectURL(image)));
     setImageUrls(newImageUrls);
-    getPredictions();
+    (async () => {
+      await getPredictions();
+    })();
   }, [images]);
 
   const deleteImage = (index: number) => {
