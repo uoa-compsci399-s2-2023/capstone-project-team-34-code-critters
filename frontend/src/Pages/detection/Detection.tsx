@@ -238,6 +238,14 @@ function Detection() {
     setIsChecked(newCheck);
   };
 
+  const removeAll = () => {
+    setImages([]);
+    setImageUrls([]);
+    setIsLoading([]);
+    setPredictions([]);
+    setIsChecked([]);
+  };
+
   const selectModel = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedModel(event.target.value);
   };
@@ -360,6 +368,15 @@ function Detection() {
               >
                 <FontAwesomeIcon icon={faDownload} className="mr-2" />
                 <FontAwesomeIcon icon={faFileExcel} />
+              </button>
+            </div>
+              <div className="tooltip" data-tip="Remove all images">
+                <button
+                  className="btn btn-danger btn-outline btn-accent"
+                  type="button"
+                  onClick={removeAll}
+                >
+                Delete All
               </button>
             </div>
           </div>
