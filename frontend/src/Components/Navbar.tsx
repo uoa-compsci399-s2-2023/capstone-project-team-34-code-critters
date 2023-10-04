@@ -101,7 +101,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                 <li>
                   <button
                     type="button"
-                    onClick={() => {
+                    onClick={() => {navigate('/history')
                       // Handle user history
                     }}
                     className="text-black font-varela"
