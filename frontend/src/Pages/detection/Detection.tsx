@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faChartBar, faCloudArrowUp, faXmark, faDownload, faFileCsv, faFileExcel,
+  faChartBar, faCloudArrowUp, faXmark, faTrash, faFileCsv, faFileExcel,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   collection, doc, increment, setDoc, updateDoc,
@@ -238,7 +238,7 @@ function Detection() {
     setIsChecked(newCheck);
   };
 
-  const removeAll = () => {
+  const deleteAll = () => {
     setImages([]);
     setImageUrls([]);
     setIsLoading([]);
@@ -340,43 +340,43 @@ function Detection() {
           )}
         </div>
         {(images.length > 0 && predictions.length > 0) && (
-          <div className="mt-4 flex gap-4">
+          <div className="mt-4 flex gap-4 flex-wrap justify-center">
             <button
-              className="btn btn-primary btn-outline hover:!text-white"
+              className="btn btn-primary btn-outline hover:!text-white font-varela"
               type="button"
               onClick={() => selectAll()}
             >
               Select All
             </button>
-            <div className="tooltip" data-tip="Download predictions as CSV">
-              <button
-                type="button"
-                className="btn btn-secondary btn-outline hover:!text-white"
-                onClick={downloadPredictionsCSV}
-                disabled={isChecked.every((value) => !value)}
-              >
-                <FontAwesomeIcon icon={faDownload} className="mr-2" />
-                <FontAwesomeIcon icon={faFileCsv} />
-              </button>
-            </div>
-            <div className="tooltip" data-tip="Download predictions as XLSX">
-              <button
-                type="button"
-                className="btn btn-secondary btn-outline hover:!text-white"
-                onClick={downloadPredictionsXLSX}
-                disabled={isChecked.every((value) => !value)}
-              >
-                <FontAwesomeIcon icon={faDownload} className="mr-2" />
-                <FontAwesomeIcon icon={faFileExcel} />
-              </button>
-            </div>
-              <div className="tooltip" data-tip="Remove all images">
+            <div className="join">
+              <div className="tooltip font-varela " data-tip="Download predictions as CSV">
                 <button
-                  className="btn btn-danger btn-outline btn-accent"
                   type="button"
-                  onClick={removeAll}
+                  className="btn btn-secondary btn-outline hover:!text-white join-item"
+                  onClick={downloadPredictionsCSV}
+                  disabled={isChecked.every((value) => !value)}
                 >
-                Delete All
+                  <FontAwesomeIcon icon={faFileCsv} />
+                </button>
+              </div>
+              <div className="tooltip font-varela " data-tip="Download predictions as XLSX">
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-outline hover:!text-white aspect-square join-item"
+                  onClick={downloadPredictionsXLSX}
+                  disabled={isChecked.every((value) => !value)}
+                >
+                  <FontAwesomeIcon icon={faFileExcel} />
+                </button>
+              </div>
+            </div>
+            <div className="tooltip font-varela" data-tip="Remove all images">
+              <button
+                className="btn btn-error btn-outline font-varela hover:!text-white"
+                type="button"
+                onClick={deleteAll}
+              >
+                <FontAwesomeIcon icon={faTrash} />
               </button>
             </div>
           </div>
@@ -408,7 +408,7 @@ function Detection() {
                   className="checkbox checkbox-lg checkbox-primary"
                   disabled={isLoading[index]}
                 />
-                <div className="tooltip" data-tip="Show predictions">
+                <div className="tooltip font-varela" data-tip="Show predictions">
                   <button
                     type="button"
                     className="btn btn-secondary btn-outline hover:!text-white btn-square"
@@ -419,7 +419,7 @@ function Detection() {
                       : <FontAwesomeIcon icon={faChartBar} />}
                   </button>
                 </div>
-                <div className="tooltip" data-tip="Delte this prediction">
+                <div className="tooltip font-varela" data-tip="Delte this prediction">
                   <button
                     className="btn btn-square btn-outline hover:!text-white btn-error"
                     type="button"
@@ -480,7 +480,7 @@ function Detection() {
                 prediction?.pred.length! > numToShow ? (
                   <button
                     type="button"
-                    className="btn btn-primary text-white w-fit"
+                    className="btn btn-primary hover:!text-white font-varela btn-outline"
                     onClick={() => handleShowMore(prediction!.pred)}
                   >
                     Show more
@@ -489,7 +489,7 @@ function Detection() {
                   : (
                     <button
                       type="button"
-                      className="btn btn-primary text-white w-fit"
+                      className="btn btnd-primary hover:!text-white font-varela btn-outline"
                       onClick={() => handleShowLess()}
                     >
                       Show less
