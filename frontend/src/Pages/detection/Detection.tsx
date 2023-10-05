@@ -489,7 +489,7 @@ function Detection() {
                   : (
                     <button
                       type="button"
-                      className="btn btnd-primary hover:!text-white font-varela btn-outline"
+                      className="btn btn-primary hover:!text-white font-varela btn-outline"
                       onClick={() => handleShowLess()}
                     >
                       Show less
