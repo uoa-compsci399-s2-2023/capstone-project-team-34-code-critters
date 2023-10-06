@@ -51,7 +51,8 @@ import React, {
               prediction: data.prediction
             };
           });
-          
+          fetchedPredictions.sort((a, b) => b.date.getTime() - a.date.getTime());
+
           setPredictions(fetchedPredictions);
           console.log(fetchedPredictions,'fetched pred');
         } catch (error) {
