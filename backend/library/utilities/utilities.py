@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, Query, WebSocket, HTTPException
+from fastapi import APIRouter, UploadFile, Query, WebSocket
 from fastapi.responses import ORJSONResponse, JSONResponse, FileResponse
 from werkzeug.utils import secure_filename
 import mmh3
@@ -101,7 +101,7 @@ async def get_image(image_name: str, hash: str):
         filepath = os.path.join(img_path, filename_with_hash)
         
         if not os.path.isfile(filepath) or is_file_allowed(filename) == False:
-            return HTTPException(status_code=404, detail="File not found")
+            return {"error": "File not found"}
         
         return FileResponse(filepath)
     except Exception as e:
