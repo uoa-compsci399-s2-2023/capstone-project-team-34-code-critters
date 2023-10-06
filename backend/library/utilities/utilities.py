@@ -1,8 +1,9 @@
-from fastapi import APIRouter, UploadFile
+from fastapi import APIRouter, UploadFile, Query, WebSocket, HTTPException
 from fastapi.responses import ORJSONResponse, JSONResponse, FileResponse
-from fastapi import Query
 from werkzeug.utils import secure_filename
 import mmh3
+import asyncio
+
 
 import shutil
 
@@ -100,7 +101,7 @@ async def get_image(image_name: str, hash: str):
         filepath = os.path.join(img_path, filename_with_hash)
         
         if not os.path.isfile(filepath) or is_file_allowed(filename) == False:
-            return {"error": "File not found"}
+            return HTTPException(status_code=404, detail="File not found")
         
         return FileResponse(filepath)
     except Exception as e:
@@ -108,3 +109,31 @@ async def get_image(image_name: str, hash: str):
             return ORJSONResponse(content={"error": "Internal Server Error"}, status_code=500)
         else:
             return JSONResponse(content={"error": str(e)}, status_code=500)
+        
+if Settings.LOGGING == True:
+    @utils_api.websocket('/ws/logs')
+    async def logging(websocket: WebSocket):
+        await websocket.accept()
+
+        try:
+            while True:
+                await asyncio.sleep(1)
+                logs = await log_reader(30)
+                await websocket.send_text(logs)
+        except Exception as e:
+            print(e)
+        finally:
+            await websocket.close()
+
+    async def log_reader(n=10):
+        log_lines = []
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        with open(f"{base_dir}\logfile.log", "r") as file:
+            for line in file.readlines()[-n:]:
+                if line.__contains__("ERROR"):
+                    log_lines.append(f'<span class="text-red-400">{line}</span><br/>')
+                elif line.__contains__("WARNING"):
+                    log_lines.append(f'<span class="text-orange-300">{line}</span><br/>')
+                else:
+                    log_lines.append(f"{line}<br/>")
+            return log_lines
