@@ -3,20 +3,22 @@ import React, {
 } from 'react';
 import 'firebase/auth';
 import {
-  doc, collection, getDocs,
+  doc, collection, getDocs, deleteDoc,
 } from 'firebase/firestore';
 import { User } from '@firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faArrowRight, faArrowLeft,
+  faArrowRight, faArrowLeft, faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { auth, db } from '../../enviroments/firebase';
 import { PredictionTable } from '../../models/Prediction';
 import { getImage } from '../../services/apiService';
 
 function History() {
-  const [predictions, setPredictions] = useState<PredictionTable[]>([]);
+  const [predictions, setPredictions] = useState<
+  PredictionTable[]
+  >([]);
   const [user] = useAuthState(auth);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,6 +39,7 @@ function History() {
       const predictionsList: PredictionTable[] = [];
       predictionsSnapshot.forEach((predictionDoc) => {
         const prediction: PredictionTable = {
+          id: predictionDoc.id,
           name: predictionDoc.data().name,
           date: predictionDoc.data().date.toDate(),
           prediction: JSON.parse(predictionDoc.data().prediction),
@@ -92,6 +95,20 @@ function History() {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
+
+  const deletePrediction = async (prediction: PredictionTable) => {
+    if (!user) return;
+    const userDocRef = doc(db, 'user', user?.uid);
+    const predictionsCollectionRef = collection(userDocRef, 'predictions');
+    const predictionDocRef = doc(predictionsCollectionRef, prediction.id);
+    try {
+      await deleteDoc(predictionDocRef);
+      await loadPredictionAndImages(user);
+    } catch (e) {
+      console.error('Error deleting prediction:', e);
+    }
+  };
+
   return (
     <div className="flex justify-center overflow-y-auto pt-28 pb-4 h-full w-full">
       {isLoading ? (
@@ -122,14 +139,16 @@ function History() {
               }}
             />
           </div>
-          <div className="w-full overflow-x-auto">
+          <div className="w-full">
             <table className="table table-auto">
               <thead>
                 <tr>
-                  <th>Date</th>
-                  <th>Image </th>
-                  <th className="hidden md:flex">Model</th>
-                  <th>Predictions</th>
+                  <th className="p-2">Date</th>
+                  <th className="p-2">Image </th>
+                  <th className="p-2 hidden md:table-cell">Model</th>
+                  <th className="p-2">Predictions</th>
+                  {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+                  <th className="p-2 hidden md:table-cell" />
                 </tr>
               </thead>
               <tbody>
@@ -139,9 +158,9 @@ function History() {
                     const topThreePredictions = getTopThree(prediction.prediction);
                     return (
                       <tr key={index} className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer">
-                        <td className="w-32">{prediction.date.toLocaleString()}</td>
+                        <td className="p-2">{prediction.date.toLocaleString()}</td>
 
-                        <td>
+                        <td className="p-2">
                           <div className="flex gap-4">
                             {prediction.imageUrl ? (
                               <img className="w-24 rounded-md" src={prediction.imageUrl} alt={prediction.name} />
@@ -154,10 +173,10 @@ function History() {
                             </span>
                           </div>
                         </td>
-                        <td className="hidden md:table-cell">
+                        <td className="p-2 hidden md:table-cell">
                           {prediction.model}
                         </td>
-                        <td>
+                        <td className="p-2">
                           <div className="flex flex-col gap-2">
                             {topThreePredictions.map((pred, i) => (
                               <span
@@ -171,6 +190,18 @@ function History() {
                               </span>
 
                             ))}
+                          </div>
+                        </td>
+
+                        <td className="p-2 hidden sm:table-cell">
+                          <div className="tooltip" data-tip="Delete prediction">
+                            <button
+                              type="button"
+                              className="btn btn-squre btn-outline btn-error hover:!text-white"
+                              onClick={() => deletePrediction(prediction)}
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </button>
                           </div>
                         </td>
 

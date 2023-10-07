@@ -12,6 +12,7 @@ export interface PredictionFirestore {
 }
 
 export interface PredictionTable {
+  id: string;
   name: string;
   date: Date;
   prediction: string[][];
