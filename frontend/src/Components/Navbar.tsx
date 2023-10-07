@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome, faMagnifyingGlass, faUserAlt, faRightToBracket, faBars,
 } from '@fortawesome/free-solid-svg-icons';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../enviroments/firebase';
 import 'firebase/auth';
-import { useAuthState } from 'react-firebase-hooks/auth';
 
 interface NavbarProps {
   loginModalRef: React.MutableRefObject<HTMLDialogElement | null>;
