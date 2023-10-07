@@ -42,7 +42,7 @@ function History() {
           prediction: JSON.parse(predictionDoc.data().prediction),
           imageHash: predictionDoc.data().imageHash,
           imageUrl: null,
-          model: predictionDoc.data().model ? predictionDoc.data().model : null,
+          model: predictionDoc.data().model ? predictionDoc.data().model : 'N/A',
         };
         predictionsList.push(prediction);
       });
@@ -79,6 +79,8 @@ function History() {
         return prediction.name.toLowerCase().includes(filter.toLowerCase());
       case 'date':
         return prediction.date.toLocaleString().toLowerCase().includes(filter.toLowerCase());
+      case 'model':
+        return prediction.model?.toLowerCase().includes(filter.toLowerCase());
       default:
         return prediction.name.toLowerCase().includes(filter.toLowerCase());
     }
@@ -91,17 +93,13 @@ function History() {
     setCurrentPage(newPage);
   };
   return (
-    <div className="flex  justify-center overflow-y-auto pt-28 pb-4 h-full">
+    <div className="flex justify-center overflow-y-auto pt-28 pb-4 h-full w-full">
       {isLoading ? (
         <span className="loading loading-spinner text-primary loading-lg" />
       ) : (
-        <div className="max-w-4xl w-11/12 overflow-x-auto">
-          <div className="p-2 form-control">
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="label">
-              <span className="label-text">Filter</span>
-            </label>
-            <div className="join">
+        <div className="max-w-4xl w-11/12">
+          <div className="join p-2">
+            <div className="tooltip tooltip-bottom" data-tip="Filter by">
               <select
                 className="select select-bordered join-item !rounded-l-lg"
                 value={filterCategory}
@@ -113,91 +111,95 @@ function History() {
                 <option value="date">Date</option>
                 <option value="model">Model Name</option>
               </select>
-              <input
-                type="text"
-                placeholder="Search"
-                className="input input-bordered join-item"
-                onChange={(e) => {
-                  setFilter(e.target.value);
-                  setCurrentPage(1);
-                }}
-              />
             </div>
+            <input
+              placeholder="Filter"
+              className="input input-bordered join-item w-full"
+              onChange={(e) => {
+                e.preventDefault();
+                setFilter(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Image </th>
-                <th className="hidden md:flex">Model</th>
-                <th>Predictions</th>
-              </tr>
-            </thead>
-            <tbody>
+          <div className="w-full overflow-x-auto">
+            <table className="table table-auto">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Image </th>
+                  <th className="hidden md:flex">Model</th>
+                  <th>Predictions</th>
+                </tr>
+              </thead>
+              <tbody>
 
-              {!isLoading && (
-                filteredPredictions.slice(startIndex, endIndex).map((prediction, index) => {
-                  const topThreePredictions = getTopThree(prediction.prediction);
-                  return (
-                    <tr key={index} className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer">
-                      <td className="w-32">{prediction.date.toLocaleString()}</td>
+                {!isLoading && (
+                  filteredPredictions.slice(startIndex, endIndex).map((prediction, index) => {
+                    const topThreePredictions = getTopThree(prediction.prediction);
+                    return (
+                      <tr key={index} className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer">
+                        <td className="w-32">{prediction.date.toLocaleString()}</td>
 
-                      <td>
-                        <div className="flex gap-4">
-                          {prediction.imageUrl ? (
-                            <img className="w-24 rounded-md" src={prediction.imageUrl} alt={prediction.name} />
-                          ) : (
-                            <p>Loading image...</p>
-                          )}
+                        <td>
+                          <div className="flex gap-4">
+                            {prediction.imageUrl ? (
+                              <img className="w-24 rounded-md" src={prediction.imageUrl} alt={prediction.name} />
+                            ) : (
+                              <p>Loading image...</p>
+                            )}
 
-                          <span className="hidden truncate lg:flex items-center">
-                            {prediction.name}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="hidden md:table-cell">
-                        {prediction.model ? prediction.model : 'N/A'}
-                      </td>
-                      <td>
-                        <div className="flex flex-col gap-2">
-                          {topThreePredictions.map((pred, i) => (
-                            <span
-                              key={i}
-                              className={`badge badge-outline ${i === 0 && 'badge-primary hover:bg-primary hover:text-white'} ${i === 1 && 'badge-secondary hover:bg-secondary hover:text-white'} ${i === 2 && 'badge-warning hover:bg-warning hover:text-white'}`}
-                            >
-                              {pred[1]}
-                              :
-                              {(parseFloat(pred[0]) * 100).toFixed(0)}
-                              %
+                            <span className="hidden truncate lg:flex items-center">
+                              {prediction.name}
                             </span>
+                          </div>
+                        </td>
+                        <td className="hidden md:table-cell">
+                          {prediction.model}
+                        </td>
+                        <td>
+                          <div className="flex flex-col gap-2">
+                            {topThreePredictions.map((pred, i) => (
+                              <span
+                                key={i}
+                                className={`badge badge-outline truncate ${i === 0 && 'badge-primary hover:bg-primary hover:text-white'} ${i === 1 && 'badge-secondary hover:bg-secondary hover:text-white'} ${i === 2 && 'badge-warning hover:bg-warning hover:text-white'}`}
+                              >
+                                {pred[1]}
+                                :
+                                {(parseFloat(pred[0]) * 100).toFixed(0)}
+                                %
+                              </span>
 
-                          ))}
-                        </div>
-                      </td>
+                            ))}
+                          </div>
+                        </td>
 
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
+
           <div className="flex justify-end p-2">
             <div className="join items-center">
-              <span className="mr-2">Items per page:</span>
-              <select
-                className="select select-bordered join-item rounded-lg !rounded-l-lg"
-                onChange={(e) => {
-                  setItemsPerPage(Number(e.target.value));
-                  setCurrentPage(1);
-                }}
-                value={itemsPerPage}
-              >
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
+              <div className="tooltip" data-tip="item per page">
+                <select
+                  className="select select-bordered join-item rounded-lg !rounded-l-lg"
+                  onChange={(e) => {
+                    setItemsPerPage(Number(e.target.value));
+                    setCurrentPage(1);
+                  }}
+                  value={itemsPerPage}
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                  <option value={100}>100</option>
+                </select>
+              </div>
               <button
                 type="button"
                 className={`join-item btn ${currentPage === 1 ? 'cursor-not-allowed' : ''}`}
