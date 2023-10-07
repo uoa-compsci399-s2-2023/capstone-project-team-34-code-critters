@@ -42,7 +42,7 @@ function History() {
           prediction: JSON.parse(predictionDoc.data().prediction),
           imageHash: predictionDoc.data().imageHash,
           imageUrl: null,
-          model: predictionDoc.data().model ? predictionDoc.data().model : null,
+          model: predictionDoc.data().model ? predictionDoc.data().model : 'N/A',
         };
         predictionsList.push(prediction);
       });
@@ -79,6 +79,8 @@ function History() {
         return prediction.name.toLowerCase().includes(filter.toLowerCase());
       case 'date':
         return prediction.date.toLocaleString().toLowerCase().includes(filter.toLowerCase());
+      case 'model':
+        return prediction.model?.toLowerCase().includes(filter.toLowerCase());
       default:
         return prediction.name.toLowerCase().includes(filter.toLowerCase());
     }
@@ -156,7 +158,7 @@ function History() {
                         </div>
                       </td>
                       <td className="hidden md:table-cell">
-                        {prediction.model ? prediction.model : 'N/A'}
+                        {prediction.model}
                       </td>
                       <td>
                         <div className="flex flex-col gap-2">
