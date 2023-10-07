@@ -17,8 +17,9 @@ function History() {
   const [itemsPerPage, setItemsPerPage] = useState(5); 
   const [currentPage, setCurrentPage] = useState(1);
   const getTopThree = (prediction: string[][]) =>
-   prediction.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0])).slice(0, 3);
-
+  prediction
+    .sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]))
+    .slice(0, 3);
   const loadPredictionAndImages = async (currentUser: User) => {
     setPredictions([]);
     const userDocRef = doc(db, 'user', currentUser?.uid);
