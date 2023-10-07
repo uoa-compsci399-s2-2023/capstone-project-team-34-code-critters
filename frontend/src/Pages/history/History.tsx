@@ -16,6 +16,7 @@ function History() {
   const [user] = useAuthState(auth);
   const [itemsPerPage, setItemsPerPage] = useState(5); 
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   const getTopThree = (prediction: string[][]) =>
   prediction
     .sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]))
@@ -54,7 +55,12 @@ function History() {
   useEffect(() => {
     if (user) {
       (async () => {
-        await loadPredictionAndImages(user);
+        try {
+          setIsLoading(true); 
+          await loadPredictionAndImages(user);
+        } finally {
+          setIsLoading(false); 
+        }
       })();
     }
   }, [user]);
@@ -67,7 +73,7 @@ function History() {
   };
   return (
     <div className="flex  justify-center overflow-y-auto pt-28 pb-4 h-full">
-      {predictions.length === 0 ? (
+      {isLoading ? (
         <span className="loading loading-spinner text-primary loading-lg" />
       ) : (
         <div className="max-w-4xl w-11/12 overflow-x-auto">
@@ -82,7 +88,7 @@ function History() {
             </thead>
             <tbody>
 
-              {displayedPredictions && (
+              {displayedPredictions !=null &&  (
                 displayedPredictions.map((prediction, index)=> {
                   const topThreePredictions = getTopThree(prediction.prediction);
                   return (
