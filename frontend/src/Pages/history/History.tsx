@@ -14,7 +14,7 @@ import { getImage } from '../../services/apiService';
 function History() {
   const [predictions, setPredictions] = useState<PredictionTable[]>([]);
   const [user] = useAuthState(auth);
-
+  const [itemsPerPage, setItemsPerPage] = useState(5); 
   const getTopThree = (prediction: string[][]) => prediction.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0])).slice(0, 3);
 
   const loadPredictionAndImages = async (currentUser: User) => {
@@ -54,6 +54,7 @@ function History() {
       })();
     }
   }, [user]);
+  const displayedPredictions = predictions.slice(0, itemsPerPage);
 
   return (
     <div className="flex items-center justify-center overflow-y-auto pt-28 pb-4 h-full">
@@ -72,8 +73,8 @@ function History() {
             </thead>
             <tbody>
 
-              {predictions && (
-                predictions.slice(0, 5).map((prediction, index) => {
+              {displayedPredictions && (
+                displayedPredictions.map((prediction, index)=> {
                   const topThreePredictions = getTopThree(prediction.prediction);
                   return (
                     <tr key={index} className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer">
@@ -132,11 +133,15 @@ function History() {
 
             <div className="flex items-center">
               <span className="mr-2">Items per page:</span> 
-              <select className="select select-bordered join-item">
-                <option>5</option>
-                <option>10</option>
-                <option>15</option>
-                <option>20</option>
+              <select
+                className="select select-bordered join-item"
+                onChange={(e) => setItemsPerPage(Number(e.target.value))}
+                value={itemsPerPage}
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+                <option value={20}>20</option>
               </select>
             </div>
           </div>
