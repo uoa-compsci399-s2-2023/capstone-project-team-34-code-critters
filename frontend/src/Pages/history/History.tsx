@@ -34,6 +34,7 @@ function History() {
           prediction: JSON.parse(predictionDoc.data().prediction),
           imageHash: predictionDoc.data().imageHash,
           imageUrl: null,
+          model: predictionDoc.data().model ? predictionDoc.data().model : null,
         };
         predictionsList.push(prediction);
       });
@@ -102,7 +103,7 @@ function History() {
                         </div>
                       </td>
                       <td className="hidden md:table-cell">
-                        model_name
+                            {prediction.model? prediction.model : 'N/A'}
                       </td>
                       <td>
                         <div className="flex flex-col gap-2">

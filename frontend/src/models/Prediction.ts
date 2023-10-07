@@ -17,4 +17,5 @@ export interface PredictionTable {
   prediction: string[][];
   imageHash: string;
   imageUrl: string | null;
+  model: string |null;
 }
