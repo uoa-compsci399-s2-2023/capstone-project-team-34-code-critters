@@ -98,33 +98,27 @@ function History() {
         <span className="loading loading-spinner text-primary loading-lg" />
       ) : (
         <div className="max-w-4xl w-11/12 overflow-x-auto">
-          <div className="p-2 form-control">
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="label">
-              <span className="label-text">Filter</span>
-            </label>
-            <div className="join">
-              <select
-                className="select select-bordered join-item !rounded-l-lg"
-                value={filterCategory}
-                onChange={(e) => {
-                  setFilterCategory(e.target.value);
-                }}
-              >
-                <option value="name">Image name</option>
-                <option value="date">Date</option>
-                <option value="model">Model Name</option>
-              </select>
-              <input
-                type="text"
-                placeholder="Search"
-                className="input input-bordered join-item"
-                onChange={(e) => {
-                  setFilter(e.target.value);
-                  setCurrentPage(1);
-                }}
-              />
-            </div>
+          <div className="join p-2">
+            <select
+              className="select select-bordered join-item !rounded-l-lg"
+              value={filterCategory}
+              onChange={(e) => {
+                setFilterCategory(e.target.value);
+              }}
+            >
+              <option value="name">Image name</option>
+              <option value="date">Date</option>
+              <option value="model">Model Name</option>
+            </select>
+            <input
+              placeholder="Filter"
+              className="input input-bordered join-item"
+              onChange={(e) => {
+                e.preventDefault();
+                setFilter(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
           </div>
           <table className="table">
             <thead>
