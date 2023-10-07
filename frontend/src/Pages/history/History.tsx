@@ -95,7 +95,9 @@ function History() {
                           </span>
                         </div>
                       </td>
-                      <td className="hidden md:flex">model_name</td>
+                      <td className="hidden md:table-cell">
+                        model_name
+                      </td>
                       <td>
                         <div className="flex flex-col gap-2">
                           {topThreePredictions.map((pred, i) => (
