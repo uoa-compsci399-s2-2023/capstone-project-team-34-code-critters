@@ -32,3 +32,11 @@ export const getXLSX = (predictions: Prediction[]) => axios.post<string>(`${apiU
 });
 
 export const getModels = () => axios.get<string[]>(`${apiUrl}api/v1/available_models`);
+
+export const getImage = (image_name: string, hash: string) => axios.get<Blob>(`${apiUrl}api/v1/get_image`, {
+  params: {
+    image_name,
+    hash,
+  },
+  responseType: 'blob',
+});

@@ -180,7 +180,7 @@ function SignUpModal({
             <div className="w-full">
               {/* eslint-disable react/jsx-props-no-spreading */}
               <input
-                id="email"
+                id="signup-email"
                 type="email"
                 placeholder="Enter your email"
                 className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${
@@ -203,7 +203,7 @@ function SignUpModal({
             </div>
             <div className="w-full">
               <input
-                id="password"
+                id="signup-password"
                 type="password"
                 placeholder="Enter your password"
                 className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}

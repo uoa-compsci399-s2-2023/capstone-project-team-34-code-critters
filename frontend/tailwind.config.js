@@ -21,20 +21,6 @@ module.exports = {
 
           "accent": "#e11d48",
 
-          //blue, purple
-          // "primary": "#5695FF",
-
-          // "secondary": "#C020FF",
-
-          // "accent": "#21D3FF",
-
-          //blue, green
-          // "primary": "#1AE1B0",
-
-          // "secondary": "#03B3EA",
-
-          // "accent": "#26F897",
-
           "neutral": "#111827",
 
           "base-100": "#ffffff",
