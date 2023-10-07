@@ -97,6 +97,7 @@ function History() {
       ) : (
         <div className="max-w-4xl w-11/12 overflow-x-auto">
           <div className="p-2 form-control">
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label className="label">
               <span className="label-text">Filter</span>
             </label>
