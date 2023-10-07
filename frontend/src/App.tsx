@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome, faMagnifyingGlass, faBook, faDoorOpen, faRightToBracket, faUserAlt,
 } from '@fortawesome/free-solid-svg-icons';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import History from './Pages/history/History';
 import Detection from './Pages/detection/Detection';
 import Navbar from './Components/Navbar';
 import SignUpModal from './Components/SignUpModal';
@@ -18,7 +20,7 @@ function App() {
 
   const [toast, setToast] = useState<ToastMessage>({ message: '', type: 'success' });
   const navigate = useNavigate();
-  const [user, setUser] = useState(auth.currentUser);
+  const [user] = useAuthState(auth);
 
   const setToastMessage = (message: string, type: 'success' | 'error') => {
     setToast({ message, type });
@@ -32,12 +34,6 @@ function App() {
       setToastMessage('Failed to log out', 'error');
     }
   };
-
-  useEffect(() => {
-    auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
-    });
-  }, []);
 
   const closeDrawer = () => {
     const drawer = document.getElementById('drawer') as HTMLInputElement;
@@ -67,6 +63,7 @@ function App() {
         <Routes>
           <Route path="/upload" element={<Detection />} />
           <Route path="/" element={<Home />} />
+          <Route path="/history" element={<History />} />
         </Routes>
         <input id="drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-side z-20">
@@ -103,6 +100,7 @@ function App() {
                   <button
                     type="button"
                     onClick={() => {
+                      navigate('/history');
                       closeDrawer();
                     }}
                     className="font-varela btn btn-ghost"
