@@ -131,7 +131,7 @@ function History() {
             </div>
 
             <div className="flex items-center">
-              <span className="mr-2">Text Before:</span> 
+              <span className="mr-2">Items per page:</span> 
               <select className="select select-bordered join-item">
                 <option>5</option>
                 <option>10</option>
