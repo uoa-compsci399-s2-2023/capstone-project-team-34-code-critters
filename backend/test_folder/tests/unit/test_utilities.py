@@ -18,7 +18,7 @@ def test_post_image(client):
 # Test that the image is served correctly after inference
 # @pytest.mark.dependency(depends=["test_post_image"]])
 def test_get_image(client):
-    response = client.get('/api/v1/get_image?image_name=placeholder.png&hash=')
+    response = client.get('/api/v1/get_image?image_name=placeholder.png&hash=1')
 
     assert response.status_code == 200
     assert response.headers['Content-Type'] == 'image/png'
