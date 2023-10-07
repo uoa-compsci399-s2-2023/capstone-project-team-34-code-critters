@@ -57,7 +57,7 @@ function History() {
   const displayedPredictions = predictions.slice(0, itemsPerPage);
 
   return (
-    <div className="flex items-center justify-center overflow-y-auto pt-28 pb-4 h-full">
+    <div className="flex  justify-center overflow-y-auto pt-28 pb-4 h-full">
       {predictions.length === 0 ? (
         <span className="loading loading-spinner text-primary loading-lg" />
       ) : (
@@ -119,7 +119,7 @@ function History() {
               )}
             </tbody>
           </table>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between">
             <div className="join">
               <button className="join-item btn">«</button>
               <select className="select select-bordered join-item">
