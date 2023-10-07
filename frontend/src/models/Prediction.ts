@@ -14,7 +14,7 @@ export interface PredictionFirestore {
 export interface PredictionTable {
   name: string;
   date: Date;
-  prediction: string;
+  prediction: string[][];
   imageHash: string;
   imageUrl: string | null;
 }

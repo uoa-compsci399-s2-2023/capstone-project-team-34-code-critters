@@ -15,10 +15,7 @@ function History() {
   const [predictions, setPredictions] = useState<PredictionTable[]>([]);
   const [user] = useAuthState(auth);
 
-  const getTopThree = (predictionStr: string): [string, string][] => {
-    const predictionsList: [string, string][] = JSON.parse(predictionStr);
-    return predictionsList.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0])).slice(0, 3);
-  };
+  const getTopThree = (prediction: string[][]) => prediction.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0])).slice(0, 3);
 
   const loadPredictionAndImages = async (currentUser: User) => {
     setPredictions([]);
@@ -31,7 +28,7 @@ function History() {
         const prediction: PredictionTable = {
           name: predictionDoc.data().name,
           date: predictionDoc.data().date.toDate(),
-          prediction: predictionDoc.data().prediction,
+          prediction: JSON.parse(predictionDoc.data().prediction),
           imageHash: predictionDoc.data().imageHash,
           imageUrl: null,
         };
