@@ -16,7 +16,8 @@ function History() {
   const [user] = useAuthState(auth);
   const [itemsPerPage, setItemsPerPage] = useState(5); 
   const [currentPage, setCurrentPage] = useState(1);
-  const getTopThree = (prediction: string[][]) => prediction.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0])).slice(0, 3);
+  const getTopThree = (prediction: string[][]) =>
+   prediction.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0])).slice(0, 3);
 
   const loadPredictionAndImages = async (currentUser: User) => {
     setPredictions([]);
@@ -128,6 +129,7 @@ function History() {
           <div className="flex justify-between">
           <div className="join">
           <button
+                type="button" 
                 className={`join-item btn ${currentPage === 1 ? 'cursor-not-allowed' : ''}`}
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
@@ -142,6 +144,7 @@ function History() {
                 ))}
               </select>
               <button
+                type="button" 
                 className={`join-item btn ${currentPage === totalPages ? 'cursor-not-allowed' : ''}`}
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
