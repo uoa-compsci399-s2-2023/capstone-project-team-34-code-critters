@@ -110,12 +110,12 @@ function History() {
   };
 
   return (
-    <div className="flex justify-center overflow-y-auto pt-28 pb-4 h-full w-full">
+    <div className="flex justify-center overflow-y-auto pt-24 pb-4 h-full w-full">
       {isLoading ? (
         <span className="loading loading-spinner text-primary loading-lg" />
       ) : (
         <div className="max-w-4xl w-11/12">
-          <div className="join p-2">
+          <div className="join sm:px-2 pb-2">
             <div className="tooltip tooltip-bottom" data-tip="Filter by">
               <select
                 className="select select-bordered join-item !rounded-l-lg"
