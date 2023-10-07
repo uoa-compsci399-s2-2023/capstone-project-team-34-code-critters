@@ -114,7 +114,7 @@ function History() {
             </div>
             <input
               placeholder="Filter"
-              className="input input-bordered join-item"
+              className="input input-bordered join-item w-full"
               onChange={(e) => {
                 e.preventDefault();
                 setFilter(e.target.value);
