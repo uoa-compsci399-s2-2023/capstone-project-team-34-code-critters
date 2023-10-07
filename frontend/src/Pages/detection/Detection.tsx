@@ -320,7 +320,7 @@ function Detection() {
             </p>
           </div>
           {models.length > 0 && (
-            <div className={`flex items-end gap-4 ${images.length === 0 && 'mt-10'}`}>
+            <div className="flex items-end gap-4">
               <div className="form-control">
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="label">

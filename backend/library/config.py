@@ -14,6 +14,8 @@ class settingsModel(BaseSettings):
     GBIF_USER: str = "temp"
     GBIF_PASSWORD: str = "temp"
 
+    LOGGING: bool = False
+
     model_config = SettingsConfigDict(
         env_file=(
             ".env",
@@ -21,8 +23,7 @@ class settingsModel(BaseSettings):
             ".env.development.local"
         )
     )
-        
-        
+    
 
 
 Settings = settingsModel()
