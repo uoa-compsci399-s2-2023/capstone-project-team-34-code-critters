@@ -14,6 +14,7 @@ import {
   getCSV, getXLSX, getModels, getPredictions as getPredictionsAPI,
 } from '../../services/apiService';
 import { Prediction } from '../../models/Prediction';
+import PredictionDialog from '../../Components/PredictionDialog';
 
 function Detection() {
   const inputFile = useRef<HTMLInputElement>(null);
@@ -419,7 +420,7 @@ function Detection() {
                       : <FontAwesomeIcon icon={faChartBar} />}
                   </button>
                 </div>
-                <div className="tooltip font-varela" data-tip="Delte this prediction">
+                <div className="tooltip font-varela" data-tip="Delete this prediction">
                   <button
                     className="btn btn-square btn-outline hover:!text-white btn-error"
                     type="button"
@@ -434,75 +435,16 @@ function Detection() {
           ))}
         </div>
       </div>
-
       {predictions.map((prediction, index) => (
-        <dialog
-          id={`prediction-${index}`}
-          className="modal  modal-bottom sm:modal-middle"
+        <PredictionDialog
           key={index}
-        >
-          <form method="dialog" className="modal-box sm:w-11/12 sm:max-w-4xl">
-            <button
-              onClick={() => closeModel(index)}
-              type="button"
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-            >
-              <FontAwesomeIcon
-                icon={faXmark}
-              />
-            </button>
-            <h3 className="font-bold text-lg font-varela ">
-              Results:
-            </h3>
-            <div className="flex flex-col gap-4 mt-4 items-center">
-              {
-                // eslint-disable-next-line max-len
-                prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))
-                  .slice(0, numToShow)
-                  .map((pred, i) => (
-                    <div key={i} className="w-full">
-                      <div className="flex justify-between">
-                        <p className="font-varela ">{pred[1]}</p>
-                        <p className="font-varela text-primary">
-                          {Number(pred[0])
-                            .toFixed(4)}
-                        </p>
-                      </div>
-                      <progress
-                        className="progress progress-primary w-full"
-                        value={Number(pred[0]) * 100}
-                        max="100"
-                      />
-                    </div>
-                  ))
-              }
-              {
-                prediction?.pred.length! > numToShow ? (
-                  <button
-                    type="button"
-                    className="btn btn-primary hover:!text-white font-varela btn-outline"
-                    onClick={() => handleShowMore(prediction!.pred)}
-                  >
-                    Show more
-                  </button>
-                )
-                  : (
-                    <button
-                      type="button"
-                      className="btn btnd-primary hover:!text-white font-varela btn-outline"
-                      onClick={() => handleShowLess()}
-                    >
-                      Show less
-                    </button>
-                  )
-              }
-
-            </div>
-          </form>
-          <form method="dialog" className="modal-backdrop">
-            <button type="button" onClick={() => closeModel(index)}>close</button>
-          </form>
-        </dialog>
+          index={index}
+          prediction={prediction}
+          numToShow={numToShow}
+          closeModel={closeModel}
+          handleShowMore={handleShowMore}
+          handleShowLess={handleShowLess}
+        />
       ))}
     </div>
   );
