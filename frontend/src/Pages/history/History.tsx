@@ -93,11 +93,11 @@ function History() {
     setCurrentPage(newPage);
   };
   return (
-    <div className="flex  justify-center overflow-y-auto pt-28 pb-4 h-full">
+    <div className="flex justify-center overflow-y-auto pt-28 pb-4 h-full w-full">
       {isLoading ? (
         <span className="loading loading-spinner text-primary loading-lg" />
       ) : (
-        <div className="max-w-4xl w-11/12 overflow-x-auto">
+        <div className="max-w-4xl w-11/12">
           <div className="join p-2">
             <div className="tooltip tooltip-bottom" data-tip="Filter by">
               <select
@@ -122,63 +122,66 @@ function History() {
               }}
             />
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Image </th>
-                <th className="hidden md:flex">Model</th>
-                <th>Predictions</th>
-              </tr>
-            </thead>
-            <tbody>
+          <div className="w-full overflow-x-auto">
+            <table className="table table-auto">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Image </th>
+                  <th className="hidden md:flex">Model</th>
+                  <th>Predictions</th>
+                </tr>
+              </thead>
+              <tbody>
 
-              {!isLoading && (
-                filteredPredictions.slice(startIndex, endIndex).map((prediction, index) => {
-                  const topThreePredictions = getTopThree(prediction.prediction);
-                  return (
-                    <tr key={index} className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer">
-                      <td className="w-32">{prediction.date.toLocaleString()}</td>
+                {!isLoading && (
+                  filteredPredictions.slice(startIndex, endIndex).map((prediction, index) => {
+                    const topThreePredictions = getTopThree(prediction.prediction);
+                    return (
+                      <tr key={index} className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer">
+                        <td className="w-32">{prediction.date.toLocaleString()}</td>
 
-                      <td>
-                        <div className="flex gap-4">
-                          {prediction.imageUrl ? (
-                            <img className="w-24 rounded-md" src={prediction.imageUrl} alt={prediction.name} />
-                          ) : (
-                            <p>Loading image...</p>
-                          )}
+                        <td>
+                          <div className="flex gap-4">
+                            {prediction.imageUrl ? (
+                              <img className="w-24 rounded-md" src={prediction.imageUrl} alt={prediction.name} />
+                            ) : (
+                              <p>Loading image...</p>
+                            )}
 
-                          <span className="hidden truncate lg:flex items-center">
-                            {prediction.name}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="hidden md:table-cell">
-                        {prediction.model}
-                      </td>
-                      <td>
-                        <div className="flex flex-col gap-2">
-                          {topThreePredictions.map((pred, i) => (
-                            <span
-                              key={i}
-                              className={`badge badge-outline ${i === 0 && 'badge-primary hover:bg-primary hover:text-white'} ${i === 1 && 'badge-secondary hover:bg-secondary hover:text-white'} ${i === 2 && 'badge-warning hover:bg-warning hover:text-white'}`}
-                            >
-                              {pred[1]}
-                              :
-                              {(parseFloat(pred[0]) * 100).toFixed(0)}
-                              %
+                            <span className="hidden truncate lg:flex items-center">
+                              {prediction.name}
                             </span>
+                          </div>
+                        </td>
+                        <td className="hidden md:table-cell">
+                          {prediction.model}
+                        </td>
+                        <td>
+                          <div className="flex flex-col gap-2">
+                            {topThreePredictions.map((pred, i) => (
+                              <span
+                                key={i}
+                                className={`badge badge-outline truncate ${i === 0 && 'badge-primary hover:bg-primary hover:text-white'} ${i === 1 && 'badge-secondary hover:bg-secondary hover:text-white'} ${i === 2 && 'badge-warning hover:bg-warning hover:text-white'}`}
+                              >
+                                {pred[1]}
+                                :
+                                {(parseFloat(pred[0]) * 100).toFixed(0)}
+                                %
+                              </span>
 
-                          ))}
-                        </div>
-                      </td>
+                            ))}
+                          </div>
+                        </td>
 
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
+
           <div className="flex justify-end p-2">
             <div className="join items-center">
               <div className="tooltip" data-tip="item per page">
