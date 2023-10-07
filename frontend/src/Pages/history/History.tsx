@@ -15,6 +15,7 @@ function History() {
   const [predictions, setPredictions] = useState<PredictionTable[]>([]);
   const [user] = useAuthState(auth);
   const [itemsPerPage, setItemsPerPage] = useState(5); 
+  const [currentPage, setCurrentPage] = useState(1);
   const getTopThree = (prediction: string[][]) => prediction.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0])).slice(0, 3);
 
   const loadPredictionAndImages = async (currentUser: User) => {
@@ -54,8 +55,13 @@ function History() {
       })();
     }
   }, [user]);
-  const displayedPredictions = predictions.slice(0, itemsPerPage);
-
+  const totalPages = Math.ceil(predictions.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedPredictions = predictions.slice(startIndex, endIndex);
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
   return (
     <div className="flex  justify-center overflow-y-auto pt-28 pb-4 h-full">
       {predictions.length === 0 ? (
@@ -120,22 +126,26 @@ function History() {
             </tbody>
           </table>
           <div className="flex justify-between">
-            <div className="join">
-              <button className="join-item btn">«</button>
-              <select className="select select-bordered join-item">
-                <option>Page 1</option>
-                <option>Page 2</option>
-                <option>Page 3</option>
-                <option>Page 4</option>
+          <div className="join">
+              <button className="join-item btn" onClick={() => handlePageChange(currentPage - 1)}>«</button>
+              <select className="select select-bordered join-item" onChange={(e) => setCurrentPage(Number(e.target.value))} value={currentPage}>
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <option key={i} value={i + 1}>
+                    Page {i + 1}
+                  </option>
+                ))}
               </select>
-              <button className="join-item btn">»</button>
+              <button className="join-item btn" onClick={() => handlePageChange(currentPage + 1)}>»</button>
             </div>
 
             <div className="flex items-center">
               <span className="mr-2">Items per page:</span> 
               <select
                 className="select select-bordered join-item"
-                onChange={(e) => setItemsPerPage(Number(e.target.value))}
+                onChange={(e) => {
+                  setItemsPerPage(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
                 value={itemsPerPage}
               >
                 <option value={5}>5</option>
