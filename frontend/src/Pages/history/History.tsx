@@ -127,7 +127,13 @@ function History() {
           </table>
           <div className="flex justify-between">
           <div className="join">
-              <button className="join-item btn" onClick={() => handlePageChange(currentPage - 1)}>«</button>
+          <button
+                className={`join-item btn ${currentPage === 1 ? 'cursor-not-allowed' : ''}`}
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                «
+              </button>
               <select className="select select-bordered join-item" onChange={(e) => setCurrentPage(Number(e.target.value))} value={currentPage}>
                 {Array.from({ length: totalPages }, (_, i) => (
                   <option key={i} value={i + 1}>
@@ -135,8 +141,14 @@ function History() {
                   </option>
                 ))}
               </select>
-              <button className="join-item btn" onClick={() => handlePageChange(currentPage + 1)}>»</button>
-            </div>
+              <button
+                className={`join-item btn ${currentPage === totalPages ? 'cursor-not-allowed' : ''}`}
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                »
+              </button>           
+              </div>
 
             <div className="flex items-center">
               <span className="mr-2">Items per page:</span> 
