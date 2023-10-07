@@ -73,7 +73,7 @@ function History() {
             <tbody>
 
               {predictions && (
-                predictions.map((prediction, index) => {
+                predictions.slice(0, 5).map((prediction, index) => {
                   const topThreePredictions = getTopThree(prediction.prediction);
                   return (
                     <tr key={index} className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer">
@@ -118,19 +118,29 @@ function History() {
               )}
             </tbody>
           </table>
-          <div className="flex justify-center items-center">
-
+          <div className="flex justify-between items-center">
             <div className="join">
               <button className="join-item btn">«</button>
               <select className="select select-bordered join-item">
-                <option disabled selected>Page 1</option>
-                <option>Sci-fi</option>
-                <option>Drama</option>
-                <option>Action</option>
+                <option>Page 1</option>
+                <option>Page 2</option>
+                <option>Page 3</option>
+                <option>Page 4</option>
               </select>
               <button className="join-item btn">»</button>
             </div>
+
+            <div className="flex items-center">
+              <span className="mr-2">Text Before:</span> 
+              <select className="select select-bordered join-item">
+                <option>5</option>
+                <option>10</option>
+                <option>15</option>
+                <option>20</option>
+              </select>
+            </div>
           </div>
+
         </div>
       )}
     </div>
