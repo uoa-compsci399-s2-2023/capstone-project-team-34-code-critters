@@ -101,20 +101,25 @@ function History() {
     };
 
     fetchPredictions();
+    
   }, [user]);
   useEffect(() => {
-    const fetchImages = async () => {
+    const fetchPredictionsAndImages = async () => {
+      // Fetch predictions as before
+      
+      // Fetch images
       const imagePromises = predictions.map(async (prediction) => {
         const imageU = await getImageFromAPI(prediction.name, prediction.imageHash);
         return imageU;
+        
       });
-
+  
       const fetchedImages = await Promise.all(imagePromises);
-      setImages(fetchedImages); // Update the images state with fetched images
+      setImages(fetchedImages);
     };
-
-    fetchImages();
-  }, []);
+  
+    fetchPredictionsAndImages();
+  }, [user]);
 
   return (
     <div className="justify-center overflow-y-auto pt-40 pb-4">
@@ -129,44 +134,39 @@ function History() {
           </tr>
         </thead>
         <tbody>
-          {predictions.map((prediction, index) => {
-            // console.log(predictions)
-            const topThreePredictions = getTopThree(prediction.prediction);
-            // const imageU = await getImageFromAPI(prediction.name, prediction.imageHash);
-            // const imagePromises = predictions.map(async (prediction) => {
-            //   const imageU = await getImageFromAPI(prediction.name, prediction.imageHash);
-            //   return imageU;
-            // });
-            // const imageU =fetchImages(prediction.name, prediction.imageHash);
-            const imageU = images[index];
          
-            return (
-              <tr key={index} className="hover:bg-gray-200">
-                <th>{index + 1}</th>
-                <td>{new Date(prediction.date).toLocaleString()}</td>
+          {images.length === predictions.length && (
+            predictions.map((prediction, index) => {
+              const topThreePredictions = getTopThree(prediction.prediction);
+              const imageU = images[index];
+              return (
+                <tr key={index} className="hover:bg-gray-200">
+                  <th>{index + 1}</th>
+                  <td>{new Date(prediction.date).toLocaleString()}</td>
 
-                <td>{prediction.name} {imageU ? (
-                  <img style={{ width: '100px' }} src={imageU} alt="Image" />
-                ) : (
-                  <p>Loading image...</p>
-                )}</td>
-                <td>model_name</td>
-                
-                <td>
-                  {topThreePredictions.map((pred, idx) => (
-                    <span
-                      key={idx}
-                      className={`inline-block transition duration-300 ease-in-out rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2 
-                              hover:bg-blue-700 hover:text-white
-                              ${idx === 0 ? 'bg-blue-500' : idx === 1 ? 'bg-blue-400' : 'bg-blue-300'}`}>
-                      {pred[1]}: {parseFloat(pred[0]).toFixed(2)}%
-                    </span>
-                  ))}
-                </td>
+                  <td>{prediction.name} {imageU ? (
+                    <img style={{ width: '100px' }} src={imageU} alt="Image" />
+                  ) : (
+                    <p>Loading image...</p>
+                  )}</td>
+                  <td>model_name</td>
+                  <td>
+                    {topThreePredictions.map((pred, idx) => (
+                      <span
+                        key={idx}
+                        className={`inline-block transition duration-300 ease-in-out rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2 
+                                  hover:bg-blue-700 hover:text-white
+                                  ${idx === 0 ? 'bg-blue-500' : idx === 1 ? 'bg-blue-400' : 'bg-blue-300'}`}>
+                        {pred[1]}: {parseFloat(pred[0]).toFixed(2)}%
+                      </span>
 
-              </tr>
-            );
-          })}
+                    ))}
+                  </td>
+
+                </tr>
+              );
+            })
+          )}
         </tbody>
       </table>
     </div>
