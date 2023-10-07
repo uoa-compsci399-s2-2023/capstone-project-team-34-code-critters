@@ -118,6 +118,19 @@ function History() {
               )}
             </tbody>
           </table>
+          <div className="flex justify-center items-center">
+
+            <div className="join">
+              <button className="join-item btn">«</button>
+              <select className="select select-bordered join-item">
+                <option disabled selected>Page 1</option>
+                <option>Sci-fi</option>
+                <option>Drama</option>
+                <option>Action</option>
+              </select>
+              <button className="join-item btn">»</button>
+            </div>
+          </div>
         </div>
       )}
     </div>
