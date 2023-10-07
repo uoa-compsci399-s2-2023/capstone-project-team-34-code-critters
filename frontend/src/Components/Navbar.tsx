@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome, faMagnifyingGlass, faUserAlt, faRightToBracket, faBars,
 } from '@fortawesome/free-solid-svg-icons';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../enviroments/firebase';
 import 'firebase/auth';
 
@@ -14,7 +15,7 @@ interface NavbarProps {
 }
 
 function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps) {
-  const [user, setUser] = useState(auth.currentUser);
+  const [user] = useAuthState(auth);
   const openLoginModal = () => {
     if (loginModalRef.current) {
       loginModalRef.current.showModal();
@@ -28,12 +29,6 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
   };
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
-    });
-  }, []);
 
   const navbarEnabled = process.env.REACT_APP_DISABLE_NAVBAR !== 'true';
   let loginEnabled;
@@ -112,7 +107,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                       <div
                         className="text-black font-varela whitespace-nowrap"
                         onClick={() => {
-                          // Handle user history
+                          navigate('/history');
                         }}
                       >
                         User History
