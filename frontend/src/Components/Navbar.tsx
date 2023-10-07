@@ -6,6 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { auth } from '../enviroments/firebase';
 import 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 interface NavbarProps {
   loginModalRef: React.MutableRefObject<HTMLDialogElement | null>;
@@ -14,7 +15,7 @@ interface NavbarProps {
 }
 
 function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps) {
-  const [user, setUser] = useState(auth.currentUser);
+  const [user] = useAuthState(auth);
   const openLoginModal = () => {
     if (loginModalRef.current) {
       loginModalRef.current.showModal();
@@ -28,12 +29,6 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
   };
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
-    });
-  }, []);
 
   const navbarEnabled = process.env.REACT_APP_DISABLE_NAVBAR !== 'true';
   let loginEnabled;
@@ -111,8 +106,8 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                     <li>
                       <div
                         className="text-black font-varela whitespace-nowrap"
-                        onClick={() => {navigate('/history')
-                          // Handle user history
+                        onClick={() => {
+                          navigate('/history');
                         }}
                       >
                         User History
