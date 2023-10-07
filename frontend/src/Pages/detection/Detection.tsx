@@ -278,7 +278,7 @@ function Detection() {
       .map(() => false)]);
   };
   return (
-    <div className="w-full h-full flex justify-center overflow-y-auto pt-24 pb-4">
+    <div className="w-full h-full flex justify-center overflow-y-auto pt-28 pb-4">
       <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit gap-4">
         <h1 className="font-varela text-xl font-bold">Upload</h1>
         <h1 className="text-xl font-varela text-center">

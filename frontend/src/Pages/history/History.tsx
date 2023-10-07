@@ -182,7 +182,7 @@ function History() {
             </table>
           </div>
 
-          <div className="flex justify-end p-2">
+          <div className="flex justify-end px-2 pt-4">
             <div className="join items-center">
               <div className="tooltip" data-tip="item per page">
                 <select
