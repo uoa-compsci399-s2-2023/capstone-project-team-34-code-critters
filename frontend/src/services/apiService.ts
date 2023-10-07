@@ -33,26 +33,10 @@ export const getXLSX = (predictions: Prediction[]) => axios.post<string>(`${apiU
 
 export const getModels = () => axios.get<string[]>(`${apiUrl}api/v1/available_models`);
 
-
-export const getImage = (image_name: string, hash: string) => axios.get<string>(`${apiUrl}api/v1/get_image`, {
+export const getImage = (image_name: string, hash: string) => axios.get<Blob>(`${apiUrl}api/v1/get_image`, {
   params: {
     image_name,
     hash,
   },
-  responseType: 'blob'
-}) .then((response) => {
-  if (response.status === 200) {
-    // Successfully received the image
-    const blob = new Blob([response.data], { type: response.headers['content-type'] });
-    const imageUrl = URL.createObjectURL(blob);
-    return imageUrl;
-  } else {
-    // Handle other status codes if needed
-    console.error('Failed to fetch image:', response.status);
-    return null; // Return null or throw an error as needed
-  }
-})
-.catch((error) => {
-  console.error('Error fetching image:', error);
-  throw error; // Handle the error as needed
-});;
+  responseType: 'blob',
+});
