@@ -20,10 +20,15 @@ function History() {
   const [user] = useAuthState(auth);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [filter, setFilter] = useState<string>('');
+  const [filterCategory, setFilterCategory] = useState<string>('name');
+
   const getTopThree = (prediction: string[][]) => prediction
     .sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]))
     .slice(0, 3);
   const loadPredictionAndImages = async (currentUser: User) => {
+    setIsLoading(true);
     setPredictions([]);
     const userDocRef = doc(db, 'user', currentUser?.uid);
     const predictionsCollectionRef = collection(userDocRef, 'predictions');
@@ -50,6 +55,8 @@ function History() {
       setPredictions(predictionsList);
     } catch (e) {
       console.error('Error getting predictions:', e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -60,10 +67,20 @@ function History() {
       })();
     }
   }, [user]);
-  const totalPages = Math.ceil(predictions.length / itemsPerPage);
+  const filteredPredictions = predictions.filter((prediction) => {
+    switch (filterCategory) {
+      case 'name':
+        return prediction.name.toLowerCase().includes(filter.toLowerCase());
+      case 'date':
+        return prediction.date.toLocaleString().toLowerCase().includes(filter.toLowerCase());
+      default:
+        return prediction.name.toLowerCase().includes(filter.toLowerCase());
+    }
+  });
+
+  const totalPages = Math.ceil(filteredPredictions.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedPredictions = predictions.slice(startIndex, endIndex);
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
@@ -73,6 +90,33 @@ function History() {
         <span className="loading loading-spinner text-primary loading-lg" />
       ) : (
         <div className="max-w-4xl w-11/12 overflow-x-auto">
+          <div className="p-2 form-control">
+            <label className="label">
+              <span className="label-text">Filter</span>
+            </label>
+            <div className="join">
+              <select
+                className="select select-bordered join-item !rounded-l-lg"
+                value={filterCategory}
+                onChange={(e) => {
+                  setFilterCategory(e.target.value);
+                }}
+              >
+                <option value="name">Image name</option>
+                <option value="date">Date</option>
+                <option value="model">Model Name</option>
+              </select>
+              <input
+                type="text"
+                placeholder="Search"
+                className="input input-bordered join-item"
+                onChange={(e) => {
+                  setFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
+              />
+            </div>
+          </div>
           <table className="table">
             <thead>
               <tr>
@@ -84,8 +128,8 @@ function History() {
             </thead>
             <tbody>
 
-              {displayedPredictions && (
-                displayedPredictions.map((prediction, index) => {
+              {!isLoading && (
+                filteredPredictions.slice(startIndex, endIndex).map((prediction, index) => {
                   const topThreePredictions = getTopThree(prediction.prediction);
                   return (
                     <tr key={index} className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer">
@@ -130,7 +174,7 @@ function History() {
               )}
             </tbody>
           </table>
-          <div className="flex justify-end p-4">
+          <div className="flex justify-end p-2">
             <div className="join items-center">
               <span className="mr-2">Items per page:</span>
               <select
