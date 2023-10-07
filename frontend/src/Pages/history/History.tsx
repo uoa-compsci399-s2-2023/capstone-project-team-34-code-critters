@@ -99,17 +99,19 @@ function History() {
       ) : (
         <div className="max-w-4xl w-11/12 overflow-x-auto">
           <div className="join p-2">
-            <select
-              className="select select-bordered join-item !rounded-l-lg"
-              value={filterCategory}
-              onChange={(e) => {
-                setFilterCategory(e.target.value);
-              }}
-            >
-              <option value="name">Image name</option>
-              <option value="date">Date</option>
-              <option value="model">Model Name</option>
-            </select>
+            <div className="tooltip tooltip-bottom" data-tip="Filter by">
+              <select
+                className="select select-bordered join-item !rounded-l-lg"
+                value={filterCategory}
+                onChange={(e) => {
+                  setFilterCategory(e.target.value);
+                }}
+              >
+                <option value="name">Image name</option>
+                <option value="date">Date</option>
+                <option value="model">Model Name</option>
+              </select>
+            </div>
             <input
               placeholder="Filter"
               className="input input-bordered join-item"
@@ -179,21 +181,22 @@ function History() {
           </table>
           <div className="flex justify-end p-2">
             <div className="join items-center">
-              <span className="mr-2">Items per page:</span>
-              <select
-                className="select select-bordered join-item rounded-lg !rounded-l-lg"
-                onChange={(e) => {
-                  setItemsPerPage(Number(e.target.value));
-                  setCurrentPage(1);
-                }}
-                value={itemsPerPage}
-              >
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
+              <div className="tooltip" data-tip="item per page">
+                <select
+                  className="select select-bordered join-item rounded-lg !rounded-l-lg"
+                  onChange={(e) => {
+                    setItemsPerPage(Number(e.target.value));
+                    setCurrentPage(1);
+                  }}
+                  value={itemsPerPage}
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                  <option value={100}>100</option>
+                </select>
+              </div>
               <button
                 type="button"
                 className={`join-item btn ${currentPage === 1 ? 'cursor-not-allowed' : ''}`}
