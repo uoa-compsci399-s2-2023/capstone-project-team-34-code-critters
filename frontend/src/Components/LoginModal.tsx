@@ -227,7 +227,7 @@ function LoginModal({
               className={`border-none relative font-varela normal-case btn w-full text-white text-lg ${
                 (!isValid)
                   ? 'cursor-not-allowed'
-                  : 'bg-gradient-to-r from-primary to-secondary'
+                  : 'bg-primary'
               }`}
               disabled={!isValid}
             >
