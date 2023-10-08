@@ -37,6 +37,7 @@ function History() {
     setIsLoading(true);
     setTablePredictions([]);
     setPredictions([]);
+    setIsChecked([]);
     const userDocRef = doc(db, 'user', currentUser?.uid);
     const predictionsCollectionRef = collection(userDocRef, 'predictions');
     try {
