@@ -209,21 +209,6 @@ function Detection() {
       console.error('Error fetching XLSX data:', error);
     }
   };
-
-  const selectAll = () => {
-    const newCheck = [...isChecked];
-    if (newCheck.every((check) => check)) {
-      newCheck.forEach((_, index) => {
-        newCheck[index] = false;
-      });
-    } else {
-      newCheck.forEach((_, index) => {
-        newCheck[index] = true;
-      });
-    }
-    setIsChecked(newCheck);
-  };
-
   const deleteAll = () => {
     setImages([]);
     setImageUrls([]);
@@ -329,9 +314,21 @@ function Detection() {
             <button
               className="btn btn-primary btn-outline hover:!text-white font-varela"
               type="button"
-              onClick={() => selectAll()}
+              onClick={() => {
+                const newCheck = [...isChecked];
+                if (newCheck.some((check) => check)) {
+                  newCheck.forEach((_, index) => {
+                    newCheck[index] = false;
+                  });
+                } else {
+                  newCheck.forEach((_, index) => {
+                    newCheck[index] = true;
+                  });
+                }
+                setIsChecked(newCheck);
+              }}
             >
-              Select All
+              { isChecked.some((value) => value) ? 'Deselect All' : 'Select All'}
             </button>
             <div className="join">
               <div className="tooltip font-varela " data-tip="Download predictions as CSV">

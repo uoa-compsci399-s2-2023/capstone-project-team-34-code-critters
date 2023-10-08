@@ -10,11 +10,11 @@ import { User } from '@firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faArrowRight, faArrowLeft, faTrash,
+  faArrowRight, faArrowLeft, faTrash, faFileCsv, faFileExcel,
 } from '@fortawesome/free-solid-svg-icons';
 import { auth, db } from '../../enviroments/firebase';
 import { PredictionTable, Prediction } from '../../models/Prediction';
-import { getImage } from '../../services/apiService';
+import { getCSV, getImage, getXLSX } from '../../services/apiService';
 import PredictionDialog from '../../Components/PredictionDialog';
 
 function History() {
@@ -28,6 +28,7 @@ function History() {
   const [isLoading, setIsLoading] = useState(false);
   const [filter, setFilter] = useState<string>('');
   const [filterCategory, setFilterCategory] = useState<string>('name');
+  const [isChecked, setIsChecked] = useState<boolean[]>([]);
 
   const getTopThree = (prediction: string[][]) => prediction
     .sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]))
@@ -63,6 +64,7 @@ function History() {
       }));
 
       setPredictions(prediction);
+      setIsChecked([...isChecked, ...predictions.map(() => false)]);
 
       await Promise.all(predictionsList.map(async (predictionTable, i) => {
         const image = await getImage(predictionTable.name, predictionTable.imageHash);
@@ -122,10 +124,50 @@ function History() {
   };
 
   const openModal = (event: MouseEvent<HTMLTableRowElement>, index: number) => {
-    if (event.target instanceof HTMLButtonElement || event.target instanceof SVGElement || event.target instanceof SVGPathElement) return;
+    if (event.target instanceof HTMLButtonElement || event.target instanceof SVGElement || event.target instanceof SVGPathElement || event.target instanceof HTMLInputElement) return;
     const modal = document.getElementById(`prediction-${index}`)! as HTMLDialogElement;
     if (modal) {
       modal.showModal();
+    }
+  };
+
+  const handleCheckbox = (index: number) => {
+    const newCheck = [...isChecked];
+    newCheck[index] = !newCheck[index];
+    setIsChecked(newCheck);
+  };
+
+  const downloadPredictionsCSV = async () => {
+    const selectedPredictions = predictions.filter((_, index) => isChecked[index]);
+    try {
+      const response = await getCSV(selectedPredictions as Prediction[]);
+      const { data } = response;
+      const blob = new Blob([data], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'predictions.csv';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error fetching CSV data:', error);
+    }
+  };
+
+  const downloadPredictionsXLSX = async () => {
+    const selectedPredictions = predictions.filter((_, index) => isChecked[index]);
+    try {
+      const response = await getXLSX(selectedPredictions as Prediction[]);
+      const { data } = response;
+      const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'predictions.xlsx';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error fetching XLSX data:', error);
     }
   };
 
@@ -135,34 +177,81 @@ function History() {
         <span className="loading loading-spinner text-primary loading-lg" />
       ) : (
         <div className="max-w-4xl w-11/12">
-          <div className="join sm:px-2 pb-2">
-            <div className="tooltip tooltip-bottom" data-tip="Filter by">
-              <select
-                className="select select-bordered join-item !rounded-l-lg"
-                value={filterCategory}
+          <div className="sm:px-2 pb-2 flex items-center justify-between">
+            <div className="join">
+              <div className="tooltip tooltip-bottom" data-tip="Filter by">
+                <select
+                  className="select select-bordered join-item !rounded-l-lg"
+                  value={filterCategory}
+                  onChange={(e) => {
+                    setFilterCategory(e.target.value);
+                  }}
+                >
+                  <option value="name">Image name</option>
+                  <option value="date">Date</option>
+                  <option value="model">Model Name</option>
+                </select>
+              </div>
+              <input
+                placeholder="Filter"
+                className="input input-bordered join-item w-full"
                 onChange={(e) => {
-                  setFilterCategory(e.target.value);
+                  e.preventDefault();
+                  setFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
+              />
+            </div>
+            <div className="hidden sm:flex gap-4 items-center">
+              <button
+                className="btn btn-primary btn-outline hover:!text-white font-varela"
+                type="button"
+                onClick={() => {
+                  const newCheck = [...isChecked];
+                  if (newCheck.some((check) => check)) {
+                    newCheck.forEach((_, index) => {
+                      newCheck[index] = false;
+                    });
+                  } else {
+                    newCheck.forEach((_, index) => {
+                      newCheck[index] = true;
+                    });
+                  }
+                  setIsChecked(newCheck);
                 }}
               >
-                <option value="name">Image name</option>
-                <option value="date">Date</option>
-                <option value="model">Model Name</option>
-              </select>
+                { isChecked.some((value) => value) ? 'Deselect All' : 'Select All'}
+              </button>
+              <div className="join">
+                <div className="tooltip tooltip-bottom font-varela " data-tip="Download predictions as CSV">
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-outline hover:!text-white join-item"
+                    disabled={isChecked.every((value) => !value)}
+                    onClick={downloadPredictionsCSV}
+                  >
+                    <FontAwesomeIcon icon={faFileCsv} />
+                  </button>
+                </div>
+                <div className="tooltip tooltip-bottom font-varela " data-tip="Download predictions as XLSX">
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-outline hover:!text-white aspect-square join-item"
+                    onClick={downloadPredictionsXLSX}
+                    disabled={isChecked.every((value) => !value)}
+                  >
+                    <FontAwesomeIcon icon={faFileExcel} />
+                  </button>
+                </div>
+              </div>
             </div>
-            <input
-              placeholder="Filter"
-              className="input input-bordered join-item w-full"
-              onChange={(e) => {
-                e.preventDefault();
-                setFilter(e.target.value);
-                setCurrentPage(1);
-              }}
-            />
           </div>
           <div className="w-full">
             <table className="table table-auto">
               <thead>
                 <tr>
+                  {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+                  <th className="p-2 hidden md:table-cell" />
                   <th className="p-2">Date</th>
                   <th className="p-2">Image </th>
                   <th className="p-2 hidden md:table-cell">Model</th>
@@ -179,8 +268,22 @@ function History() {
                       <tr
                         key={index}
                         className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer"
-                        onClick={(e) => { openModal(e, index); }}
+                        onClick={(e) => {
+                          const originalIndex = tablePredictions.findIndex((pred) => pred.id === prediction.id);
+                          openModal(e, originalIndex);
+                        }}
                       >
+                        <td className="p-2">
+                          <input
+                            type="checkbox"
+                            checked={isChecked[tablePredictions.findIndex((pred) => pred.id === prediction.id)] || false}
+                            onChange={() => {
+                              const originalIndex = tablePredictions.findIndex((pred) => pred.id === prediction.id);
+                              handleCheckbox(originalIndex);
+                            }}
+                            className="checkbox checkbox-lg checkbox-primary"
+                          />
+                        </td>
                         <td className="p-2">{prediction.date.toLocaleString()}</td>
 
                         <td className="p-2">
