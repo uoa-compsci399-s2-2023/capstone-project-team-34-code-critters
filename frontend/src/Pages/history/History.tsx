@@ -1,4 +1,5 @@
 import React, {
+  MouseEvent,
   useEffect, useState,
 } from 'react';
 import 'firebase/auth';
@@ -120,7 +121,8 @@ function History() {
     }
   };
 
-  const openModal = (index: number) => {
+  const openModal = (event: MouseEvent<HTMLTableRowElement>, index: number) => {
+    if (event.target instanceof HTMLButtonElement || event.target instanceof SVGElement || event.target instanceof SVGPathElement) return;
     const modal = document.getElementById(`prediction-${index}`)! as HTMLDialogElement;
     if (modal) {
       modal.showModal();
@@ -177,7 +179,7 @@ function History() {
                       <tr
                         key={index}
                         className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer"
-                        onClick={() => { openModal(index); }}
+                        onClick={(e) => { openModal(e, index); }}
                       >
                         <td className="p-2">{prediction.date.toLocaleString()}</td>
 
