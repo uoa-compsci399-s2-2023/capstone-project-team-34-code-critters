@@ -1,5 +1,4 @@
 import React from 'react';
-import { FunctionComponent } from "react";
 
 function Home() {
   return (

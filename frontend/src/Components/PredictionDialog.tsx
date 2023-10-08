@@ -6,6 +6,7 @@ import { Prediction } from '../models/Prediction';
 
 interface PredictionDialogProps {
   index: number;
+  // eslint-disable-next-line react/require-default-props
   prediction?: Prediction;
   numToShow: number;
   closeModel: (index: number) => void;
@@ -13,6 +14,7 @@ interface PredictionDialogProps {
   handleShowLess: () => void;
 }
 
+// eslint-disable-next-line react/function-component-definition
 const PredictionDialog: React.FC<PredictionDialogProps> = ({
   index,
   prediction,
@@ -27,23 +29,20 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
     if (prediction) {
       const allPredictions = prediction.pred;
 
-      // Sort the predictions by probability in descending order
       const sortedPredictions = allPredictions.sort((a, b) => Number(b[0]) - Number(a[0]));
 
-      // Select the top 3 predictions and calculate the total probability of the rest
       const top3Predictions = sortedPredictions.slice(0, 3);
       const otherPredictions = sortedPredictions.slice(3);
 
       const top3Probabilities = top3Predictions.map((pred) => Number(pred[0]));
 
-      // Calculate the probability of the 'Other' category
       const otherProbability = otherPredictions.reduce((sum, pred) => sum + Number(pred[0]), 0);
 
-      // Create labels and data for the chart, including 'Other'
       const labels = [...top3Predictions.map((pred) => pred[1]), 'other'];
       const data = [...top3Probabilities, otherProbability];
 
       if (doughnutChartRef.current) {
+        // eslint-disable-next-line no-new
         new Chart(doughnutChartRef.current, {
           type: 'doughnut',
           data: {
@@ -91,10 +90,11 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
             </div>
             <div className="bg-primary text-primary-content card outline outline-4 h-64 flex flex-col justify-center" style={{ backgroundColor: '#38bdf8', outlineColor: '#38bdf8' }}>
               <div className="card-body flex flex-col items-center bg-white">
-                <div className="radial-progress text-secondary text-xl" style={{ "--value": prediction?.pred[1][0] ? parseFloat(prediction.pred[1][0]) * 100 : "0", "--size": "8rem", "--thickness": "1.3rem" } as React.CSSProperties}>
-                  {prediction?.pred[1][0] ? (parseFloat(prediction.pred[1][0]) * 100).toFixed(1) + "%" : "N/A"}
+                <div className="radial-progress text-secondary text-xl" style={{ '--value': prediction?.pred[1][0] ? parseFloat(prediction.pred[1][0]) * 100 : '0', '--size': '8rem', '--thickness': '1.3rem' } as React.CSSProperties}>
+                  {/* eslint-disable-next-line prefer-template */}
+                  {prediction?.pred[1][0] ? (parseFloat(prediction.pred[1][0]) * 100).toFixed(1) + '%' : 'N/A'}
                 </div>
-                <button className="btn text-white btn-secondary mt-auto" style={{ width: '100%' }}>More info</button>
+                <button type="button" className="btn text-white btn-secondary mt-auto" style={{ width: '100%' }}>More info</button>
               </div>
             </div>
           </div>
@@ -107,11 +107,12 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
             <div className="bg-primary text-primary-content card outline outline-4 h-80 flex flex-col justify-center" style={{ backgroundColor: '#4ade80', outlineColor: '#4ade80' }}>
               <div className="card-body flex flex-col items-center bg-white">
                 <div className="items-center">
-                  <div className="radial-progress text-primary text-xl" style={{ "--value": prediction?.pred[0][0] ? parseFloat(prediction.pred[0][0]) * 100 : "0", "--size": "9rem", "--thickness": "1.3rem" } as React.CSSProperties}>
-                    {prediction?.pred[0][0] ? (parseFloat(prediction.pred[0][0]) * 100).toFixed(1) + "%" : "N/A"}
+                  <div className="radial-progress text-primary text-xl" style={{ '--value': prediction?.pred[0][0] ? parseFloat(prediction.pred[0][0]) * 100 : '0', '--size': '9rem', '--thickness': '1.3rem' } as React.CSSProperties}>
+                    {/* eslint-disable-next-line prefer-template */}
+                    {prediction?.pred[0][0] ? (parseFloat(prediction.pred[0][0]) * 100).toFixed(1) + '%' : 'N/A'}
                   </div>
                 </div>
-                <button className="btn text-white btn-primary mt-auto"  style={{ width: '100%' }}>More info</button>
+                <button type="button" className="btn text-white btn-primary mt-auto" style={{ width: '100%' }}>More info</button>
               </div>
             </div>
           </div>
@@ -123,12 +124,13 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
             </div>
             <div className="bg-primary text-primary-content card outline outline-4 flex flex-col justify-center" style={{ backgroundColor: '#fbbf24', outlineColor: '#fbbf24' }}>
               <div className="card-body flex flex-col items-center bg-white">
-                <div className='items-center'>
-                  <div className="radial-progress text-warning text-xl" style={{ "--value": prediction?.pred[2][0] ? parseFloat(prediction.pred[2][0]) * 100 : "0", "--size": "7rem", "--thickness": "1.3rem" } as React.CSSProperties}>
-                    {prediction?.pred[2][0] ? (parseFloat(prediction.pred[2][0]) * 100).toFixed(1) + "%" : "N/A"}
+                <div className="items-center">
+                  <div className="radial-progress text-warning text-xl" style={{ '--value': prediction?.pred[2][0] ? parseFloat(prediction.pred[2][0]) * 100 : '0', '--size': '7rem', '--thickness': '1.3rem' } as React.CSSProperties}>
+                    {/* eslint-disable-next-line prefer-template */}
+                    {prediction?.pred[2][0] ? (parseFloat(prediction.pred[2][0]) * 100).toFixed(1) + '%' : 'N/A'}
                   </div>
                 </div>
-                <button className="btn text-white btn-warning mt-auto" style={{ width: '100%' }}>More info</button>
+                <button type="button" className="btn text-white btn-warning mt-auto" style={{ width: '100%' }}>More info</button>
               </div>
             </div>
           </div>
