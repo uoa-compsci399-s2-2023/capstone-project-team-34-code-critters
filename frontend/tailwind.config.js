@@ -21,27 +21,8 @@ module.exports = {
 
           "accent": "#e11d48",
 
-<<<<<<< Updated upstream
           "neutral": "#111827",
 
-=======
-          //blue, purple
-          // "primary": "#5695FF",
-                  
-          // "secondary": "#C020FF",
-                  
-          // "accent": "#21D3FF",
-
-          //blue, green
-          // "primary": "#1AE1B0",
-                  
-          // "secondary": "#03B3EA",
-                  
-          // "accent": "#26F897",
-                  
-          "neutral": "#000000",
-                  
->>>>>>> Stashed changes
           "base-100": "#ffffff",
 
           "info": "#06b6d4",
