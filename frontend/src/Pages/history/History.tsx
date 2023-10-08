@@ -124,6 +124,7 @@ function History() {
   };
 
   const openModal = (event: MouseEvent<HTMLTableRowElement>, index: number) => {
+    // eslint-disable-next-line max-len
     if (event.target instanceof HTMLButtonElement || event.target instanceof SVGElement || event.target instanceof SVGPathElement || event.target instanceof HTMLInputElement) return;
     const modal = document.getElementById(`prediction-${index}`)! as HTMLDialogElement;
     if (modal) {
@@ -170,6 +171,9 @@ function History() {
       console.error('Error fetching XLSX data:', error);
     }
   };
+
+  // eslint-disable-next-line max-len
+  const getOriginalIndex = (prediction: PredictionTable) => tablePredictions.findIndex((pred) => pred.id === prediction.id);
 
   return (
     <div className="flex justify-center overflow-y-auto pt-24 pb-4 h-full w-full">
@@ -269,17 +273,15 @@ function History() {
                         key={index}
                         className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer"
                         onClick={(e) => {
-                          const originalIndex = tablePredictions.findIndex((pred) => pred.id === prediction.id);
-                          openModal(e, originalIndex);
+                          openModal(e, getOriginalIndex(prediction));
                         }}
                       >
                         <td className="p-2 hidden sm:table-cell">
                           <input
                             type="checkbox"
-                            checked={isChecked[tablePredictions.findIndex((pred) => pred.id === prediction.id)] || false}
+                            checked={isChecked[getOriginalIndex(prediction)] || false}
                             onChange={() => {
-                              const originalIndex = tablePredictions.findIndex((pred) => pred.id === prediction.id);
-                              handleCheckbox(originalIndex);
+                              handleCheckbox(getOriginalIndex(prediction));
                             }}
                             className="checkbox checkbox-lg checkbox-primary"
                           />
