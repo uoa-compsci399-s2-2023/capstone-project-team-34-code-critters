@@ -182,7 +182,7 @@ function SignUpModal({
                 id="signup-email"
                 type="email"
                 placeholder="Enter your email"
-                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${
+                className={`font-varela input w-full bg-neutral-100 text-neutral-500 focus:text-neutral-600 ${
                   (errors.email) && 'input-error'
                 }`}
                 {...register('email', {
@@ -205,7 +205,7 @@ function SignUpModal({
                 id="signup-password"
                 type="password"
                 placeholder="Enter your password"
-                className={`font-varela input w-full bg-neutral-200 text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
+                className={`font-varela input w-full bg-neutral-100 text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
                 {...register('password', {
                   required: true,
                   minLength: 6,

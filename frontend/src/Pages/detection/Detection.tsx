@@ -286,8 +286,7 @@ function Detection() {
           Image
         </h1>
         <p className="text-gray-500 mt-4 font-varela text-center">
-          Upload up to 40 images at
-          once
+          Upload unlimited images at once
         </p>
         <input
           alt="file"

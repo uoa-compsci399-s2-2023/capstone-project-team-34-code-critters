@@ -184,7 +184,11 @@ function LoginModal({
                 id="login-email"
                 type="email"
                 placeholder="Enter your email"
+<<<<<<< Updated upstream
                 className={`font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${
+=======
+                className={`font-varela input w-full bg-neutral-100 text-neutral-500 focus:text-neutral-600 ${
+>>>>>>> Stashed changes
                   errors.email && 'input-error'
                 }`}
                 {...register('email', {
@@ -207,7 +211,11 @@ function LoginModal({
                 id="login-password"
                 type="password"
                 placeholder="Enter your password"
+<<<<<<< Updated upstream
                 className={`font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
+=======
+                className={`font-varela input w-full bg-neutral-100 text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
+>>>>>>> Stashed changes
                 {...register('password', {
                   required: true,
                   minLength: 6,
@@ -224,10 +232,14 @@ function LoginModal({
             </div>
             <button
               type="submit"
+<<<<<<< Updated upstream
               className={`border-none relative font-varela normal-case btn w-full text-white text-lg ${
+=======
+              className={`relative font-varela normal-case btn w-full text-neutral text-lg ${
+>>>>>>> Stashed changes
                 (!isValid)
                   ? 'cursor-not-allowed'
-                  : 'bg-gradient-to-r from-primary to-secondary'
+                  : 'bg-primary'
               }`}
               disabled={!isValid}
             >
