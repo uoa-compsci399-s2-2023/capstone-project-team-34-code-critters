@@ -22,18 +22,10 @@ function Detection() {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean[]>([]);
   const [predictions, setPredictions] = useState<(Prediction | undefined)[]>([]);
-  const [numToShow, setNumToShow] = useState(5);
   const [isChecked, setIsChecked] = useState<boolean[]>([]);
   const [models, setModels] = useState<string[]>([]);
   const [selectedModel, setSelectedModel] = useState<string>('');
   const [isDraggingOver, setIsDraggingOver] = useState(false);
-  const handleShowMore = (pred: string[][]) => {
-    setNumToShow(pred.length); // Show all predictions
-  };
-
-  const handleShowLess = () => {
-    setNumToShow(5); // Show 5 predictions
-  };
 
   const addImages = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
