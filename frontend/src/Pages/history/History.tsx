@@ -12,13 +12,15 @@ import {
   faArrowRight, faArrowLeft, faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { auth, db } from '../../enviroments/firebase';
-import { PredictionTable } from '../../models/Prediction';
+import { PredictionTable, Prediction } from '../../models/Prediction';
 import { getImage } from '../../services/apiService';
+import PredictionDialog from '../../Components/PredictionDialog';
 
 function History() {
-  const [predictions, setPredictions] = useState<
+  const [tablePredictions, setTablePredictions] = useState<
   PredictionTable[]
   >([]);
+  const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [user] = useAuthState(auth);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,6 +33,7 @@ function History() {
     .slice(0, 3);
   const loadPredictionAndImages = async (currentUser: User) => {
     setIsLoading(true);
+    setTablePredictions([]);
     setPredictions([]);
     const userDocRef = doc(db, 'user', currentUser?.uid);
     const predictionsCollectionRef = collection(userDocRef, 'predictions');
@@ -38,7 +41,7 @@ function History() {
       const predictionsSnapshot = await getDocs(predictionsCollectionRef);
       const predictionsList: PredictionTable[] = [];
       predictionsSnapshot.forEach((predictionDoc) => {
-        const prediction: PredictionTable = {
+        const predictionTable: PredictionTable = {
           id: predictionDoc.id,
           name: predictionDoc.data().name,
           date: predictionDoc.data().date.toDate(),
@@ -47,16 +50,24 @@ function History() {
           imageUrl: null,
           model: predictionDoc.data().model ? predictionDoc.data().model : 'N/A',
         };
-        predictionsList.push(prediction);
+        predictionsList.push(predictionTable);
       });
 
       predictionsList.sort((a, b) => b.date.getTime() - a.date.getTime());
 
-      await Promise.all(predictionsList.map(async (prediction, i) => {
-        const image = await getImage(prediction.name, prediction.imageHash);
+      const prediction: Prediction[] = predictionsList.map((predictionTable) => ({
+        name: predictionTable.name,
+        pred: predictionTable.prediction,
+        hash: predictionTable.imageHash,
+      }));
+
+      setPredictions(prediction);
+
+      await Promise.all(predictionsList.map(async (predictionTable, i) => {
+        const image = await getImage(predictionTable.name, predictionTable.imageHash);
         predictionsList[i].imageUrl = URL.createObjectURL(image.data);
       }));
-      setPredictions(predictionsList);
+      setTablePredictions(predictionsList);
     } catch (e) {
       console.error('Error getting predictions:', e);
     } finally {
@@ -76,7 +87,7 @@ function History() {
       })();
     }
   }, [user]);
-  const filteredPredictions = predictions.filter((prediction) => {
+  const filteredPredictions = tablePredictions.filter((prediction) => {
     switch (filterCategory) {
       case 'name':
         return prediction.name.toLowerCase().includes(filter.toLowerCase());
@@ -106,6 +117,13 @@ function History() {
       await loadPredictionAndImages(user);
     } catch (e) {
       console.error('Error deleting prediction:', e);
+    }
+  };
+
+  const openModal = (index: number) => {
+    const modal = document.getElementById(`prediction-${index}`)! as HTMLDialogElement;
+    if (modal) {
+      modal.showModal();
     }
   };
 
@@ -152,12 +170,15 @@ function History() {
                 </tr>
               </thead>
               <tbody>
-
                 {!isLoading && (
                   filteredPredictions.slice(startIndex, endIndex).map((prediction, index) => {
                     const topThreePredictions = getTopThree(prediction.prediction);
                     return (
-                      <tr key={index} className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer">
+                      <tr
+                        key={index}
+                        className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer"
+                        onClick={() => { openModal(index); }}
+                      >
                         <td className="p-2">{prediction.date.toLocaleString()}</td>
 
                         <td className="p-2">
@@ -185,7 +206,7 @@ function History() {
                               >
                                 {pred[1]}
                                 :
-                                {(parseFloat(pred[0]) * 100).toFixed(0)}
+                                {(parseFloat(pred[0]) * 100).toFixed(2)}
                                 %
                               </span>
 
@@ -258,7 +279,13 @@ function History() {
               </button>
             </div>
           </div>
-
+          {predictions.map((prediction, index) => (
+            <PredictionDialog
+              key={index}
+              index={index}
+              prediction={prediction}
+            />
+          ))}
         </div>
       )}
     </div>

@@ -177,18 +177,10 @@ function Detection() {
     setIsLoading(newLoading);
   };
 
-  const openModel = (index: number) => {
+  const openModal = (index: number) => {
     const modal = document.getElementById(`prediction-${index}`)! as HTMLDialogElement;
     if (modal) {
       modal.showModal();
-    }
-  };
-
-  const closeModel = (index: number) => {
-    const modal = document.getElementById(`prediction-${index}`)! as HTMLDialogElement;
-    if (modal) {
-      setNumToShow(5);
-      modal.close();
     }
   };
 
@@ -413,7 +405,7 @@ function Detection() {
                   <button
                     type="button"
                     className="btn btn-secondary btn-outline hover:!text-white btn-square"
-                    onClick={() => openModel(index)}
+                    onClick={() => openModal(index)}
                     disabled={isLoading[index]}
                   >
                     {isLoading[index] ? <span className="loading loading-spinner" />
@@ -440,10 +432,6 @@ function Detection() {
           key={index}
           index={index}
           prediction={prediction}
-          numToShow={numToShow}
-          closeModel={closeModel}
-          handleShowMore={handleShowMore}
-          handleShowLess={handleShowLess}
         />
       ))}
     </div>

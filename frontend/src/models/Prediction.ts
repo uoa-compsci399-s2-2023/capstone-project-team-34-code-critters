@@ -8,7 +8,7 @@ export interface PredictionFirestore {
   name: string;
   date: Date;
   prediction: string;
-  imageHash: string;
+  imageHash: number;
 }
 
 export interface PredictionTable {
@@ -16,7 +16,7 @@ export interface PredictionTable {
   name: string;
   date: Date;
   prediction: string[][];
-  imageHash: string;
+  imageHash: number;
   imageUrl: string | null;
   model: string;
 }
