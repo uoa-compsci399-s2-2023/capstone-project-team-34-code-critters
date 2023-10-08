@@ -38,7 +38,6 @@ function SignUpModal({
   } = useForm<FormData>({
     mode: 'onChange',
   });
-  
   const openLoginModal = () => {
     if (signUpModalRef.current) {
       signUpModalRef.current.close();

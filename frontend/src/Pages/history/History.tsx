@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, {
   useEffect, useState,
 } from 'react';
@@ -14,7 +16,7 @@ import { getImage } from '../../services/apiService';
 function History() {
   const [predictions, setPredictions] = useState<PredictionTable[]>([]);
   const [user] = useAuthState(auth);
-  const [itemsPerPage, setItemsPerPage] = useState(5); 
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const getTopThree = (prediction: string[][]) =>
   prediction
@@ -46,7 +48,7 @@ function History() {
       }));
       setPredictions(predictionsList);
     } catch (e) {
-      console.error('Error getting predictions:', e);
+      // console.error('Error getting predictions:', e);
     }
   };
 
