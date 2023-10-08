@@ -50,7 +50,6 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
   };
 
   if (navbarEnabled) {
-<<<<<<< Updated upstream
     if (loginEnabled) {
       return (
         <div className="navbar z-10 rounded-xl w-11/12 fixed left-1/2 -translate-x-1/2 top-4 shadow backdrop-blur-sm max-w-4xl">
@@ -70,19 +69,6 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
             <label htmlFor="drawer" aria-label="open sidebar" className="btn btn-square btn-ghost">
               <FontAwesomeIcon icon={faBars} size="2x" />
             </label>
-=======
-    return (
-      <div className="navbar rounded-xl w-11/12 fixed z-10 left-1/2 -translate-x-1/2 top-4 shadow backdrop-blur-sm bg-white bg-opacity-10">
-        <div className="navbar-start gap-2">
-          <div>
-            <img className="pl-3" src="/logos/logoV2.svg" alt="logo" style={{ fill: 'green', width: '95%' }} />
-          </div>
-          <div>
-            <h1 className="font-varela text-2xl font-bold">
-              Code
-              <span className="text-border" style={{ background: 'linear-gradient(to bottom right, #4ade80, #38bdf8)', WebkitBackgroundClip: 'text', color: 'transparent' }}>Critters</span>
-            </h1>
->>>>>>> Stashed changes
           </div>
           <div className="md:flex gap-2 hidden">
             <button
@@ -155,7 +141,6 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                     Sign Up
                     <FontAwesomeIcon icon={faUserAlt} className="pl-2" />
                   </div>
-<<<<<<< Updated upstream
                   Sign Up
                   <FontAwesomeIcon icon={faUserAlt} />
                 </button>
@@ -201,51 +186,6 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
             Detect
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
-=======
-                )}
-              </label>
-              <ul className="dropdown-content text-primary z-10 menu p-2 bg-base-100 rounded-lg shadow">
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      // Handle user history
-                    }}
-                  >
-                    User History
-                  </button>
-                </li>
-                <li>
-                  <button type="button" onClick={handleLogout}>
-                    Log Out
-                  </button>
-                </li>
-              </ul>
-            </div>
-          ) : (
-            <div className="space-x-2">
-              <button
-                onMouseEnter={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
-                onMouseLeave={() => setIsLoginButtonHovered(!isLoginButtonHovered)}
-                onClick={openLoginModal}
-                className="btn btn-ghost navbar-button hover:text-black hover:border-none"
-                type="button"
-              >
-                Login
-              </button>
-              <button
-                onMouseEnter={() => setIsSignUpButtonHovered(!isSignUpButtonHovered)}
-                onMouseLeave={() => setIsSignUpButtonHovered(!isSignUpButtonHovered)}
-                onClick={openSignUpModal}
-                className="btn btn-ghost bg-primary text-neutral hover:text-black " 
-                type="button"
-                // style={{ background: 'linear-gradient(to bottom right, #4ade80, #38bdf8)' }}
-              >
-                Sign up
-              </button>
-            </div>
-          )}
->>>>>>> Stashed changes
         </div>
       </div>
     );
