@@ -12,31 +12,58 @@ import {
   faArrowRight, faArrowLeft, faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { auth, db } from '../../enviroments/firebase';
-import { PredictionTable } from '../../models/Prediction';
+import { PredictionTable, Prediction } from '../../models/Prediction';
 import { getImage } from '../../services/apiService';
+import PredictionDialog from '../../Components/PredictionDialog';
 
 function History() {
-  const [predictions, setPredictions] = useState<
+  const [predictionsTable, setPredictionsTable] = useState<
   PredictionTable[]
   >([]);
+  const [predictions, setPredictions] = useState<(Prediction | undefined)[]>([]);
+
   const [user] = useAuthState(auth);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [filter, setFilter] = useState<string>('');
   const [filterCategory, setFilterCategory] = useState<string>('name');
+  const [numToShow, setNumToShow] = useState(5);
+
+
+  const openModel = (index: number) => {
+    const modal = document.getElementById(`prediction-${index}`)! as HTMLDialogElement;
+    if (modal) {
+      modal.showModal();
+    }
+  };
+
+  const closeModel = (index: number) => {
+    const modal = document.getElementById(`prediction-${index}`)! as HTMLDialogElement;
+    if (modal) {
+      setNumToShow(5);
+      modal.close();
+    }
+  };
+  const handleShowMore = (pred: string[][]) => {
+    setNumToShow(pred.length); // Show all predictions
+  };
+  const handleShowLess = () => {
+    setNumToShow(5); // Show 5 predictions
+  };
 
   const getTopThree = (prediction: string[][]) => prediction
     .sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]))
     .slice(0, 3);
   const loadPredictionAndImages = async (currentUser: User) => {
     setIsLoading(true);
-    setPredictions([]);
+    setPredictionsTable([]);
     const userDocRef = doc(db, 'user', currentUser?.uid);
     const predictionsCollectionRef = collection(userDocRef, 'predictions');
     try {
       const predictionsSnapshot = await getDocs(predictionsCollectionRef);
       const predictionsList: PredictionTable[] = [];
+      const preds : Prediction[] = [];
       predictionsSnapshot.forEach((predictionDoc) => {
         const prediction: PredictionTable = {
           id: predictionDoc.id,
@@ -48,6 +75,13 @@ function History() {
           model: predictionDoc.data().model ? predictionDoc.data().model : 'N/A',
         };
         predictionsList.push(prediction);
+
+        const pred: Prediction = {
+          name: predictionDoc.data().name,
+          pred: JSON.parse(predictionDoc.data().prediction),
+          hash : predictionDoc.data().imageHash,
+        }
+        preds.push(pred);
       });
 
       predictionsList.sort((a, b) => b.date.getTime() - a.date.getTime());
@@ -56,7 +90,9 @@ function History() {
         const image = await getImage(prediction.name, prediction.imageHash);
         predictionsList[i].imageUrl = URL.createObjectURL(image.data);
       }));
-      setPredictions(predictionsList);
+      setPredictionsTable(predictionsList);
+      console.log(preds);
+      setPredictions(preds);
     } catch (e) {
       console.error('Error getting predictions:', e);
     } finally {
@@ -76,7 +112,7 @@ function History() {
       })();
     }
   }, [user]);
-  const filteredPredictions = predictions.filter((prediction) => {
+  const filteredPredictions = predictionsTable.filter((prediction) => {
     switch (filterCategory) {
       case 'name':
         return prediction.name.toLowerCase().includes(filter.toLowerCase());
@@ -260,7 +296,19 @@ function History() {
           </div>
 
         </div>
+        
       )}
+      {predictions.map((prediction, index) => (
+        <PredictionDialog
+          key={index}
+          index={index}
+          prediction={prediction}
+          numToShow={numToShow}
+          closeModel={closeModel}
+          handleShowMore={handleShowMore}
+          handleShowLess={handleShowLess}
+        />
+      ))}
     </div>
   );
 }
