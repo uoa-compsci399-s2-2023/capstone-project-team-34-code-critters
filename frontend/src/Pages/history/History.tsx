@@ -76,21 +76,31 @@ function History() {
         };
         predictionsList.push(prediction);
 
-        const pred: Prediction = {
-          name: predictionDoc.data().name,
-          pred: JSON.parse(predictionDoc.data().prediction),
-          hash : predictionDoc.data().imageHash,
-        }
-        preds.push(pred);
+        // const pred: Prediction = {
+        //   name: predictionDoc.data().name,
+        //   pred: JSON.parse(predictionDoc.data().prediction),
+        //   hash : predictionDoc.data().imageHash,
+        // }
+        // preds.push(pred);
       });
 
       predictionsList.sort((a, b) => b.date.getTime() - a.date.getTime());
+      predictionsList.forEach((prediction) => {
+        const pred:Prediction={
+          name: prediction.name,
+          pred: prediction.prediction,
+          hash: parseInt(prediction.imageHash, 10)
+        }
+        preds.push(pred);
+
+      });
 
       await Promise.all(predictionsList.map(async (prediction, i) => {
         const image = await getImage(prediction.name, prediction.imageHash);
         predictionsList[i].imageUrl = URL.createObjectURL(image.data);
       }));
       setPredictionsTable(predictionsList);
+      console.log(predictionsList);
       console.log(preds);
       setPredictions(preds);
     } catch (e) {
@@ -193,7 +203,8 @@ function History() {
                   filteredPredictions.slice(startIndex, endIndex).map((prediction, index) => {
                     const topThreePredictions = getTopThree(prediction.prediction);
                     return (
-                      <tr key={index} className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer">
+                      <tr key={index} className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer"
+                      onClick={()=>openModel(index + (itemsPerPage * (currentPage - 1)))}>
                         <td className="p-2">{prediction.date.toLocaleString()}</td>
 
                         <td className="p-2">
