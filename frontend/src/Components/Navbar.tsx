@@ -102,7 +102,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                   )}
                 </label>
                 <div className="pt-4 dropdown-content text-primary z-10 menu">
-                  <ul className="rounded-lg shadow p-2">
+                  <ul className="rounded-lg shadow p-2 bg-white">
                     <li>
                       <div
                         className="text-black font-varela whitespace-nowrap"
