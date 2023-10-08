@@ -77,6 +77,7 @@ function Detection() {
         date: new Date(),
         prediction: JSON.stringify(prediction.pred),
         imageHash: prediction.hash,
+        model: selectedModel,
       }
     ));
     predictionsFirestoreFormat.forEach(async (prediction) => {
@@ -278,14 +279,14 @@ function Detection() {
       .map(() => false)]);
   };
   return (
-    <div className="w-full h-full flex justify-center overflow-y-auto pt-28 pb-4">
-      <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit">
-        <h1 className="p-4 font-varela text-xl font-bold">Upload</h1>
+    <div className="w-full h-full flex justify-center overflow-y-auto pt-24 pb-4">
+      <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit gap-4">
+        <h1 className="font-varela text-xl font-bold">Upload</h1>
         <h1 className="text-xl font-varela text-center">
           Drag and Drop or Browse to Upload
           Image
         </h1>
-        <p className="text-gray-500 mt-4 font-varela text-center">
+        <p className="text-gray-500 font-varela text-center">
           Upload unlimited images at once
         </p>
         <input
@@ -299,7 +300,7 @@ function Detection() {
           accept="image/png, image/jpeg"
         />
         <div
-          className={`transition-all cursor-pointer card w-full border-2 border-dashed border-gray-300 mt-10 ${images.length > 0
+          className={`transition-all cursor-pointer card w-full border-2 border-dashed border-gray-300 ${images.length > 0
             ? 'flex flex-col sm:flex-row justify-around items-center p-4'
             : 'aspect-video flex items-center justify-center p-4'
           } ${isDraggingOver ? 'bg-green-200' : 'bg-white'}`}

@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import {
+  Navigate, Route, Routes, useNavigate,
+} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome, faMagnifyingGlass, faBook, faDoorOpen, faRightToBracket, faUserAlt,
@@ -13,7 +15,23 @@ import LoginModal from './Components/LoginModal';
 import Home from './Pages/home/Home';
 import Toast, { ToastMessage } from './Components/Toast';
 import { auth } from './enviroments/firebase';
-// Import the Toast component
+
+type ProtectedRouteProps = {
+  children: React.ReactNode;
+};
+
+// eslint-disable-next-line react/function-component-definition
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const [user] = useAuthState(auth);
+
+  if (!user) {
+    return <Navigate to="/" replace />;
+  }
+
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  return <>{children}</>;
+};
+
 function App() {
   const loginModalRef = useRef<HTMLDialogElement | null>(null);
   const signUpModalRef = useRef<HTMLDialogElement | null>(null);
@@ -63,7 +81,7 @@ function App() {
         <Routes>
           <Route path="/upload" element={<Detection />} />
           <Route path="/" element={<Home />} />
-          <Route path="/history" element={<History />} />
+          <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
         </Routes>
         <input id="drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-side z-20">
