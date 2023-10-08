@@ -251,7 +251,7 @@ function History() {
               <thead>
                 <tr>
                   {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-                  <th className="p-2 hidden md:table-cell" />
+                  <th className="p-2 hidden sm:table-cell" />
                   <th className="p-2">Date</th>
                   <th className="p-2">Image </th>
                   <th className="p-2 hidden md:table-cell">Model</th>
@@ -273,7 +273,7 @@ function History() {
                           openModal(e, originalIndex);
                         }}
                       >
-                        <td className="p-2">
+                        <td className="p-2 hidden sm:table-cell">
                           <input
                             type="checkbox"
                             checked={isChecked[tablePredictions.findIndex((pred) => pred.id === prediction.id)] || false}
