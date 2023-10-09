@@ -50,20 +50,20 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
         <h1 className="text-xl font-varela">Predictions:</h1>
         <div className="hidden sm:grid grid-cols-3 gap-4">
           <div className="card border-4 border-secondary flex flex-col justify-between items-center p-4 gap-4 h-80 mt-auto">
-            <h2 className="font-varela text-xl text-center text-secondary">{prediction?.pred[1][1]}</h2>
-            <div className="radial-progress font-varela text-secondary text-xl" style={{ '--value': prediction?.pred[1][0] ? parseFloat(prediction.pred[1][0]) * 100 : '0', '--size': '8rem', '--thickness': '0.75em' } as React.CSSProperties}>
+            <h2 className="font-varela text-xl text-center text-secondary">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][1]}</h2>
+            <div className="radial-progress font-varela text-secondary text-xl" style={{ '--value': prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][0] ? parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][0]) * 100 : '0', '--size': '8rem', '--thickness': '0.75em' } as React.CSSProperties}>
               {/* eslint-disable-next-line prefer-template */}
-              {prediction?.pred[1][0] ? (parseFloat(prediction.pred[1][0]) * 100).toFixed(2) + '%' : 'N/A'}
+              {prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][0] ? (parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][0]) * 100).toFixed(2) + '%' : 'N/A'}
             </div>
             <button type="button" className="btn text-white font-varela btn-secondary">More info</button>
           </div>
 
           <div className="card border-4 border-primary flex flex-col justify-between items-center p-4 gap-4 h-[22rem]">
-            <h2 className="font-varela text-xl text-center font-bold text-primary">{prediction?.pred[0][1]}</h2>
+            <h2 className="font-varela text-xl text-center font-bold text-primary">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[0][1]}</h2>
             <div className="items-center">
-              <div className="radial-progress font-varela text-primary text-xl" style={{ '--value': prediction?.pred[0][0] ? parseFloat(prediction.pred[0][0]) * 100 : '0', '--size': '8rem', '--thickness': '0.75rem' } as React.CSSProperties}>
+              <div className="radial-progress font-varela text-primary text-xl" style={{ '--value': prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[0][0] ? parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[0][0]) * 100 : '0', '--size': '8rem', '--thickness': '0.75rem' } as React.CSSProperties}>
                 {/* eslint-disable-next-line prefer-template */}
-                {prediction?.pred[0][0] ? (parseFloat(prediction.pred[0][0]) * 100).toFixed(2) + '%' : 'N/A'}
+                {prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[0][0] ? (parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[0][0]) * 100).toFixed(2) + '%' : 'N/A'}
               </div>
             </div>
             <button type="button" className="btn text-white font-varela btn-primary">More info</button>
@@ -71,11 +71,11 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
 
           {/* Shortest Card (Right) */}
           <div className="card border-warning border-4 flex flex-col justify-between items-center p-4 gap-4 h-fit mt-auto">
-            <h2 className="font-varela text-xl text-center text-warning">{prediction?.pred[2][1]}</h2>
+            <h2 className="font-varela text-xl text-center text-warning">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[2][1]}</h2>
             <div className="items-center">
-              <div className="radial-progress font-varela text-warning text-xl" style={{ '--value': prediction?.pred[2][0] ? parseFloat(prediction.pred[2][0]) * 100 : '0', '--size': '8rem', '--thickness': '0.75rem' } as React.CSSProperties}>
+              <div className="radial-progress font-varela text-warning text-xl" style={{ '--value': prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[2][0] ? parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[2][0]) * 100 : '0', '--size': '8rem', '--thickness': '0.75rem' } as React.CSSProperties}>
                 {/* eslint-disable-next-line prefer-template */}
-                {prediction?.pred[2][0] ? (parseFloat(prediction.pred[2][0]) * 100).toFixed(2) + '%' : 'N/A'}
+                {prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[2][0] ? (parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[2][0]) * 100).toFixed(2) + '%' : 'N/A'}
               </div>
             </div>
             <button type="button" className="btn text-white font-varela btn-warning">More info</button>
@@ -83,8 +83,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
         </div>
         <div className="hidden sm:divider" />
         <div className="flex flex-col gap-4 mt-4 items-center">
-          {prediction?.pred
-            .sort((a, b) => Number(b[0]) - Number(a[0]))
+          {prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))
             .slice(isMobile ? 0 : 3, numToShow)
             .map((pred, i) => (
               <div key={i} className="w-full">
