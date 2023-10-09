@@ -53,7 +53,7 @@ Set-Location $backendPath
 python -m venv venv
 .\venv\Scripts\activate
 pip install --no-deps -r requirements.txt
-pyinstaller .\pywebview_portable.py --add-data "library;library" --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
+pyinstaller .\pywebview_portable.py --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
 
 # # Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
 # Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
@@ -67,7 +67,7 @@ $NewName = Join-Path $rootPath "$applicationName-Portable-Windows.zip"
 Move-Item (Join-Path $7zVar ".zip") $NewName -Force
 
 # Package Backend + Frontend into Installation Executable
-pyinstaller .\pywebview_installed.py --add-data "library;library" --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
+pyinstaller .\pywebview_installed.py --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
 # # Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
 # Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
 iscc .\package.iss

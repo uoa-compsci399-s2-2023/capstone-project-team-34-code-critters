@@ -42,7 +42,7 @@ cd "$backendPath"
 python -m venv venv
 source venv/bin/activate
 pip install -r --no-deps ubuntu_requirements.txt
-pyinstaller pywebview_portable.py --add-data "library:library" --noconfirm --clean --name "$applicationName" --windowed --icon "library/static/favicon.ico"
+pyinstaller pywebview_portable.py --add-data "library:library" --add-data "sql_app.db;." --noconfirm --clean --name "$applicationName" --windowed --icon "library/static/favicon.ico"
 
 cd "$rootPath"
 
