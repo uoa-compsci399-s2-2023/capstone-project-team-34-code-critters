@@ -64,13 +64,13 @@ function History() {
         hash: predictionTable.imageHash,
       }));
 
-      setPredictions(prediction);
-      setIsChecked([...isChecked, ...predictions.map(() => false)]);
-
       await Promise.all(predictionsList.map(async (predictionTable, i) => {
         const image = await getImage(predictionTable.name, predictionTable.imageHash);
         predictionsList[i].imageUrl = URL.createObjectURL(image.data);
       }));
+
+      setPredictions(prediction);
+      setIsChecked(Array(prediction.length).fill(false));
       setTablePredictions(predictionsList);
     } catch (e) {
       console.error('Error getting predictions:', e);
@@ -209,6 +209,7 @@ function History() {
             </div>
             <div className="hidden sm:flex gap-4 items-center">
               <button
+                disabled={isLoading}
                 className="btn btn-primary btn-outline hover:!text-white font-varela"
                 type="button"
                 onClick={() => {
@@ -227,6 +228,7 @@ function History() {
               >
                 { isChecked.some((value) => value) ? 'Deselect All' : 'Select All'}
               </button>
+
               <div className="join">
                 <div className="tooltip tooltip-bottom font-varela " data-tip="Download predictions as CSV">
                   <button
