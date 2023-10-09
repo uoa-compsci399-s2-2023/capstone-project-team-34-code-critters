@@ -23,6 +23,11 @@ khar453@aucklanduni.ac.nz
 Rukun Aaron - FullStack Developer
 raar518@aucklanduni.ac.nz
 
+## Project Information
+Jira Board: [Link](https://pestguicodecritters.atlassian.net/jira/software/projects/CS399/boards/2)
+This project is for a application that allows users to identify pest insects through a machine learning model.  
+The application is available as a desktop and/or web application, a website and a app.
+The app is hosted on a seperate repository: [Link](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters-flutterapp)
 
 ## Technologies Used
 
@@ -38,14 +43,18 @@ raar518@aucklanduni.ac.nz
 [![FastAPI](https://img.shields.io/badge/FastAPI%20-%20%23009688?logo=fastapi&logoColor=white
 )](https://fastapi.tiangolo.com/)
 [![Tensorflow](https://img.shields.io/badge/Tensorflow-%23FF6F00?logo=Tensorflow&logoColor=white)](https://www.tensorflow.org/)
-
+[![OpenCV](https://img.shields.io/badge/OpenCV-%23white?logo=OpenCV&logoColor=%23white&color=%23white)](https://opencv.org/)
+[![GBIF](https://img.shields.io/badge/GBIF-%23white?logo=GBIF&logoColor=%23white&color=%23white)](https://www.gbif.org/)
 
 **Hosting Technologies:**
 
 [![Firebase](https://img.shields.io/badge/Firebase-%23FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/) 
 [![AWS](https://img.shields.io/badge/AWS-%23232F3E?logo=amazonaws&logoColor=white)](https://aws.amazon.com) 
+[![Docker](https://img.shields.io/badge/Docker-white?logo=Docker&logoColor=%23FFFFFF&color=%232496ED)](https://www.docker.com/)
+
 
 ## Installation
+### Client
 Go to releases and install the latest version of the application for your operating system.<br>
 There are two versions of the application.
 1. The full version which includes the models and is around 1.5GB in size.
@@ -55,6 +64,20 @@ There are two versions of the application.
 NOTE: Each version comes either as installer or as a portable zip file.
 - The installer will install the application to your computer.
 - The zip file will need to be extracted before the application can be used.
+
+### Android/iOS
+The mobile application is hosted on a seperate repository: [Link](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters-flutterapp)
+Follow the instructions on the repository to install the application.
+
+### Server
+#### Docker
+1. Install Docker
+2. Build the docker image from the root of the directory
+    ```shell
+    $ docker build -t codecritters -f Server.dockerfile . 
+    ```
+#### Manual
+See below for manual installation instructions.
 
 
 # Development Installation
@@ -125,14 +148,16 @@ GBIF_PASSWORD = "GBIF_PASSWORD"
 If these variables are not set, the application will disable use of the insect information features.
 
 ## FrontEnd Setup
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Installing Dependencies
+In the frontend directory, you can run:
+```
+npm install
+```
 
 ## Available Scripts
-
-In the project directory, you can run:
+In the frontend directory, you can run:
 
 ### `npm start`
-
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
@@ -204,26 +229,19 @@ From the root folder run the following commands:
 ```shell
 .\build.sh
 ```
-## Deployment
-### AWS Backend
-Instructions are at the [[Wiki](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters/wiki/How-to-deploy-Backend)]
 
-# Template
-
-## Project Title
-
-## Project Information
-
-## Technologies Used
-
-## Installation Instructions
-
-## Configuration
-
-## Usage Examples
-
-
+## Deployed URL:
+https://code-critters.web.app/
 
 ## Future Plans
+- Rework the Upload page to be more appealing and user friendly.
+- Implement insect information features in the frontend.
+- Implement a user profile page.
+- Add support for PyTorch models.
+- Create a MacOS version of the application.
+- Bundle the Linux application as an AppImage instead of a zip file.
+- Add support for more languages.
 
 ## Acknowledgements
+The frontend of this application was jumpstarted using [Create React App](https://github.com/facebook/create-react-app).
+The backend of this application was jumpstarted from this project: https://github.com/jchu634/compsci235-assignment2-jchu634.
