@@ -33,6 +33,9 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 640);
+    window.addEventListener('resize', () => {
+      setIsMobile(window.innerWidth < 640);
+    });
   }, []);
   return (
     <dialog id={`prediction-${index}`} className="modal  modal-bottom sm:modal-middle">
