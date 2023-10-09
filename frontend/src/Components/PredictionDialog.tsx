@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Prediction } from '../models/Prediction';
@@ -14,6 +14,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
   index,
   prediction,
 }) => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
   const [numToShow, setNumToShow] = useState(5);
   const handleShowLess = () => {
     setNumToShow(5); // Show 5 predictions
@@ -30,7 +31,9 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
     }
   };
 
-  const isMobile = window.innerWidth < 640;
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 640);
+  }, []);
   return (
     <dialog id={`prediction-${index}`} className="modal  modal-bottom sm:modal-middle">
       <form method="dialog" className="modal-box sm:w-11/12 sm:max-w-4xl p-8">
