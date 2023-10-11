@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import laptopImage from '../../Images/Laptop.png';
 import logo from '../../Images/logo main.svg';
-import bg_logo from '../../Images/background logo.svg';
 
 function Home() {
   const navigate = useNavigate();
@@ -23,7 +22,6 @@ function Home() {
         <div className="flex flex-row">
           <div className="flex flex-col mt-24">
             <div className="relative">
-              <img src={bg_logo} alt="Background Logo" className="absolute scale-150 -mt-9 ml-8" />
               <img src={logo} alt="Logo" className="scale-150 origin-left" />
             </div>
             <p className="text-black mt-24 max-w-xs font-sans">CodeCritters is a team of university students who have created a platform for identifying unknown-winged
@@ -100,8 +98,8 @@ function Home() {
             <path fill="currentColor" d="M16.4,3.3C12.5,1.1,7.7,1.8,4.6,4.8V3c0-0.6-0.4-1-1-1s-1,0.4-1,1v4.5c0,0.6,0.4,1,1,1h4.5c0.6,0,1-0.4,1-1s-0.4-1-1-1H5.7C7.1,4.9,9.2,4,11.5,4c4.4,0,8,3.6,8,8s-3.6,8-8,8c-0.6,0-1,0.4-1,1s0.4,1,1,1c3.6,0,6.9-1.9,8.7-5C22.9,12.2,21.2,6.1,16.4,3.3z M11.4,8c-0.6,0-1,0.4-1,1v3c0,0.6,0.4,1,1,1h2c0.6,0,1-0.4,1-1s-0.4-1-1-1h-1V9C12.4,8.4,12,8,11.4,8z" />
           </svg>
           <div className="ml-3 text-left max-w-xs">
-            <h3 className="text-2xl font-bold bg-gradient-to-br from-primary to-secondary text-transparent bg-clip-text">Multiple images</h3>
-            <p className="max-w-lg">Users can upload multiple images with no limits providing efficiency. </p>
+            <h3 className="text-2xl font-bold bg-gradient-to-br from-primary to-secondary text-transparent bg-clip-text">User history</h3>
+            <p className="max-w-lg">Users who are logged in can view previous predictions which are stored on a database. </p>
           </div>
         </div>
       </div>
