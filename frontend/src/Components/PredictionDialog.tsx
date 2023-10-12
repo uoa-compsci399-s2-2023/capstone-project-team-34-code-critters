@@ -38,16 +38,16 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
     });
   }, []);
   return (
-    <dialog id={`prediction-${index}`} className="modal  modal-bottom sm:modal-middle">
-      <form method="dialog" className="modal-box sm:w-11/12 sm:max-w-4xl p-8">
+    <dialog id={`prediction-${index}`} className="modal modal-bottom sm:modal-middle">
+      <form method="dialog" className="dark:bg-cust-grey modal-box sm:w-11/12 sm:max-w-4xl p-8">
         <button
           onClick={() => closeModel()}
           type="button"
-          className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          className="dark:text-cust-dark-text btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
         >
           <FontAwesomeIcon icon={faXmark} />
         </button>
-        <h1 className="text-xl font-varela">Predictions:</h1>
+        <h1 className="dark:text-cust-dark-text text-xl font-varela">Predictions:</h1>
         <div className="hidden sm:grid grid-cols-3 gap-4">
           <div className="card border-4 border-secondary flex flex-col justify-between items-center p-4 gap-4 h-80 mt-auto">
             <h2 className="font-varela text-xl text-center text-secondary">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][1]}</h2>
@@ -82,7 +82,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
           </div>
         </div>
         <div className="hidden sm:divider" />
-        <div className="flex flex-col gap-4 mt-4 items-center">
+        <div className="dark:text-cust-dark-text flex flex-col gap-4 mt-4 items-center">
           {prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))
             .slice(isMobile ? 0 : 3, numToShow)
             .map((pred, i) => (

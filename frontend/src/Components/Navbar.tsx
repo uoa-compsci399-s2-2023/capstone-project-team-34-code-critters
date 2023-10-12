@@ -64,7 +64,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
               <img src="/logos/logoV2.svg" alt="logo" />
             </div>
             <div className="cursor-pointer" onClick={() => navigate('/')}>
-              <h1 className="font-varela text-2xl font-bold">
+              <h1 className="font-varela text-2xl font-bold dark:text-white">
                 Code
                 <span className="bg-clip-text from-primary to-secondary bg-gradient-to-r text-transparent">Critters</span>
               </h1>
@@ -78,7 +78,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
           </div>
           <div className="md:flex gap-2 hidden">
             <button
-              className={`font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white ${!user ? 'flex' : 'hidden'}`}
+              className={`dark:text-cust-dark-text font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white ${!user ? 'flex' : 'hidden'}`}
               type="button"
               onClick={() => navigate('/')}
             >
@@ -87,7 +87,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
 
             </button>
             <button
-              className="font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
+              className="dark:text-cust-dark-text font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
               type="button"
               onClick={() => navigate('/upload')}
             >
@@ -107,11 +107,11 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                     </div>
                   )}
                 </label>
-                <div className="pt-4 dropdown-content text-primary z-10 menu">
-                  <ul className="rounded-lg shadow p-2 bg-white">
+                <div className="dropdown-content text-primary z-10 menu">
+                  <ul className="dark:bg-cust-grey bg-white pt-4 rounded-lg shadow p-2 ">
                     <li>
                       <div
-                        className="text-black font-varela whitespace-nowrap"
+                        className="dark:text-cust-dark-text text-black font-varela whitespace-nowrap"
                         onClick={() => {
                           navigate('/history');
                         }}
@@ -120,7 +120,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                       </div>
                     </li>
                     <li>
-                      <div onClick={handleLogout} className="text-black font-varela whitespace-nowrap">
+                      <div onClick={handleLogout} className="dark:text-cust-dark-text text-black font-varela whitespace-nowrap">
                         Log Out
                       </div>
                     </li>
@@ -131,7 +131,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
               <div className="flex gap-2">
                 <button
                   onClick={openLoginModal}
-                  className="font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
+                  className="dark:text-cust-dark-text font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
                   type="button"
                 >
                   Login
