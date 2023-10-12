@@ -59,7 +59,7 @@ function Home() {
               <div className="font-varela text-lg text-center">
                 Pest Identified:
                 {' '}
-                <CountUp end={counter} duration={5} />
+                <CountUp end={counter} duration={3} />
               </div>
             </div>
             <div className="relative w-[20rem] h-[18rem] md:w-[26rem] md:h-[22rem]">
