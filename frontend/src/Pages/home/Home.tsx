@@ -20,7 +20,7 @@ function Home() {
 
   return (
     <div className="w-full h-full flex flex-col items-center">
-      <div className="max-w-4xl w-11/12 flex flex-col items-center">
+      <div className="max-w-5xl w-11/12 flex flex-col items-center">
         <div className="min-h-screen pt-24 pb-4 flex items-center justify-center">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-4 justify-items-center justify-center z-10">
             <div className="flex flex-col gap-6 justify-center">
