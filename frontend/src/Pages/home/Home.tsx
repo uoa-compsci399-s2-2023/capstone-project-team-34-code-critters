@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  MutableRefObject, useEffect, useRef, useState,
+} from 'react';
 import {
   doc, getDoc,
 } from 'firebase/firestore';
@@ -8,7 +10,7 @@ import { db } from '../../enviroments/firebase';
 function Home() {
   const [counter, setCounter] = useState(0);
   const counterDocRef = doc(db, 'predictionsCounter', 'counter');
-
+  const featuresRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
   useEffect(() => {
     (async () => {
       const counterDoc = await getDoc(counterDocRef);
@@ -52,9 +54,13 @@ function Home() {
                   </div>
                   Start now
                 </button>
-                <a href="#features" className="font-bold underline text-black font-varela">
+                <button
+                  type="button"
+                  onClick={() => featuresRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                  className="font-bold underline text-black font-varela"
+                >
                   Learn More
-                </a>
+                </button>
               </div>
               <div className="font-varela text-lg text-center">
                 Pest Identified:
@@ -68,7 +74,7 @@ function Home() {
             </div>
           </div>
         </div>
-        <div id="features" className="min-h-screen flex flex-col items-center justify-center gap-8 pb-4">
+        <div ref={featuresRef} className="min-h-screen flex flex-col items-center justify-center gap-8 pb-4">
           <h2 className="text-4xl font-bold font-varela">Having a problem identifying winged pests?</h2>
           <p className="max-w-prose font-varela">
             Our pest insect identification interface uses machine learning methods
