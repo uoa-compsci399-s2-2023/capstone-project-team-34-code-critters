@@ -20,17 +20,6 @@ function Home() {
 
   return (
     <div className="w-full h-full flex flex-col items-center">
-      <div
-        className="bg-gradient-to-br from-secondary to-primary"
-        style={{
-          clipPath: 'polygon(0 5%, 100% 35%, 100% 65%, 0% 95%)',
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
-          right: 0,
-          left: 0,
-        }}
-      />
       <div className="max-w-4xl w-11/12 flex flex-col items-center">
         <div className="min-h-screen pt-24 pb-4 flex items-center justify-center">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-4 justify-items-center justify-center z-10">
@@ -128,6 +117,11 @@ function Home() {
               </div>
             </div>
           </div>
+        </div>
+        <div className="absolute bottom-0 left-0 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 800 450"><defs><filter id="bbblurry-filter" x="-100%" y="-100%" width="400%" height="400%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+	        <feGaussianBlur stdDeviation="51" x="0%" y="0%" width="100%" height="100%" in="SourceGraphic" edgeMode="none" result="blur"></feGaussianBlur></filter></defs><g filter="url(#bbblurry-filter)"><ellipse rx="85.5" ry="86.5" cx="600.0426691228693" cy="189.86029052734375" fill="hsl(142, 69%, 58%)"></ellipse><ellipse rx="85.5" ry="86.5" cx="454.11448530717325" cy="271.272402676669" fill="hsl(198, 93%, 60%)"></ellipse></g>
+        </svg>
         </div>
       </div>
     </div>
