@@ -32,6 +32,18 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   return <>{children}</>;
 };
 
+// eslint-disable-next-line react/function-component-definition
+const ProtectedHomeRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const [user] = useAuthState(auth);
+
+  if (user) {
+    return <Navigate to="/upload" replace />;
+  }
+
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  return <>{children}</>;
+};
+
 function App() {
   const loginModalRef = useRef<HTMLDialogElement | null>(null);
   const signUpModalRef = useRef<HTMLDialogElement | null>(null);
@@ -80,7 +92,15 @@ function App() {
       <div className="h-full w-full">
         <Routes>
           <Route path="/upload" element={<Detection />} />
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={(
+              <ProtectedHomeRoute>
+                <Home />
+                {' '}
+              </ProtectedHomeRoute>
+)}
+          />
           <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
         </Routes>
         <input id="drawer" type="checkbox" className="drawer-toggle" />

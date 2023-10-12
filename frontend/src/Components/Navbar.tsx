@@ -1,5 +1,5 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome, faMagnifyingGlass, faUserAlt, faRightToBracket, faBars,
@@ -16,6 +16,7 @@ interface NavbarProps {
 
 function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps) {
   const [user] = useAuthState(auth);
+  const [isHomePage, setIsHomePage] = useState(false);
   const openLoginModal = () => {
     if (loginModalRef.current) {
       loginModalRef.current.showModal();
@@ -29,6 +30,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
   };
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const navbarEnabled = process.env.REACT_APP_DISABLE_NAVBAR !== 'true';
   let loginEnabled;
@@ -49,10 +51,14 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
     }
   };
 
+  useEffect(() => {
+    setIsHomePage(location.pathname === '/');
+  }, [location]);
+
   if (navbarEnabled) {
     if (loginEnabled) {
       return (
-        <div className="navbar z-10 rounded-xl w-11/12 fixed left-1/2 -translate-x-1/2 top-4 shadow backdrop-blur-sm max-w-4xl">
+        <div className={`navbar z-10 left-1/2 -translate-x-1/2 w-11/12 max-w-4xl top-4 shadow backdrop-blur-sm rounded-xl  ${isHomePage ? 'absolute' : 'fixed '}`}>
           <div className="flex-1 flex gap-2">
             <div className="cursor-pointer" onClick={() => navigate('/')}>
               <img src="/logos/logoV2.svg" alt="logo" />
@@ -72,7 +78,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
           </div>
           <div className="md:flex gap-2 hidden">
             <button
-              className="font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
+              className={`font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white ${!user ? 'flex' : 'hidden'}`}
               type="button"
               onClick={() => navigate('/')}
             >

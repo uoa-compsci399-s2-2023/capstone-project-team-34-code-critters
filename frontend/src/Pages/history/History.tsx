@@ -177,7 +177,7 @@ function History() {
   const getOriginalIndex = (prediction: PredictionTable) => tablePredictions.findIndex((pred) => pred.id === prediction.id);
 
   return (
-    <div className="flex justify-center overflow-y-auto pt-24 pb-4 h-full w-full">
+    <div className="flex justify-center overflow-y-auto overflow-x-hidden pt-24 pb-4 h-full w-full">
       {isLoading ? (
         <span className="loading loading-spinner text-primary loading-lg" />
       ) : (
@@ -294,7 +294,7 @@ function History() {
                         <td className="p-2">
                           <div className="flex gap-4">
                             {prediction.imageUrl ? (
-                              <img className="w-24 rounded-md" src={prediction.imageUrl} alt={prediction.name} />
+                              <img className="max-w-24 max-h-10 rounded-md" src={prediction.imageUrl} alt={prediction.name} />
                             ) : (
                               <p>Loading image...</p>
                             )}
