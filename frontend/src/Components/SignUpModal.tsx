@@ -148,7 +148,7 @@ function SignUpModal({
             </div>
             <img className="absolute top-6 left-6" src="/logos/logo.svg" alt="logo" />
           </div>
-          <div className="relative bg-white flex flex-col items-center justify-center rounded-l-3xl py-5 sm:py-10 px-6 sm:px-20 gap-4 form-control ">
+          <div className="relative bg-white dark:bg-cust-grey flex flex-col items-center justify-center rounded-l-3xl py-5 sm:py-10 px-6 sm:px-20 gap-4 form-control ">
             <button
               className="btn btn-circle btn-ghost absolute top-4 right-4"
               type="button"
@@ -159,7 +159,7 @@ function SignUpModal({
             <div className="text-3xl sm:text-4xl font-black text-primary font-varela cursor-default">
               Create Account
             </div>
-            <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
+            <button className="font-varela dark:text-cust-dark-text normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
               <img
                 alt="google icon"
                 src="/logos/google.svg"
@@ -167,7 +167,7 @@ function SignUpModal({
               />
               Sign Up with Google
             </button>
-            <button className="font-varela normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
+            <button className="font-varela text-cust-dark-text normal-case btn btn-ghost w-full text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
               <img
                 className="h-3/4"
                 alt="github icon"
@@ -182,7 +182,7 @@ function SignUpModal({
                 id="signup-email"
                 type="email"
                 placeholder="Enter your email"
-                className={`font-varela input w-full bg-neutral-100 text-neutral-500 focus:text-neutral-600 ${
+                className={`dark:bg-cust-grey-1 dark:text-cust-dark-text dark:focus:text-white font-varela input w-full bg-neutral-100 text-neutral-500 focus:text-neutral-600 ${
                   (errors.email) && 'input-error'
                 }`}
                 {...register('email', {
@@ -205,7 +205,7 @@ function SignUpModal({
                 id="signup-password"
                 type="password"
                 placeholder="Enter your password"
-                className={`font-varela input w-full bg-neutral-100 text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
+                className={`dark:bg-cust-grey-1 dark:text-cust-dark-text dark:focus:text-white font-varela input w-full bg-neutral-100 text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
                 {...register('password', {
                   required: true,
                   minLength: 6,
@@ -232,7 +232,13 @@ function SignUpModal({
               <div className={`border-none opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-lg flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
                 Create Account
               </div>
-              Create Account
+              <div className={`text-neutral-500 font-varela cursor-default ${
+                (!isValid)
+                  ? 'dark:text-cust-dark-text'
+                  : 'dark:text-white'}`}>
+                Create Account
+              </div>
+              
             </button>
             <div className="text-neutral-500 font-varela cursor-default">
               Already have an account?

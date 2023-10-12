@@ -150,7 +150,7 @@ function LoginModal({
             </div>
             <img className="absolute top-6 left-6" src="/logos/logo.svg" alt="logo" />
           </div>
-          <div className="relative bg-white flex flex-col items-center justify-center rounded-l-3xl py-5 sm:py-10 px-6 sm:px-20 gap-4 form-control ">
+          <div className="relative bg-white dark:bg-cust-grey flex flex-col items-center justify-center rounded-l-3xl py-5 sm:py-10 px-6 sm:px-20 gap-4 form-control ">
             <button
               className="btn btn-circle btn-ghost absolute top-4 right-4"
               type="button"
@@ -161,7 +161,7 @@ function LoginModal({
             <div className="text-3xl sm:text-4xl text-primary font-black font-varela cursor-default">
               Login
             </div>
-            <button className="font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
+            <button className="dark:text-cust-dark-text font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
               <img
                 alt="google icon"
                 src="/logos/google.svg"
@@ -169,7 +169,7 @@ function LoginModal({
               />
               Login with Google
             </button>
-            <button className="font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
+            <button className="dark:text-cust-dark-text font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
               <img
                 className="h-3/4"
                 alt="github icon"
@@ -184,7 +184,7 @@ function LoginModal({
                 id="login-email"
                 type="email"
                 placeholder="Enter your email"
-                className={`font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${
+                className={`dark:bg-cust-grey-1 dark:text-cust-dark-text dark:focus:text-white font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${
                   errors.email && 'input-error'
                 }`}
                 {...register('email', {
@@ -207,7 +207,7 @@ function LoginModal({
                 id="login-password"
                 type="password"
                 placeholder="Enter your password"
-                className={`font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
+                className={`dark:bg-cust-grey-1 dark:text-cust-dark-text dark:focus:text-white font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
                 {...register('password', {
                   required: true,
                   minLength: 6,
@@ -231,12 +231,18 @@ function LoginModal({
               }`}
               disabled={!isValid}
             >
-              <div className={`border-none opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-lg flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
+              <div className={`white border-none opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-lg flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
                 Login
               </div>
-              Login
+              <div className={`text-neutral-500 font-varela cursor-default ${
+                (!isValid)
+                  ? 'dark:text-cust-dark-text'
+                  : 'dark:text-white'}`}>
+                Login
+              </div>
             </button>
-            <div className="text-neutral-500 font-varela cursor-default">
+            
+            <div className="dark:text-cust-dark-text text-neutral-500 font-varela cursor-default">
               {/* eslint-disable-next-line react/no-unescaped-entities */}
               Don't have an account?
               {' '}
