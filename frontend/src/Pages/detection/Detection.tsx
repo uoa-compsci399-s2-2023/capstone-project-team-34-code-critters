@@ -301,7 +301,7 @@ function Detection() {
                 </select>
               </div>
               <button
-                className="btn btn-outline btn-primary font-varela"
+                className="btn btn-outline btn-primary font-varela hover:!text-white"
                 type="button"
               >
                 {images.length > 0 ? 'Add images' : 'Upload images'}
