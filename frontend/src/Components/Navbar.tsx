@@ -72,7 +72,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
           </div>
           <div className="flex md:hidden">
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label htmlFor="drawer" aria-label="open sidebar" className="btn btn-square btn-ghost">
+            <label htmlFor="drawer" aria-label="open sidebar" className="btn btn-square btn-ghost dark:text-cust-dark-text">
               <FontAwesomeIcon icon={faBars} size="2x" />
             </label>
           </div>
@@ -163,7 +163,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
             <img src="/logos/logoV2.svg" alt="logo" />
           </div>
           <div className="cursor-pointer" onClick={() => navigate('/')}>
-            <h1 className="font-varela text-2xl font-bold">
+            <h1 className="dark:text-cust-dark-text font-varela text-2xl font-bold">
               Code
               <span className="bg-clip-text from-primary to-secondary bg-gradient-to-r text-transparent">Critters</span>
             </h1>
@@ -171,13 +171,13 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
         </div>
         <div className="flex md:hidden">
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label htmlFor="drawer" aria-label="open sidebar" className="btn btn-square btn-ghost">
+          <label htmlFor="drawer" aria-label="open sidebar" className="dark:text-cust-dark-text btn btn-square btn-ghost">
             <FontAwesomeIcon icon={faBars} size="2x" />
           </label>
         </div>
         <div className="md:flex gap-2 hidden">
           <button
-            className="font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
+            className="dark:text-cust-dark-text font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
             type="button"
             onClick={() => navigate('/')}
           >
@@ -185,7 +185,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
             <FontAwesomeIcon icon={faHome} className="-mt-[0.2rem]" />
           </button>
           <button
-            className="font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
+            className="dark:text-cust-dark-text font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
             type="button"
             onClick={() => navigate('/upload')}
           >

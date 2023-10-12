@@ -89,7 +89,7 @@ function App() {
         signUpModalRef={signUpModalRef}
         setToastMessage={setToastMessage}
       />
-      <div className="h-full w-full">
+      <div className="dark:text-cust-dark-text h-full w-full">
         <Routes>
           <Route path="/upload" element={<Detection />} />
           <Route
@@ -108,7 +108,7 @@ function App() {
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label htmlFor="drawer" aria-label="close sidebar" className="drawer-overlay" />
           <div className="p-4">
-            <ul className="menu w-80 bg-white rounded-lg">
+            <ul className="menu w-80 rounded-lg dark:bg-cust-grey bg-white">
               <button
                 className="font-varela btn btn-ghost"
                 type="button"
