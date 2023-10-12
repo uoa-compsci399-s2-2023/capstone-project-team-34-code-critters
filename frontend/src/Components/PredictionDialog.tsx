@@ -50,7 +50,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
         <h1 className="text-xl font-varela">Predictions:</h1>
         <div className="hidden sm:grid grid-cols-3 gap-4">
           <div className="card border-4 border-secondary flex flex-col justify-between items-center p-4 gap-4 h-80 mt-auto">
-            <h2 className="font-varela text-xl text-center text-secondary">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][1]}</h2>
+            <h2 className="font-varela text-xl text-center text-secondary w-full break-words">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][1]}</h2>
             <div className="radial-progress font-varela text-secondary text-xl" style={{ '--value': prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][0] ? parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][0]) * 100 : '0', '--size': '8rem', '--thickness': '0.75em' } as React.CSSProperties}>
               {/* eslint-disable-next-line prefer-template */}
               {prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][0] ? (parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][0]) * 100).toFixed(2) + '%' : 'N/A'}
@@ -59,7 +59,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
           </div>
 
           <div className="card border-4 border-primary flex flex-col justify-between items-center p-4 gap-4 h-[22rem]">
-            <h2 className="font-varela text-xl text-center font-bold text-primary">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[0][1]}</h2>
+            <h2 className="font-varela text-xl text-center font-bold text-primary w-full break-words">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[0][1]}</h2>
             <div className="items-center">
               <div className="radial-progress font-varela text-primary text-xl" style={{ '--value': prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[0][0] ? parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[0][0]) * 100 : '0', '--size': '8rem', '--thickness': '0.75rem' } as React.CSSProperties}>
                 {/* eslint-disable-next-line prefer-template */}
@@ -71,7 +71,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
 
           {/* Shortest Card (Right) */}
           <div className="card border-warning border-4 flex flex-col justify-between items-center p-4 gap-4 h-fit mt-auto">
-            <h2 className="font-varela text-xl text-center text-warning">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[2][1]}</h2>
+            <h2 className="font-varela text-xl text-center text-warning w-full break-words">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[2][1]}</h2>
             <div className="items-center">
               <div className="radial-progress font-varela text-warning text-xl" style={{ '--value': prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[2][0] ? parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[2][0]) * 100 : '0', '--size': '8rem', '--thickness': '0.75rem' } as React.CSSProperties}>
                 {/* eslint-disable-next-line prefer-template */}
