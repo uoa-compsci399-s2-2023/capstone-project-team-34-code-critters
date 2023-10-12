@@ -23,7 +23,7 @@ function Home() {
       <div className="max-w-4xl w-11/12 flex flex-col items-center">
         <div className="min-h-screen pt-24 pb-4 flex items-center justify-center">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-4 justify-items-center justify-center z-10">
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 justify-center">
               <h2 className="font-varela text-3xl font-bold uppercase text-center">
                 Pest
                 {' '}
@@ -57,9 +57,9 @@ function Home() {
                 <CountUp end={counter} duration={3} />
               </div>
             </div>
-            <div className="relative w-[20rem] h-[18rem] md:w-[26rem] md:h-[22rem]">
-              <img alt="mobile" src="/home/mobile.png" className="w-24 md:w-32 absolute" />
-              <img alt="tablet" src="/home/tablet.png" className="w-64 md:w-80 absolute bottom-0 right-0" />
+            <div className="relative w-[20rem] h-[18rem] md:w-[28rem] md:h-[28rem] lg:w-[34rem] lg:h-[30rem]">
+              <img alt="mobile" src="/home/mobile.png" className="h-4/5 absolute" />
+              <img alt="tablet" src="/home/tablet.png" className="w-4/5 absolute bottom-0 right-0" />
             </div>
           </div>
         </div>
@@ -118,10 +118,18 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 w-full">
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 800 450"><defs><filter id="bbblurry-filter" x="-100%" y="-100%" width="400%" height="400%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-	        <feGaussianBlur stdDeviation="51" x="0%" y="0%" width="100%" height="100%" in="SourceGraphic" edgeMode="none" result="blur"></feGaussianBlur></filter></defs><g filter="url(#bbblurry-filter)"><ellipse rx="85.5" ry="86.5" cx="600.0426691228693" cy="189.86029052734375" fill="hsl(142, 69%, 58%)"></ellipse><ellipse rx="85.5" ry="86.5" cx="454.11448530717325" cy="271.272402676669" fill="hsl(198, 93%, 60%)"></ellipse></g>
-        </svg>
+        <div className="absolute -translate-y-1/2 top-[70%] -translate-x-1/2 left-[40%] md:translate-x-0 md:left-0 md:top-[60%] w-full">
+          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 800 450">
+            <defs>
+              <filter id="bbblurry-filter" x="-100%" y="-100%" width="400%" height="400%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                <feGaussianBlur stdDeviation="51" x="0%" y="0%" width="100%" height="100%" in="SourceGraphic" edgeMode="none" result="blur" />
+              </filter>
+            </defs>
+            <g filter="url(#bbblurry-filter)">
+              <ellipse rx="85.5" ry="86.5" cx="600.0426691228693" cy="189.86029052734375" fill="hsl(142, 69%, 70%)" />
+              <ellipse rx="85.5" ry="86.5" cx="454.11448530717325" cy="271.272402676669" fill="hsl(198, 93%, 40%)" />
+            </g>
+          </svg>
         </div>
       </div>
     </div>
