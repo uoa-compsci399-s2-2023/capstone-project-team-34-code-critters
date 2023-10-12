@@ -58,7 +58,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
   if (navbarEnabled) {
     if (loginEnabled) {
       return (
-        <div className={`navbar z-10 left-1/2 -translate-x-1/2 w-11/12 max-w-4xl top-4 shadow backdrop-blur-sm rounded-xl  ${isHomePage ? 'absolute' : 'fixed '}`}>
+        <div className={`navbar z-10 left-1/2 -translate-x-1/2 w-11/12 max-w-4xl top-4 shadow dark:shadow-white backdrop-blur-sm rounded-xl  ${isHomePage ? 'absolute' : 'fixed '}`}>
           <div className="flex-1 flex gap-2">
             <div className="cursor-pointer" onClick={() => navigate('/')}>
               <img src="/logos/logoV2.svg" alt="logo" />
@@ -98,7 +98,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
             {user ? (
               <div className="dropdown dropdown-hover dropdown-bottom dropdown-end">
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                <label className="btn btn-ghost">
+                <label className="btn btn-ghost dark:hover:bg-cust-dark-text">
                   {user.photoURL ? (
                     <img className="w-10 rounded-full" src={user.photoURL} alt="User avatar" />
                   ) : (
@@ -111,7 +111,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                   <ul className="dark:bg-cust-grey bg-white pt-4 rounded-lg shadow p-2 ">
                     <li>
                       <div
-                        className="dark:text-cust-dark-text text-black font-varela whitespace-nowrap"
+                        className="dark:text-cust-dark-text text-black font-varela whitespace-nowrap dark:hover:bg-cust-dark-text"
                         onClick={() => {
                           navigate('/history');
                         }}
@@ -120,7 +120,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                       </div>
                     </li>
                     <li>
-                      <div onClick={handleLogout} className="dark:text-cust-dark-text text-black font-varela whitespace-nowrap">
+                      <div onClick={handleLogout} className="dark:text-cust-dark-text text-black font-varela whitespace-nowrap dark:hover:bg-cust-dark-text">
                         Log Out
                       </div>
                     </li>
@@ -157,7 +157,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
       );
     }
     return (
-      <div className="navbar z-10 rounded-xl w-11/12 fixed left-1/2 -translate-x-1/2 top-4 shadow backdrop-blur-sm max-w-4xl">
+      <div className="navbar z-10 rounded-xl w-11/12 fixed left-1/2 -translate-x-1/2 top-4 shadow dark:shadow-white backdrop-blur-sm max-w-4xl">
         <div className="flex-1 flex gap-2">
           <div className="cursor-pointer" onClick={() => navigate('/')}>
             <img src="/logos/logoV2.svg" alt="logo" />
