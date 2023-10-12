@@ -1,9 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import React, { useRef, useState } from 'react';
+import {
+  Navigate, Route, Routes, useNavigate,
+} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome, faMagnifyingGlass, faBook, faDoorOpen, faRightToBracket, faUserAlt,
 } from '@fortawesome/free-solid-svg-icons';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import History from './Pages/history/History';
 import Detection from './Pages/detection/Detection';
 import Navbar from './Components/Navbar';
 import SignUpModal from './Components/SignUpModal';
@@ -11,14 +15,30 @@ import LoginModal from './Components/LoginModal';
 import Home from './Pages/home/Home';
 import Toast, { ToastMessage } from './Components/Toast';
 import { auth } from './enviroments/firebase';
-// Import the Toast component
+
+type ProtectedRouteProps = {
+  children: React.ReactNode;
+};
+
+// eslint-disable-next-line react/function-component-definition
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const [user] = useAuthState(auth);
+
+  if (!user) {
+    return <Navigate to="/" replace />;
+  }
+
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  return <>{children}</>;
+};
+
 function App() {
   const loginModalRef = useRef<HTMLDialogElement | null>(null);
   const signUpModalRef = useRef<HTMLDialogElement | null>(null);
 
   const [toast, setToast] = useState<ToastMessage>({ message: '', type: 'success' });
   const navigate = useNavigate();
-  const [user, setUser] = useState(auth.currentUser);
+  const [user] = useAuthState(auth);
 
   const setToastMessage = (message: string, type: 'success' | 'error') => {
     setToast({ message, type });
@@ -32,12 +52,6 @@ function App() {
       setToastMessage('Failed to log out', 'error');
     }
   };
-
-  useEffect(() => {
-    auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
-    });
-  }, []);
 
   const closeDrawer = () => {
     const drawer = document.getElementById('drawer') as HTMLInputElement;
@@ -67,6 +81,7 @@ function App() {
         <Routes>
           <Route path="/upload" element={<Detection />} />
           <Route path="/" element={<Home />} />
+          <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
         </Routes>
         <input id="drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-side z-20">
@@ -103,6 +118,7 @@ function App() {
                   <button
                     type="button"
                     onClick={() => {
+                      navigate('/history');
                       closeDrawer();
                     }}
                     className="font-varela btn btn-ghost"

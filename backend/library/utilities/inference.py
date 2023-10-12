@@ -24,7 +24,7 @@ def get_prediction(image_path, new_image_path, current_model="trupanea_v2"):
     img = preprocess.img_preprocess(new_image_path)
 
     # Get the prediction from the model
-    prediction = model.predict(img)
+    prediction = model(img)
 
     # Combine the labels and the predictions
     combined_list = list(zip(prediction[0], labels))

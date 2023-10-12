@@ -53,7 +53,7 @@ Set-Location $backendPath
 python -m venv venv
 .\venv\Scripts\activate
 pip install --no-deps -r requirements.txt
-pyinstaller .\pywebview_portable.py --add-data "library;library" --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
+pyinstaller .\pywebview_portable.py --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
 
 # # Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
 # Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
@@ -67,7 +67,7 @@ $NewName = Join-Path $rootPath "$applicationName-Portable-Windows.zip"
 Move-Item (Join-Path $7zVar ".zip") $NewName -Force
 
 # Package Backend + Frontend into Installation Executable
-pyinstaller .\pywebview_installed.py --add-data "library;library" --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
+pyinstaller .\pywebview_installed.py --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
 # # Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
 # Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
 iscc .\package.iss
@@ -84,25 +84,12 @@ deactivate
 $applicationName = "CritterSleuthWeb"
 
 Set-Location $frontendPath
-Set-Content -Path (Join-Path "." ".env") -Value "REACT_APP_BACKEND_URL=https://crittersleuthbackend.keshuac.com/"
-Add-Content -Path ".\.env" -Value "REACT_APP_DISABLE_NAVBAR=false"
-Add-Content -Path ".\.env" -Value "REACT_APP_APIKEY=NULL"
-Add-Content -Path ".\.env" -Value "REACT_APP_AUTHDOMAIN=NULL"
-Add-Content -Path ".\.env" -Value "REACT_APP_PROJECTID=NULL"
-Add-Content -Path ".\.env" -Value "REACT_APP_STORAGEBUCKET=NULL"
-Add-Content -Path ".\.env" -Value "REACT_APP_MESSAGINGSENDERID=NULL"
-Add-Content -Path ".\.env" -Value "REACT_APP_APPID=NULL"
-Add-Content -Path ".\.env" -Value "REACT_APP_MEASUREMENTID=NULL"
-Add-Content -Path ".\.env" -Value "DISABLE_ESLINT_PLUGIN=true"
-Add-Content -Path ".\.env" -Value "REACT_APP_DISABLE_UPGRADE_INSECURE_REQUESTS=true"
-npm install
-npm run build
 
 # Package Frontend into Executable
 python -m venv venv
 .\venv\Scripts\activate
 pip install -r requirements.txt
-pyinstaller .\pywebview_webapp.py --add-data "build;build" --noconfirm  --clean --name $applicationName --windowed --icon "public\favicon.ico"
+pyinstaller .\pywebview_webapp.py --noconfirm  --clean --name $applicationName --windowed --icon "public\favicon.ico"
 
 # Package Executable into Zip
 $7zVar = Join-Path ".\dist" $applicationName
