@@ -1,9 +1,21 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import laptopImage from '../../Images/Laptop.png';
+import React, { useEffect, useState } from 'react';
+import {
+  doc, getDoc,
+} from 'firebase/firestore';
+import CountUp from 'react-countup';
+import { db } from '../../enviroments/firebase';
 
 function Home() {
-  const navigate = useNavigate();
+  const [counter, setCounter] = useState(0);
+  const counterDocRef = doc(db, 'predictionsCounter', 'counter');
+
+  useEffect(() => {
+    (async () => {
+      const counterDoc = await getDoc(counterDocRef);
+      setCounter(counterDoc.data()?.count);
+    })();
+  }, []);
+
   return (
     <div className="w-full h-full flex flex-col items-center">
       <div
@@ -18,8 +30,8 @@ function Home() {
         }}
       />
       <div className="max-w-4xl w-11/12 flex flex-col items-center">
-        <div className="h-screen flex items-center justify-center">
-          <div className="grid grid-cols-[1fr_1.5fr] gap-4 justify-items-center justify-center z-10">
+        <div className="min-h-screen pt-24 pb-4 flex items-center justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-4 justify-items-center justify-center z-10">
             <div className="flex flex-col gap-6">
               <h2 className="font-varela text-3xl font-bold uppercase text-center">
                 Pest
@@ -27,6 +39,7 @@ function Home() {
                 <span className="">Detection</span>
               </h2>
               <p className="font-varela text-center">
+                {/* eslint-disable-next-line max-len */}
                 CodeCritters, a university team, developed an AI platform to identify unknown-winged insects for local government bio-hazard protection.
               </p>
               <div className="flex justify-center items-center gap-4">
@@ -43,14 +56,19 @@ function Home() {
                   Learn More
                 </a>
               </div>
+              <div className="font-varela text-lg text-center">
+                Pest Identified:
+                {' '}
+                <CountUp end={counter} duration={5} />
+              </div>
             </div>
-            <div className="relative w-[26rem] h-[22rem]">
-              <img alt="mobile" src="/home/mobile.png" className="w-32 absolute" />
-              <img alt="tablet" src="/home/tablet.png" className="w-80 absolute bottom-0 right-0" />
+            <div className="relative w-[20rem] h-[18rem] md:w-[26rem] md:h-[22rem]">
+              <img alt="mobile" src="/home/mobile.png" className="w-24 md:w-32 absolute" />
+              <img alt="tablet" src="/home/tablet.png" className="w-64 md:w-80 absolute bottom-0 right-0" />
             </div>
           </div>
         </div>
-        <div id="features" className="h-screen flex flex-col items-center justify-center gap-8">
+        <div id="features" className="min-h-screen flex flex-col items-center justify-center gap-8 pb-4">
           <h2 className="text-4xl font-bold font-varela">Having a problem identifying winged pests?</h2>
           <p className="max-w-prose font-varela">
             Our pest insect identification interface uses machine learning methods
@@ -59,7 +77,7 @@ function Home() {
             information about the insect.
           </p>
           <h2 className="flex items-center text-4xl font-bold bg-gradient-to-br from-primary to-secondary text-transparent bg-clip-text font-varela">Features</h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="grid grid-cols-[1fr_5fr] gap-4 items-center">
               <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-24 h-24 text-primary">
                 <path d="M5 3H3v2h2V3zm14 4h2v6h-2V9H9v10h4v2H7V7h12zM7 3h2v2H7V3zM5 7H3v2h2V7zm-2 4h2v2H3v-2zm2 4H3v2h2v-2zm6-12h2v2h-2V3zm6 0h-2v2h2V3zm-2 14v-2h6v2h-2v2h-2v2h-2v-4zm4 2v2h2v-2h-2z" fill="currentColor" />
