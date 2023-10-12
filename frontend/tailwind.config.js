@@ -9,6 +9,12 @@ module.exports = {
       fontFamily: {
         'varela': ['Varela Round', 'sans-serif'],
       },
+      colors: {
+        'cust-grey': '#121212',
+        'cust-grey-1': '#2e2e2e',
+        'cust-grey-hover': '#222222',
+        'cust-dark-text': '#e3e3e3',
+      }
     },
   },
   daisyui: {
