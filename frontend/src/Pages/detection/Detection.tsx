@@ -248,7 +248,7 @@ function Detection() {
       .map(() => false)]);
   };
   return (
-    <div className="w-full h-full flex justify-center overflow-y-auto pt-24 pb-4">
+    <div className="w-full h-full flex justify-center overflow-y-auto overflow-x-hidden pt-24 pb-4">
       <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit gap-4">
         <h1 className="font-varela text-xl font-bold">Upload</h1>
         <h1 className="text-xl font-varela text-center">
@@ -301,7 +301,7 @@ function Detection() {
                 </select>
               </div>
               <button
-                className="btn btn-outline hover:!text-white btn-primary font-varela"
+                className="btn btn-outline btn-primary font-varela"
                 type="button"
               >
                 {images.length > 0 ? 'Add images' : 'Upload images'}
@@ -374,7 +374,7 @@ function Detection() {
                 <img
                   src={imageUrl}
                   alt={`Selected ${index + 1}`}
-                  className="w-32 rounded-md"
+                  className="max-w-32 max-h-16 rounded-md"
                 />
                 <div className="truncate hidden md:flex">
                   {images[index].name}
