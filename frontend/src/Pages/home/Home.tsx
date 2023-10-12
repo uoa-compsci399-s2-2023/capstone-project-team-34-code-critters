@@ -19,17 +19,17 @@ function Home() {
   }, []);
 
   return (
-    <div className="w-full h-full flex flex-col items-center">
+    <div className="w-full h-full flex flex-col items-center dark:bg-cust-grey">
       <div className="max-w-5xl w-11/12 flex flex-col items-center">
         <div className="min-h-screen pt-20 pb-4 flex items-center justify-center">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-4 justify-items-center justify-center z-10">
             <div className="flex flex-col gap-6 justify-center">
-              <h2 className="font-varela text-3xl font-bold uppercase text-center">
+              <h2 className="dark:text-cust-dark-text font-varela text-3xl font-bold uppercase text-center">
                 Pest
                 {' '}
-                <span className="">Detection</span>
+                <span className="dark:text-cust-dark-text">Detection</span>
               </h2>
-              <p className="font-varela text-center">
+              <p className="dark:text-cust-dark-text font-varela text-center">
                 {/* eslint-disable-next-line max-len */}
                 CodeCritters, a university team, developed an AI platform to identify unknown-winged insects for local government bio-hazard protection.
               </p>
@@ -46,12 +46,12 @@ function Home() {
                 <button
                   type="button"
                   onClick={() => featuresRef.current?.scrollIntoView({ behavior: 'smooth' })}
-                  className="font-bold underline text-black font-varela"
+                  className="dark:bg-transparent dark:text-cust-dark-text font-bold underline text-black font-varela"
                 >
                   Learn More
                 </button>
               </div>
-              <div className="font-varela text-lg text-center">
+              <div className="dark:bg-transparent dark:text-cust-dark-text font-varela text-lg text-center">
                 Pests identified
                 {' '}
                 <CountUp end={counter} duration={3} />
@@ -64,8 +64,8 @@ function Home() {
           </div>
         </div>
         <div ref={featuresRef} className="min-h-screen flex flex-col items-center justify-center gap-8 pb-4">
-          <h2 className="text-4xl font-bold font-varela">Having a problem identifying winged pests?</h2>
-          <p className="max-w-prose font-varela">
+          <h2 className="dark:text-cust-dark-text text-4xl font-bold font-varela">Having a problem identifying winged pests?</h2>
+          <p className="dark:text-cust-dark-text max-w-prose font-varela">
             Our pest insect identification interface uses machine learning methods
             to quickly and accurately identify insects. All you need to do is
             insert an image on our detect page, where you will receive
@@ -79,7 +79,7 @@ function Home() {
               </svg>
               <div className="flex flex-col gap-2">
                 <h3 className="text-2xl font-bold bg-gradient-to-br from-primary to-secondary text-transparent bg-clip-text font-varela">Drag and drop</h3>
-                <p className="font-varela">Users can drag and drop images for scanning, significantly increasing flexibility.</p>
+                <p className="dark:text-cust-dark-text font-varela">Users can drag and drop images for scanning, significantly increasing flexibility.</p>
               </div>
             </div>
             <div className="grid grid-cols-[1fr_5fr] gap-4 items-center">
@@ -91,7 +91,7 @@ function Home() {
               </svg>
               <div className="flex flex-col gap-2">
                 <h3 className="text-2xl font-bold bg-gradient-to-br from-primary to-secondary text-transparent bg-clip-text font-varela">Multiple images</h3>
-                <p className="font-varela">Users can upload multiple images with no limits providing efficiency. </p>
+                <p className="dark:text-cust-dark-text font-varela">Users can upload multiple images with no limits providing efficiency. </p>
               </div>
             </div>
             <div className="grid grid-cols-[1fr_5fr] gap-4 items-center">
@@ -104,7 +104,7 @@ function Home() {
               </svg>
               <div className="ml-3 text-left max-w-xs">
                 <h3 className="text-2xl font-bold bg-gradient-to-br from-primary to-secondary text-transparent bg-clip-text font-varela">Download predictions</h3>
-                <p className="font-varela">Users can drag and drop images for scanning, significantly increasing flexibility.</p>
+                <p className="dark:text-cust-dark-text font-varela">Users can drag and drop images for scanning, significantly increasing flexibility.</p>
               </div>
             </div>
             <div className="grid grid-cols-[1fr_5fr] gap-4 items-center">
@@ -113,7 +113,7 @@ function Home() {
               </svg>
               <div className="ml-3 text-left max-w-xs">
                 <h3 className="text-2xl font-bold bg-gradient-to-br from-primary to-secondary text-transparent bg-clip-text font-varela">User history</h3>
-                <p className="font-varela">Users who are logged in can view previous predictions which are stored on a database. </p>
+                <p className="dark:text-cust-dark-text font-varela">Users who are logged in can view previous predictions which are stored on a database. </p>
               </div>
             </div>
           </div>
