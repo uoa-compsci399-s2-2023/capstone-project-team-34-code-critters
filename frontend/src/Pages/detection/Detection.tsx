@@ -255,7 +255,7 @@ function Detection() {
           Drag and Drop or Browse to Upload
           Image
         </h1>
-        <p className="text-gray-500 font-varela text-center">
+        <p className="text-gray-500 font-varela text-center dark:text-neutral-400">
           Upload unlimited images at once
         </p>
         <input
@@ -284,7 +284,7 @@ function Detection() {
             <h2 className={`dark:text-neutral-100 text-lg font-varela ${images.length === 0 && 'mt-8'} text-center`}>
               Select a file or drag and drop here
             </h2>
-            <p className="text-gray-500 mt-4 font-varela text-center">
+            <p className="text-gray-500 mt-4 font-varela text-center dark:text-neutral-400">
               JPG, PNG, file size no more than 10MB
             </p>
           </div>
