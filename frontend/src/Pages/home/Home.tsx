@@ -5,6 +5,7 @@ import {
   doc, getDoc,
 } from 'firebase/firestore';
 import CountUp from 'react-countup';
+import { useNavigate } from 'react-router-dom';
 import { db } from '../../enviroments/firebase';
 
 function Home() {
@@ -17,6 +18,8 @@ function Home() {
       setCounter(counterDoc.data()?.count);
     })();
   }, []);
+
+  const navigate = useNavigate();
 
   return (
     <div className="w-full h-full flex flex-col items-center">
@@ -50,6 +53,7 @@ function Home() {
                 <button
                   type="button"
                   className="bg-gradient-to-r from-primary to-secondary border-none relative font-varela normal-case btn text-white text-lg"
+                  onClick={() => navigate('/upload')}
                 >
                   <div className="border-none opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full rounded-lg flex justify-center items-center bg-gradient-to-l from-primary to-secondary">
                     Start now
