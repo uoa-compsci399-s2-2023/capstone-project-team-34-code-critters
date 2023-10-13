@@ -96,7 +96,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
                   </p>
                 </div>
                 <progress
-                  className="progress progress-primary w-full"
+                  className="progress progress-primary w-full dark:bg-neutral-700"
                   value={Number(pred[0]) * 100}
                   max="100"
                 />
