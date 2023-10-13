@@ -182,7 +182,7 @@ function History() {
       {isLoading ? (
         <span className="loading loading-spinner text-primary loading-lg" />
       ) : (
-        <div className="max-w-4xl w-11/12">
+        <div className="max-w-5xl xl:max-w-6xl w-11/12">
           <div className="sm:px-2 pb-2 flex items-center justify-between">
             <div className="join">
               <div className="tooltip tooltip-bottom" data-tip="Filter by">

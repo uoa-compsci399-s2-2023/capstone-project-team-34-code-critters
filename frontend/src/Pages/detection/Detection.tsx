@@ -249,7 +249,7 @@ function Detection() {
   };
   return (
     <div className="w-full h-full flex justify-center overflow-y-auto overflow-x-hidden pt-24 pb-4">
-      <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit gap-4">
+      <div className="max-w-4xl xl:max-w-5xl w-11/12 flex flex-col items-center h-fit gap-4">
         <h1 className="font-varela text-xl font-bold dark:text-neutral-100">Upload</h1>
         <h1 className="text-xl font-varela text-center dark:text-neutral-100">
           Drag and Drop or Browse to Upload
