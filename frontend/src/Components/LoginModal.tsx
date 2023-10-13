@@ -150,7 +150,7 @@ function LoginModal({
             </div>
             <img className="absolute top-6 left-6" src="/logos/logo.svg" alt="logo" />
           </div>
-          <div className="relative bg-white dark:bg-neutral-900 flex flex-col items-center justify-center rounded-l-3xl py-5 sm:py-10 px-6 sm:px-20 gap-4 form-control ">
+          <div className="relative bg-white dark:bg-neutral-900 flex flex-col items-center justify-center rounded-none md:rounded-l-2xl py-5 sm:py-10 px-6 sm:px-20 gap-4 form-control">
             <button
               className="btn btn-circle btn-ghost absolute top-4 right-4 text-white"
               type="button"

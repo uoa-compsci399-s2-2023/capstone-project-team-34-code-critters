@@ -131,7 +131,7 @@ function App() {
           <div className="p-4">
             <ul className="menu w-80 rounded-lg dark:bg-neutral-800 bg-white">
               <button
-                className="font-varela btn btn-ghost"
+                className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
                 type="button"
                 onClick={() => {
                   closeDrawer();
@@ -143,7 +143,7 @@ function App() {
 
               </button>
               <button
-                className="font-varela btn btn-ghost"
+                className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
                 type="button"
                 onClick={() => {
                   closeDrawer();
@@ -162,7 +162,7 @@ function App() {
                       navigate('/history');
                       closeDrawer();
                     }}
-                    className="font-varela btn btn-ghost"
+                    className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
                   >
                     User History
                     <FontAwesomeIcon icon={faBook} />
@@ -173,7 +173,7 @@ function App() {
                       closeDrawer();
                       await handleLogout();
                     }}
-                    className="font-varela btn btn-ghost"
+                    className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
                   >
                     Log Out
                     <FontAwesomeIcon icon={faDoorOpen} />
@@ -182,7 +182,7 @@ function App() {
               ) : (
                 <div className="flex flex-col">
                   <button
-                    className="font-varela btn btn-ghost"
+                    className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
                     type="button"
                     onClick={() => {
                       closeDrawer();
@@ -193,7 +193,7 @@ function App() {
                     <FontAwesomeIcon icon={faRightToBracket} />
                   </button>
                   <button
-                    className="font-varela btn btn-ghost"
+                    className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
                     type="button"
                     onClick={() => {
                       closeDrawer();
@@ -229,7 +229,7 @@ function App() {
         )}
       </div>
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label className="btn btn-circle border-none bg-orange-400 hover:bg-orange-500 dark:bg-purple-500 dark:hover:bg-purple-600 w-14 h-14 shadow-xl text-white swap fixed bottom-4 right-4 sm:bottom-8 sm:right-8">
+      <label className="btn btn-circle border-none bg-orange-400 hover:bg-orange-500 dark:bg-purple-500 dark:hover:bg-purple-600 w-14 h-14 text-white swap fixed bottom-4 right-4 sm:bottom-8 sm:right-8">
         <input type="checkbox" onChange={() => toggleTheme()} checked={isDark} />
         <div className="swap-on">
           <FontAwesomeIcon icon={faMoon} size="2x" />
