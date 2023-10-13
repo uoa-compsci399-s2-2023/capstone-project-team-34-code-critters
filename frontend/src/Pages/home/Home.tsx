@@ -38,7 +38,7 @@ function Home() {
               </g>
             </svg>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-4 justify-items-center justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-4 justify-items-center justify-center relative">
             <div className="flex flex-col gap-6 justify-center">
               <h2 className="dark:text-neutral-100 font-varela text-3xl font-bold uppercase text-center">
                 Pest
