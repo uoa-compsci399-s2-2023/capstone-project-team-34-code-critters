@@ -154,7 +154,7 @@ function SignUpModal({
               type="button"
               onClick={() => signUpModalRef.current?.close()}
             >
-              <FontAwesomeIcon icon={faXmark} />
+              <FontAwesomeIcon icon={faXmark} size="lg" />
             </button>
             <div className="text-3xl sm:text-4xl font-black text-primary font-varela cursor-default">
               Create Account
