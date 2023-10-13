@@ -371,11 +371,13 @@ function Detection() {
               key={index}
             >
               <div className="flex gap-4 items-center">
-                <img
-                  src={imageUrl}
-                  alt={`Selected ${index + 1}`}
-                  className="max-w-32 max-h-16 rounded-md"
-                />
+                <div className="w-32 h-16 flex items-center justify-center">
+                  <img
+                    src={imageUrl}
+                    alt={`Selected ${index + 1}`}
+                    className="max-w-32 max-h-16 rounded-md"
+                  />
+                </div>
                 <div className="dark:text-neutral-100 truncate hidden md:flex">
                   {images[index].name}
                 </div>
