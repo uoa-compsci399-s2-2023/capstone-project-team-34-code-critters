@@ -227,7 +227,7 @@ function History() {
                   setIsChecked(newCheck);
                 }}
               >
-                {isChecked.some((value) => value) ? 'Deselect Selection' : 'Select All'}
+                {isChecked.some((value) => value) ? 'Deselect All' : 'Select All'}
               </button>
 
               <div className="join">
