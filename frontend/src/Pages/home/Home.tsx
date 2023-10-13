@@ -52,7 +52,7 @@ function Home() {
                 </button>
               </div>
               <div className="dark:bg-transparent dark:text-cust-dark-text font-varela text-lg text-center">
-                Pests identified
+                Pests identified:
                 {' '}
                 <CountUp end={counter} duration={3} />
               </div>
