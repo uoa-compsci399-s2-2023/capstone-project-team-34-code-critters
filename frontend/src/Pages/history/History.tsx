@@ -116,7 +116,7 @@ function History() {
     const userDocRef = doc(db, 'user', user?.uid);
     const predictionsCollectionRef = collection(userDocRef, 'predictions');
     const predictionDocRef = doc(predictionsCollectionRef, prediction.id);
-    
+
     try {
       await deleteDoc(predictionDocRef);
       await loadPredictionAndImages(user);
@@ -178,7 +178,7 @@ function History() {
   const getOriginalIndex = (prediction: PredictionTable) => tablePredictions.findIndex((pred) => pred.id === prediction.id);
 
   return (
-    <div className="dark:bg-cust-grey flex justify-center overflow-y-auto overflow-x-hidden pt-24 pb-4 h-full w-full">
+    <div className="flex justify-center overflow-y-auto overflow-x-hidden pt-24 pb-4 h-full w-full">
       {isLoading ? (
         <span className="loading loading-spinner text-primary loading-lg" />
       ) : (
@@ -187,7 +187,7 @@ function History() {
             <div className="join">
               <div className="tooltip tooltip-bottom" data-tip="Filter by">
                 <select
-                  className="dark:bg-cust-grey dark:text-cust-dark-text dark:border-cust-dark-text select select-bordered join-item !rounded-l-lg"
+                  className="dark:bg-neutral-900 dark:text-white dark:border-white select select-bordered join-item !rounded-l-lg"
                   value={filterCategory}
                   onChange={(e) => {
                     setFilterCategory(e.target.value);
@@ -200,7 +200,7 @@ function History() {
               </div>
               <input
                 placeholder="Filter"
-                className="dark:bg-cust-grey dark:text-cust-dark-text dark:border-cust-dark-text input input-bordered join-item w-full"
+                className="dark:bg-neutral-900 dark:text-white dark:border-white input input-bordered join-item w-full"
                 onChange={(e) => {
                   e.preventDefault();
                   setFilter(e.target.value);
@@ -255,15 +255,15 @@ function History() {
             </div>
           </div>
           <div className="w-full">
-            <table className="table table-auto dark:text-cust-dark-text">
+            <table className="table table-auto dark:text-white">
               <thead>
                 <tr>
                   {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                   <th className="p-2 hidden sm:table-cell" />
-                  <th className="p-2 dark:text-cust-dark-text">Date</th>
-                  <th className="p-2 dark:text-cust-dark-text">Image </th>
-                  <th className="p-2 hidden md:table-cell dark:text-cust-dark-text">Model</th>
-                  <th className="p-2 dark:text-cust-dark-text">Predictions</th>
+                  <th className="p-2 dark:text-white">Date</th>
+                  <th className="p-2 dark:text-white">Image </th>
+                  <th className="p-2 hidden md:table-cell dark:text-white">Model</th>
+                  <th className="p-2 dark:text-white">Predictions</th>
                   {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                   <th className="p-2 hidden md:table-cell" />
                 </tr>
@@ -275,7 +275,7 @@ function History() {
                     return (
                       <tr
                         key={index}
-                        className="hover:bg-neutral-100 dark:hover:bg-cust-grey-hover transition-all ease-in-out duration-300 cursor-pointer"
+                        className="hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all ease-in-out duration-300 cursor-pointer"
                         onClick={(e) => {
                           openModal(e, getOriginalIndex(prediction));
                         }}
@@ -349,7 +349,7 @@ function History() {
             <div className="join items-center">
               <div className="tooltip" data-tip="item per page">
                 <select
-                  className="select dark:bg-cust-grey dark:text-cust-dark-text dark:border-cust-dark-text select-bordered join-item rounded-lg !rounded-l-lg"
+                  className="select dark:bg-neutral-900 dark:text-white dark:border-white select-bordered join-item rounded-lg !rounded-l-lg"
                   onChange={(e) => {
                     setItemsPerPage(Number(e.target.value));
                     setCurrentPage(1);
@@ -365,16 +365,16 @@ function History() {
               </div>
               <button
                 type="button"
-                className={`join-item btn ${currentPage === 1 ? 'cursor-not-allowed ' : 'dark:bg-cust-grey'}`}
+                className={`join-item btn dark:disabled:bg-neutral-800 ${currentPage === 1 ? 'cursor-not-allowed ' : 'dark:bg-neutral-900'}`}
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                <div className={`${currentPage === 1 ? 'dark:invisible' : 'dark:text-cust-dark-text'}`}>
-                <FontAwesomeIcon icon={faArrowLeft} />
-              </div>
-                
+                <div className="dark:text-white">
+                  <FontAwesomeIcon icon={faArrowLeft} />
+                </div>
+
               </button>
-              <select className="dark:bg-cust-grey dark:text-cust-dark-text dark:border-cust-dark-text select select-bordered join-item" onChange={(e) => setCurrentPage(Number(e.target.value))} value={currentPage}>
+              <select className="dark:bg-neutral-900 dark:text-white dark:border-white select select-bordered join-item" onChange={(e) => setCurrentPage(Number(e.target.value))} value={currentPage}>
                 {Array.from({ length: totalPages }, (_, i) => (
                   <option key={i} value={i + 1}>
                     Page
@@ -385,11 +385,11 @@ function History() {
               </select>
               <button
                 type="button"
-                className={`join-item btn ${currentPage === totalPages ? 'cursor-not-allowed' : 'dark:bg-cust-grey'}`}
+                className={`join-item btn dark:disabled:bg-neutral-800 ${currentPage === totalPages ? 'cursor-not-allowed' : 'dark:bg-neutral-900'}`}
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
-                <div className={`${currentPage === totalPages ? 'dark:invisible' : 'dark:text-cust-dark-text'}`}>
+                <div className="dark:text-white">
                   <FontAwesomeIcon icon={faArrowRight} />
                 </div>
               </button>

@@ -248,7 +248,7 @@ function Detection() {
       .map(() => false)]);
   };
   return (
-    <div className="w-full h-full flex justify-center overflow-y-auto overflow-x-hidden pt-24 pb-4 dark:bg-cust-grey">
+    <div className="w-full h-full flex justify-center overflow-y-auto overflow-x-hidden pt-24 pb-4">
       <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit gap-4">
         <h1 className="font-varela text-xl font-bold dark:text-white">Upload</h1>
         <h1 className="text-xl font-varela text-center dark:text-white">
@@ -269,7 +269,7 @@ function Detection() {
           accept="image/png, image/jpeg"
         />
         <div
-          className={`dark:bg-cust-grey transition-all cursor-pointer card w-full border-2 border-dashed border-gray-300 ${images.length > 0
+          className={`dark:bg-neutral-900 transition-all cursor-pointer card w-full border-2 border-dashed border-gray-300 ${images.length > 0
             ? 'flex flex-col sm:flex-row justify-around items-center p-4'
             : 'aspect-video flex items-center justify-center p-4'
           } ${isDraggingOver ? 'bg-green-200' : 'bg-white'}`}
@@ -295,7 +295,7 @@ function Detection() {
                 <label className="label">
                   <span className="label-text dark:text-white">Pick a model</span>
                 </label>
-                <select onChange={selectModel} className="select dark:bg-cust-grey dark:text-cust-dark-text select-primary w-full max-w-xs">
+                <select onChange={selectModel} className="select dark:bg-neutral-900 dark:text-cust-dark-text select-primary w-full max-w-xs">
                   {models.map((model, i) => (
                     <option key={i} value={model}>{model}</option>))}
                 </select>
@@ -334,7 +334,7 @@ function Detection() {
               <div className="tooltip font-varela " data-tip="Download predictions as CSV">
                 <button
                   type="button"
-                  className="btn btn-secondary btn-outline hover:!text-white join-item"
+                  className="btn btn-secondary btn-outline hover:!text-white join-item dark:disabled:bg-neutral-800 dark:text-white"
                   onClick={downloadPredictionsCSV}
                   disabled={isChecked.every((value) => !value)}
                 >
@@ -344,7 +344,7 @@ function Detection() {
               <div className="tooltip font-varela " data-tip="Download predictions as XLSX">
                 <button
                   type="button"
-                  className="btn btn-secondary btn-outline hover:!text-white aspect-square join-item"
+                  className="btn btn-secondary btn-outline hover:!text-white aspect-square join-item dark:disabled:bg-neutral-800"
                   onClick={downloadPredictionsXLSX}
                   disabled={isChecked.every((value) => !value)}
                 >

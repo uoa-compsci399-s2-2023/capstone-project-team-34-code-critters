@@ -89,7 +89,7 @@ function App() {
         signUpModalRef={signUpModalRef}
         setToastMessage={setToastMessage}
       />
-      <div className="dark:text-cust-dark-text h-full w-full">
+      <div className="h-full w-full dark:bg-neutral-900">
         <Routes>
           <Route path="/upload" element={<Detection />} />
           <Route

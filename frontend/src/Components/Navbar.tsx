@@ -58,7 +58,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
   if (navbarEnabled) {
     if (loginEnabled) {
       return (
-        <div className={`navbar z-10 left-1/2 -translate-x-1/2 w-11/12 max-w-4xl top-4 shadow dark:shadow-white backdrop-blur-sm rounded-xl  ${isHomePage ? 'absolute' : 'fixed '}`}>
+        <div className={`navbar z-10 left-1/2 -translate-x-1/2 w-11/12 max-w-4xl top-4 shadow dark:shadow-xl dark:bg-neutral-800 backdrop-blur-sm rounded-xl  ${isHomePage ? 'absolute' : 'fixed '}`}>
           <div className="flex-1 flex gap-2">
             <div className="cursor-pointer" onClick={() => navigate('/')}>
               <img src="/logos/logoV2.svg" alt="logo" />
@@ -72,13 +72,13 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
           </div>
           <div className="flex md:hidden">
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label htmlFor="drawer" aria-label="open sidebar" className="btn btn-square btn-ghost dark:text-cust-dark-text">
+            <label htmlFor="drawer" aria-label="open sidebar" className="btn btn-square btn-ghost dark:text-white">
               <FontAwesomeIcon icon={faBars} size="2x" />
             </label>
           </div>
           <div className="md:flex gap-2 hidden">
             <button
-              className={`dark:text-cust-dark-text font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white ${!user ? 'flex' : 'hidden'}`}
+              className={`dark:text-white font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white ${!user ? 'flex' : 'hidden'}`}
               type="button"
               onClick={() => navigate('/')}
             >
@@ -87,7 +87,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
 
             </button>
             <button
-              className="dark:text-cust-dark-text font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
+              className="dark:text-white font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
               type="button"
               onClick={() => navigate('/upload')}
             >
@@ -108,30 +108,32 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                   )}
                 </label>
                 <div className="dropdown-content text-primary z-10 menu">
-                  <ul className="dark:bg-cust-grey bg-white pt-4 rounded-lg shadow p-2 ">
-                    <li>
-                      <div
-                        className="dark:text-cust-dark-text text-black font-varela whitespace-nowrap dark:hover:bg-cust-dark-text"
-                        onClick={() => {
-                          navigate('/history');
-                        }}
-                      >
-                        User History
-                      </div>
-                    </li>
-                    <li>
-                      <div onClick={handleLogout} className="dark:text-cust-dark-text text-black font-varela whitespace-nowrap dark:hover:bg-cust-dark-text">
-                        Log Out
-                      </div>
-                    </li>
-                  </ul>
+                  <div className="pt-4">
+                    <ul className="dark:bg-neutral-800 rounded-lg shadow p-2">
+                      <li>
+                        <div
+                          className="dark:text-white text-black font-varela whitespace-nowrap dark:hover:bg-cust-dark-text"
+                          onClick={() => {
+                            navigate('/history');
+                          }}
+                        >
+                          User History
+                        </div>
+                      </li>
+                      <li>
+                        <div onClick={handleLogout} className="dark:text-white text-black font-varela whitespace-nowrap dark:hover:bg-cust-dark-text">
+                          Log Out
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             ) : (
               <div className="flex gap-2">
                 <button
                   onClick={openLoginModal}
-                  className="dark:text-cust-dark-text font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
+                  className="dark:text-white font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
                   type="button"
                 >
                   Login
@@ -157,13 +159,13 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
       );
     }
     return (
-      <div className="navbar z-10 rounded-xl w-11/12 fixed left-1/2 -translate-x-1/2 top-4 shadow dark:shadow-white backdrop-blur-sm max-w-4xl">
+      <div className="navbar z-10 rounded-xl w-11/12 fixed left-1/2 -translate-x-1/2 top-4 shadow dark:shadow-xl dark:bg-neutral-800 backdrop-blur-sm max-w-4xl">
         <div className="flex-1 flex gap-2">
           <div className="cursor-pointer" onClick={() => navigate('/')}>
             <img src="/logos/logoV2.svg" alt="logo" />
           </div>
           <div className="cursor-pointer" onClick={() => navigate('/')}>
-            <h1 className="dark:text-cust-dark-text font-varela text-2xl font-bold">
+            <h1 className="dark:text-white font-varela text-2xl font-bold">
               Code
               <span className="bg-clip-text from-primary to-secondary bg-gradient-to-r text-transparent">Critters</span>
             </h1>
@@ -171,13 +173,13 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
         </div>
         <div className="flex md:hidden">
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label htmlFor="drawer" aria-label="open sidebar" className="dark:text-cust-dark-text btn btn-square btn-ghost">
+          <label htmlFor="drawer" aria-label="open sidebar" className="dark:text-white btn btn-square btn-ghost">
             <FontAwesomeIcon icon={faBars} size="2x" />
           </label>
         </div>
         <div className="md:flex gap-2 hidden">
           <button
-            className="dark:text-cust-dark-text font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
+            className="dark:text-white font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
             type="button"
             onClick={() => navigate('/')}
           >
@@ -185,7 +187,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
             <FontAwesomeIcon icon={faHome} className="-mt-[0.2rem]" />
           </button>
           <button
-            className="dark:text-cust-dark-text font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
+            className="dark:text-white font-varela btn hover:bg-transparent btn-ghost transition-all border-none relative before:content-[''] before:absolute before:left-0 before:top-0 before:w-0 before:h-full before:bg-gradient-to-br before:from-primary before:to-secondary hover:before:w-full before:-z-10 before:transition-all before:duration-300 duration-300 before:rounded-lg hover:text-white"
             type="button"
             onClick={() => navigate('/upload')}
           >

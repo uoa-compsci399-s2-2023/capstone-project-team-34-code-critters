@@ -150,9 +150,9 @@ function LoginModal({
             </div>
             <img className="absolute top-6 left-6" src="/logos/logo.svg" alt="logo" />
           </div>
-          <div className="relative bg-white dark:bg-cust-grey flex flex-col items-center justify-center rounded-l-3xl py-5 sm:py-10 px-6 sm:px-20 gap-4 form-control ">
+          <div className="relative bg-white dark:bg-neutral-900 flex flex-col items-center justify-center rounded-l-3xl py-5 sm:py-10 px-6 sm:px-20 gap-4 form-control ">
             <button
-              className="btn btn-circle btn-ghost absolute top-4 right-4"
+              className="btn btn-circle btn-ghost absolute top-4 right-4 text-white"
               type="button"
               onClick={() => loginModalRef.current?.close()}
             >
@@ -161,7 +161,7 @@ function LoginModal({
             <div className="text-3xl sm:text-4xl text-primary font-black font-varela cursor-default">
               Login
             </div>
-            <button className="dark:text-cust-dark-text font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
+            <button className="dark:border-neutral-400 dark:hover:bg-neutral-700 dark:text-neutral-200 font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
               <img
                 alt="google icon"
                 src="/logos/google.svg"
@@ -169,7 +169,7 @@ function LoginModal({
               />
               Login with Google
             </button>
-            <button className="dark:text-cust-dark-text font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
+            <button className="dark:border-neutral-400 dark:hover:bg-neutral-700 dark:text-neutral-200 font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
               <img
                 className="h-3/4"
                 alt="github icon"
@@ -184,7 +184,7 @@ function LoginModal({
                 id="login-email"
                 type="email"
                 placeholder="Enter your email"
-                className={`dark:bg-cust-grey-1 dark:text-cust-dark-text dark:focus:text-white font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${
+                className={`dark:bg-neutral-800 dark:text-neutral-200 dark:focus:text-white font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${
                   errors.email && 'input-error'
                 }`}
                 {...register('email', {
@@ -207,7 +207,7 @@ function LoginModal({
                 id="login-password"
                 type="password"
                 placeholder="Enter your password"
-                className={`dark:bg-cust-grey-1 dark:text-cust-dark-text dark:focus:text-white font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
+                className={`dark:bg-neutral-800 dark:text-neutral-200 dark:focus:text-white font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
                 {...register('password', {
                   required: true,
                   minLength: 6,
@@ -224,7 +224,7 @@ function LoginModal({
             </div>
             <button
               type="submit"
-              className={`border-none relative font-varela normal-case btn w-full text-white text-lg ${
+              className={`dark:disabled:bg-neutral-800 border-none relative font-varela normal-case btn w-full text-white text-lg ${
                 (!isValid)
                   ? 'cursor-not-allowed'
                   : 'bg-gradient-to-r from-primary to-secondary'
@@ -236,13 +236,14 @@ function LoginModal({
               </div>
               <div className={`text-neutral-500 font-varela cursor-default ${
                 (!isValid)
-                  ? 'dark:text-cust-dark-text'
-                  : 'dark:text-white'}`}>
+                  ? 'dark:text-neutral-200'
+                  : 'dark:text-white'}`}
+              >
                 Login
               </div>
             </button>
-            
-            <div className="dark:text-cust-dark-text text-neutral-500 font-varela cursor-default">
+
+            <div className="dark:text-neutral-200 text-neutral-500 font-varela cursor-default">
               {/* eslint-disable-next-line react/no-unescaped-entities */}
               Don't have an account?
               {' '}
