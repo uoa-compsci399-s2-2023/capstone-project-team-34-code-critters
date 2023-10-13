@@ -15,6 +15,7 @@ import LoginModal from './Components/LoginModal';
 import Home from './Pages/home/Home';
 import Toast, { ToastMessage } from './Components/Toast';
 import { auth } from './enviroments/firebase';
+import './styles/scrollbar.css';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -110,7 +111,7 @@ function App() {
         signUpModalRef={signUpModalRef}
         setToastMessage={setToastMessage}
       />
-      <div className="h-full w-full dark:bg-neutral-900">
+      <div className="h-full w-full dark:bg-neutral-900 scrollbar overflow-y-auto">
         <Routes>
           <Route path="/upload" element={<Detection />} />
           <Route

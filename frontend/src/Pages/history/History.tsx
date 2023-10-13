@@ -178,7 +178,7 @@ function History() {
   const getOriginalIndex = (prediction: PredictionTable) => tablePredictions.findIndex((pred) => pred.id === prediction.id);
 
   return (
-    <div className="flex justify-center overflow-y-auto overflow-x-hidden pt-24 pb-4 h-full w-full">
+    <div className="flex justify-center overflow-x-hidden pt-24 pb-4 h-fit w-full">
       {isLoading ? (
         <span className="loading loading-spinner text-primary loading-lg" />
       ) : (

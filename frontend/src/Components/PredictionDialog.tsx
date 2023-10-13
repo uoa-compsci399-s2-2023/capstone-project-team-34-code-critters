@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Prediction } from '../models/Prediction';
+import '../styles/scrollbar.css';
 
 interface PredictionDialogProps {
   index: number;
@@ -39,7 +40,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
   }, []);
   return (
     <dialog id={`prediction-${index}`} className="modal modal-bottom sm:modal-middle">
-      <form method="dialog" className="dark:bg-neutral-900 modal-box sm:w-11/12 sm:max-w-4xl p-8">
+      <form method="dialog" className="dark:bg-neutral-900 modal-box sm:w-11/12 sm:max-w-4xl p-8 scrollbar">
         <button
           onClick={() => closeModel()}
           type="button"
