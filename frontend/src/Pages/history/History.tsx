@@ -313,7 +313,7 @@ function History() {
                             {topThreePredictions.map((pred, i) => (
                               <span
                                 key={i}
-                                className={`badge badge-outline truncate ${i === 0 && 'badge-primary hover:bg-primary hover:text-white'} ${i === 1 && 'badge-secondary hover:bg-secondary hover:text-white'} ${i === 2 && 'badge-warning hover:bg-warning hover:text-white'}`}
+                                className={`badge badge-outline truncate ${i === 0 && 'badge-primary hover:bg-primary hover:text-white hover:border-primary'} ${i === 1 && 'badge-secondary hover:bg-secondary hover:text-white hover:border-secondary'} ${i === 2 && 'badge-warning hover:bg-warning hover:text-white hover:border-warning'}`}
                               >
                                 {pred[1]}
                                 :
