@@ -42,5 +42,16 @@ module.exports = {
       },
     ],
   },
-  plugins: [require("daisyui")],
+  plugins: [function ({ addUtilities }) {
+    const newUtilities = {
+      '.shadow-red': {
+        boxShadow: '0 4px 6px -1px rgba(255, 0, 0, 0.1), 0 2px 4px -1px rgba(255, 0, 0, 0.06)',
+      },
+      '.shadow-white': {
+        boxShadow: '0 4px 6px -1px rgba(255, 255, 255, 0.1), 0 2px 4px -1px rgba(255, 255, 255, 0.06)',
+      },
+    }
+    addUtilities(newUtilities)
+    },
+    require("daisyui")],
 }
