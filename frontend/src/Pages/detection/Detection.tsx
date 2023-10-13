@@ -269,10 +269,10 @@ function Detection() {
           accept="image/png, image/jpeg"
         />
         <div
-          className={`bg-transparent dark:border-neutral-100 transition-all cursor-pointer card w-full border-2 border-dashed border-gray-300 ${images.length > 0
+          className={`dark:border-neutral-100 transition-all cursor-pointer card w-full border-2 border-dashed border-gray-300 ${images.length > 0
             ? 'flex flex-col sm:flex-row justify-around items-center p-4'
             : 'aspect-video flex items-center justify-center p-4'
-          } ${isDraggingOver ? 'bg-green-200' : 'bg-white'}`}
+          } ${isDraggingOver ? 'bg-green-200' : 'bg-transparent'}`}
           onClick={(e) => addImages(e)}
           onDragOver={(e) => handleDragOver(e)} // code needs to the changed later
           onDrop={(e) => handleDrop(e)} // code needs to be changed later
