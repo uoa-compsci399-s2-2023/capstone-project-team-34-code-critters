@@ -44,9 +44,9 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
         <button
           onClick={() => closeModel()}
           type="button"
-          className="dark:text-neutral-100 btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          className="w-12 h-12 dark:text-neutral-100 btn btn-sm btn-circle btn-ghost absolute top-4 right-4"
         >
-          <FontAwesomeIcon icon={faXmark} />
+          <FontAwesomeIcon icon={faXmark} size="lg" />
         </button>
         <h1 className="dark:text-neutral-100 text-xl font-varela">Predictions:</h1>
         <div className="hidden sm:grid grid-cols-3 gap-4">

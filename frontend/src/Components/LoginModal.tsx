@@ -150,13 +150,13 @@ function LoginModal({
             </div>
             <img className="absolute top-6 left-6" src="/logos/logo.svg" alt="logo" />
           </div>
-          <div className="relative bg-white dark:bg-neutral-900 flex flex-col items-center justify-center rounded-none md:rounded-l-2xl py-5 sm:py-10 px-6 sm:px-20 gap-4 form-control">
+          <div className="relative bg-white dark:bg-neutral-900 flex flex-col items-center justify-center rounded-none md:rounded-l-2xl p-6 sm:py-10 px-6 sm:px-20 gap-4 form-control">
             <button
-              className="btn btn-circle btn-ghost absolute top-4 right-4 dark:text-white"
+              className="btn btn-circle btn-ghost absolute top-4 right-4 dark:text-neutral-100"
               type="button"
               onClick={() => loginModalRef.current?.close()}
             >
-              <FontAwesomeIcon icon={faXmark} />
+              <FontAwesomeIcon icon={faXmark} size="lg" />
             </button>
             <div className="text-3xl sm:text-4xl text-primary font-black font-varela cursor-default">
               Login
