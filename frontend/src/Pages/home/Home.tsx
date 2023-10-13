@@ -81,7 +81,7 @@ function Home() {
           </div>
         </div>
         <div ref={featuresRef} className="pt-20">
-          <div className="min-h-screen flex flex-col items-center justify-center gap-8 pb-4">
+          <div className="min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center gap-8 pb-4">
             <h2 className="dark:text-neutral-100 text-4xl font-bold font-varela">Having a problem identifying winged pests?</h2>
             <p className="dark:text-neutral-100 max-w-prose font-varela">
               Our pest insect identification interface uses machine learning methods
