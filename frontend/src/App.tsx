@@ -250,9 +250,9 @@ function App() {
           />
         )}
       </div>
-      <div className="hidden sm:flex">
+      <div className="hidden sm:flex fixed fixed bottom-4 right-4">
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-        <label className="btn btn-circle border-none bg-orange-400 hover:bg-orange-500 dark:bg-purple-500 dark:hover:bg-purple-600 w-14 h-14 text-white swap fixed bottom-4 right-4 sm:bottom-8 sm:right-8">
+        <label className="btn btn-circle border-none bg-orange-400 hover:bg-orange-500 dark:bg-purple-500 dark:hover:bg-purple-600 w-14 h-14 text-white swap">
           <input type="checkbox" onChange={() => toggleTheme()} checked={isDark} />
           <div className="swap-on">
             <FontAwesomeIcon icon={faMoon} size="2x" />
