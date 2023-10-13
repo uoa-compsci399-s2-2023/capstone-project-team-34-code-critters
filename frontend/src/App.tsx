@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Navigate, Route, Routes, useNavigate,
 } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faHome, faMagnifyingGlass, faBook, faDoorOpen, faRightToBracket, faUserAlt,
+  faHome, faMagnifyingGlass, faBook, faDoorOpen, faRightToBracket, faUserAlt, faMoon, faSun,
 } from '@fortawesome/free-solid-svg-icons';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import History from './Pages/history/History';
@@ -23,7 +23,6 @@ type ProtectedRouteProps = {
 // eslint-disable-next-line react/function-component-definition
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const [user] = useAuthState(auth);
-
   if (!user) {
     return <Navigate to="/" replace />;
   }
@@ -47,6 +46,7 @@ const ProtectedHomeRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 function App() {
   const loginModalRef = useRef<HTMLDialogElement | null>(null);
   const signUpModalRef = useRef<HTMLDialogElement | null>(null);
+  const [isDark, setIsDark] = useState(false);
 
   const [toast, setToast] = useState<ToastMessage>({ message: '', type: 'success' });
   const navigate = useNavigate();
@@ -82,6 +82,27 @@ function App() {
     }
   };
 
+  const toggleTheme = (): void => {
+    if (isDark) {
+      document.documentElement.classList.remove('dark');
+      localStorage.theme = 'light';
+      setIsDark(false);
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.theme = 'dark';
+      setIsDark(true);
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.theme === 'dark') {
+      setIsDark(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      setIsDark(false);
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
   return (
     <div className="w-full h-screen drawer drawer-end">
       <Navbar
@@ -207,6 +228,16 @@ function App() {
           />
         )}
       </div>
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+      <label className="btn btn-circle border-none bg-orange-400 hover:bg-orange-500 dark:bg-purple-500 dark:hover:bg-purple-600 w-14 h-14 shadow-xl text-white swap fixed bottom-4 right-4 sm:bottom-8 sm:right-8">
+        <input type="checkbox" onChange={() => toggleTheme()} checked={isDark} />
+        <div className="swap-on">
+          <FontAwesomeIcon icon={faMoon} size="2x" />
+        </div>
+        <div className="swap-off">
+          <FontAwesomeIcon icon={faSun} size="2x" />
+        </div>
+      </label>
     </div>
   );
 }
