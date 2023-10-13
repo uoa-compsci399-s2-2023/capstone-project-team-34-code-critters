@@ -237,11 +237,11 @@ function LoginModal({
               <div className={`text-neutral-500 font-varela cursor-default ${
                 (!isValid)
                   ? 'dark:text-cust-dark-text'
-                  : 'dark:text-white'}`}>
+                  : 'dark:text-white'}`}
+              >
                 Login
               </div>
             </button>
-            
             <div className="dark:text-cust-dark-text text-neutral-500 font-varela cursor-default">
               {/* eslint-disable-next-line react/no-unescaped-entities */}
               Don't have an account?

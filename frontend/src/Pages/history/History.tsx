@@ -116,7 +116,6 @@ function History() {
     const userDocRef = doc(db, 'user', user?.uid);
     const predictionsCollectionRef = collection(userDocRef, 'predictions');
     const predictionDocRef = doc(predictionsCollectionRef, prediction.id);
-    
     try {
       await deleteDoc(predictionDocRef);
       await loadPredictionAndImages(user);
@@ -370,9 +369,8 @@ function History() {
                 disabled={currentPage === 1}
               >
                 <div className={`${currentPage === 1 ? 'dark:invisible' : 'dark:text-cust-dark-text'}`}>
-                <FontAwesomeIcon icon={faArrowLeft} />
-              </div>
-                
+                  <FontAwesomeIcon icon={faArrowLeft} />
+                </div>
               </button>
               <select className="dark:bg-cust-grey dark:text-cust-dark-text dark:border-cust-dark-text select select-bordered join-item" onChange={(e) => setCurrentPage(Number(e.target.value))} value={currentPage}>
                 {Array.from({ length: totalPages }, (_, i) => (

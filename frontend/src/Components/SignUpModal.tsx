@@ -235,10 +235,10 @@ function SignUpModal({
               <div className={`text-neutral-500 font-varela cursor-default ${
                 (!isValid)
                   ? 'dark:text-cust-dark-text'
-                  : 'dark:text-white'}`}>
+                  : 'dark:text-white'}`}
+              >
                 Create Account
               </div>
-              
             </button>
             <div className="text-neutral-500 font-varela cursor-default">
               Already have an account?
