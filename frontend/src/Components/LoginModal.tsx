@@ -161,7 +161,7 @@ function LoginModal({
             <div className="text-3xl sm:text-4xl text-primary font-black font-varela cursor-default">
               Login
             </div>
-            <button className="dark:border-neutral-400 dark:hover:bg-neutral-700 dark:text-neutral-200 font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
+            <button className="dark:border-neutral-700 dark:hover:bg-neutral-700 dark:text-neutral-200 font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
               <img
                 alt="google icon"
                 src="/logos/google.svg"
@@ -169,7 +169,7 @@ function LoginModal({
               />
               Login with Google
             </button>
-            <button className="dark:border-neutral-400 dark:hover:bg-neutral-700 dark:text-neutral-200 font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
+            <button className="dark:border-neutral-700 dark:hover:bg-neutral-700 dark:text-neutral-200 font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
               <img
                 className="h-3/4"
                 alt="github icon"
@@ -185,7 +185,7 @@ function LoginModal({
                 type="email"
                 placeholder="Enter your email"
                 className={`dark:bg-neutral-800 dark:text-neutral-200 dark:focus:text-white font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${errors.email && 'input-error'
-                  }`}
+                }`}
                 {...register('email', {
                   required: 'Email is required',
                   pattern: {
@@ -224,17 +224,17 @@ function LoginModal({
             <button
               type="submit"
               className={`dark:disabled:bg-neutral-800 border-none relative font-varela normal-case btn w-full text-white text-lg ${(!isValid)
-                  ? 'cursor-not-allowed'
-                  : 'bg-gradient-to-r from-primary to-secondary'
-                }`}
+                ? 'cursor-not-allowed'
+                : 'bg-gradient-to-r from-primary to-secondary'
+              }`}
               disabled={!isValid}
             >
               <div className={`white border-none opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-lg flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
                 Login
               </div>
               <div className={`text-neutral-500 font-varela cursor-default ${(!isValid)
-                  ? 'dark:text-neutral-200'
-                  : 'dark:text-neutral-100'}`}
+                ? 'dark:text-neutral-200'
+                : 'dark:text-neutral-100'}`}
               >
                 Login
               </div>
