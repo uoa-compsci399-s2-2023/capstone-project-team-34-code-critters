@@ -180,7 +180,7 @@ function History() {
   return (
     <div className="flex justify-center overflow-x-hidden pt-24 pb-4 h-fit w-full">
       {isLoading ? (
-        <span className="loading loading-spinner text-primary loading-lg" />
+        <span className="loading loading-spinner text-primary loading-lg absolute -translate-y-1/2 top-1/2 -translate-x-1/2 left-1/2" />
       ) : (
         <div className="max-w-5xl xl:max-w-6xl w-11/12">
           <div className="sm:px-2 pb-2 flex items-center justify-between">
