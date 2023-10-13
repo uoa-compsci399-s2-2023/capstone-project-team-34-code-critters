@@ -152,7 +152,7 @@ function LoginModal({
           </div>
           <div className="relative bg-white dark:bg-neutral-900 flex flex-col items-center justify-center rounded-none md:rounded-l-2xl py-5 sm:py-10 px-6 sm:px-20 gap-4 form-control">
             <button
-              className="btn btn-circle btn-ghost absolute top-4 right-4 text-white"
+              className="btn btn-circle btn-ghost absolute top-4 right-4 dark:text-white"
               type="button"
               onClick={() => loginModalRef.current?.close()}
             >
