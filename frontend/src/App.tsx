@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Navigate, Route, Routes, useNavigate,
 } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faHome, faMagnifyingGlass, faBook, faDoorOpen, faRightToBracket, faUserAlt,
+  faHome, faMagnifyingGlass, faBook, faDoorOpen, faRightToBracket, faUserAlt, faMoon, faSun,
 } from '@fortawesome/free-solid-svg-icons';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import History from './Pages/history/History';
@@ -15,6 +15,7 @@ import LoginModal from './Components/LoginModal';
 import Home from './Pages/home/Home';
 import Toast, { ToastMessage } from './Components/Toast';
 import { auth } from './enviroments/firebase';
+import './styles/scrollbar.css';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -23,7 +24,6 @@ type ProtectedRouteProps = {
 // eslint-disable-next-line react/function-component-definition
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const [user] = useAuthState(auth);
-
   if (!user) {
     return <Navigate to="/" replace />;
   }
@@ -47,6 +47,7 @@ const ProtectedHomeRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 function App() {
   const loginModalRef = useRef<HTMLDialogElement | null>(null);
   const signUpModalRef = useRef<HTMLDialogElement | null>(null);
+  const [isDark, setIsDark] = useState(false);
 
   const [toast, setToast] = useState<ToastMessage>({ message: '', type: 'success' });
   const navigate = useNavigate();
@@ -82,6 +83,27 @@ function App() {
     }
   };
 
+  const toggleTheme = (): void => {
+    if (isDark) {
+      document.documentElement.classList.remove('dark');
+      localStorage.theme = 'light';
+      setIsDark(false);
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.theme = 'dark';
+      setIsDark(true);
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.theme === 'dark') {
+      setIsDark(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      setIsDark(false);
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
   return (
     <div className="w-full h-screen drawer drawer-end">
       <Navbar
@@ -89,7 +111,7 @@ function App() {
         signUpModalRef={signUpModalRef}
         setToastMessage={setToastMessage}
       />
-      <div className="h-full w-full">
+      <div className="h-full w-full dark:bg-neutral-900 scrollbar overflow-y-auto">
         <Routes>
           <Route path="/upload" element={<Detection />} />
           <Route
@@ -108,9 +130,9 @@ function App() {
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label htmlFor="drawer" aria-label="close sidebar" className="drawer-overlay" />
           <div className="p-4">
-            <ul className="menu w-80 bg-white rounded-lg">
+            <ul className="menu w-80 rounded-lg dark:bg-neutral-800 bg-white">
               <button
-                className="font-varela btn btn-ghost"
+                className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
                 type="button"
                 onClick={() => {
                   closeDrawer();
@@ -122,7 +144,7 @@ function App() {
 
               </button>
               <button
-                className="font-varela btn btn-ghost"
+                className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
                 type="button"
                 onClick={() => {
                   closeDrawer();
@@ -141,7 +163,7 @@ function App() {
                       navigate('/history');
                       closeDrawer();
                     }}
-                    className="font-varela btn btn-ghost"
+                    className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
                   >
                     User History
                     <FontAwesomeIcon icon={faBook} />
@@ -152,7 +174,7 @@ function App() {
                       closeDrawer();
                       await handleLogout();
                     }}
-                    className="font-varela btn btn-ghost"
+                    className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
                   >
                     Log Out
                     <FontAwesomeIcon icon={faDoorOpen} />
@@ -161,7 +183,7 @@ function App() {
               ) : (
                 <div className="flex flex-col">
                   <button
-                    className="font-varela btn btn-ghost"
+                    className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
                     type="button"
                     onClick={() => {
                       closeDrawer();
@@ -172,7 +194,7 @@ function App() {
                     <FontAwesomeIcon icon={faRightToBracket} />
                   </button>
                   <button
-                    className="font-varela btn btn-ghost"
+                    className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
                     type="button"
                     onClick={() => {
                       closeDrawer();
@@ -184,6 +206,27 @@ function App() {
                   </button>
                 </div>
               )}
+              <button
+                className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
+                type="button"
+                onClick={() => {
+                  toggleTheme();
+                }}
+              >
+                {
+                  isDark ? (
+                    <>
+                      Light Mode
+                      <FontAwesomeIcon icon={faSun} />
+                    </>
+                  ) : (
+                    <>
+                      Dark Mode
+                      <FontAwesomeIcon icon={faMoon} />
+                    </>
+                  )
+                }
+              </button>
             </ul>
           </div>
         </div>
@@ -206,6 +249,18 @@ function App() {
             onClose={() => setToast({ message: '', type: 'success' })}
           />
         )}
+      </div>
+      <div className="hidden sm:flex fixed bottom-4 right-4">
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        <label className="btn btn-circle border-none bg-orange-400 hover:bg-orange-500 dark:bg-purple-500 dark:hover:bg-purple-600 w-14 h-14 text-white swap">
+          <input type="checkbox" onChange={() => toggleTheme()} checked={isDark} />
+          <div className="swap-on">
+            <FontAwesomeIcon icon={faMoon} size="2x" />
+          </div>
+          <div className="swap-off">
+            <FontAwesomeIcon icon={faSun} size="2x" />
+          </div>
+        </label>
       </div>
     </div>
   );

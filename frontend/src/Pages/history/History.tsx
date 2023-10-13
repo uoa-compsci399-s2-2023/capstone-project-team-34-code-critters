@@ -116,6 +116,7 @@ function History() {
     const userDocRef = doc(db, 'user', user?.uid);
     const predictionsCollectionRef = collection(userDocRef, 'predictions');
     const predictionDocRef = doc(predictionsCollectionRef, prediction.id);
+
     try {
       await deleteDoc(predictionDocRef);
       await loadPredictionAndImages(user);
@@ -177,16 +178,16 @@ function History() {
   const getOriginalIndex = (prediction: PredictionTable) => tablePredictions.findIndex((pred) => pred.id === prediction.id);
 
   return (
-    <div className="flex justify-center overflow-y-auto overflow-x-hidden pt-24 pb-4 h-full w-full">
+    <div className="flex justify-center overflow-x-hidden pt-24 pb-4 h-fit w-full">
       {isLoading ? (
-        <span className="loading loading-spinner text-primary loading-lg" />
+        <span className="loading loading-spinner text-primary loading-lg absolute -translate-y-1/2 top-1/2 -translate-x-1/2 left-1/2" />
       ) : (
-        <div className="max-w-4xl w-11/12">
+        <div className="max-w-5xl xl:max-w-6xl w-11/12">
           <div className="sm:px-2 pb-2 flex items-center justify-between">
             <div className="join">
               <div className="tooltip tooltip-bottom" data-tip="Filter by">
                 <select
-                  className="select select-bordered join-item !rounded-l-lg"
+                  className="dark:bg-neutral-900 dark:text-neutral-100 dark:border-white select select-bordered join-item !rounded-l-lg"
                   value={filterCategory}
                   onChange={(e) => {
                     setFilterCategory(e.target.value);
@@ -199,7 +200,7 @@ function History() {
               </div>
               <input
                 placeholder="Filter"
-                className="input input-bordered join-item w-full"
+                className="dark:bg-neutral-900 dark:text-neutral-100 dark:border-white input input-bordered join-item w-full"
                 onChange={(e) => {
                   e.preventDefault();
                   setFilter(e.target.value);
@@ -226,14 +227,14 @@ function History() {
                   setIsChecked(newCheck);
                 }}
               >
-                { isChecked.some((value) => value) ? 'Deselect All' : 'Select All'}
+                {isChecked.some((value) => value) ? 'Deselect All' : 'Select All'}
               </button>
 
               <div className="join">
                 <div className="tooltip tooltip-bottom font-varela " data-tip="Download predictions as CSV">
                   <button
                     type="button"
-                    className="btn btn-secondary btn-outline hover:!text-white join-item"
+                    className="btn btn-secondary btn-outline hover:!text-white join-item dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100 dark:disabled:border-none"
                     disabled={isChecked.every((value) => !value)}
                     onClick={downloadPredictionsCSV}
                   >
@@ -243,7 +244,7 @@ function History() {
                 <div className="tooltip tooltip-bottom font-varela " data-tip="Download predictions as XLSX">
                   <button
                     type="button"
-                    className="btn btn-secondary btn-outline hover:!text-white aspect-square join-item"
+                    className="btn btn-secondary btn-outline hover:!text-white aspect-square join-item dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100 dark:disabled:border-none"
                     onClick={downloadPredictionsXLSX}
                     disabled={isChecked.every((value) => !value)}
                   >
@@ -254,15 +255,15 @@ function History() {
             </div>
           </div>
           <div className="w-full">
-            <table className="table table-auto">
+            <table className="table table-auto dark:text-neutral-100">
               <thead>
                 <tr>
                   {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                   <th className="p-2 hidden sm:table-cell" />
-                  <th className="p-2">Date</th>
-                  <th className="p-2">Image </th>
-                  <th className="p-2 hidden md:table-cell">Model</th>
-                  <th className="p-2">Predictions</th>
+                  <th className="p-2 dark:text-neutral-100">Date</th>
+                  <th className="p-2 dark:text-neutral-100">Image </th>
+                  <th className="p-2 hidden md:table-cell dark:text-neutral-100">Model</th>
+                  <th className="p-2 dark:text-neutral-100">Predictions</th>
                   {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                   <th className="p-2 hidden md:table-cell" />
                 </tr>
@@ -274,7 +275,7 @@ function History() {
                     return (
                       <tr
                         key={index}
-                        className="hover:bg-neutral-100 transition-all ease-in-out duration-300 cursor-pointer"
+                        className="hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all ease-in-out duration-300 cursor-pointer"
                         onClick={(e) => {
                           openModal(e, getOriginalIndex(prediction));
                         }}
@@ -294,7 +295,7 @@ function History() {
                         <td className="p-2">
                           <div className="flex gap-4">
                             {prediction.imageUrl ? (
-                              <img className="max-w-24 max-h-10 rounded-md" src={prediction.imageUrl} alt={prediction.name} />
+                              <img className="max-w-32 max-h-16 rounded-md" src={prediction.imageUrl} alt={prediction.name} />
                             ) : (
                               <p>Loading image...</p>
                             )}
@@ -312,7 +313,7 @@ function History() {
                             {topThreePredictions.map((pred, i) => (
                               <span
                                 key={i}
-                                className={`badge badge-outline truncate ${i === 0 && 'badge-primary hover:bg-primary hover:text-white'} ${i === 1 && 'badge-secondary hover:bg-secondary hover:text-white'} ${i === 2 && 'badge-warning hover:bg-warning hover:text-white'}`}
+                                className={`badge badge-outline truncate ${i === 0 && 'badge-primary hover:bg-primary hover:text-white hover:border-primary'} ${i === 1 && 'badge-secondary hover:bg-secondary hover:text-white hover:border-secondary'} ${i === 2 && 'badge-warning hover:bg-warning hover:text-white hover:border-warning'}`}
                               >
                                 {pred[1]}
                                 :
@@ -344,11 +345,11 @@ function History() {
             </table>
           </div>
 
-          <div className="flex justify-end px-2 pt-4">
+          <div className="flex justify-end sm:justify-start xl:justify-end px-2 pt-4">
             <div className="join items-center">
               <div className="tooltip" data-tip="item per page">
                 <select
-                  className="select select-bordered join-item rounded-lg !rounded-l-lg"
+                  className="select dark:bg-neutral-900 dark:text-neutral-100 dark:border-white select-bordered join-item rounded-lg !rounded-l-lg"
                   onChange={(e) => {
                     setItemsPerPage(Number(e.target.value));
                     setCurrentPage(1);
@@ -364,13 +365,16 @@ function History() {
               </div>
               <button
                 type="button"
-                className={`join-item btn ${currentPage === 1 ? 'cursor-not-allowed' : ''}`}
+                className={`join-item btn dark:disabled:bg-neutral-800 ${currentPage === 1 ? 'cursor-not-allowed ' : 'dark:bg-neutral-900'}`}
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                <FontAwesomeIcon icon={faArrowLeft} />
+                <div className="dark:text-neutral-100">
+                  <FontAwesomeIcon icon={faArrowLeft} />
+                </div>
+
               </button>
-              <select className="select select-bordered join-item" onChange={(e) => setCurrentPage(Number(e.target.value))} value={currentPage}>
+              <select className="dark:bg-neutral-900 dark:text-neutral-100 dark:border-white select select-bordered join-item" onChange={(e) => setCurrentPage(Number(e.target.value))} value={currentPage}>
                 {Array.from({ length: totalPages }, (_, i) => (
                   <option key={i} value={i + 1}>
                     Page
@@ -381,11 +385,13 @@ function History() {
               </select>
               <button
                 type="button"
-                className={`join-item btn ${currentPage === totalPages ? 'cursor-not-allowed' : ''}`}
+                className={`join-item btn dark:disabled:bg-neutral-800 ${currentPage === totalPages ? 'cursor-not-allowed' : 'dark:bg-neutral-900'}`}
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
-                <FontAwesomeIcon icon={faArrowRight} />
+                <div className="dark:text-neutral-100">
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </div>
               </button>
             </div>
           </div>

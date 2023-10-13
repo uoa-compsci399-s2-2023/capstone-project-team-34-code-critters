@@ -141,7 +141,7 @@ function LoginModal({
             onClose={() => setErrorToast({ message: '', type: 'success' })}
           />
         )}
-        <form onSubmit={handleSubmit(loginEmailPassword)} className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 w-full  md:w-11/12 sm:max-w-4xl bg-white md:bg-gradient-to-br md:from-primary md:to-secondary md:to-60%">
+        <form onSubmit={handleSubmit(loginEmailPassword)} className="modal-box grid md:grid-cols-[1fr_1.5fr] p-0 md:w-11/12 sm:max-w-4xl bg-white md:bg-gradient-to-br md:from-primary md:to-secondary md:to-60%">
           <div className="relative hidden md:flex flex-col px-14 py-24">
             <div className="text-4xl font-black text-white font-varela cursor-default">
               Welcome back!
@@ -150,18 +150,18 @@ function LoginModal({
             </div>
             <img className="absolute top-6 left-6" src="/logos/logo.svg" alt="logo" />
           </div>
-          <div className="relative bg-white flex flex-col items-center justify-center rounded-l-3xl py-5 sm:py-10 px-6 sm:px-20 gap-4 form-control ">
+          <div className="relative bg-white dark:bg-neutral-900 flex flex-col items-center justify-center rounded-none md:rounded-l-2xl p-6 sm:py-10 px-6 sm:px-20 gap-4 form-control">
             <button
-              className="btn btn-circle btn-ghost absolute top-4 right-4"
+              className="btn btn-circle btn-ghost absolute top-4 right-4 dark:text-neutral-100"
               type="button"
               onClick={() => loginModalRef.current?.close()}
             >
-              <FontAwesomeIcon icon={faXmark} />
+              <FontAwesomeIcon icon={faXmark} size="lg" />
             </button>
             <div className="text-3xl sm:text-4xl text-primary font-black font-varela cursor-default">
               Login
             </div>
-            <button className="font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
+            <button className="dark:border-neutral-700 dark:hover:bg-neutral-700 dark:text-neutral-200 font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGoogle}>
               <img
                 alt="google icon"
                 src="/logos/google.svg"
@@ -169,7 +169,7 @@ function LoginModal({
               />
               Login with Google
             </button>
-            <button className="font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
+            <button className="dark:border-neutral-700 dark:hover:bg-neutral-700 dark:text-neutral-200 font-varela btn btn-ghost w-full normal-case text-neutral-600 border-neutral-300" type="button" onClick={signInWithGithub}>
               <img
                 className="h-3/4"
                 alt="github icon"
@@ -184,8 +184,7 @@ function LoginModal({
                 id="login-email"
                 type="email"
                 placeholder="Enter your email"
-                className={`font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${
-                  errors.email && 'input-error'
+                className={`dark:bg-neutral-800 dark:text-neutral-200 dark:focus:text-white font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${errors.email && 'input-error'
                 }`}
                 {...register('email', {
                   required: 'Email is required',
@@ -196,10 +195,10 @@ function LoginModal({
                 })}
               />
               {errors.email && (
-              // eslint-disable-next-line jsx-a11y/label-has-associated-control
-              <label className="label">
-                <div className="text-error font-varela label-text-alt">{errors.email.message}</div>
-              </label>
+                // eslint-disable-next-line jsx-a11y/label-has-associated-control
+                <label className="label">
+                  <div className="text-error font-varela label-text-alt">{errors.email.message}</div>
+                </label>
               )}
             </div>
             <div className="w-full">
@@ -207,36 +206,41 @@ function LoginModal({
                 id="login-password"
                 type="password"
                 placeholder="Enter your password"
-                className={`font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
+                className={`dark:bg-neutral-800 dark:text-neutral-200 dark:focus:text-white font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${(errors.password) && 'input-error'}`}
                 {...register('password', {
                   required: true,
                   minLength: 6,
                 })}
               />
               {errors.password && (
-              // eslint-disable-next-line jsx-a11y/label-has-associated-control
-              <label className="label">
-                <div className="text-error font-varela label-text-alt">
-                  {errors.password.type === 'required' ? 'Password is required' : 'Password must be at least 6 characters long'}
-                </div>
-              </label>
+                // eslint-disable-next-line jsx-a11y/label-has-associated-control
+                <label className="label">
+                  <div className="text-error font-varela label-text-alt">
+                    {errors.password.type === 'required' ? 'Password is required' : 'Password must be at least 6 characters long'}
+                  </div>
+                </label>
               )}
             </div>
             <button
               type="submit"
-              className={`border-none relative font-varela normal-case btn w-full text-white text-lg ${
-                (!isValid)
-                  ? 'cursor-not-allowed'
-                  : 'bg-gradient-to-r from-primary to-secondary'
+              className={`dark:disabled:bg-neutral-800 border-none relative font-varela normal-case btn w-full text-white text-lg ${(!isValid)
+                ? 'cursor-not-allowed'
+                : 'bg-gradient-to-r from-primary to-secondary'
               }`}
               disabled={!isValid}
             >
-              <div className={`border-none opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-lg flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
+              <div className={`white border-none opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-lg flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
                 Login
               </div>
-              Login
+              <div className={`text-neutral-500 font-varela cursor-default ${(!isValid)
+                ? 'dark:text-neutral-200'
+                : 'dark:text-neutral-100'}`}
+              >
+                Login
+              </div>
             </button>
-            <div className="text-neutral-500 font-varela cursor-default">
+
+            <div className="dark:text-neutral-200 text-neutral-500 font-varela cursor-default">
               {/* eslint-disable-next-line react/no-unescaped-entities */}
               Don't have an account?
               {' '}

@@ -222,6 +222,7 @@ function Detection() {
   };
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+    setIsDraggingOver(true);
     // eslint-disable-next-line no-param-reassign
     event.dataTransfer.dropEffect = 'copy';
   };
@@ -248,14 +249,14 @@ function Detection() {
       .map(() => false)]);
   };
   return (
-    <div className="w-full h-full flex justify-center overflow-y-auto overflow-x-hidden pt-24 pb-4">
-      <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit gap-4">
-        <h1 className="font-varela text-xl font-bold">Upload</h1>
-        <h1 className="text-xl font-varela text-center">
+    <div className="w-full h-fit flex justify-center overflow-x-hidden pt-24 pb-4">
+      <div className="max-w-4xl xl:max-w-5xl w-11/12 flex flex-col items-center h-fit gap-4">
+        <h1 className="font-varela text-xl font-bold dark:text-neutral-100">Upload</h1>
+        <h1 className="text-xl font-varela text-center dark:text-neutral-100">
           Drag and Drop or Browse to Upload
           Image
         </h1>
-        <p className="text-gray-500 font-varela text-center">
+        <p className="text-gray-500 font-varela text-center dark:text-neutral-400">
           Upload unlimited images at once
         </p>
         <input
@@ -269,10 +270,10 @@ function Detection() {
           accept="image/png, image/jpeg"
         />
         <div
-          className={`transition-all cursor-pointer card w-full border-2 border-dashed border-gray-300 ${images.length > 0
+          className={`dark:border-neutral-100 transition-all cursor-pointer card w-full border-2 border-dashed border-gray-300 ${images.length > 0
             ? 'flex flex-col sm:flex-row justify-around items-center p-4'
             : 'aspect-video flex items-center justify-center p-4'
-          } ${isDraggingOver ? 'bg-green-200' : 'bg-white'}`}
+          } ${isDraggingOver ? 'bg-green-200 dark:bg-green-800' : 'bg-transparent'}`}
           onClick={(e) => addImages(e)}
           onDragOver={(e) => handleDragOver(e)} // code needs to the changed later
           onDrop={(e) => handleDrop(e)} // code needs to be changed later
@@ -281,10 +282,10 @@ function Detection() {
         >
           <FontAwesomeIcon className="text-primary" icon={faCloudArrowUp} size={images.length > 0 ? '3x' : '5x'} />
           <div className="md:flex flex-col hidden">
-            <h2 className={` text-lg font-varela ${images.length === 0 && 'mt-8'} text-center`}>
+            <h2 className={`dark:text-neutral-100 text-lg font-varela ${images.length === 0 && 'mt-8'} text-center`}>
               Select a file or drag and drop here
             </h2>
-            <p className="text-gray-500 mt-4 font-varela text-center">
+            <p className="text-gray-500 mt-4 font-varela text-center dark:text-neutral-400">
               JPG, PNG, file size no more than 10MB
             </p>
           </div>
@@ -293,9 +294,9 @@ function Detection() {
               <div className="form-control">
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="label">
-                  <span className="label-text">Pick a model</span>
+                  <span className="label-text dark:text-neutral-100">Pick a model</span>
                 </label>
-                <select onChange={selectModel} className="select select-primary w-full max-w-xs">
+                <select onChange={selectModel} className="select dark:bg-neutral-900 dark:text-neutral-100 select-primary w-full max-w-xs">
                   {models.map((model, i) => (
                     <option key={i} value={model}>{model}</option>))}
                 </select>
@@ -328,13 +329,13 @@ function Detection() {
                 setIsChecked(newCheck);
               }}
             >
-              { isChecked.some((value) => value) ? 'Deselect All' : 'Select All'}
+              {isChecked.some((value) => value) ? 'Deselect All' : 'Select All'}
             </button>
             <div className="join">
               <div className="tooltip font-varela " data-tip="Download predictions as CSV">
                 <button
                   type="button"
-                  className="btn btn-secondary btn-outline hover:!text-white join-item"
+                  className="btn btn-secondary btn-outline hover:!text-white join-item dark:disabled:border-none dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
                   onClick={downloadPredictionsCSV}
                   disabled={isChecked.every((value) => !value)}
                 >
@@ -344,7 +345,7 @@ function Detection() {
               <div className="tooltip font-varela " data-tip="Download predictions as XLSX">
                 <button
                   type="button"
-                  className="btn btn-secondary btn-outline hover:!text-white aspect-square join-item"
+                  className="btn btn-secondary btn-outline hover:!text-white aspect-square join-item dark:disabled:border-none dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
                   onClick={downloadPredictionsXLSX}
                   disabled={isChecked.every((value) => !value)}
                 >
@@ -371,12 +372,14 @@ function Detection() {
               key={index}
             >
               <div className="flex gap-4 items-center">
-                <img
-                  src={imageUrl}
-                  alt={`Selected ${index + 1}`}
-                  className="max-w-32 max-h-16 rounded-md"
-                />
-                <div className="truncate hidden md:flex">
+                <div className="w-32 h-16 flex items-center justify-center">
+                  <img
+                    src={imageUrl}
+                    alt={`Selected ${index + 1}`}
+                    className="max-w-32 max-h-16 rounded-md"
+                  />
+                </div>
+                <div className="dark:text-neutral-100 truncate hidden md:flex">
                   {images[index].name}
                 </div>
               </div>
@@ -387,13 +390,13 @@ function Detection() {
                   type="checkbox"
                   checked={isChecked[index] || false}
                   onChange={() => handleCheckbox(index)}
-                  className="checkbox checkbox-lg checkbox-primary"
+                  className="checkbox checkbox-lg checkbox-primary dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
                   disabled={isLoading[index]}
                 />
                 <div className="tooltip font-varela" data-tip="Show predictions">
                   <button
                     type="button"
-                    className="btn btn-secondary btn-outline hover:!text-white btn-square"
+                    className="btn btn-secondary btn-outline hover:!text-white btn-square dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
                     onClick={() => openModal(index)}
                     disabled={isLoading[index]}
                   >
@@ -403,7 +406,7 @@ function Detection() {
                 </div>
                 <div className="tooltip font-varela" data-tip="Delete this prediction">
                   <button
-                    className="btn btn-square btn-outline hover:!text-white btn-error"
+                    className="btn btn-square btn-outline hover:!text-white btn-error dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
                     type="button"
                     onClick={() => deleteImage(index)}
                     disabled={isLoading[index]}
