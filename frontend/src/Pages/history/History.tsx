@@ -234,7 +234,7 @@ function History() {
                 <div className="tooltip tooltip-bottom font-varela " data-tip="Download predictions as CSV">
                   <button
                     type="button"
-                    className="btn btn-secondary btn-outline hover:!text-white join-item"
+                    className="btn btn-secondary btn-outline hover:!text-white join-item dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100 dark:disabled:border-none"
                     disabled={isChecked.every((value) => !value)}
                     onClick={downloadPredictionsCSV}
                   >
@@ -244,7 +244,7 @@ function History() {
                 <div className="tooltip tooltip-bottom font-varela " data-tip="Download predictions as XLSX">
                   <button
                     type="button"
-                    className="btn btn-secondary btn-outline hover:!text-white aspect-square join-item"
+                    className="btn btn-secondary btn-outline hover:!text-white aspect-square join-item dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100 dark:disabled:border-none"
                     onClick={downloadPredictionsXLSX}
                     disabled={isChecked.every((value) => !value)}
                   >
@@ -295,7 +295,7 @@ function History() {
                         <td className="p-2">
                           <div className="flex gap-4">
                             {prediction.imageUrl ? (
-                              <img className="max-w-24 max-h-10 rounded-md" src={prediction.imageUrl} alt={prediction.name} />
+                              <img className="max-w-32 max-h-16 rounded-md" src={prediction.imageUrl} alt={prediction.name} />
                             ) : (
                               <p>Loading image...</p>
                             )}

@@ -334,7 +334,7 @@ function Detection() {
               <div className="tooltip font-varela " data-tip="Download predictions as CSV">
                 <button
                   type="button"
-                  className="btn btn-secondary btn-outline hover:!text-white join-item dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
+                  className="btn btn-secondary btn-outline hover:!text-white join-item dark:disabled:border-none dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
                   onClick={downloadPredictionsCSV}
                   disabled={isChecked.every((value) => !value)}
                 >
@@ -344,7 +344,7 @@ function Detection() {
               <div className="tooltip font-varela " data-tip="Download predictions as XLSX">
                 <button
                   type="button"
-                  className="btn btn-secondary btn-outline hover:!text-white aspect-square join-item dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
+                  className="btn btn-secondary btn-outline hover:!text-white aspect-square join-item dark:disabled:border-none dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
                   onClick={downloadPredictionsXLSX}
                   disabled={isChecked.every((value) => !value)}
                 >
