@@ -108,7 +108,7 @@ function App() {
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label htmlFor="drawer" aria-label="close sidebar" className="drawer-overlay" />
           <div className="p-4">
-            <ul className="menu w-80 rounded-lg dark:bg-cust-grey bg-white">
+            <ul className="menu w-80 rounded-lg dark:bg-neutral-800 bg-white">
               <button
                 className="font-varela btn btn-ghost"
                 type="button"

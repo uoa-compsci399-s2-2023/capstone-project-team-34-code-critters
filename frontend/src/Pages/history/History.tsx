@@ -19,7 +19,7 @@ import PredictionDialog from '../../Components/PredictionDialog';
 
 function History() {
   const [tablePredictions, setTablePredictions] = useState<
-  PredictionTable[]
+    PredictionTable[]
   >([]);
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [user] = useAuthState(auth);
@@ -187,7 +187,7 @@ function History() {
             <div className="join">
               <div className="tooltip tooltip-bottom" data-tip="Filter by">
                 <select
-                  className="dark:bg-neutral-900 dark:text-white dark:border-white select select-bordered join-item !rounded-l-lg"
+                  className="dark:bg-neutral-900 dark:text-neutral-100 dark:border-white select select-bordered join-item !rounded-l-lg"
                   value={filterCategory}
                   onChange={(e) => {
                     setFilterCategory(e.target.value);
@@ -200,7 +200,7 @@ function History() {
               </div>
               <input
                 placeholder="Filter"
-                className="dark:bg-neutral-900 dark:text-white dark:border-white input input-bordered join-item w-full"
+                className="dark:bg-neutral-900 dark:text-neutral-100 dark:border-white input input-bordered join-item w-full"
                 onChange={(e) => {
                   e.preventDefault();
                   setFilter(e.target.value);
@@ -227,7 +227,7 @@ function History() {
                   setIsChecked(newCheck);
                 }}
               >
-                { isChecked.some((value) => value) ? 'Deselect Selection' : 'Select All'}
+                {isChecked.some((value) => value) ? 'Deselect Selection' : 'Select All'}
               </button>
 
               <div className="join">
@@ -255,15 +255,15 @@ function History() {
             </div>
           </div>
           <div className="w-full">
-            <table className="table table-auto dark:text-white">
+            <table className="table table-auto dark:text-neutral-100">
               <thead>
                 <tr>
                   {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                   <th className="p-2 hidden sm:table-cell" />
-                  <th className="p-2 dark:text-white">Date</th>
-                  <th className="p-2 dark:text-white">Image </th>
-                  <th className="p-2 hidden md:table-cell dark:text-white">Model</th>
-                  <th className="p-2 dark:text-white">Predictions</th>
+                  <th className="p-2 dark:text-neutral-100">Date</th>
+                  <th className="p-2 dark:text-neutral-100">Image </th>
+                  <th className="p-2 hidden md:table-cell dark:text-neutral-100">Model</th>
+                  <th className="p-2 dark:text-neutral-100">Predictions</th>
                   {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                   <th className="p-2 hidden md:table-cell" />
                 </tr>
@@ -349,7 +349,7 @@ function History() {
             <div className="join items-center">
               <div className="tooltip" data-tip="item per page">
                 <select
-                  className="select dark:bg-neutral-900 dark:text-white dark:border-white select-bordered join-item rounded-lg !rounded-l-lg"
+                  className="select dark:bg-neutral-900 dark:text-neutral-100 dark:border-white select-bordered join-item rounded-lg !rounded-l-lg"
                   onChange={(e) => {
                     setItemsPerPage(Number(e.target.value));
                     setCurrentPage(1);
@@ -369,12 +369,12 @@ function History() {
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                <div className="dark:text-white">
+                <div className="dark:text-neutral-100">
                   <FontAwesomeIcon icon={faArrowLeft} />
                 </div>
 
               </button>
-              <select className="dark:bg-neutral-900 dark:text-white dark:border-white select select-bordered join-item" onChange={(e) => setCurrentPage(Number(e.target.value))} value={currentPage}>
+              <select className="dark:bg-neutral-900 dark:text-neutral-100 dark:border-white select select-bordered join-item" onChange={(e) => setCurrentPage(Number(e.target.value))} value={currentPage}>
                 {Array.from({ length: totalPages }, (_, i) => (
                   <option key={i} value={i + 1}>
                     Page
@@ -389,7 +389,7 @@ function History() {
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
-                <div className="dark:text-white">
+                <div className="dark:text-neutral-100">
                   <FontAwesomeIcon icon={faArrowRight} />
                 </div>
               </button>

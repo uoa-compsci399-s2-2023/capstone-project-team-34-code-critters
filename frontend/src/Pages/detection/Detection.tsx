@@ -250,8 +250,8 @@ function Detection() {
   return (
     <div className="w-full h-full flex justify-center overflow-y-auto overflow-x-hidden pt-24 pb-4">
       <div className="max-w-4xl w-11/12 flex flex-col items-center h-fit gap-4">
-        <h1 className="font-varela text-xl font-bold dark:text-white">Upload</h1>
-        <h1 className="text-xl font-varela text-center dark:text-white">
+        <h1 className="font-varela text-xl font-bold dark:text-neutral-100">Upload</h1>
+        <h1 className="text-xl font-varela text-center dark:text-neutral-100">
           Drag and Drop or Browse to Upload
           Image
         </h1>
@@ -281,7 +281,7 @@ function Detection() {
         >
           <FontAwesomeIcon className="text-primary" icon={faCloudArrowUp} size={images.length > 0 ? '3x' : '5x'} />
           <div className="md:flex flex-col hidden">
-            <h2 className={`dark:text-white text-lg font-varela ${images.length === 0 && 'mt-8'} text-center`}>
+            <h2 className={`dark:text-neutral-100 text-lg font-varela ${images.length === 0 && 'mt-8'} text-center`}>
               Select a file or drag and drop here
             </h2>
             <p className="text-gray-500 mt-4 font-varela text-center">
@@ -293,9 +293,9 @@ function Detection() {
               <div className="form-control">
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label className="label">
-                  <span className="label-text dark:text-white">Pick a model</span>
+                  <span className="label-text dark:text-neutral-100">Pick a model</span>
                 </label>
-                <select onChange={selectModel} className="select dark:bg-neutral-900 dark:text-cust-dark-text select-primary w-full max-w-xs">
+                <select onChange={selectModel} className="select dark:bg-neutral-900 dark:text-neutral-100 select-primary w-full max-w-xs">
                   {models.map((model, i) => (
                     <option key={i} value={model}>{model}</option>))}
                 </select>
@@ -328,13 +328,13 @@ function Detection() {
                 setIsChecked(newCheck);
               }}
             >
-              { isChecked.some((value) => value) ? 'Deselect All' : 'Select All'}
+              {isChecked.some((value) => value) ? 'Deselect All' : 'Select All'}
             </button>
             <div className="join">
               <div className="tooltip font-varela " data-tip="Download predictions as CSV">
                 <button
                   type="button"
-                  className="btn btn-secondary btn-outline hover:!text-white join-item dark:disabled:bg-neutral-800 dark:text-white"
+                  className="btn btn-secondary btn-outline hover:!text-white join-item dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
                   onClick={downloadPredictionsCSV}
                   disabled={isChecked.every((value) => !value)}
                 >
@@ -344,7 +344,7 @@ function Detection() {
               <div className="tooltip font-varela " data-tip="Download predictions as XLSX">
                 <button
                   type="button"
-                  className="btn btn-secondary btn-outline hover:!text-white aspect-square join-item dark:disabled:bg-neutral-800"
+                  className="btn btn-secondary btn-outline hover:!text-white aspect-square join-item dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
                   onClick={downloadPredictionsXLSX}
                   disabled={isChecked.every((value) => !value)}
                 >
@@ -376,7 +376,7 @@ function Detection() {
                   alt={`Selected ${index + 1}`}
                   className="max-w-32 max-h-16 rounded-md"
                 />
-                <div className="dark:text-cust-dark-text truncate hidden md:flex">
+                <div className="dark:text-neutral-100 truncate hidden md:flex">
                   {images[index].name}
                 </div>
               </div>
@@ -387,13 +387,13 @@ function Detection() {
                   type="checkbox"
                   checked={isChecked[index] || false}
                   onChange={() => handleCheckbox(index)}
-                  className="checkbox checkbox-lg checkbox-primary"
+                  className="checkbox checkbox-lg checkbox-primary dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
                   disabled={isLoading[index]}
                 />
                 <div className="tooltip font-varela" data-tip="Show predictions">
                   <button
                     type="button"
-                    className="btn btn-secondary btn-outline hover:!text-white btn-square"
+                    className="btn btn-secondary btn-outline hover:!text-white btn-square dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
                     onClick={() => openModal(index)}
                     disabled={isLoading[index]}
                   >
@@ -403,7 +403,7 @@ function Detection() {
                 </div>
                 <div className="tooltip font-varela" data-tip="Delete this prediction">
                   <button
-                    className="btn btn-square btn-outline hover:!text-white btn-error"
+                    className="btn btn-square btn-outline hover:!text-white btn-error dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
                     type="button"
                     onClick={() => deleteImage(index)}
                     disabled={isLoading[index]}

@@ -184,9 +184,8 @@ function LoginModal({
                 id="login-email"
                 type="email"
                 placeholder="Enter your email"
-                className={`dark:bg-neutral-800 dark:text-neutral-200 dark:focus:text-white font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${
-                  errors.email && 'input-error'
-                }`}
+                className={`dark:bg-neutral-800 dark:text-neutral-200 dark:focus:text-white font-varela input bg-neutral-200 w-full text-neutral-500 focus:text-neutral-600 ${errors.email && 'input-error'
+                  }`}
                 {...register('email', {
                   required: 'Email is required',
                   pattern: {
@@ -196,10 +195,10 @@ function LoginModal({
                 })}
               />
               {errors.email && (
-              // eslint-disable-next-line jsx-a11y/label-has-associated-control
-              <label className="label">
-                <div className="text-error font-varela label-text-alt">{errors.email.message}</div>
-              </label>
+                // eslint-disable-next-line jsx-a11y/label-has-associated-control
+                <label className="label">
+                  <div className="text-error font-varela label-text-alt">{errors.email.message}</div>
+                </label>
               )}
             </div>
             <div className="w-full">
@@ -214,30 +213,28 @@ function LoginModal({
                 })}
               />
               {errors.password && (
-              // eslint-disable-next-line jsx-a11y/label-has-associated-control
-              <label className="label">
-                <div className="text-error font-varela label-text-alt">
-                  {errors.password.type === 'required' ? 'Password is required' : 'Password must be at least 6 characters long'}
-                </div>
-              </label>
+                // eslint-disable-next-line jsx-a11y/label-has-associated-control
+                <label className="label">
+                  <div className="text-error font-varela label-text-alt">
+                    {errors.password.type === 'required' ? 'Password is required' : 'Password must be at least 6 characters long'}
+                  </div>
+                </label>
               )}
             </div>
             <button
               type="submit"
-              className={`dark:disabled:bg-neutral-800 border-none relative font-varela normal-case btn w-full text-white text-lg ${
-                (!isValid)
+              className={`dark:disabled:bg-neutral-800 border-none relative font-varela normal-case btn w-full text-white text-lg ${(!isValid)
                   ? 'cursor-not-allowed'
                   : 'bg-gradient-to-r from-primary to-secondary'
-              }`}
+                }`}
               disabled={!isValid}
             >
               <div className={`white border-none opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-lg flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
                 Login
               </div>
-              <div className={`text-neutral-500 font-varela cursor-default ${
-                (!isValid)
+              <div className={`text-neutral-500 font-varela cursor-default ${(!isValid)
                   ? 'dark:text-neutral-200'
-                  : 'dark:text-white'}`}
+                  : 'dark:text-neutral-100'}`}
               >
                 Login
               </div>
