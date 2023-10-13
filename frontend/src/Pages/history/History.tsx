@@ -19,7 +19,7 @@ import PredictionDialog from '../../Components/PredictionDialog';
 
 function History() {
   const [tablePredictions, setTablePredictions] = useState<
-    PredictionTable[]
+  PredictionTable[]
   >([]);
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [user] = useAuthState(auth);
