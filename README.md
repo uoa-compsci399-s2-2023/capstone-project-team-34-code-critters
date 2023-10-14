@@ -114,7 +114,6 @@ To add the models,
     ```
 3. Copy the corresponding labels to the folder and rename it to `labels.txt`\
     *The application expects labels.txt to have one label per line* 
-    ```
     library/models/example_model/labels.txt
     ```
 
@@ -135,8 +134,14 @@ $ uvicorn asgi:app --bind 0.0.0.0:6789
 From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
 
 ````shell
+export TZ=UTC
 $ gunicorn asgi:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:6789
 ```` 
+or
+```shell
+$ export TZ=UTC
+$ python prod_asgi.py
+```
 
 ### `.env` Variables
 In the backend directory, there are these optional environment variables that can be set in a `.env` file:
