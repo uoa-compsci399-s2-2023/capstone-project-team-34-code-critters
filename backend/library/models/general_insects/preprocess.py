@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-def img_preprocess(image_path):    
+async def img_preprocess(image_path):    
     # # Load the image file and resize it to 224 x 224 pixels
     # img = tf.keras.utils.load_img(image_path, target_size=[224, 224])
     

@@ -3,7 +3,7 @@ from glob import glob
 import numpy as np
 import cv2
 
-def img_preprocess(img_path, size=299):
+async def img_preprocess(img_path, size=299):
     """
     Prepares the images for training/testing:
     - greyscale

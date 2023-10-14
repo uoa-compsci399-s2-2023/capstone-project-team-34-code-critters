@@ -23,7 +23,7 @@ is_prod = Settings.FLASK_ENV == 'production'
 
 ################ Helper Functions ################
 
-def resize_img(path):
+async def resize_img(path):
     img = PILimg.open(path)
     img = ImageOps.fit(img, (100, 100), method=PILimg.Resampling.LANCZOS)
     img.save(path)
