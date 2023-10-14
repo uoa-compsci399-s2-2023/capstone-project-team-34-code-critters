@@ -27,6 +27,7 @@ Source: "dist\{#AppExeName}\*"; DestDir: "{app}"; Flags: recursesubdirs
 [Registry]
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{#AppExeName}.exe"; ValueType: string; ValueName: ""; ValueData: {app}\{#AppExeName}.exe Flags: uninsdeletevalue
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{#AppExeName}.exe"; ValueType: string; ValueName: "Path"; ValueData: {app}; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{#AppExeName}.exe"; ValueType: string; ValueName: "Version"; ValueData: {#AppVersion}; Flags: uninsdeletevalue
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppExeName}.exe"
