@@ -205,6 +205,10 @@ model.h5
 **/CritterSleuth/
 **/CritterSleuthWeb/
 
+############### Model Packages ###############
+misc/models/**
+!misc/models/.gitkeep
+
 ################ Exceptions ################
 !placeholder.png
 !placeholder.1.png
