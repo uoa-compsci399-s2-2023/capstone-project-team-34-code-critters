@@ -21,6 +21,19 @@ models_path = Settings.MODEL_FOLDER
 isProduction = Settings.FLASK_ENV == 'production'
 
 ################ Helper Functions ################
+import keras
+from PIL import Image
+from glob import glob
+import numpy as np
+import tensorflow as tf
+## This function is not intended to be used.
+## It is only used to force the imports to imported in pyinstaller
+def forceImports():
+    img = Image.open()
+    img = np.array()
+    model = keras.load_model()
+    img = tf.io.read_file()
+
 async def is_file_allowed(filename):
     if not "." in filename:
         return False
