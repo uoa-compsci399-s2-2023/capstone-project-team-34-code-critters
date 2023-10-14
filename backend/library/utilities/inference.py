@@ -44,7 +44,7 @@ def get_prediction(image_path, new_image_path, current_model="trupanea_v2"):
     
     # Get the prediction from the model
     predict = imp.load_source('predict', f'{path}/{current_model}/predict.py')
-    prediction = predict.predict(img, f'{path}\{current_model}')
+    prediction = predict.predict(img, f'{path}/{current_model}')
 
     if metadata["returnType"] == "loose":
         labels = get_labels(current_model)
