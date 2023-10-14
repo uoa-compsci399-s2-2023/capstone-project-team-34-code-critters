@@ -1,5 +1,5 @@
 #define AppName "CritterSleuth"
-#define AppVersion "1.1.2"
+#define AppVersion "1.2.0"
 #define AppPublisher "Code Critters"
 #define AppExeName "CritterSleuth"
 #define AppIcon "library\static\favicon.ico"
@@ -24,11 +24,15 @@ Source: "dist\{#AppExeName}\library\static\uploads\*"; DestDir: "{userappdata}\{
 Source: "dist\{#AppExeName}\library\static\storage\*"; DestDir: "{userappdata}\{#AppPublisher}\{#AppName}\library\static\storage"; Flags: recursesubdirs createallsubdirs
 Source: "dist\{#AppExeName}\*"; DestDir: "{app}"; Flags: recursesubdirs
 
+[Registry]
+Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{#AppExeName}.exe"; ValueType: string; ValueName: ""; ValueData: {app}\{#AppExeName}.exe Flags: uninsdeletevalue
+Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{#AppExeName}.exe"; ValueType: string; ValueName: "Path"; ValueData: {app}; Flags: uninsdeletevalue
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppExeName}.exe"
 Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: desktopicon; IconFilename: "{app}\{#AppExeName}.exe"
 Name: "{commonprograms}\{#AppName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppExeName}.exe"
+
 
 ; [Run]
 ; Filename: "{app}\{#AppExeName}"; Description: "{cm:LaunchProgram,{#AppName}}"; Flags: nowait postinstall skipifsilent
