@@ -36,18 +36,18 @@ async def get_metadata(model_name):
 
                  
 async def get_prediction(image_path, new_image_path, current_model="trupanea_v2"):
-    metadata = get_metadata(current_model)
+    metadata = await get_metadata(current_model)
 
     # Preprocess the image
     preprocess = imp.load_source('img_preprocess', f'{path}/{current_model}/preprocess.py')
-    img = preprocess.img_preprocess(new_image_path)
+    img = await preprocess.img_preprocess(new_image_path)
     
     # Get the prediction from the model
     predict = imp.load_source('predict', f'{path}/{current_model}/predict.py')
-    prediction = predict.predict(img, f'{path}/{current_model}')
+    prediction = await predict.predict(img, f'{path}/{current_model}')
 
     if metadata["returnType"] == "loose":
-        labels = get_labels(current_model)
+        labels = await get_labels(current_model)
         
         # Combine the labels and the predictions
         combined_list = list(zip(prediction[0], labels))
