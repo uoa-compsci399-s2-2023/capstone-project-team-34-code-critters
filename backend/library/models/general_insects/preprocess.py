@@ -10,7 +10,10 @@ async def img_preprocess(image_path):
     # Scale the pixel values to [0, 1]
     x = x / 255.0
 
+    # Add a batch dimension
+    x = tf.expand_dims(x, axis=0)
+
     # Preprocess the array for MobileNet
-    x = tf.keras.applications.mobilenet.preprocess_input(x[tf.newaxis,...])
+    # x = tf.keras.applications.mobilenet.preprocess_input(x[tf.newaxis,...])
 
     return x

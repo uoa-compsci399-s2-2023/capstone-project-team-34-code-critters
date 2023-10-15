@@ -22,13 +22,15 @@ async def predict(img, path):
     labels = [line.strip() for line in lines]
 
     # Keep only top 100
-    values, labels = [], []
+    values, val_labels = [], []
+    print(len(values))
+    print(len(labels))
     for value, index in zip(top_values, top_indices):
         if len(values) < 100:
             values.append(value)
-            labels.append(labels[index])
+            val_labels.append(labels[index])
 
     # Pair the top values with their labels
-    predictions_list = [[f'{prob:.20f}', label] for prob, label in zip(values, labels)]
+    predictions_list = [[f'{prob:.20f}', label] for prob, label in zip(values, val_labels)]
 
     return predictions_list
