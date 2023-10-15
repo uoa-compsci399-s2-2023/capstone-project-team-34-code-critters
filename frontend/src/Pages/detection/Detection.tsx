@@ -373,7 +373,7 @@ function Detection() {
         <div className="mt-4 w-full flex flex-col gap-4">
           {imageUrls.map((imageUrl, index) => (
             <div
-              className={`flex w-full items-center justify-between p-4 gap-4 rounded-xl transition-all ${!isLoading[index] && 'cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-800 animate-ease-in-out animate-pulse animate-once animate-duration-700'}`}
+              className={`flex w-full items-center p-4 gap-4 rounded-xl transition-all ${!isLoading[index] && 'cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-800 animate-ease-in-out animate-pulse animate-jump animate-once animate-duration-700'}`}
               key={index}
               onClick={(event) => {
                 // eslint-disable-next-line max-len
@@ -381,19 +381,16 @@ function Detection() {
                 if (!isLoading[index]) openModal(index);
               }}
             >
-              <div className="flex gap-4 items-center">
-                <div className="w-32 h-16 flex items-center justify-center">
-                  <img
-                    src={imageUrl}
-                    alt={`Selected ${index + 1}`}
-                    className="max-w-32 max-h-16 rounded-md"
-                  />
-                </div>
-                <div className="dark:text-neutral-100 truncate hidden md:flex">
-                  {images[index].name}
-                </div>
+              <div className="w-32 h-16 flex items-center justify-center">
+                <img
+                  src={imageUrl}
+                  alt={`Selected ${index + 1}`}
+                  className="max-w-32 max-h-16 rounded-md"
+                />
               </div>
-              <div />
+              <div className="dark:text-neutral-100 truncate mr-auto">
+                {images[index].name}
+              </div>
 
               <div className="flex items-center gap-4">
                 <div className="hidden md:flex flex-col gap-2">
