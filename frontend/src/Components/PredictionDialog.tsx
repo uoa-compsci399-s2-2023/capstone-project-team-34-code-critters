@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Prediction } from '../models/Prediction';
-import '../styles/scrollbar.css';
 
 interface PredictionDialogProps {
   index: number;
@@ -39,18 +38,30 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
     });
   }, []);
   return (
-    <dialog id={`prediction-${index}`} className="modal modal-bottom sm:modal-middle">
-      <form method="dialog" className="dark:bg-neutral-900 modal-box sm:w-11/12 sm:max-w-4xl p-8 scrollbar">
+    <dialog id={`prediction-${index}`} className="modal  modal-bottom sm:modal-middle">
+      <form method="dialog" className="modal-box sm:w-11/12 sm:max-w-4xl p-8">
         <button
           onClick={() => closeModel()}
           type="button"
-          className="w-12 h-12 dark:text-neutral-100 btn btn-sm btn-circle btn-ghost absolute top-4 right-4"
+          className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
         >
-          <FontAwesomeIcon icon={faXmark} size="lg" />
+          <FontAwesomeIcon icon={faXmark} />
         </button>
-        <h1 className="dark:text-neutral-100 text-xl font-varela">Predictions:</h1>
+        <h1 className="text-xl font-varela">Predictions:</h1>
         <div className="hidden sm:grid grid-cols-3 gap-4">
-          <div className="card border-4 border-secondary flex flex-col justify-between items-center p-4 gap-4 h-80 mt-auto">
+
+          <div
+            className="card border-4 border-secondary flex flex-col justify-between items-center p-4 gap-4 h-80 mt-auto"
+            style={{
+              transition: 'transform 0.2s', // Add a smooth transition effect
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)'; // Increase the scale on hover to expand the card
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)'; // Reset the scale on mouse leave
+            }}
+          >
             <h2 className="font-varela text-xl text-center text-secondary">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][1]}</h2>
             <div className="radial-progress font-varela text-secondary text-xl" style={{ '--value': prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][0] ? parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][0]) * 100 : '0', '--size': '8rem', '--thickness': '0.75em' } as React.CSSProperties}>
               {/* eslint-disable-next-line prefer-template */}
@@ -59,7 +70,18 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
             <button type="button" className="btn text-white font-varela btn-secondary">More info</button>
           </div>
 
-          <div className="card border-4 border-primary flex flex-col justify-between items-center p-4 gap-4 h-[22rem]">
+          <div 
+            className="card border-4 border-primary flex flex-col justify-between items-center p-4 gap-4 h-[22rem]"
+            style={{
+              transition: 'transform 0.2s', // Add a smooth transition effect
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)'; // Increase the scale on hover to expand the card
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)'; // Reset the scale on mouse leave
+            }}
+            >
             <h2 className="font-varela text-xl text-center font-bold text-primary">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[0][1]}</h2>
             <div className="items-center">
               <div className="radial-progress font-varela text-primary text-xl" style={{ '--value': prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[0][0] ? parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[0][0]) * 100 : '0', '--size': '8rem', '--thickness': '0.75rem' } as React.CSSProperties}>
@@ -70,8 +92,18 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
             <button type="button" className="btn text-white font-varela btn-primary">More info</button>
           </div>
 
-          {/* Shortest Card (Right) */}
-          <div className="card border-warning border-4 flex flex-col justify-between items-center p-4 gap-4 h-fit mt-auto">
+          <div 
+            className="card border-warning border-4 flex flex-col justify-between items-center p-4 gap-4 h-fit mt-auto"
+            style={{
+              transition: 'transform 0.2s', // Add a smooth transition effect
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)'; // Increase the scale on hover to expand the card
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)'; // Reset the scale on mouse leave
+            }}
+            >
             <h2 className="font-varela text-xl text-center text-warning">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[2][1]}</h2>
             <div className="items-center">
               <div className="radial-progress font-varela text-warning text-xl" style={{ '--value': prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[2][0] ? parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[2][0]) * 100 : '0', '--size': '8rem', '--thickness': '0.75rem' } as React.CSSProperties}>
@@ -83,7 +115,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
           </div>
         </div>
         <div className="hidden sm:divider" />
-        <div className="dark:text-neutral-100 flex flex-col gap-4 mt-4 items-center">
+        <div className="flex flex-col gap-4 mt-4 items-center">
           {prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))
             .slice(isMobile ? 0 : 3, numToShow)
             .map((pred, i) => (
@@ -96,7 +128,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
                   </p>
                 </div>
                 <progress
-                  className="progress progress-primary w-full dark:bg-neutral-700"
+                  className="progress progress-primary w-full"
                   value={Number(pred[0]) * 100}
                   max="100"
                 />
