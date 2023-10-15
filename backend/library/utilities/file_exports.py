@@ -66,7 +66,7 @@ async def json_to_xlsx(request: Request, results: list[dict]= Body(...)):
 
                 filepath = os.path.join(img_path, filename_with_hash)
                 if os.path.isfile(filepath):
-                    resize_img(filepath)
+                    await resize_img(filepath)
 
                     img = Image(filepath)
                     ws.add_image(img, "B"+str(ws.max_row))
