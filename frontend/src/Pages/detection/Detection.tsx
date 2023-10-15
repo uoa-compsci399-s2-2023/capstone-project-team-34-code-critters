@@ -373,7 +373,7 @@ function Detection() {
         <div className="mt-4 w-full flex flex-col gap-4">
           {imageUrls.map((imageUrl, index) => (
             <div
-              className={`flex w-full items-center p-4 gap-4 rounded-xl transition-all ${!isLoading[index] && 'cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-800 animate-ease-in-out animate-pulse animate-jump animate-once animate-duration-700'}`}
+              className={`flex w-full items-center p-4 gap-4 rounded-xl transition-all ${!isLoading[index] && 'cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-800 animate-ease-in-out animate-jump animate-once animate-duration-700'}`}
               key={index}
               onClick={(event) => {
                 // eslint-disable-next-line max-len
