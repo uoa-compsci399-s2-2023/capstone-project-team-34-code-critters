@@ -2,6 +2,7 @@
 #define AppVersion "1.0.0"
 #define AppPublisher "Code Critters"
 #define AppIcon "library\static\favicon.ico"
+#define ModelName "GeneralInsects"
 
 [Setup]
 AppName={#AppName}
@@ -10,7 +11,7 @@ AppPublisher={#AppPublisher}
 DefaultDirName={pf}\{#AppPublisher}\{#AppName}
 DefaultGroupName={#AppName}
 OutputDir=.
-OutputBaseFilename=ModelUpdate-Setup
+OutputBaseFilename={#ModelName}-ModelExpansion
 Compression=none
 SolidCompression=yes
 
