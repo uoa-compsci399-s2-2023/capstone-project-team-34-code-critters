@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Prediction } from '../models/Prediction';
+import '../styles/scrollbar.css';
 
 interface PredictionDialogProps {
   index: number;
@@ -38,16 +39,16 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
     });
   }, []);
   return (
-    <dialog id={`prediction-${index}`} className="modal  modal-bottom sm:modal-middle">
-      <form method="dialog" className="modal-box sm:w-11/12 sm:max-w-4xl p-8">
+    <dialog id={`prediction-${index}`} className="modal modal-bottom sm:modal-middle">
+      <form method="dialog" className="dark:bg-neutral-900 modal-box sm:w-11/12 sm:max-w-4xl p-8 scrollbar">
         <button
           onClick={() => closeModel()}
           type="button"
-          className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          className="w-12 h-12 dark:text-neutral-100 btn btn-sm btn-circle btn-ghost absolute top-4 right-4"
         >
-          <FontAwesomeIcon icon={faXmark} />
+          <FontAwesomeIcon icon={faXmark} size="lg" />
         </button>
-        <h1 className="text-xl font-varela">Predictions:</h1>
+        <h1 className="dark:text-neutral-100 text-xl font-varela">Predictions:</h1>
         <div className="hidden sm:grid grid-cols-3 gap-4">
 
           <div
@@ -97,7 +98,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
           </div>
         </div>
         <div className="hidden sm:divider" />
-        <div className="flex flex-col gap-4 mt-4 items-center">
+        <div className="dark:text-neutral-100 flex flex-col gap-4 mt-4 items-center">
           {prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))
             .slice(isMobile ? 0 : 3, numToShow)
             .map((pred, i) => (
@@ -110,7 +111,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
                   </p>
                 </div>
                 <progress
-                  className="progress progress-primary w-full"
+                  className="progress progress-primary w-full dark:bg-neutral-700"
                   value={Number(pred[0]) * 100}
                   max="100"
                 />
