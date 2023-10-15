@@ -21,7 +21,20 @@ models_path = Settings.MODEL_FOLDER
 isProduction = Settings.FLASK_ENV == 'production'
 
 ################ Helper Functions ################
-def is_file_allowed(filename):
+import keras
+from PIL import Image
+from glob import glob
+import numpy as np
+import tensorflow as tf
+## This function is not intended to be used.
+## It is only used to force the imports to imported in pyinstaller
+def forceImports():
+    img = Image.open()
+    img = np.array()
+    model = keras.load_model()
+    img = tf.io.read_file()
+
+async def is_file_allowed(filename):
     if not "." in filename:
         return False
     ext = filename.rsplit(".", 1)[1]
@@ -39,14 +52,14 @@ async def upload_files_json(files: list[UploadFile], model: str | None = Query(N
     try:
 
         # Checks if the model is valid before uploading
-        if model and model not in available_models():
+        if model and model not in await available_models():
             return ORJSONResponse(content={"error": "Model not found"}, status_code=400)     
         
         returnList = []
 
         for file in files:
             # Check if the file extension is allowed
-            if not is_file_allowed(file.filename):
+            if not await is_file_allowed(file.filename):
                 return ORJSONResponse(content={"error": "File type not allowed"}, status_code=405)
             file_path = os.path.join(img_path, secure_filename(file.filename))
             # Save the file to disk
@@ -64,9 +77,9 @@ async def upload_files_json(files: list[UploadFile], model: str | None = Query(N
                 os.rename(file_path, new_path)
             # Get the prediction
             if model:
-                prediction = get_prediction(file_path, new_path, model)
+                prediction = await get_prediction(file_path, new_path, model)
             else: 
-                prediction = get_prediction(file_path, new_path)
+                prediction = await get_prediction(file_path, new_path)
             returnList.append({"name": file.filename, "pred": prediction, "hash": hash})
 
         return JSONResponse(content=returnList)
@@ -76,7 +89,7 @@ async def upload_files_json(files: list[UploadFile], model: str | None = Query(N
         else:
             return JSONResponse(content={"error": str(e)}, status_code=500)
 
-def available_models():
+async def available_models():
     subfolders = [os.path.basename(f.path) for f in os.scandir(models_path) if f.is_dir()]
     return subfolders
 
@@ -85,7 +98,7 @@ async def get_available_models():
     """
         Returns a list of available models.
     """
-    return JSONResponse(content=available_models())
+    return JSONResponse(content=await available_models())
 
 @utils_api.get('/api/v1/get_image', tags=["Utilities"])
 async def get_image(image_name: str, hash: str):
@@ -100,7 +113,7 @@ async def get_image(image_name: str, hash: str):
 
         filepath = os.path.join(img_path, filename_with_hash)
         
-        if not os.path.isfile(filepath) or is_file_allowed(filename) == False:
+        if not os.path.isfile(filepath) or await is_file_allowed(filename) == False:
             return {"error": "File not found"}
         
         return FileResponse(filepath)

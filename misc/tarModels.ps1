@@ -3,6 +3,16 @@
 # and place it in the root directory of the project.
 # This is intended for uploads to AWS S3 storage for deployment to sageMaker.
 
+########## UNSUPPORTED ##########
+# This script is no longer used as AWS is no longer used for deployment.
+
+Write-Output "THIS SCRIPT IS UNSUPPORTED, AND MAY NOT WORK AS INTENDED"
+Write-Output "Type 'y' to continue, or any other key to exit"
+$continue = Read-Host
+if ($continue -ne "y") {
+    exit
+}
+
 # Navigate to root and sets a var
 Set-Location ..
 $rootDir = Get-Location

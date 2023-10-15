@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-def predict(img, path):
+async def predict(img, path):
     model =  tf.saved_model.load(f"{path}/aiy_vision_classifier_insects_V1_1")
     infer = model.signatures["image_classifier"]
 
@@ -21,14 +21,14 @@ def predict(img, path):
         lines = file.readlines()
     labels = [line.strip() for line in lines]
 
-    # Filter out the unwanted index and keep only top 100
-    filtered_values, filtered_labels = [], []
+    # Keep only top 100
+    values, labels = [], []
     for value, index in zip(top_values, top_indices):
-        if index != 1021 and len(filtered_values) < 100:
-            filtered_values.append(value)
-            filtered_labels.append(labels[index])
+        if len(values) < 100:
+            values.append(value)
+            labels.append(labels[index])
 
     # Pair the top values with their labels
-    predictions_list = [[f'{prob:.20f}', label] for prob, label in zip(filtered_values, filtered_labels)]
+    predictions_list = [[f'{prob:.20f}', label] for prob, label in zip(values, labels)]
 
     return predictions_list

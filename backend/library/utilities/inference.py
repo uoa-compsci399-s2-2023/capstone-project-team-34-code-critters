@@ -9,14 +9,14 @@ isProduction = Settings.FLASK_ENV == 'production'
 metadata_cache = {}
 keys = ["specVersion", "returnType", "mlFramework"]
 
-def get_labels(model_name="trupanea_v2"):
+async def get_labels(model_name="trupanea_v2"):
     filename = f'{path}/{model_name}/labels.txt'
     with open(filename, 'r') as file:
         lines = file.readlines()
     labels = [line.strip() for line in lines]
     return labels
 
-def get_metadata(model_name):
+async def get_metadata(model_name):
     # Check if the metadata is already in the cache
     if model_name in metadata_cache:
         return metadata_cache[model_name]
@@ -35,19 +35,19 @@ def get_metadata(model_name):
     return metadata
 
                  
-def get_prediction(image_path, new_image_path, current_model="trupanea_v2"):
-    metadata = get_metadata(current_model)
+async def get_prediction(image_path, new_image_path, current_model="trupanea_v2"):
+    metadata = await get_metadata(current_model)
 
     # Preprocess the image
     preprocess = imp.load_source('img_preprocess', f'{path}/{current_model}/preprocess.py')
-    img = preprocess.img_preprocess(new_image_path)
+    img = await preprocess.img_preprocess(new_image_path)
     
     # Get the prediction from the model
     predict = imp.load_source('predict', f'{path}/{current_model}/predict.py')
-    prediction = predict.predict(img, f'{path}/{current_model}')
+    prediction = await predict.predict(img, f'{path}/{current_model}')
 
     if metadata["returnType"] == "loose":
-        labels = get_labels(current_model)
+        labels = await get_labels(current_model)
         
         # Combine the labels and the predictions
         combined_list = list(zip(prediction[0], labels))
