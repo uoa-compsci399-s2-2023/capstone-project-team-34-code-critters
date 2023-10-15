@@ -272,7 +272,7 @@ function Detection() {
           className="hidden"
           onChange={onFileChange}
           multiple
-          accept="image/png, image/jpeg"
+          accept="image/png, image/jpeg, image/webp"
         />
         <div
           className={`dark:border-neutral-100 transition-all cursor-pointer card w-full border-2 border-dashed border-gray-300 ${images.length > 0
