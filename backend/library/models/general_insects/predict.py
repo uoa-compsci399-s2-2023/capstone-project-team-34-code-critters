@@ -23,8 +23,6 @@ async def predict(img, path):
 
     # Keep only top 100
     values, val_labels = [], []
-    print(len(values))
-    print(len(labels))
     for value, index in zip(top_values, top_indices):
         if len(values) < 100:
             values.append(value)
