@@ -109,7 +109,7 @@ function Navbar({ loginModalRef, signUpModalRef, setToastMessage }: NavbarProps)
                 </label>
                 <div className="dropdown-content text-primary z-10 menu">
                   <div className="pt-4">
-                    <ul className="dark:bg-neutral-800 rounded-lg shadow p-2">
+                    <ul className="dark:bg-neutral-800 rounded-lg shadow p-2 bg-white">
                       <li>
                         <div
                           className="dark:text-neutral-100 dark:hover:text-white text-black font-varela whitespace-nowrap dark:hover:bg-neutral-700"
