@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faChartBar, faCloudArrowUp, faXmark, faTrash, faFileCsv, faFileExcel,
+  faCloudArrowUp, faXmark, faTrash, faFileCsv, faFileExcel,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   collection, doc, increment, setDoc, updateDoc,
@@ -373,8 +373,13 @@ function Detection() {
         <div className="mt-4 w-full flex flex-col gap-4">
           {imageUrls.map((imageUrl, index) => (
             <div
-              className="flex w-full items-center justify-between px-4 gap-4"
+              className={`flex w-full items-center justify-between p-4 gap-4 rounded-xl transition-all ${!isLoading[index] && 'cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-800 animate-ease-in-out animate-pulse animate-once animate-duration-700'}`}
               key={index}
+              onClick={(event) => {
+                // eslint-disable-next-line max-len
+                if (event.target instanceof HTMLInputElement || event.target instanceof HTMLButtonElement) return;
+                if (!isLoading[index]) openModal(index);
+              }}
             >
               <div className="flex gap-4 items-center">
                 <div className="w-32 h-16 flex items-center justify-center">
@@ -411,17 +416,11 @@ function Detection() {
                   className="checkbox checkbox-lg checkbox-primary dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
                   disabled={isLoading[index]}
                 />
-                <div className="tooltip font-varela" data-tip="Show predictions">
-                  <button
-                    type="button"
-                    className="btn btn-secondary btn-outline hover:!text-white btn-square dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
-                    onClick={() => openModal(index)}
-                    disabled={isLoading[index]}
-                  >
-                    {isLoading[index] ? <span className="loading loading-spinner" />
-                      : <FontAwesomeIcon icon={faChartBar} />}
-                  </button>
-                </div>
+                {
+                  isLoading[index] && (
+                  <span className="loading text-primary loading-spinner loading-md" />
+                  )
+                }
                 <div className="tooltip font-varela" data-tip="Delete this prediction">
                   <button
                     className="btn btn-square btn-outline hover:!text-white btn-error dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
