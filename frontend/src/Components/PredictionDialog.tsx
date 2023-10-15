@@ -52,15 +52,9 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
 
           <div
             className="card border-4 border-secondary flex flex-col justify-between items-center p-4 gap-4 h-80 mt-auto"
-            style={{
-              transition: 'transform 0.2s', // Add a smooth transition effect
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)'; // Increase the scale on hover to expand the card
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)'; // Reset the scale on mouse leave
-            }}
+            style={{ transition: 'transform 0.2s' }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
           >
             <h2 className="font-varela text-xl text-center text-secondary">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][1]}</h2>
             <div className="radial-progress font-varela text-secondary text-xl" style={{ '--value': prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][0] ? parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[1][0]) * 100 : '0', '--size': '8rem', '--thickness': '0.75em' } as React.CSSProperties}>
@@ -70,18 +64,12 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
             <button type="button" className="btn text-white font-varela btn-secondary">More info</button>
           </div>
 
-          <div 
+          <div
             className="card border-4 border-primary flex flex-col justify-between items-center p-4 gap-4 h-[22rem]"
-            style={{
-              transition: 'transform 0.2s', // Add a smooth transition effect
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)'; // Increase the scale on hover to expand the card
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)'; // Reset the scale on mouse leave
-            }}
-            >
+            style={{ transition: 'transform 0.2s' }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
+          >
             <h2 className="font-varela text-xl text-center font-bold text-primary">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[0][1]}</h2>
             <div className="items-center">
               <div className="radial-progress font-varela text-primary text-xl" style={{ '--value': prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[0][0] ? parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[0][0]) * 100 : '0', '--size': '8rem', '--thickness': '0.75rem' } as React.CSSProperties}>
@@ -92,18 +80,12 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
             <button type="button" className="btn text-white font-varela btn-primary">More info</button>
           </div>
 
-          <div 
+          <div
             className="card border-warning border-4 flex flex-col justify-between items-center p-4 gap-4 h-fit mt-auto"
-            style={{
-              transition: 'transform 0.2s', // Add a smooth transition effect
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)'; // Increase the scale on hover to expand the card
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)'; // Reset the scale on mouse leave
-            }}
-            >
+            style={{ transition: 'transform 0.2s' }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
+          >
             <h2 className="font-varela text-xl text-center text-warning">{prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[2][1]}</h2>
             <div className="items-center">
               <div className="radial-progress font-varela text-warning text-xl" style={{ '--value': prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[2][0] ? parseFloat(prediction?.pred.sort((a, b) => Number(b[0]) - Number(a[0]))[2][0]) * 100 : '0', '--size': '8rem', '--thickness': '0.75rem' } as React.CSSProperties}>
