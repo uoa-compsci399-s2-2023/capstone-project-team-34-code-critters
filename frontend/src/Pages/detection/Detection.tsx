@@ -248,6 +248,11 @@ function Detection() {
     setIsChecked([...isChecked, ...droppedFiles
       .map(() => false)]);
   };
+
+  const getTopThree = (prediction: string[][]) => prediction
+    .sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]))
+    .slice(0, 3);
+
   return (
     <div className="w-full h-fit flex justify-center overflow-x-hidden pt-24 pb-4">
       <div className="max-w-4xl xl:max-w-5xl w-11/12 flex flex-col items-center h-fit gap-4">
@@ -386,6 +391,19 @@ function Detection() {
               <div />
 
               <div className="flex items-center gap-4">
+                <div className="hidden md:flex flex-col gap-2">
+                  {predictions[index] && getTopThree(predictions[index]!.pred).map((pred, i) => (
+                    <span
+                      key={i}
+                      className={`badge badge-outline truncate ${i === 0 && 'badge-primary hover:bg-primary hover:text-white hover:border-primary'} ${i === 1 && 'badge-secondary hover:bg-secondary hover:text-white hover:border-secondary'} ${i === 2 && 'badge-warning hover:bg-warning hover:text-white hover:border-warning'}`}
+                    >
+                      {pred[1]}
+                      :
+                      {(parseFloat(pred[0]) * 100).toFixed(2)}
+                      %
+                    </span>
+                  ))}
+                </div>
                 <input
                   type="checkbox"
                   checked={isChecked[index] || false}
