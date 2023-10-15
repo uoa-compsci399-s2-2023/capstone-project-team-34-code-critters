@@ -413,8 +413,7 @@ function Detection() {
                   type="checkbox"
                   checked={isChecked[index] || false}
                   onChange={() => handleCheckbox(index)}
-                  className="checkbox checkbox-lg checkbox-primary dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
-                  disabled={isLoading[index]}
+                  className={`checkbox checkbox-lg checkbox-primary ${isLoading[index] ? 'hidden' : 'block'}`}
                 />
                 {
                   isLoading[index] && (
@@ -423,10 +422,9 @@ function Detection() {
                 }
                 <div className="tooltip font-varela" data-tip="Delete this prediction">
                   <button
-                    className="btn btn-square btn-outline hover:!text-white btn-error dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100"
+                    className={`btn btn-square btn-outline hover:!text-white btn-error ${isLoading[index] ? 'hidden' : 'block'}`}
                     type="button"
                     onClick={() => deleteImage(index)}
-                    disabled={isLoading[index]}
                   >
                     <FontAwesomeIcon icon={faXmark} />
                   </button>
