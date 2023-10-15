@@ -225,17 +225,25 @@ function SignUpModal({
                 ? 'cursor-not-allowed'
                 : 'bg-gradient-to-r from-primary to-secondary'
               }`}
-              disabled={!isValid}
+              disabled={!isValid || isSubmitting}
             >
-              <div className={`border-none opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-lg flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
-                Create Account
-              </div>
-              <div className={`font-varela cursor-default ${(!isValid)
-                ? 'dark:text-neutral-500'
-                : 'text-white dark:text-neutral-100'}`}
-              >
-                Create Account
-              </div>
+              {
+                !isSubmitting ? (
+                  <>
+                    <div className={`border-none opacity-0 hover:opacity-100 transition duration-500 absolute inset-0 h-full w-full rounded-lg flex justify-center items-center ${isSubmitting ? 'cursor-default' : 'bg-gradient-to-l from-primary to-secondary'}`}>
+                      Create Account
+                    </div>
+                    <div className={`font-varela cursor-default ${(!isValid)
+                      ? 'dark:text-neutral-500'
+                      : 'text-white dark:text-neutral-100'}`}
+                    >
+                      Create Account
+                    </div>
+                  </>
+                ) : (
+                  <span className="loading loading-spinner text-white loading-md" />
+                )
+              }
 
             </button>
             <div className="text-neutral-500 font-varela cursor-default">
