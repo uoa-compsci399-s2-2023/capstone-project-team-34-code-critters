@@ -1,4 +1,5 @@
 """Flask configuration variables."""
+from typing import Any
 from pydantic_settings import BaseSettings, SettingsConfigDict
 import os
 
@@ -10,7 +11,7 @@ class settingsModel(BaseSettings):
     STORAGE_FOLDER: str = os.path.join(library_path ,'static/storage/')
     MODEL_FOLDER: str = os.path.join(library_path ,'models/')
 
-    ALLOWED_IMAGE_EXTENSIONS: [list] = ['PNG', 'JPG', 'JPEG', 'GIF']
+    ALLOWED_IMAGE_EXTENSIONS: Any = ['PNG', 'JPG', 'JPEG', 'GIF', 'WEBP']
     GBIF_USER: str = "temp"
     GBIF_PASSWORD: str = "temp"
 
