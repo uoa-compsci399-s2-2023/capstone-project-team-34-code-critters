@@ -25,7 +25,7 @@ if __name__ == "__main__":
     parser.add_argument('-m', '--model', metavar='model', type=str, help='Model used for inference')
     parser.add_argument("-c", '--output_csv', action='store_true', help='Output inference result as csv file')
     parser.add_argument("-x", '--output_xlsx', action='store_true', help='Output inference result as xlsx (Excel) file')
-    parser.add_argument("-m", '--mute', action='store_true', help='Mutes the results')
+    parser.add_argument('--mute', action='store_true', help='Mutes the results')
     parser.add_argument("--output_file_name", metavar="outputfilename", type=str, help="Output file name")
 
 
@@ -73,7 +73,6 @@ if __name__ == "__main__":
                         f.write(csvFile)
                     print(f"Saved Results to {csvFileName}")
                     
-                
             if args.output_xlsx:
                 xlsxFile,xlsxFileName = getXLSXExport(client, prediction)
 
@@ -86,10 +85,3 @@ if __name__ == "__main__":
                     with open(xlsxFileName, "wb") as f:
                         f.write(xlsxFile)
                     print(f"Saved Results to {xlsxFileName}")
-
-    
-    
-
-
-
-    
