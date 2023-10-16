@@ -112,18 +112,30 @@ function History() {
   };
 
   const deletePrediction = async (prediction: PredictionTable) => {
-    if (!user) return;
-    const userDocRef = doc(db, 'user', user?.uid);
-    const predictionsCollectionRef = collection(userDocRef, 'predictions');
-    const predictionDocRef = doc(predictionsCollectionRef, prediction.id);
+  if (!user) return;
+  const updatedTablePredictions = tablePredictions.filter(
+    (p) => p.id !== prediction.id
+  );
 
-    try {
-      await deleteDoc(predictionDocRef);
-      await loadPredictionAndImages(user);
-    } catch (e) {
-      console.error('Error deleting prediction:', e);
-    }
-  };
+  setTablePredictions(updatedTablePredictions);
+
+  const updatedPredictions = predictions.filter((p) => p.name !== prediction.name);
+  setPredictions(updatedPredictions);
+
+  const userDocRef = doc(db, 'user', user?.uid);
+  const predictionsCollectionRef = collection(userDocRef, 'predictions');
+  const predictionDocRef = doc(predictionsCollectionRef, prediction.id);
+
+  try {
+    await deleteDoc(predictionDocRef);
+  } catch (e) {
+    console.error('Error deleting prediction:', e);
+  }
+};
+
+
+
+
 
   const openModal = (event: MouseEvent<HTMLTableRowElement>, index: number) => {
     // eslint-disable-next-line max-len
