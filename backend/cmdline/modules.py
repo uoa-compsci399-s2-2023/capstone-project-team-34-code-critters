@@ -27,6 +27,9 @@ def getPredictions(client, filenames, model=None):
 
 def getCSVExport(client, json):
     response = client.post("/api/v1/create_csv", json=json)
+    # print(response)
+    # print(response.headers)
+    # print(response.text)
     filename = response.headers["Content-Disposition"].split("=")[1]
     return [response.content,filename]
 

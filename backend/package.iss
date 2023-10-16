@@ -1,5 +1,5 @@
 #define AppName "CritterSleuth"
-#define AppVersion "1.2.0"
+#define AppVersion "1.2.1"
 #define AppPublisher "Code Critters"
 #define AppExeName "CritterSleuth"
 #define AppIcon "library\static\favicon.ico"
@@ -28,11 +28,14 @@ Source: "dist\{#AppExeName}\*"; DestDir: "{app}"; Flags: recursesubdirs
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{#AppExeName}.exe"; ValueType: string; ValueName: ""; ValueData: {app}\{#AppExeName}.exe Flags: uninsdeletevalue
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{#AppExeName}.exe"; ValueType: string; ValueName: "Path"; ValueData: {app}; Flags: uninsdeletevalue
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{#AppExeName}.exe"; ValueType: string; ValueName: "Version"; ValueData: {#AppVersion}; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"; ValueType: expandsz; ValueName: "Path"; ValueData: "{olddata};{app}"; Flags: uninsdeletevalue
+
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppExeName}.exe"
 Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; Tasks: desktopicon; IconFilename: "{app}\{#AppExeName}.exe"
 Name: "{commonprograms}\{#AppName}"; Filename: "{app}\{#AppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#AppExeName}.exe"
+
 
 
 ; [Run]

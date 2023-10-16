@@ -27,6 +27,7 @@ if __name__ == "__main__":
     parser.add_argument("-x", '--output_xlsx', action='store_true', help='Output inference result as xlsx (Excel) file')
     parser.add_argument('--mute', action='store_true', help='Mutes the results')
     parser.add_argument("--output_file_name", metavar="outputfilename", type=str, help="Output file name")
+    parser.add_argument("--output_file_path", metavar="outputfilepath", type=str, help="Output file path")
 
 
     group = parser.add_mutually_exclusive_group()
@@ -64,24 +65,43 @@ if __name__ == "__main__":
                 csvFile,csvFileName = getCSVExport(client, prediction)
 
                 if args.output_file_name:
-                    with open(f"{ args.output_file_name}.csv", "wb") as f:
-                        f.write(csvFile)
-                    print(f"Saved Results to {args.output_file_name}.csv")
+                    if args.output_file_path:
+                        with open(f"{ args.output_file_path}/{ args.output_file_name}.csv", "wb") as f:
+                            f.write(csvFile)
+                        print(f"Saved Results to {args.output_file_path}/{args.output_file_name}.csv")
+                    else:
+                        with open(f"{ args.output_file_name}.csv", "wb") as f:
+                            f.write(csvFile)
+                        print(f"Saved Results to {args.output_file_name}.csv")
                 else:
                     csvFileName = csvFileName.strip('"')
-                    with open(csvFileName, "wb") as f:
-                        f.write(csvFile)
-                    print(f"Saved Results to {csvFileName}")
+                    if args.output_file_path:
+                        with open(f"{args.output_file_path}/{csvFileName}", "wb") as f:
+                            f.write(csvFile)
+                        print(f"Saved Results to {args.output_file_path}/{csvFileName}")
+                    else:
+                        with open(csvFileName, "wb") as f:
+                            f.write(csvFile)
+                        print(f"Saved Results to {csvFileName}")
                     
             if args.output_xlsx:
                 xlsxFile,xlsxFileName = getXLSXExport(client, prediction)
-
                 if args.output_file_name:
-                    with open(f"{ args.output_file_name}.xlsx", "wb") as f:
-                        f.write(xlsxFile)
-                    print(f"Saved Results to {args.output_file_name}.xlsx")
+                    if args.output_file_path:
+                        with open(f"{ args.output_file_path}/{ args.output_file_name}.xlsx", "wb") as f:
+                            f.write(xlsxFile)
+                        print(f"Saved Results to {args.output_file_path}/{args.output_file_name}.xlsx")
+                    else:
+                        with open(f"{ args.output_file_name}.xlsx", "wb") as f:
+                            f.write(xlsxFile)
+                        print(f"Saved Results to {args.output_file_name}.xlsx")
                 else:
                     xlsxFileName = xlsxFileName.strip('"')
-                    with open(xlsxFileName, "wb") as f:
-                        f.write(xlsxFile)
-                    print(f"Saved Results to {xlsxFileName}")
+                    if args.output_file_path:
+                        with open(f"{args.output_file_path}/{xlsxFileName}", "wb") as f:
+                            f.write(xlsxFile)
+                        print(f"Saved Results to {args.output_file_path}/{xlsxFileName}")
+                    else:
+                        with open(xlsxFileName, "wb") as f:
+                            f.write(xlsxFile)
+                        print(f"Saved Results to {xlsxFileName}")
