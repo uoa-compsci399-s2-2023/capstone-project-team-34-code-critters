@@ -33,7 +33,7 @@ if __name__ == "__main__":
     parser.add_argument("-x", '--output_xlsx', action='store_true', help='Output inference result as xlsx (Excel) file')
     parser.add_argument('--mute', action='store_true', help='Mutes the results')
     parser.add_argument("--output_file_name", metavar="outputfilename", type=str, help="Output file name")
-
+    parser.add_argument("--output_file_path", metavar="outputfilepath", type=str, help="Output file path")
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-a', '--available_models', action='store_true', help='Lists models available for inference')
