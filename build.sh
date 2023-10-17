@@ -43,7 +43,7 @@ cd "$backendPath"
 python3 -m venv venv
 source venv/bin/activate
 pip install --no-deps -r ubuntu_requirements.txt
-pyinstaller pywebview_portable.py --add-data "library:library" --add-data "sql_app.db:." --noconfirm --clean --name "$applicationName" --windowed --icon "library/static/favicon.ico"
+pyinstaller pywebview_portable.py --add-data "library:library" --add-data "sql_app.db:." --noconfirm --clean --name "$applicationName" --windowed
 
 cd "$rootPath"
 
@@ -58,7 +58,7 @@ cd "$frontendPath"
 python3 -m venv venv
 source venv/bin/activate
 pip install --no-deps -r ubuntu_requirements.txt
-pyinstaller pywebview_webapp.py --noconfirm  --clean --name $applicationName --windowed --icon "public\favicon.ico"
+pyinstaller pywebview_webapp.py --noconfirm  --clean --name $applicationName --windowed
 
 # Package Executable into Zip
 cd "$frontendPath/dist" && zip -r -Z bzip2 "$rootPath/$applicationName-Portable-Ubuntu.zip" "$applicationName"
