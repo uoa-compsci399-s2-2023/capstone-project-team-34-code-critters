@@ -25,6 +25,7 @@ echo "REACT_APP_APPID=NULL" >> .env
 echo "REACT_APP_MEASUREMENTID=NULL" >> .env
 echo "REACT_APP_DISABLE_UPGRADE_SECURE_REQUESTS=true" >> .env
 echo "DISABLE_ESLINT_PLUGIN=true" >> .env
+echo "REACT_APP_DISABLE_LOCAL_STORAGE=true" >> .env
 
 npm install
 npm run build
