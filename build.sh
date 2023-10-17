@@ -39,10 +39,10 @@ mv "$backendStaticPath/index.html" "$backendLibraryPath/templates/index.html"
 
 # Package Backend + Frontend into Portable Executable
 cd "$backendPath"
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
-pip install -r --no-deps ubuntu_requirements.txt
-pyinstaller pywebview_portable.py --add-data "library:library" --add-data "sql_app.db;." --noconfirm --clean --name "$applicationName" --windowed --icon "library/static/favicon.ico"
+pip install --no-deps -r ubuntu_requirements.txt
+pyinstaller pywebview_portable.py --add-data "library:library" --add-data "sql_app.db:." --noconfirm --clean --name "$applicationName" --windowed --icon "library/static/favicon.ico"
 
 cd "$rootPath"
 
@@ -54,9 +54,9 @@ applicationName="CritterSleuthWeb"
 cd "$frontendPath"
 
 # Package Frontend into Executable
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
-pip install -r --no-deps ubuntu_requirements.txt
+pip install --no-deps -r ubuntu_requirements.txt
 pyinstaller pywebview_webapp.py --noconfirm  --clean --name $applicationName --windowed --icon "public\favicon.ico"
 
 # Package Executable into Zip
