@@ -54,10 +54,13 @@ protobuf==4.24.0
 proxy-tools==0.1.0
 pyasn1==0.5.0
 pyasn1-modules==0.3.0
+pycairo==1.25.0
 pycparser==2.21
 pydantic==2.2.0
 pydantic-settings==2.0.3
 pydantic_core==2.6.0
+PyGObject==3.46.0
+PyGObject-stubs==2.9.0
 pyinstaller==5.13.0
 pyinstaller-hooks-contrib==2023.7
 PyQt5==5.15.9
