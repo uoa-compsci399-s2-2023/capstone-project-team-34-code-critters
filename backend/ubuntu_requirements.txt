@@ -61,7 +61,7 @@ pydantic-settings==2.0.3
 pydantic_core==2.6.0
 PyGObject==3.46.0
 PyGObject-stubs==2.9.0
-pyinstaller==5.13.0
+pyinstaller==6.1.0
 pyinstaller-hooks-contrib==2023.7
 PyQt5==5.15.9
 PyQt5-Qt5==5.15.2
