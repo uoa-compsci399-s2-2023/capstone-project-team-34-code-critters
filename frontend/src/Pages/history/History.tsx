@@ -19,7 +19,7 @@ import PredictionDialog from '../../Components/PredictionDialog';
 
 function History() {
   const [tablePredictions, setTablePredictions] = useState<
-    PredictionTable[]
+  PredictionTable[]
   >([]);
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [user] = useAuthState(auth);
@@ -114,7 +114,7 @@ function History() {
   const deletePrediction = async (prediction: PredictionTable) => {
     if (!user) return;
     const updatedTablePredictions = tablePredictions.filter(
-      (p) => p.id !== prediction.id
+      (p) => p.id !== prediction.id,
     );
 
     setTablePredictions(updatedTablePredictions);
@@ -132,10 +132,6 @@ function History() {
       console.error('Error deleting prediction:', e);
     }
   };
-
-
-
-
 
   const openModal = (event: MouseEvent<HTMLTableRowElement>, index: number) => {
     // eslint-disable-next-line max-len
@@ -307,7 +303,9 @@ function History() {
                         <td className="p-2">
                           <div className="flex gap-4">
                             {prediction.imageUrl ? (
-                              <img className="max-w-32 max-h-16 rounded-md" src={prediction.imageUrl} alt={prediction.name} />
+                              <div className="w-32 h-16 flex items-center justify-center">
+                                <img className="max-w-32 max-h-16 rounded-md" src={prediction.imageUrl} alt={prediction.name} />
+                              </div>
                             ) : (
                               <p>Loading image...</p>
                             )}
