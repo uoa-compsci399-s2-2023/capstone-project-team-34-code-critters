@@ -242,7 +242,8 @@ https://code-critters.web.app/
 - Rework the Upload page to be more appealing and user friendly.
 - Implement insect information features in the frontend.
 - Implement a user profile page.
-- Add support for PyTorch models.
+- Add model used to csv/xlsx
+- Implement local user history
 - Create a MacOS version of the application.
 - Bundle the Linux application as an AppImage instead of a zip file.
 - Add support for more languages.

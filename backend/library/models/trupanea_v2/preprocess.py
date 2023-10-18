@@ -30,14 +30,14 @@ async def img_preprocess(img_path, size=299):
     """
     
     # Normalise to +- 2SD
-    print("OLD mean={} min={} max={}".format(np.mean(img), np.min(img), np.max(img)))
+    # print("OLD mean={} min={} max={}".format(np.mean(img), np.min(img), np.max(img)))
     vmin = int(np.mean(img) - (2 * np.std(img)))
     vmax = int(np.mean(img) + (2 * np.std(img)))
     img = np.clip(img, vmin, vmax)
     img -= vmin
     img *= 256. / (vmax - vmin)
 
-    print("NEW mean={} min={} max={}".format(np.mean(img), np.min(img), np.max(img)))
+    # print("NEW mean={} min={} max={}".format(np.mean(img), np.min(img), np.max(img)))
     
     """
     mean = np.mean(img)
