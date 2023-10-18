@@ -20,7 +20,7 @@ def create_app(config=None, aargs=None):
 
             Settings.UPLOAD_FOLDER = f"{AppData}/{publisherName}/{appName}/library/static/uploads/"
             Settings.STORAGE_FOLDER = f"{AppData}/{publisherName}/{appName}/library/static/storage/"
-            Settings.MODEL_FOLDER = './library/models/'
+            # Settings.MODEL_FOLDER = './library/models/'
         case None:
             pass
     tags_metadata = [
