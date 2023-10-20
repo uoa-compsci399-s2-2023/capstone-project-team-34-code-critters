@@ -155,6 +155,10 @@ def get_Insect_Occurances_Count(genusKey: str, db: Session = Depends(get_db)):
     if not info_feature_is_enabled:
         return ORJSONResponse(content={"error": "This feature is not enabled"}, status_code=500)
     
+    # Validate genusKey
+    if not genusKey.isnumeric():
+        return ORJSONResponse(content={"error": "GenusKey is not valid"}, status_code=500)
+
     # Check database cache for insect
     db_insect_occurances = crud.get_genus_occurances_by_genus_key(db, int(genusKey))
     if db_insect_occurances and not check_if_cache_expired(db_insect_occurances.time_updated):
