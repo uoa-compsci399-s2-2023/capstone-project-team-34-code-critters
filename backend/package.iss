@@ -1,5 +1,5 @@
 #define AppName "CritterSleuth"
-#define AppVersion "1.2.1"
+#define AppVersion "1.2.2"
 #define AppPublisher "Code Critters"
 #define AppExeName "CritterSleuth"
 #define AppIcon "library\static\favicon.ico"
