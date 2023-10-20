@@ -10,7 +10,7 @@ import { User } from '@firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faArrowRight, faArrowLeft, faTrash, faFileCsv, faFileExcel,
+  faArrowRight, faArrowLeft, faTrash, faFileCsv, faFileExcel,faXmark
 } from '@fortawesome/free-solid-svg-icons';
 import { auth, db } from '../../enviroments/firebase';
 import { PredictionTable, Prediction } from '../../models/Prediction';
@@ -217,6 +217,7 @@ function History() {
               />
             </div>
             <div className="hidden sm:flex gap-4 items-center">
+              
               <button
                 disabled={isLoading}
                 className="btn btn-primary btn-outline hover:!text-white font-varela"
@@ -260,7 +261,15 @@ function History() {
                   </button>
                 </div>
               </div>
+              <button
+                className="btn btn-error btn-square btn-outline font-varela hover:!text-white mr-[0.2rem]"
+                type="button"
+                // onClick={deleteAll}
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
             </div>
+            
           </div>
           <div className="w-full">
             <table className="table table-auto dark:text-neutral-100">
@@ -339,10 +348,10 @@ function History() {
                           <div className="tooltip" data-tip="Delete prediction">
                             <button
                               type="button"
-                              className="btn btn-squre btn-outline btn-error hover:!text-white"
+                              className="btn btn-square btn-outline btn-error hover:!text-white"
                               onClick={() => deletePrediction(prediction)}
                             >
-                              <FontAwesomeIcon icon={faTrash} />
+                              <FontAwesomeIcon icon={faXmark} />
                             </button>
                           </div>
                         </td>
