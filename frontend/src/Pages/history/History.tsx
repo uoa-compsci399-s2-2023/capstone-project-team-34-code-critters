@@ -148,15 +148,22 @@ function History() {
       .map((_, index) => (isChecked[index] ? tablePredictions[index].id : null))
       .filter((id) => id !== null);
     
-    try {
-      for (const predictionId of selectedPredictionIds) {
-        
+      const deletePromises = selectedPredictionIds.map(async (predictionId) => {
         const predictionDocRef = doc(predictionsCollectionRef, `${predictionId}`);
-        await deleteDoc(predictionDocRef);
+        try {
+          await deleteDoc(predictionDocRef);
+        } catch (e) {
+          console.error('Error deleting prediction:', e);
+          // Handle the error as needed
+        }
+      });
+    
+      try {
+        await Promise.all(deletePromises);
+      } catch (error) {
+        console.error('Error deleting predictions:', error);
+        // Handle the error as needed
       }
-    } catch (e) {
-      console.error('Error deleting prediction:', e);
-    }
 
     setIsChecked(Array(updatedTablePredictions.length).fill(false));
   };
