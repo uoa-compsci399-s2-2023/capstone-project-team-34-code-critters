@@ -34,7 +34,7 @@ def forceImports():
     model = keras.load_model()
     img = tf.io.read_file()
 
-async def is_file_allowed(filename):
+def is_file_allowed(filename):
     if not "." in filename:
         return False
     ext = filename.rsplit(".", 1)[1]
@@ -45,14 +45,14 @@ async def is_file_allowed(filename):
 @utils_api.post('/api/v1/upload_json', responses={200: {"description": "Success"}, 400: {"description": "Bad Request"}, 405: {"description": "Method Not Allowed"}, 500: {"description": "Internal Server Error"}}, tags=["Utilities"])
 # NOTE: currently files does not support documenation:
 # Intended documentation: "List of files to upload"
-async def upload_files_json(files: list[UploadFile], model: str | None = Query(None, description="Model to use for prediction. If not specified, the default model will be used.")):
+def upload_files_json(files: list[UploadFile], model: str | None = Query(None, description="Model to use for prediction. If not specified, the default model will be used.")):
     """
      Takes in a list of Image files and returns a list of predictions in JSON format.
     """
     try:
 
         # Checks if the model is valid before uploading
-        if model and model not in await available_models():
+        if model and model not in available_models():
             return ORJSONResponse(content={"error": "Model not found"}, status_code=400)     
         elif not model:
             # Default model (MAY CHANGE IN THE FUTURE)
@@ -61,7 +61,7 @@ async def upload_files_json(files: list[UploadFile], model: str | None = Query(N
 
         for file in files:
             # Check if the file extension is allowed
-            if not await is_file_allowed(file.filename):
+            if not is_file_allowed(file.filename):
                 return ORJSONResponse(content={"error": "File type not allowed"}, status_code=405)
             file_path = os.path.join(img_path, secure_filename(file.filename))
             # Save the file to disk
@@ -78,7 +78,7 @@ async def upload_files_json(files: list[UploadFile], model: str | None = Query(N
             if not os.path.isfile(new_path):
                 os.rename(file_path, new_path)
             # Get the prediction
-            prediction = await get_prediction(file_path, new_path, model)
+            prediction = get_prediction(file_path, new_path, model)
             
             returnList.append({"name": file.filename, "pred": prediction, "hash": hash, "model": model})
 
@@ -89,19 +89,19 @@ async def upload_files_json(files: list[UploadFile], model: str | None = Query(N
         else:
             return JSONResponse(content={"error": str(e)}, status_code=500)
 
-async def available_models():
+def available_models():
     subfolders = [os.path.basename(f.path) for f in os.scandir(models_path) if f.is_dir()]
-    return subfolders
+    return sorted(subfolders)
 
 @utils_api.get('/api/v1/available_models', tags=["Utilities"])
-async def get_available_models():
+def get_available_models():
     """
         Returns a list of available models.
     """
-    return JSONResponse(content=await available_models())
+    return JSONResponse(content=available_models())
 
 @utils_api.get('/api/v1/get_image', tags=["Utilities"])
-async def get_image(image_name: str, hash: str):
+def get_image(image_name: str, hash: str):
     """ 
         Returns an image from the uploads folder.
     """
@@ -113,7 +113,7 @@ async def get_image(image_name: str, hash: str):
 
         filepath = os.path.join(img_path, filename_with_hash)
         
-        if not os.path.isfile(filepath) or await is_file_allowed(filename) == False:
+        if not os.path.isfile(filepath) or is_file_allowed(filename) == False:
             return {"error": "File not found"}
         
         return FileResponse(filepath)
@@ -125,20 +125,20 @@ async def get_image(image_name: str, hash: str):
         
 if Settings.LOGGING == True:
     @utils_api.websocket('/ws/logs')
-    async def logging(websocket: WebSocket):
-        await websocket.accept()
+    def logging(websocket: WebSocket):
+        websocket.accept()
 
         try:
             while True:
-                await asyncio.sleep(1)
-                logs = await log_reader(30)
-                await websocket.send_text(logs)
+                asyncio.sleep(1)
+                logs = log_reader(30)
+                websocket.send_text(logs)
         except Exception as e:
             print(e)
         finally:
-            await websocket.close()
+            websocket.close()
 
-    async def log_reader(n=10):
+    def log_reader(n=10):
         log_lines = []
         base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         with open(f"{base_dir}\logfile.log", "r") as file:
