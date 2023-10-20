@@ -65,10 +65,10 @@ def create_genus_occurances(db: Session, data: Response, genusKey: int):
     db.refresh(db_genus_occurances)
     return db_genus_occurances
 
-def update_genus_occuranecs(db:Session, data: Response, genusKey: int):
+def update_genus_occurances(db:Session, data: Response, genus_Key: int):
     current_time = str(time())
     json = data.json()
-    db_genus_occurances = db.query(models.GenusOccurances).filter(models.GenusOccurances.genus_key == genusKey).first()
+    db_genus_occurances = db.query(models.GenusOccurances).filter(models.GenusOccurances.genus_key == genus_Key).first()
     db_genus_occurances.count = json["count"]
     db_genus_occurances.offset = json["offset"]
     db_genus_occurances.limit = json["limit"]

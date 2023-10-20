@@ -135,9 +135,9 @@ def get_Insect_Occurances(genusKey: str, db: Session = Depends(get_db)):
 
             # If genus exists, update genus, else create genus
             if db_insect_occurances:
-                crud.update_genus_occurances(db, data=response, genus_key=genusKey)
+                crud.update_genus_occurances(db, data=response, genus_Key=genusKey)
             else:
-                crud.create_genus_occurances(db, data=response, genusKey=genusKey)
+                crud.create_genus_occurances(db, data=response, genus_Key=genusKey)
             
             return response.json()
         except Exception as e:
