@@ -53,59 +53,59 @@ Set-Location $backendPath
 python -m venv venv
 .\venv\Scripts\activate
 pip install --no-deps -r requirements.txt
-pyinstaller .\pywebview_portable.py --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName ---hide-console hide-early --icon "library\static\favicon.ico"
+pyinstaller .\pywebview_portable.py --hide-console "hide-early" --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --icon "library\static\favicon.ico"
 
 # # Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
 # Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
 
 # Package Executable into Zip
-# $7zVar = Join-Path ".\dist" $applicationName
-# 7z -tzip a (Join-Path $7zVar ".zip") (Join-Path $7zVar "*")
+$7zVar = Join-Path ".\dist" $applicationName
+7z -tzip a (Join-Path $7zVar ".zip") (Join-Path $7zVar "*")
 
-# # Move Zipped Executable to Root
-# $NewName = Join-Path $rootPath "$applicationName-Portable-Windows.zip"
-# Move-Item (Join-Path $7zVar ".zip") $NewName -Force
+# Move Zipped Executable to Root
+$NewName = Join-Path $rootPath "$applicationName-Portable-Windows.zip"
+Move-Item (Join-Path $7zVar ".zip") $NewName -Force
 
 # Package Backend + Frontend into Installation Executable
-pyinstaller .\pywebview_installed.py --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --hide-console hide-early --contents-directory "." --icon "library\static\favicon.ico"
+pyinstaller .\pywebview_installed.py --hide-console "hide-early" --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --contents-directory "." --icon "library\static\favicon.ico"
 # # Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
 # Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
 iscc .\package.iss
 
 # # Move Installation Executable to Root
-# $OldName = ".\$applicationName-Setup.exe"
-# $NewName = Join-Path $rootPath "$applicationName-Setup.exe"
-# Move-Item $OldName $NewName -Force
+$OldName = ".\$applicationName-Setup.exe"
+$NewName = Join-Path $rootPath "$applicationName-Setup.exe"
+Move-Item $OldName $NewName -Force
 
 # # Disable Venv
 # deactivate
 
 # # Create Web-only Executable
-# $applicationName = "CritterSleuthWeb"
+$applicationName = "CritterSleuthWeb"
 
-# Set-Location $frontendPath
+Set-Location $frontendPath
 
-# # Package Frontend into Executable
-# pyinstaller .\pywebview_webapp.py --noconfirm  --clean --name $applicationName --windowed --icon "public\favicon.ico"
+# Package Frontend into Executable
+pyinstaller .\pywebview_webapp.py --noconfirm  --clean --name $applicationName --windowed --icon "public\favicon.ico"
 
-# # Package Executable into Zip
-# $7zVar = Join-Path ".\dist" $applicationName
-# $zipName = $applicationName + ".zip"
-# 7z -tzip a (Join-Path ".\dist" $zipName) (Join-Path $7zVar "*")
+# Package Executable into Zip
+$7zVar = Join-Path ".\dist" $applicationName
+$zipName = $applicationName + ".zip"
+7z -tzip a (Join-Path ".\dist" $zipName) (Join-Path $7zVar "*")
 
-# # Move Zipped Executable to Root
-# $OldName = Join-Path ".\dist" ($applicationName + ".zip")
-# $NewName = Join-Path $rootPath ($applicationName + "-Portable-windows.zip")
-# Move-Item $OldName $NewName -Force
+# Move Zipped Executable to Root
+$OldName = Join-Path ".\dist" ($applicationName + ".zip")
+$NewName = Join-Path $rootPath ($applicationName + "-Portable-windows.zip")
+Move-Item $OldName $NewName -Force
 
-# # Disable Venv
-# deactivate
+# Disable Venv
+deactivate
 
-# iscc .\package.iss
+iscc .\package.iss
 
-# # Move Installation Executable to Root
-# $NewLocation = Join-Path $rootPath "$applicationName-Setup.exe"
-# Move-Item "Web-$applicationName-Setup.exe" $NewLocation -Force
+# Move Installation Executable to Root
+$NewLocation = Join-Path $rootPath "$applicationName-Setup.exe"
+Move-Item "Web-$applicationName-Setup.exe" $NewLocation -Force
 
-# # Set Location back to Root
-# Set-Location $rootPath
+# Set Location back to Root
+Set-Location $rootPath
