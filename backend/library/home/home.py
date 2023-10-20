@@ -10,7 +10,7 @@ static_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 # Technically not needed as this endpoint is only available to pywebview
 # which does not use or need it
 @home_router.get("/robots.txt", responses={200: {"description": "Success"}, 404: {"description": "Not Found"}})
-async def robots():
+def robots():
     """
         Serves robots.txt
     """
@@ -22,7 +22,7 @@ async def robots():
 
 ####### Serve favicon #######
 @home_router.get("/favicon.ico", responses={200: {"description": "Success"}, 404: {"description": "Not Found"}})
-async def favicon():
+def favicon():
     """
         Serves the favicon
     """
@@ -35,7 +35,7 @@ async def favicon():
 ####### Serve static files + React Build #######
 @home_router.get("/")
 @home_router.get("/{path:path}", responses={200: {"description": "Success"}, 404: {"description": "Not Found"}})
-async def home(request: Request, path: str=None):
+def home(request: Request, path: str=None):
     """
         Serves the React Build
     """ 
