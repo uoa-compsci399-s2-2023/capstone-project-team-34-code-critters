@@ -62,6 +62,7 @@ function History() {
         name: predictionTable.name,
         pred: predictionTable.prediction,
         hash: predictionTable.imageHash,
+        model: predictionTable.model,
       }));
 
       await Promise.all(predictionsList.map(async (predictionTable, i) => {

@@ -39,9 +39,8 @@ async def json_to_xlsx(request: Request, results: list[dict]= Body(...)):
     try:
         # Validate JSON
         for obj in results:
-            if "name" not in obj or "pred" not in obj:
+            if "name" not in obj or "pred" not in obj or "model" not in obj:
                 return ORJSONResponse(content={"error": "Invalid JSON"}, status_code=400)            
-        
         # File name is based on the hash of the JSON data
         file_name = hashlib.md5(str(results).encode()).hexdigest()
         file_path = os.path.join(storage_path, file_name+".xlsx")
@@ -52,7 +51,7 @@ async def json_to_xlsx(request: Request, results: list[dict]= Body(...)):
             ws = wb.active
             
             # Write the data to the file
-            ws.append(["Filename","Image", "Predictions"])
+            ws.append(["Filename","Image","Model" "Predictions"])
             for result in results:
                 filename = result["name"]
                 pred = [item for subpred in result["pred"] for item in subpred]
@@ -62,7 +61,7 @@ async def json_to_xlsx(request: Request, results: list[dict]= Body(...)):
                 filename_without_ext = os.path.splitext(filename)[0]
                 filename_with_hash = f"{filename_without_ext}.{hash}{file_ext}"
 
-                ws.append([filename]+[""]+pred)
+                ws.append([filename]+[""]+[result["model"]]+pred)
 
                 filepath = os.path.join(img_path, filename_with_hash)
                 if os.path.isfile(filepath):
@@ -102,7 +101,7 @@ async def json_to_csv(request: Request, results: list[dict]= Body(...)):
     """
     try:
         for obj in results:
-            if "name" not in obj or "pred" not in obj:
+            if "name" not in obj or "pred" not in obj or "model" not in obj:
                 return ORJSONResponse(content={"error": "Invalid JSON"}, status_code=400)    
             
         file_name = hashlib.md5(str(results).encode()).hexdigest()
@@ -110,14 +109,15 @@ async def json_to_csv(request: Request, results: list[dict]= Body(...)):
 
         if not os.path.isfile(file_path):
             with open(file_path, 'w') as f:
-                f.write("Filename,Predictions,Label,Rank\n")
+                f.write("Filename,Model,Predictions,Label,Rank\n")
 
                 for result in results:
                     filename = result["name"]
+                    model = result["model"]
                     pred = [item for subpred in result["pred"] for item in subpred]
                     # f.write(filename)
                     for i in range(0, len(pred), 2):
-                        f.write(filename+","+pred[i]+","+pred[i+1]+f",{i//2+1}")
+                        f.write(filename+","+model+","+pred[i]+","+pred[i+1]+f",{i//2+1}")
                         f.write("\n")
                     # f.write("\n")
                     # f.write(filename+",".join(pred)+"\n")

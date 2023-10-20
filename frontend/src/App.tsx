@@ -145,18 +145,22 @@ function App() {
           <label htmlFor="drawer" aria-label="close sidebar" className="drawer-overlay" />
           <div className="p-4">
             <ul className="menu w-80 rounded-lg dark:bg-neutral-800 bg-white">
-              <button
-                className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
-                type="button"
-                onClick={() => {
-                  closeDrawer();
-                  navigate('/');
-                }}
-              >
-                Home
-                <FontAwesomeIcon icon={faHome} className="-mt-[0.2rem]" />
+              {
+                !user && (
+                <button
+                  className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
+                  type="button"
+                  onClick={() => {
+                    closeDrawer();
+                    navigate('/');
+                  }}
+                >
+                  Home
+                  <FontAwesomeIcon icon={faHome} className="-mt-[0.2rem]" />
 
-              </button>
+                </button>
+                )
+              }
               <button
                 className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
                 type="button"
