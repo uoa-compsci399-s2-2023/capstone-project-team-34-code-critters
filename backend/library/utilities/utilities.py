@@ -54,7 +54,9 @@ def upload_files_json(files: list[UploadFile], model: str | None = Query(None, d
         # Checks if the model is valid before uploading
         if model and model not in available_models():
             return ORJSONResponse(content={"error": "Model not found"}, status_code=400)     
-        
+        elif not model:
+            # Default model (MAY CHANGE IN THE FUTURE)
+            model = "trupanea_v2"
         returnList = []
 
         for file in files:
@@ -76,11 +78,9 @@ def upload_files_json(files: list[UploadFile], model: str | None = Query(None, d
             if not os.path.isfile(new_path):
                 os.rename(file_path, new_path)
             # Get the prediction
-            if model:
-                prediction = get_prediction(file_path, new_path, model)
-            else: 
-                prediction = get_prediction(file_path, new_path)
-            returnList.append({"name": file.filename, "pred": prediction, "hash": hash})
+            prediction = get_prediction(file_path, new_path, model)
+            
+            returnList.append({"name": file.filename, "pred": prediction, "hash": hash, "model": model})
 
         return JSONResponse(content=returnList)
     except Exception as e:
