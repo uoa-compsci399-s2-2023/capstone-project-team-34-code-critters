@@ -289,7 +289,7 @@ function History() {
                 </div>
               </div>
               <button
-                className="btn btn-error btn-square btn-outline font-varela hover:!text-white mr-[0.2rem]"
+                className="btn btn-error btn-square btn-outline font-varela hover:!text-white"
                 type="button"
                 onClick={deleteSelectedPredictions}
                 disabled={isChecked.every((value) => !value)}
