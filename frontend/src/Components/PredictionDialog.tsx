@@ -173,7 +173,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
                     {insectCount0 !== null && `occurances_count: ${insectCount0}`}
                   </p>
                 )}
-                <button type="button" className="btn text-white font-varela btn-secondary" onClick={() => closeInsectInfo(0)}>
+                <button type="button" className="btn w-[7.3rem] text-white font-varela btn-secondary" onClick={() => closeInsectInfo(0)}>
                   Close
                 </button>
               </div>
@@ -224,7 +224,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
                     {insectCount1 !== null && `occurances_count: ${insectCount1}`}
                   </p>
                 )}
-                <button type="button" className="btn text-white font-varela btn-primary" onClick={() => closeInsectInfo(1)}>
+                <button type="button" className="btn w-[7.3rem] text-white font-varela btn-primary" onClick={() => closeInsectInfo(1)}>
                   Close
                 </button>
               </div>
@@ -275,7 +275,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
                     {insectCount2 !== null && `occurances_count: ${insectCount2}`}
                   </p>
                 )}
-                <button type="button" className="btn text-white font-varela btn-warning" onClick={() => closeInsectInfo(2)}>
+                <button type="button" className="btn w-[7.3rem] text-white font-varela btn-warning" onClick={() => closeInsectInfo(2)}>
                   Close
                 </button>
               </div>
