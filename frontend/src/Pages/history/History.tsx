@@ -149,8 +149,8 @@ function History() {
       .filter((id) => id !== null);
     
     try {
-      for (let i = 0; i < selectedPredictionIds.length; i++) {
-        const predictionId = selectedPredictionIds[i];
+      for (const predictionId of selectedPredictionIds) {
+        
         const predictionDocRef = doc(predictionsCollectionRef, `${predictionId}`);
         await deleteDoc(predictionDocRef);
       }
