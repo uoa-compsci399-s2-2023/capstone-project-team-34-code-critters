@@ -25,7 +25,6 @@ if __name__ == "__main__":
     ## https://github.com/pyinstaller/pyinstaller/issues/8022
     ## https://github.com/microsoft/terminal/issues/12464
 
-    console_window = None
     if sys.platform == 'win32':
         import ctypes
         import ctypes.wintypes
@@ -40,7 +39,7 @@ if __name__ == "__main__":
             console_process_id = console_process_id.value
             if process_id == console_process_id:
                 # ... and if it is, minimize it
-                ctypes.windll.user32.ShowWindow(console_window, 2)
+                ctypes.windll.user32.ShowWindow(console_window, 0)
                 
     parser = argparse.ArgumentParser(description='Inferencing Application')
     parser.add_argument('-i', '--InputImagePath', metavar='inputimage', type=str, nargs='+', help='the path to the input image file')
