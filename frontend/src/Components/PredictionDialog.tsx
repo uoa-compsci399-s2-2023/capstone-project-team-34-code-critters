@@ -161,12 +161,14 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
                 {insectInfoCard0 && insectInfoCard0.message ? (
                   <p className="text-secondary">{insectInfoCard0.message}</p>
                 ) : (
-                  <p className="text-secondary">
+                  <p className="text-secondary overflow-y-auto scrollbar">
                     {insectInfoCard0.scientific_name && `scientific_name: ${insectInfoCard0.scientific_name}`}<br />
+                    {insectInfoCard0.canonical_name && `canonical_name: ${insectInfoCard0.canonical_name}`}<br />
+                    {insectInfoCard0.genus_name && `genus_name: ${insectInfoCard0.genus_name}`}<br />
+                    {insectInfoCard0.kingdom && `kingdom: ${insectInfoCard0.kingdom}`}<br />
                     {insectInfoCard0.phylum && `phylum: ${insectInfoCard0.phylum}`}<br />
                     {insectInfoCard0.order && `order: ${insectInfoCard0.order}`}<br />
                     {insectInfoCard0.family && `family: ${insectInfoCard0.family}`}<br />
-                    {insectInfoCard0.genus_name && `genus_name: ${insectInfoCard0.genus_name}`}<br />
                     {insectInfoCard0._class && `class: ${insectInfoCard0._class}`}<br />
                     {insectCount0 !== null && `occurances_count: ${insectCount0}`}
                   </p>
@@ -210,12 +212,14 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
                 {insectInfoCard1 && insectInfoCard1.message ? (
                   <p className="text-primary">{insectInfoCard1.message}</p>
                 ) : (
-                  <p className="text-primary">
+                  <p className="text-primary overflow-y-auto scrollbar">
                     {insectInfoCard1.scientific_name && `scientific_name: ${insectInfoCard1.scientific_name}`}<br />
+                    {insectInfoCard1.canonical_name && `canonical_name: ${insectInfoCard1.canonical_name}`}<br />
+                    {insectInfoCard1.genus_name && `genus_name: ${insectInfoCard1.genus_name}`}<br />
+                    {insectInfoCard1.kingdom && `kingdom: ${insectInfoCard1.kingdom}`}<br />
                     {insectInfoCard1.phylum && `phylum: ${insectInfoCard1.phylum}`}<br />
                     {insectInfoCard1.order && `order: ${insectInfoCard1.order}`}<br />
                     {insectInfoCard1.family && `family: ${insectInfoCard1.family}`}<br />
-                    {insectInfoCard1.genus_name && `genus_name: ${insectInfoCard1.genus_name}`}<br />
                     {insectInfoCard1._class && `class: ${insectInfoCard1._class}`}<br />
                     {insectCount1 !== null && `occurances_count: ${insectCount1}`}
                   </p>
@@ -259,12 +263,14 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
                 {insectInfoCard2 && insectInfoCard2.message ? (
                   <p className="text-warning">{insectInfoCard2.message}</p>
                 ) : (
-                  <p className="text-warning">
+                  <p className="text-warning overflow-y-auto scrollbar">
                     {insectInfoCard2.scientific_name && `scientific_name: ${insectInfoCard2.scientific_name}`}<br />
+                    {insectInfoCard2.canonical_name && `canonical_name: ${insectInfoCard2.canonical_name}`}<br />
+                    {insectInfoCard2.genus_name && `genus_name: ${insectInfoCard2.genus_name}`}<br />
+                    {insectInfoCard2.kingdom && `kingdom: ${insectInfoCard2.kingdom}`}<br />
                     {insectInfoCard2.phylum && `phylum: ${insectInfoCard2.phylum}`}<br />
                     {insectInfoCard2.order && `order: ${insectInfoCard2.order}`}<br />
                     {insectInfoCard2.family && `family: ${insectInfoCard2.family}`}<br />
-                    {insectInfoCard2.genus_name && `genus_name: ${insectInfoCard2.genus_name}`}<br />
                     {insectInfoCard2._class && `class: ${insectInfoCard2._class}`}<br />
                     {insectCount2 !== null && `occurances_count: ${insectCount2}`}
                   </p>
