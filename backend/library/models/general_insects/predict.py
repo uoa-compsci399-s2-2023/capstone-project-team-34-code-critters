@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-async def predict(img, path):
+def predict(img, path):
     model =  tf.saved_model.load(f"{path}/aiy_vision_classifier_insects_V1_1")
     infer = model.signatures["image_classifier"]
 
