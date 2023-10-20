@@ -125,14 +125,41 @@ function History() {
     const userDocRef = doc(db, 'user', user?.uid);
     const predictionsCollectionRef = collection(userDocRef, 'predictions');
     const predictionDocRef = doc(predictionsCollectionRef, prediction.id);
-
+    console.log(prediction.id);
     try {
       await deleteDoc(predictionDocRef);
     } catch (e) {
       console.error('Error deleting prediction:', e);
     }
   };
+  
+  const deleteSelectedPredictions = async () => {
+    if (!user) return;
 
+    const updatedTablePredictions = tablePredictions.filter((_, index) => !isChecked[index]);
+    const updatedPredictions = predictions.filter((_, index) => !isChecked[index]);
+
+    setTablePredictions(updatedTablePredictions);
+    setPredictions(updatedPredictions);
+    const userDocRef = doc(db, 'user', user?.uid);
+    const predictionsCollectionRef = collection(userDocRef, 'predictions');
+
+    const selectedPredictionIds = tablePredictions
+      .map((_, index) => (isChecked[index] ? tablePredictions[index].id : null))
+      .filter((id) => id !== null);
+    
+    try {
+      for (const predictionId of selectedPredictionIds) {
+        console.log(predictionId);
+        const predictionDocRef = doc(predictionsCollectionRef, `${predictionId}`);
+        await deleteDoc(predictionDocRef);
+      }
+    } catch (e) {
+      console.error('Error deleting prediction:', e);
+    }
+
+    setIsChecked(Array(updatedTablePredictions.length).fill(false));
+  };
   const openModal = (event: MouseEvent<HTMLTableRowElement>, index: number) => {
     // eslint-disable-next-line max-len
     if (event.target instanceof HTMLButtonElement || event.target instanceof SVGElement || event.target instanceof SVGPathElement || event.target instanceof HTMLInputElement) return;
@@ -181,7 +208,7 @@ function History() {
       console.error('Error fetching XLSX data:', error);
     }
   };
-
+  
   // eslint-disable-next-line max-len
   const getOriginalIndex = (prediction: PredictionTable) => tablePredictions.findIndex((pred) => pred.id === prediction.id);
 
@@ -264,8 +291,10 @@ function History() {
               <button
                 className="btn btn-error btn-square btn-outline font-varela hover:!text-white mr-[0.2rem]"
                 type="button"
-                // onClick={deleteAll}
-              >
+                onClick={deleteSelectedPredictions}
+                disabled={isChecked.every((value) => !value)}
+
+              > 
                 <FontAwesomeIcon icon={faTrash} />
               </button>
             </div>
