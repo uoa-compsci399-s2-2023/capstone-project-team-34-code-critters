@@ -126,7 +126,6 @@ function History() {
     const userDocRef = doc(db, 'user', user?.uid);
     const predictionsCollectionRef = collection(userDocRef, 'predictions');
     const predictionDocRef = doc(predictionsCollectionRef, prediction.id);
-    console.log(prediction.id);
     try {
       await deleteDoc(predictionDocRef);
     } catch (e) {
@@ -150,8 +149,8 @@ function History() {
       .filter((id) => id !== null);
     
     try {
-      for (const predictionId of selectedPredictionIds) {
-        console.log(predictionId);
+      for (let i = 0; i < selectedPredictionIds.length; i++) {
+        const predictionId = selectedPredictionIds[i];
         const predictionDocRef = doc(predictionsCollectionRef, `${predictionId}`);
         await deleteDoc(predictionDocRef);
       }
