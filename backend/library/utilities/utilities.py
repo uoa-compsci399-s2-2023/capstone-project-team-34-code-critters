@@ -79,7 +79,7 @@ def upload_files_json(files: list[UploadFile], model: str | None = Query(None, d
 
 def available_models():
     subfolders = [os.path.basename(f.path) for f in os.scandir(models_path) if f.is_dir()]
-    return sorted(subfolders)
+    return sorted(subfolders, key=str.lower)
 
 @utils_api.get('/api/v1/available_models', tags=["Utilities"])
 def get_available_models():
