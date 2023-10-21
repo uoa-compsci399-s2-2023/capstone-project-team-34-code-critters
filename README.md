@@ -187,6 +187,14 @@ GBIF_PASSWORD = "GBIF_PASSWORD"
 ```
 If these variables are not set, the application will disable the insect information features.
 
+You can have multiple `.env` files for different environments.
+- `.env.production.local` is used for production.
+- `.env.development.local` is used for development.
+- `.env` is the default file.
+
+Each file will take precedence over the previous file.
+(`.env.production.local > .env.development.local > .env`)
+
 ## FrontEnd Setup
 ### Installing Dependencies
 In the frontend directory, you can run:
