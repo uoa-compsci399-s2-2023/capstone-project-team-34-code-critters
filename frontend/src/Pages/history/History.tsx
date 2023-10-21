@@ -10,7 +10,7 @@ import { User } from '@firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faArrowRight, faArrowLeft, faTrash, faFileCsv, faFileExcel,
+  faArrowRight, faArrowLeft, faTrash, faFileCsv, faFileExcel,faXmark
 } from '@fortawesome/free-solid-svg-icons';
 import { auth, db } from '../../enviroments/firebase';
 import { PredictionTable, Prediction } from '../../models/Prediction';
@@ -126,14 +126,47 @@ function History() {
     const userDocRef = doc(db, 'user', user?.uid);
     const predictionsCollectionRef = collection(userDocRef, 'predictions');
     const predictionDocRef = doc(predictionsCollectionRef, prediction.id);
-
     try {
       await deleteDoc(predictionDocRef);
     } catch (e) {
       console.error('Error deleting prediction:', e);
     }
   };
+  
+  const deleteSelectedPredictions = async () => {
+    if (!user) return;
 
+    const updatedTablePredictions = tablePredictions.filter((_, index) => !isChecked[index]);
+    const updatedPredictions = predictions.filter((_, index) => !isChecked[index]);
+
+    setTablePredictions(updatedTablePredictions);
+    setPredictions(updatedPredictions);
+    const userDocRef = doc(db, 'user', user?.uid);
+    const predictionsCollectionRef = collection(userDocRef, 'predictions');
+
+    const selectedPredictionIds = tablePredictions
+      .map((_, index) => (isChecked[index] ? tablePredictions[index].id : null))
+      .filter((id) => id !== null);
+    
+      const deletePromises = selectedPredictionIds.map(async (predictionId) => {
+        const predictionDocRef = doc(predictionsCollectionRef, `${predictionId}`);
+        try {
+          await deleteDoc(predictionDocRef);
+        } catch (e) {
+          console.error('Error deleting prediction:', e);
+          // Handle the error as needed
+        }
+      });
+    
+      try {
+        await Promise.all(deletePromises);
+      } catch (error) {
+        console.error('Error deleting predictions:', error);
+        // Handle the error as needed
+      }
+
+    setIsChecked(Array(updatedTablePredictions.length).fill(false));
+  };
   const openModal = (event: MouseEvent<HTMLTableRowElement>, index: number) => {
     // eslint-disable-next-line max-len
     if (event.target instanceof HTMLButtonElement || event.target instanceof SVGElement || event.target instanceof SVGPathElement || event.target instanceof HTMLInputElement) return;
@@ -182,7 +215,7 @@ function History() {
       console.error('Error fetching XLSX data:', error);
     }
   };
-
+  
   // eslint-disable-next-line max-len
   const getOriginalIndex = (prediction: PredictionTable) => tablePredictions.findIndex((pred) => pred.id === prediction.id);
 
@@ -218,6 +251,7 @@ function History() {
               />
             </div>
             <div className="hidden sm:flex gap-4 items-center">
+              
               <button
                 disabled={isLoading}
                 className="btn btn-primary btn-outline hover:!text-white font-varela"
@@ -261,7 +295,17 @@ function History() {
                   </button>
                 </div>
               </div>
+              <button
+                className="btn btn-error btn-square btn-outline font-varela hover:!text-white"
+                type="button"
+                onClick={deleteSelectedPredictions}
+                disabled={isChecked.every((value) => !value)}
+
+              > 
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
             </div>
+            
           </div>
           <div className="w-full">
             <table className="table table-auto dark:text-neutral-100">
@@ -340,10 +384,10 @@ function History() {
                           <div className="tooltip" data-tip="Delete prediction">
                             <button
                               type="button"
-                              className="btn btn-squre btn-outline btn-error hover:!text-white"
+                              className="btn btn-square btn-outline btn-error hover:!text-white"
                               onClick={() => deletePrediction(prediction)}
                             >
-                              <FontAwesomeIcon icon={faTrash} />
+                              <FontAwesomeIcon icon={faXmark} />
                             </button>
                           </div>
                         </td>
