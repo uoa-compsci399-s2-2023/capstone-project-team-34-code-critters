@@ -99,6 +99,7 @@ interface PredictionDialogProps {
   prediction: Prediction;
 }
 
+// eslint-disable-next-line react/function-component-definition
 const PredictionDialog: React.FC<PredictionDialogProps> = ({
   index,
   prediction,
