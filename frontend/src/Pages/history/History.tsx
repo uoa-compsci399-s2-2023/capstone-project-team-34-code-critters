@@ -290,15 +290,16 @@ function History() {
                   </button>
                 </div>
               </div>
-              <button
-                className="btn btn-error btn-square btn-outline font-varela hover:!text-white"
-                type="button"
-                onClick={deleteSelectedPredictions}
-                disabled={isChecked.every((value) => !value)}
-
-              >
-                <FontAwesomeIcon icon={faTrash} />
-              </button>
+              <div className="tooltip tooltip-bottom font-varela" data-tip="Delete selected predictions">
+                <button
+                  className="btn btn-error btn-square btn-outline font-varela hover:!text-white dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100 dark:disabled:border-none"
+                  type="button"
+                  onClick={deleteSelectedPredictions}
+                  disabled={isChecked.every((value) => !value)}
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+              </div>
             </div>
           </div>
           <div className="w-full">
