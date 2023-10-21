@@ -370,13 +370,13 @@ function Detection() {
           </div>
         )}
 
-        <div 
-        className={`mt-4 w-full flex flex-col gap-4 ${isDraggingOver ? 'bg-green-200 dark:bg-green-800' : 'bg-transparent'}`}
-        onDragOver={(e) => handleDragOver(e)} // code needs to the changed later
-        onDrop={(e) => handleDrop(e)} // code needs to be changed later
-        onDragEnter={(e) => handleDragEnter(e)}
-        onDragLeave={(e) => handleDragLeave(e)}>
-          
+        <div
+          className={`mt-4 w-full flex flex-col gap-4 ${isDraggingOver ? 'bg-green-200 dark:bg-green-800' : 'bg-transparent'}`}
+          onDragOver={(e) => handleDragOver(e)} // code needs to the changed later
+          onDrop={(e) => handleDrop(e)} // code needs to be changed later
+          onDragEnter={(e) => handleDragEnter(e)}
+          onDragLeave={(e) => handleDragLeave(e)}
+        >
           {imageUrls.map((imageUrl, index) => (
             <div
               className={`flex w-full items-center p-4 gap-4 rounded-xl transition-all ${!isLoading[index] && 'cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-800 animate-ease-in-out animate-jump animate-once animate-duration-700'}`}
