@@ -69,7 +69,7 @@ function Detection() {
         date: new Date(),
         prediction: JSON.stringify(prediction.pred),
         imageHash: prediction.hash,
-        model: selectedModel,
+        model: prediction.model,
       }
     ));
     predictionsFirestoreFormat.forEach(async (prediction) => {

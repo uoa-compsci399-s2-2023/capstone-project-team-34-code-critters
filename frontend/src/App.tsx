@@ -89,6 +89,16 @@ function App() {
         document.documentElement.classList.remove('dark');
         localStorage.theme = 'light';
         setIsDark(false);
+      } else if (!('theme' in localStorage)) {
+        if (isDark) {
+          document.documentElement.classList.remove('dark');
+          localStorage.theme = 'light';
+          setIsDark(false);
+        } else {
+          document.documentElement.classList.add('dark');
+          localStorage.theme = 'dark';
+          setIsDark(true);
+        }
       } else {
         document.documentElement.classList.add('dark');
         localStorage.theme = 'dark';
