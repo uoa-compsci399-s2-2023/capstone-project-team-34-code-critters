@@ -10,7 +10,7 @@ import { User } from '@firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faArrowRight, faArrowLeft, faTrash, faFileCsv, faFileExcel,
+  faArrowRight, faArrowLeft, faTrash, faFileCsv, faFileExcel, faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { auth, db } from '../../enviroments/firebase';
 import { PredictionTable, Prediction } from '../../models/Prediction';
@@ -62,6 +62,7 @@ function History() {
         name: predictionTable.name,
         pred: predictionTable.prediction,
         hash: predictionTable.imageHash,
+        model: predictionTable.model,
       }));
 
       await Promise.all(predictionsList.map(async (predictionTable, i) => {
@@ -113,18 +114,56 @@ function History() {
 
   const deletePrediction = async (prediction: PredictionTable) => {
     if (!user) return;
+    const updatedTablePredictions = tablePredictions.filter(
+      (p) => p.id !== prediction.id,
+    );
+
+    setTablePredictions(updatedTablePredictions);
+
+    const updatedPredictions = predictions.filter((p) => p.name !== prediction.name);
+    setPredictions(updatedPredictions);
+
     const userDocRef = doc(db, 'user', user?.uid);
     const predictionsCollectionRef = collection(userDocRef, 'predictions');
     const predictionDocRef = doc(predictionsCollectionRef, prediction.id);
-
     try {
       await deleteDoc(predictionDocRef);
-      await loadPredictionAndImages(user);
     } catch (e) {
       console.error('Error deleting prediction:', e);
     }
   };
+  const deleteSelectedPredictions = async () => {
+    if (!user) return;
 
+    const updatedTablePredictions = tablePredictions.filter((_, index) => !isChecked[index]);
+    const updatedPredictions = predictions.filter((_, index) => !isChecked[index]);
+
+    setTablePredictions(updatedTablePredictions);
+    setPredictions(updatedPredictions);
+    const userDocRef = doc(db, 'user', user?.uid);
+    const predictionsCollectionRef = collection(userDocRef, 'predictions');
+
+    const selectedPredictionIds = tablePredictions
+      .map((_, index) => (isChecked[index] ? tablePredictions[index].id : null))
+      .filter((id) => id !== null);
+    const deletePromises = selectedPredictionIds.map(async (predictionId) => {
+      const predictionDocRef = doc(predictionsCollectionRef, `${predictionId}`);
+      try {
+        await deleteDoc(predictionDocRef);
+      } catch (e) {
+        console.error('Error deleting prediction:', e);
+        // Handle the error as needed
+      }
+    });
+    try {
+      await Promise.all(deletePromises);
+    } catch (error) {
+      console.error('Error deleting predictions:', error);
+      // Handle the error as needed
+    }
+
+    setIsChecked(Array(updatedTablePredictions.length).fill(false));
+  };
   const openModal = (event: MouseEvent<HTMLTableRowElement>, index: number) => {
     // eslint-disable-next-line max-len
     if (event.target instanceof HTMLButtonElement || event.target instanceof SVGElement || event.target instanceof SVGPathElement || event.target instanceof HTMLInputElement) return;
@@ -173,7 +212,6 @@ function History() {
       console.error('Error fetching XLSX data:', error);
     }
   };
-
   // eslint-disable-next-line max-len
   const getOriginalIndex = (prediction: PredictionTable) => tablePredictions.findIndex((pred) => pred.id === prediction.id);
 
@@ -252,6 +290,16 @@ function History() {
                   </button>
                 </div>
               </div>
+              <div className="tooltip tooltip-bottom font-varela" data-tip="Delete selected predictions">
+                <button
+                  className="btn btn-error btn-square btn-outline font-varela hover:!text-white dark:disabled:bg-neutral-800 dark:disabled:text-neutral-100 dark:disabled:border-none"
+                  type="button"
+                  onClick={deleteSelectedPredictions}
+                  disabled={isChecked.every((value) => !value)}
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+              </div>
             </div>
           </div>
           <div className="w-full">
@@ -295,7 +343,9 @@ function History() {
                         <td className="p-2">
                           <div className="flex gap-4">
                             {prediction.imageUrl ? (
-                              <img className="max-w-32 max-h-16 rounded-md" src={prediction.imageUrl} alt={prediction.name} />
+                              <div className="w-32 h-16 flex items-center justify-center">
+                                <img className="max-w-32 max-h-16 rounded-md" src={prediction.imageUrl} alt={prediction.name} />
+                              </div>
                             ) : (
                               <p>Loading image...</p>
                             )}
@@ -329,10 +379,10 @@ function History() {
                           <div className="tooltip" data-tip="Delete prediction">
                             <button
                               type="button"
-                              className="btn btn-squre btn-outline btn-error hover:!text-white"
+                              className="btn btn-square btn-outline btn-error hover:!text-white"
                               onClick={() => deletePrediction(prediction)}
                             >
-                              <FontAwesomeIcon icon={faTrash} />
+                              <FontAwesomeIcon icon={faXmark} />
                             </button>
                           </div>
                         </td>

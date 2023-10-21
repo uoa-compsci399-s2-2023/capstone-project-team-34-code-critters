@@ -31,10 +31,10 @@
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-static-element-interactions": "off",
     "import/prefer-default-export": "off",
-    
-    "linebreak-style": ["error", "windows"],
-    
-    
+
+    "linebreak-style": "off",  // Ignore linebreaks
+
+
     // allow jsx syntax in js files (for next.js project)
     "react/jsx-filename-extension": [
       1,

@@ -13,11 +13,11 @@ $frontendBuildPath = Join-Path $frontendPath "build"
 $backendLibraryPath = Join-Path $backendPath "library"
 $backendStaticPath = Join-Path $backendPath "library/static"
 
-# Used to inject cv2 dependency into application folder
-$backendVenvPath = Join-Path $backendPath "venv"
-$venvPackagePath = Join-Path $backendVenvPath "Lib\site-packages"
-$distPath = Join-Path $backendPath "dist"
-$applicationFolder = Join-Path $distPath $applicationName
+# # Used to inject cv2 dependency into application folder
+# $backendVenvPath = Join-Path $backendPath "venv"
+# $venvPackagePath = Join-Path $backendVenvPath "Lib\site-packages"
+# $distPath = Join-Path $backendPath "dist"
+# $applicationFolder = Join-Path $distPath $applicationName
 
 
 # Write-Output $backendPath
@@ -53,7 +53,7 @@ Set-Location $backendPath
 python -m venv venv
 .\venv\Scripts\activate
 pip install --no-deps -r requirements.txt
-pyinstaller .\pywebview_portable.py --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
+pyinstaller .\pywebview_portable.py --hide-console "hide-early" --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --icon "library\static\favicon.ico" --hidden-import=keras --hidden-import=PIL --hidden-import=glob --hidden-import=numpy --hidden-import=tensorflow --hidden-import=cv2 --hidden-import=torchvision --hidden-import=torch 
 
 # # Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
 # Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
@@ -67,28 +67,25 @@ $NewName = Join-Path $rootPath "$applicationName-Portable-Windows.zip"
 Move-Item (Join-Path $7zVar ".zip") $NewName -Force
 
 # Package Backend + Frontend into Installation Executable
-pyinstaller .\pywebview_installed.py --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --windowed --icon "library\static\favicon.ico"
+pyinstaller .\pywebview_installed.py --hide-console "hide-early" --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --contents-directory "." --icon "library\static\favicon.ico" --hidden-import=keras --hidden-import=PIL --hidden-import=glob --hidden-import=numpy --hidden-import=tensorflow --hidden-import=cv2 --hidden-import=torchvision --hidden-import=torch 
 # # Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
 # Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
 iscc .\package.iss
 
-# Move Installation Executable to Root
+# # Move Installation Executable to Root
 $OldName = ".\$applicationName-Setup.exe"
 $NewName = Join-Path $rootPath "$applicationName-Setup.exe"
 Move-Item $OldName $NewName -Force
 
-# Disable Venv
-deactivate
+# # Disable Venv
+# deactivate
 
-# Create Web-only Executable
+# # Create Web-only Executable
 $applicationName = "CritterSleuthWeb"
 
 Set-Location $frontendPath
 
 # Package Frontend into Executable
-python -m venv venv
-.\venv\Scripts\activate
-pip install -r requirements.txt
 pyinstaller .\pywebview_webapp.py --noconfirm  --clean --name $applicationName --windowed --icon "public\favicon.ico"
 
 # Package Executable into Zip

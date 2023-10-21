@@ -102,20 +102,9 @@ This Application was last tested in Python version 3.11.1
 
 #### Importing and Adding model
 Since the models are big, they are not included in the repository.\
-To add the models, 
-1. Create a new folder for each model with the name of the model in the `library/models` folder.\
-    If there isn't a `library/models` folder: You should make one.
-    ```
-    library/models/example_model/
-    ```
-2. Copy the model to the new folder, and rename it to model
-    ```
-    library/models/example_model/model.h5
-    ```
-3. Copy the corresponding labels to the folder and rename it to `labels.txt`\
-    *The application expects labels.txt to have one label per line* 
-    library/models/example_model/labels.txt
-    ```
+To add model
+1. Format the model as specified in the model spec: [Link](backend/library/models/ModelFormats.md)
+2. Add the formatted model to the `backend/library/models` folder
 
 #### Running the backend application (Development)
 From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
@@ -144,7 +133,7 @@ $ python prod_asgi.py
 ```
 
 ### `.env` Variables
-In the backend directory, there are these optional environment variables that can be set in a `.env` file:
+In the backend directory, there are optional environment variables that can be set in a `.env` file:
 
 ```shell
 GBIF_USER = "GBIF_USERNAME"
@@ -239,14 +228,22 @@ From the root folder run the following commands:
 https://code-critters.web.app/
 
 ## Future Plans
+#### Frontend
 - Rework the Upload page to be more appealing and user friendly.
 - Implement insect information features in the frontend.
 - Implement a user profile page.
-- Add support for PyTorch models.
-- Create a MacOS version of the application.
-- Bundle the Linux application as an AppImage instead of a zip file.
 - Add support for more languages.
 
+#### Backend
+- Increase backend security by adding authentication.
+- Add a way to centralise images and models for server deployments to allow load balancing.
+
+#### Deployment
+- Implement local user history
+- Create a MacOS version of the application.
+- Bundle the Linux application as an AppImage instead of a zip file.
+
+
 ## Acknowledgements
-The frontend of this application was jumpstarted using [Create React App](https://github.com/facebook/create-react-app).
-The backend of this application was jumpstarted from this project: https://github.com/jchu634/compsci235-assignment2-jchu634.
+The frontend was jumpstarted using [Create React App](https://github.com/facebook/create-react-app).  
+The backend was jumpstarted from this project: https://github.com/jchu634/compsci235-assignment2-jchu634.

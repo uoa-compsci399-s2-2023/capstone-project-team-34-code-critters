@@ -84,32 +84,38 @@ function App() {
   };
 
   const toggleTheme = (): void => {
-    if (isDark) {
-      document.documentElement.classList.remove('dark');
-      localStorage.theme = 'light';
-      setIsDark(false);
-    } else {
-      document.documentElement.classList.add('dark');
-      localStorage.theme = 'dark';
-      setIsDark(true);
+    if (process.env.REACT_APP_DISABLE_LOCAL_STORAGE !== 'true') {
+      if (localStorage.theme === 'dark') {
+        document.documentElement.classList.remove('dark');
+        localStorage.theme = 'light';
+        setIsDark(false);
+      } else if (!('theme' in localStorage)) {
+        if (isDark) {
+          document.documentElement.classList.remove('dark');
+          localStorage.theme = 'light';
+          setIsDark(false);
+        } else {
+          document.documentElement.classList.add('dark');
+          localStorage.theme = 'dark';
+          setIsDark(true);
+        }
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.theme = 'dark';
+        setIsDark(true);
+      }
     }
   };
 
   useEffect(() => {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setIsDark(true);
-      document.documentElement.classList.add('dark');
-    } else {
-      setIsDark(false);
-      document.documentElement.classList.remove('dark');
-    }
-
-    if (localStorage.theme === 'dark') {
-      setIsDark(true);
-      document.documentElement.classList.add('dark');
-    } else {
-      setIsDark(false);
-      document.documentElement.classList.remove('dark');
+    if (process.env.REACT_APP_DISABLE_LOCAL_STORAGE !== 'true') {
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        setIsDark(true);
+        document.documentElement.classList.add('dark');
+      } else {
+        setIsDark(false);
+        document.documentElement.classList.remove('dark');
+      }
     }
   }, []);
   return (
@@ -139,18 +145,22 @@ function App() {
           <label htmlFor="drawer" aria-label="close sidebar" className="drawer-overlay" />
           <div className="p-4">
             <ul className="menu w-80 rounded-lg dark:bg-neutral-800 bg-white">
-              <button
-                className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
-                type="button"
-                onClick={() => {
-                  closeDrawer();
-                  navigate('/');
-                }}
-              >
-                Home
-                <FontAwesomeIcon icon={faHome} className="-mt-[0.2rem]" />
+              {
+                !user && (
+                <button
+                  className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
+                  type="button"
+                  onClick={() => {
+                    closeDrawer();
+                    navigate('/');
+                  }}
+                >
+                  Home
+                  <FontAwesomeIcon icon={faHome} className="-mt-[0.2rem]" />
 
-              </button>
+                </button>
+                )
+              }
               <button
                 className="font-varela btn btn-ghost dark:text-neutral-100 dark:hover:bg-neutral-700"
                 type="button"

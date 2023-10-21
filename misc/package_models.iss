@@ -1,8 +1,11 @@
+; DO NOT CHANGE AppName or AppPublisher.
+;These are used to find the CritterSleuth install directory.
 #define AppName "CritterSleuth"
-#define AppVersion "1.0.0"
 #define AppPublisher "Code Critters"
+; Feel free to change AppVersion, AppIcon, and ModelName.
+#define AppVersion "1.0.0"
 #define AppIcon "library\static\favicon.ico"
-#define ModelName "GeneralInsects"
+#define ModelName "MODELNAMEHERE"
 
 [Setup]
 AppName={#AppName}
