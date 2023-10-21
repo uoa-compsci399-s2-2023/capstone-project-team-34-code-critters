@@ -435,7 +435,7 @@ function Detection() {
         <PredictionDialog
           key={index}
           index={index}
-          prediction={prediction}
+          prediction={prediction!}
         />
       ))}
     </div>
