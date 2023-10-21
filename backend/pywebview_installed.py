@@ -1,6 +1,5 @@
 # Universal imports
 from library import create_app
-import cv2
 import os
 
 # GUI imports
@@ -22,7 +21,6 @@ backendPort = 6789
 
 app = create_app("installed", [AppData, publisherName, appName])
 def start_server():
-    print(cv2.__file__) # This is to force pyinstaller to import cv2
     uvicorn.run(app, port=backendPort)
 
 if __name__ == "__main__":
