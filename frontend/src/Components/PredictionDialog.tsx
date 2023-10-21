@@ -10,6 +10,7 @@ interface InsectInfoProps {
   textColor: string
 }
 
+// eslint-disable-next-line react/function-component-definition
 const InsectInfo: React.FC<InsectInfoProps> = ({ name, textColor }) => {
   const [insectInfo, setInsectInfo] = useState<any>();
   const [insectCount, setInsectCount] = useState<number>(0);
