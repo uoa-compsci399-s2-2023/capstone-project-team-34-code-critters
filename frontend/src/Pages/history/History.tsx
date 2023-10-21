@@ -10,7 +10,7 @@ import { User } from '@firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faArrowRight, faArrowLeft, faTrash, faFileCsv, faFileExcel,faXmark
+  faArrowRight, faArrowLeft, faTrash, faFileCsv, faFileExcel, faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { auth, db } from '../../enviroments/firebase';
 import { PredictionTable, Prediction } from '../../models/Prediction';
@@ -132,7 +132,6 @@ function History() {
       console.error('Error deleting prediction:', e);
     }
   };
-  
   const deleteSelectedPredictions = async () => {
     if (!user) return;
 
@@ -147,23 +146,21 @@ function History() {
     const selectedPredictionIds = tablePredictions
       .map((_, index) => (isChecked[index] ? tablePredictions[index].id : null))
       .filter((id) => id !== null);
-    
-      const deletePromises = selectedPredictionIds.map(async (predictionId) => {
-        const predictionDocRef = doc(predictionsCollectionRef, `${predictionId}`);
-        try {
-          await deleteDoc(predictionDocRef);
-        } catch (e) {
-          console.error('Error deleting prediction:', e);
-          // Handle the error as needed
-        }
-      });
-    
+    const deletePromises = selectedPredictionIds.map(async (predictionId) => {
+      const predictionDocRef = doc(predictionsCollectionRef, `${predictionId}`);
       try {
-        await Promise.all(deletePromises);
-      } catch (error) {
-        console.error('Error deleting predictions:', error);
+        await deleteDoc(predictionDocRef);
+      } catch (e) {
+        console.error('Error deleting prediction:', e);
         // Handle the error as needed
       }
+    });
+    try {
+      await Promise.all(deletePromises);
+    } catch (error) {
+      console.error('Error deleting predictions:', error);
+      // Handle the error as needed
+    }
 
     setIsChecked(Array(updatedTablePredictions.length).fill(false));
   };
@@ -215,7 +212,6 @@ function History() {
       console.error('Error fetching XLSX data:', error);
     }
   };
-  
   // eslint-disable-next-line max-len
   const getOriginalIndex = (prediction: PredictionTable) => tablePredictions.findIndex((pred) => pred.id === prediction.id);
 
@@ -251,7 +247,6 @@ function History() {
               />
             </div>
             <div className="hidden sm:flex gap-4 items-center">
-              
               <button
                 disabled={isLoading}
                 className="btn btn-primary btn-outline hover:!text-white font-varela"
@@ -301,11 +296,10 @@ function History() {
                 onClick={deleteSelectedPredictions}
                 disabled={isChecked.every((value) => !value)}
 
-              > 
+              >
                 <FontAwesomeIcon icon={faTrash} />
               </button>
             </div>
-            
           </div>
           <div className="w-full">
             <table className="table table-auto dark:text-neutral-100">

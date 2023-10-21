@@ -53,7 +53,7 @@ Set-Location $backendPath
 python -m venv venv
 .\venv\Scripts\activate
 pip install --no-deps -r requirements.txt
-pyinstaller .\pywebview_portable.py --hide-console "hide-early" --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --icon "library\static\favicon.ico"
+pyinstaller .\pywebview_portable.py --hide-console "hide-early" --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --icon "library\static\favicon.ico" --hidden-import=keras --hidden-import=PIL --hidden-import=glob --hidden-import=numpy --hidden-import=tensorflow --hidden-import=cv2 --hidden-import=torchvision --hidden-import=torch 
 
 # # Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
 # Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
@@ -67,7 +67,7 @@ $NewName = Join-Path $rootPath "$applicationName-Portable-Windows.zip"
 Move-Item (Join-Path $7zVar ".zip") $NewName -Force
 
 # Package Backend + Frontend into Installation Executable
-pyinstaller .\pywebview_installed.py --hide-console "hide-early" --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --contents-directory "." --icon "library\static\favicon.ico"
+pyinstaller .\pywebview_installed.py --hide-console "hide-early" --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --contents-directory "." --icon "library\static\favicon.ico" --hidden-import=keras --hidden-import=PIL --hidden-import=glob --hidden-import=numpy --hidden-import=tensorflow --hidden-import=cv2 --hidden-import=torchvision --hidden-import=torch 
 # # Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
 # Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
 iscc .\package.iss

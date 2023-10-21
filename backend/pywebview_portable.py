@@ -1,6 +1,5 @@
 # Universal imports
 from library import create_app
-import cv2
 
 # GUI imports
 import webview
@@ -16,7 +15,6 @@ from cmdline.modules import getPredictions, getCSVExport, getXLSXExport, getMode
 app = create_app("portable")
 backendPort = 6789
 def start_server():
-    print(cv2.__file__) # This is to force pyinstaller to import cv2
     uvicorn.run(app, port=backendPort)
 
 if __name__ == "__main__":
