@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
 class Genus(BaseModel):
+    species_key: int
     genus_key: int
     scientific_name: str
     canonical_name: str
