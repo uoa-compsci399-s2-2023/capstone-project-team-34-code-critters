@@ -100,9 +100,12 @@ def get_Insect_Info(name: str, db: Session = Depends(get_db)):
             # If genus exists, update genus, else create genus
             if genus:
                 crud.update_genus(db, data=response)
-            else:    
-                crud.create_genus(db, data=response)
-            return filter_json(response.json(), ["genusKey", "scientificName", "canonicalName", "genus", "status", "kingdom", "phylum", "order", "family", "class"])
+            else:
+                if crud.get_genus_by_species_key(db, response.json()["speciesKey"]):
+                    crud.update_genus(db, data=response)
+                else:
+                    crud.create_genus(db, data=response)
+            return filter_json(response.json(), ["speciesKey","genusKey", "scientificName", "canonicalName", "genus", "status", "kingdom", "phylum", "order", "family", "class"])
     except Exception as e:
         if is_prod:
             return ORJSONResponse(content={"error": "Internal Server Error"}, status_code=500)
