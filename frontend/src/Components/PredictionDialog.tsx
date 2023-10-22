@@ -14,7 +14,10 @@ interface InsectInfoProps {
 const InsectInfo: React.FC<InsectInfoProps> = ({ name, textColor }) => {
   const [insectInfo, setInsectInfo] = useState<any>();
   const [insectCount, setInsectCount] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(true);
+
   const fetchInsectCount = async (genusKey: string) => {
+    setIsLoading(true);
     try {
       const res = await getInsectCount(genusKey);
       if (res.status === 200) {
@@ -23,10 +26,13 @@ const InsectInfo: React.FC<InsectInfoProps> = ({ name, textColor }) => {
       }
     } catch (error) {
       console.error('Network error:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const fetchInsectInfo = async () => {
+    setIsLoading(true);
     try {
       const res = await getInsectInfo(name);
       if (res.status === 200) {
@@ -36,6 +42,8 @@ const InsectInfo: React.FC<InsectInfoProps> = ({ name, textColor }) => {
       }
     } catch (error) {
       console.error('Network error:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -43,7 +51,7 @@ const InsectInfo: React.FC<InsectInfoProps> = ({ name, textColor }) => {
     fetchInsectInfo();
   }, []);
   return (
-    <div className="max-h-[216px] overflow-y-auto scrollbar">
+    <div className={`max-h-[216px] overflow-y-auto scrollbar flex items-center h-[100%] ${isLoading ? `loading text-${textColor} loading-spinner` : ''}`}>
       {
         insectInfo ? (
           <p className={`text-${textColor}`}>
@@ -107,6 +115,7 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
   const [numToShow, setNumToShow] = useState(5);
   const [showInsectInfoCards, setShowInsectInfoCards] = useState<boolean[]>([false, false, false]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleShowLess = () => {
     setNumToShow(5);
