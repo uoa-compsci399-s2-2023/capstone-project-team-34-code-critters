@@ -1,6 +1,8 @@
 ### 2023 COMPSCI 399 Capstone Project: 
 
 # CodeCritters
+
+
 ## A Pest Insect Identification GUI 
 
 Team 34 - CodeCritters:
@@ -24,10 +26,16 @@ Rukun Aaron - FullStack Developer
 raar518@aucklanduni.ac.nz
 
 ## Project Information
-Jira Board: [Link](https://pestguicodecritters.atlassian.net/jira/software/projects/CS399/boards/2)
-This project is for a application that allows users to identify pest insects through a machine learning model.  
-The application is available as a desktop and/or web application, a website and a app.
-The app is hosted on a seperate repository: [Link](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters-flutterapp)
+Jira Board: [Link](https://pestguicodecritters.atlassian.net/jira/software/projects/CS399/boards/2)  
+This project is for a application that supplies a GUI that
+allows users to identify pest insects through a machine learning model.  
+This project is available through the following platforms:
+- Desktop GUI + CLI Application: See [Releases](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters/releases)
+- Web Application: [Link](https://codecritters.live/)
+- Android Application (Beta): [Link](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters-flutterapp/releases)
+
+Note: The Android application is not hosted in this repository:  
+It is hosted at https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters-flutterapp
 
 ## Technologies Used
 
@@ -42,9 +50,18 @@ The app is hosted on a seperate repository: [Link](https://github.com/uoa-compsc
 [![Python](https://img.shields.io/badge/Python-v3.11-%233776AB?logo=python)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI%20-%20%23009688?logo=fastapi&logoColor=white
 )](https://fastapi.tiangolo.com/)
+[![Pydantic](https://img.shields.io/badge/Pydantic-e92063?logo=pydantic)](https://pydantic-docs.helpmanual.io/)
+[![Uvicorn](https://img.shields.io/badge/Uvicorn-2e303e?logo=uvicorn)](https://www.uvicorn.org/)
+
+
+[![Pytorch](https://img.shields.io/badge/Pytorch-%23EE4C2C?logo=Pytorch&logoColor=white)](https://pytorch.org/)
 [![Tensorflow](https://img.shields.io/badge/Tensorflow-%23FF6F00?logo=Tensorflow&logoColor=white)](https://www.tensorflow.org/)
 [![OpenCV](https://img.shields.io/badge/OpenCV-%23white?logo=OpenCV&logoColor=%23white&color=%23white)](https://opencv.org/)
+[![Pillow](https://img.shields.io/badge/Pillow-%23000000?logo=pillow)](https://pillow.readthedocs.io/en/stable/)
+
 [![GBIF](https://img.shields.io/badge/GBIF-%23white?logo=GBIF&logoColor=%23white&color=%23white)](https://www.gbif.org/)
+[![OpenPyXL](https://img.shields.io/badge/OpenPyXL-2980b9
+)](https://openpyxl.readthedocs.io/en/stable/)
 
 **Hosting Technologies:**
 
@@ -52,10 +69,17 @@ The app is hosted on a seperate repository: [Link](https://github.com/uoa-compsc
 [![AWS](https://img.shields.io/badge/AWS-%23232F3E?logo=amazonaws&logoColor=white)](https://aws.amazon.com) 
 [![Docker](https://img.shields.io/badge/Docker-white?logo=Docker&logoColor=%23FFFFFF&color=%232496ED)](https://www.docker.com/)
 
+**Packaging Technologies:**  
+[![InnoSetup](https://img.shields.io/badge/InnoSetup-264b99)](https://jrsoftware.org/isinfo.php)
+[![Pyinstaller](https://img.shields.io/badge/Pyinstaller-2980b9)](https://www.pyinstaller.org/)
 
-## Installation
-### Client
-Go to releases and install the latest version of the application for your operating system.<br>
+**Android App Technologies:**  
+[![Flutter](https://img.shields.io/badge/Flutter-%2302569B?logo=flutter&logoColor=white)](https://flutter.dev/)
+[![Dart](https://img.shields.io/badge/Dart-%230175C2?logo=dart&logoColor=white)](https://dart.dev/)
+[![TensorflowLite](https://img.shields.io/badge/TensorflowLite-%23FF6F00?logo=Tensorflow&logoColor=white)](https://www.tensorflow.org/lite)
+
+### Client Installation
+Go to [releases](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters/releases) and install the latest version of the application for your operating system.<br>
 There are two versions of the application.
 1. The full version which includes the models and is around 1.5GB in size.
 2. The cutdown web version which does not include the models and is around 100MB in size.<br>
@@ -66,24 +90,31 @@ NOTE: Each version comes either as installer or as a portable zip file.
 - The zip file will need to be extracted before the application can be used.
 
 ### Android/iOS
-The mobile application is hosted on a seperate repository: [Link](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters-flutterapp)
+The mobile application is hosted on a seperate repository: [Link](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters-flutterapp)  
 Follow the instructions on the repository to install the application.
 
-### Server
-#### Docker
+### Features/Instruction Manual
+- Desktop/Portable clients can be opened by running the executable.
+- Additionally the Desktop/Portable clients can be interacted with via CLI:
+    ```shell
+    CritterSleuth.exe --help
+    ```
+
+## Server Installation
+### Docker
 1. Install Docker
 2. Build the docker image from the root of the directory
     ```shell
     $ docker build -t codecritters -f Server.dockerfile . 
     ```
-#### Manual
-See below for manual installation instructions.
+### Manually installing Server
+See [below](#running-the-application-via-gunicorn-productionlinux-or-wsl-only) for manual installation instructions.
 
 
 # Development Installation
 ## Backend Installation
 ### Python version
-This Application was last tested in Python version 3.11.1
+This Application was last tested in Python version 3.11
 #### Dependency Installation via ```requirements.txt```
 
 1. Create a virtual environment ```venv```
@@ -101,17 +132,28 @@ This Application was last tested in Python version 3.11.1
    ```
 
 #### Importing and Adding model
-Since the models are big, they are not included in the repository.\
-To add model
+To add models
 1. Format the model as specified in the model spec: [Link](backend/library/models/ModelFormats.md)
 2. Add the formatted model to the `backend/library/models` folder
+
+NOTE:  
+The trupanea_v2 model is not included in the repository due to its size.  
+To use this model add its model.h5 file to the `backend/library/models/trupanea_v2` folder.
+
+#### Note (Development only)
+There is swagger documentation available at http://localhost:6789/docs  
+There is also a redoc page available at http://localhost:6789/redoc
 
 #### Running the backend application (Development)
 From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
 ````shell
 $ uvicorn asgi:app --reload
 ```` 
-#### Running the application (Production)(Windows)
+or
+```shell
+$ python asgi.py
+```
+#### Running the application (Production)
 ````shell
 $ hypercorn main:app --bind 0.0.0.0:6789
 ```````
@@ -119,6 +161,10 @@ or
 ````shell
 $ uvicorn asgi:app --bind 0.0.0.0:6789
 ```` 
+or 
+```shell
+$ python prod_asgi.py
+```
 #### Running the application via Gunicorn (Production)(LINUX or WSL Only)
 From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
 
@@ -139,7 +185,15 @@ In the backend directory, there are optional environment variables that can be s
 GBIF_USER = "GBIF_USERNAME"
 GBIF_PASSWORD = "GBIF_PASSWORD"
 ```
-If these variables are not set, the application will disable use of the insect information features.
+If these variables are not set, the application will disable the insect information features.
+
+You can have multiple `.env` files for different environments.
+- `.env.production.local` is used for production.
+- `.env.development.local` is used for development.
+- `.env` is the default file.
+
+Each file will take precedence over the previous file.
+(`.env.production.local > .env.development.local > .env`)
 
 ## FrontEnd Setup
 ### Installing Dependencies
@@ -210,7 +264,7 @@ REACT_APP_DISABLE_UPGRADE_SECURE_REQUESTS=(Default: false)
 ```
 
 ## Compilation Instructions
-See Wiki for more detailed instructions: [[Link](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters/wiki/Compilation-Instructions)]
+To see dependencies and more details: [Link](misc\Compilation.md)
 
 ### Windows
 From the root folder run the following commands:
@@ -224,8 +278,28 @@ From the root folder run the following commands:
 .\build.sh
 ```
 
-## Deployed URL:
-https://code-critters.web.app/
+## Deployment
+### Adding extra models
+Note: Models are "Hot-swap", so you can add models to a live application without restarting it.
+#### Local Applications
+- Extra models can be added to portable applications by adding a spec compliant model to the application `CritterSleuth\library\models` folder.
+- You can create model "expansion packs" by
+  - Adding spec compliant models to the `\misc\models` folder.
+  - Customise the `package_models.iss` headers to your model expansion name and version.
+  - Run the `package_models.iss` file using `iscc package_models.iss` in `\misc` script.
+  - This will generate a `{MODEL_NAME}-ModelExpansion.exe` file in the `\misc` folder.
+  - This can be distributed to users as it will install extra models to their existing installed application.
+#### Web Application
+- You can add extra models to the Web application by adding a spec compliant model to the `backend/library/models` folder at the backend server.
+- The backend server will automatically detect the new model without needing to restart the server.  
+
+Notes:
+- Although the models are hot-swappable, please check that the model is not being used before replacing it.
+- Additionally, the models are live-patchable, so you can replace and modify the model while the application is running.
+
+### Deployed URL:
+https://code-critters.web.app/  
+http://codecritters.live/
 
 ## Future Plans
 #### Frontend
@@ -235,13 +309,23 @@ https://code-critters.web.app/
 - Add support for more languages.
 
 #### Backend
-- Increase backend security by adding authentication.
+- Change hashing algorithm (mmh3) or make it more cryptographically secure
+- Add firebase user check to export csv/xlsx for verification
 - Add a way to centralise images and models for server deployments to allow load balancing.
+- Update automated tests to be more extensive
+- Add more automated tests
 
 #### Deployment
 - Implement local user history
 - Create a MacOS version of the application.
 - Bundle the Linux application as an AppImage instead of a zip file.
+- Add license page to InnoSetup setup
+- Integrate portable and installed executables into one executable, which gets differentiated by an flag
+- Add command line arguments to the web application
+- Get Linux version to build properly
+- Make CI/CD pipeline to build the application and add to releases (Hampered by the size restrictions which disallows model.h5)
+
+
 
 
 ## Acknowledgements
