@@ -99,7 +99,20 @@ Follow the instructions on the repository to install the application.
     ```shell
     CritterSleuth.exe --help
     ```
-
+To enable the more information features for insects:
+- Firstly, you will need to create an free GBIF account and login.
+- Then, you will need to add your GBIF username and password to the application.
+    - You will need to add a .env file
+    - The .env file should consist of the following:
+        ```shell
+        GBIF_USER = "GBIF_USERNAME"
+        GBIF_PASSWORD = "GBIF_PASSWORD"
+        ```
+    - In the portable version, add the .env file to the root directory of the application. (i.e. the same directory as the executable)(CritterSleuth/)
+    - In the installed version, add the .env file to the root directory of the application. (Default: C:\Program Files (x86)\Code Critters\CritterSleuth\)
+        - Note: The application may need to be run once as administrator before the features are enabled properly.
+        - The application should not require administrator privileges after the first run.
+ 
 ## Server Installation
 ### Docker
 1. Install Docker
@@ -163,18 +176,19 @@ $ uvicorn asgi:app --bind 0.0.0.0:6789
 ```` 
 or 
 ```shell
+$ export TZ=NZ
 $ python prod_asgi.py
 ```
 #### Running the application via Gunicorn (Production)(LINUX or WSL Only)
 From the project's backend directory, and within the activated virtual environment (see *venv\Scripts\activate* above):
 
 ````shell
-export TZ=UTC
+export TZ=NZ
 $ gunicorn asgi:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:6789
 ```` 
 or
 ```shell
-$ export TZ=UTC
+$ export TZ=NZ
 $ python prod_asgi.py
 ```
 
