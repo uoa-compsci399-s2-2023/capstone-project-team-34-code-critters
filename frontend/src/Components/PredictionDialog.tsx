@@ -115,7 +115,6 @@ const PredictionDialog: React.FC<PredictionDialogProps> = ({
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
   const [numToShow, setNumToShow] = useState(5);
   const [showInsectInfoCards, setShowInsectInfoCards] = useState<boolean[]>([false, false, false]);
-  const [isLoading, setIsLoading] = useState(true);
 
   const handleShowLess = () => {
     setNumToShow(5);
