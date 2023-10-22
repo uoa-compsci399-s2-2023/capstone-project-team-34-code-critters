@@ -5,7 +5,7 @@ from time import time
 import requests
 from requests.auth import HTTPBasicAuth
 import os
-
+import mmh3
 
 from ..database import crud, models, schemas
 from ..database.database import SessionLocal, engine
@@ -96,21 +96,25 @@ def get_Insect_Info(name: str, db: Session = Depends(get_db)):
             # If insect not found, return error
             if response.json()["matchType"] == "NONE":
                 return ORJSONResponse(content={"error": "Insect not found"}, status_code=500)
-            
-            # If genus exists, update genus, else create genus
+           
             if genus:
                 crud.update_genus(db, data=response)
-            else:
-                if crud.get_genus_by_species_key(db, response.json()["speciesKey"]):
+            else:  
+                query = response.json()["speciesKey"] if "speciesKey" in response.json() else mmh3.hash(response.json()["genus"])             
+                if crud.get_genus_by_species_key(db, query):
                     crud.update_genus(db, data=response)
                 else:
                     crud.create_genus(db, data=response)
             return filter_json(response.json(), ["speciesKey","genusKey", "scientificName", "canonicalName", "genus", "status", "kingdom", "phylum", "order", "family", "class"])
     except Exception as e:
+        import sys
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
         if is_prod:
             return ORJSONResponse(content={"error": "Internal Server Error"}, status_code=500)
         else:
-            return JSONResponse(content={"error": str(e)}, status_code=500)
+            return JSONResponse(content={"error": f"{e}: {exc_type} {exc_obj} {exc_tb}"}, status_code=500)
            
 @insect_api.post('/api/v1/get_insect_occurances', responses={200: {"description": "Success"}, 400: {"description": "Bad Request (Likely Invalid JSON)"}, 500: {"description": "Internal Server Error"}}, tags=["Insects"])
 def get_Insect_Occurances(genusKey: str, db: Session = Depends(get_db)):
