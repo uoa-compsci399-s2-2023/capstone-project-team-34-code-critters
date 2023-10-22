@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from requests import Response
 from time import time
+import mmh3
 
 from . import models, schemas
 
@@ -27,6 +28,8 @@ def get_genus_by_any_name(db: Session, name: str):
 def create_genus(db: Session, data: Response):
     current_time = str(time())
     json = data.json()
+    if "speciesKey" not in json:
+        json["speciesKey"] = mmh3.hash(json["genus"])
     db_genus = models.Genus(species_key=json["speciesKey"], genus_key=json["genusKey"], scientific_name=json["scientificName"].lower(), canonical_name=json["canonicalName"].lower(), genus_name=json["genus"].lower(), status=json["status"].lower(), kingdom=json["kingdom"].lower(), phylum=json["phylum"].lower(), order=json["order"].lower(), family=json["family"].lower(), _class=json["class"].lower(), time_updated=current_time)
     # db_genus = models.Genus(genus_key=json["genusKey"], scientific_name=json["scientificName"], canonical_name=json["canonicalName"], genus_name=json["genus"], status=json["status"], kingdom=json["kingdom"], phylum=json["phylum"], order=json["order"], family=json["family"], _class=json["class"], time_updated=current_time)
     db.add(db_genus)
@@ -37,6 +40,8 @@ def create_genus(db: Session, data: Response):
 def update_genus(db: Session, data: Response):
     current_time = str(time())
     json = data.json()
+    if "speciesKey" not in json:
+        json["speciesKey"] = mmh3.hash(json["genus"])
     db_genus = db.query(models.Genus).filter(models.Genus.species_key == json["speciesKey"]).first()
     db_genus.species_key = json["speciesKey"]
     db_genus.genus_key = json["genusKey"]
