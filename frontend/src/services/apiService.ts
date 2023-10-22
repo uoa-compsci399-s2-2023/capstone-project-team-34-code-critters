@@ -40,3 +40,10 @@ export const getImage = (image_name: string, hash: number) => axios.get<Blob>(`$
   },
   responseType: 'blob',
 });
+
+export const getInsectInfo = (insectName: string) => axios.post<any>(`${apiUrl}api/v1/get_insect_info?name=${insectName}`, {
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+export const getInsectCount = (genusKey: string) => axios.post<any>(`${apiUrl}api/v1/get_insect_occurances_count?genusKey=${genusKey}`);
