@@ -103,7 +103,7 @@ To enable the more information features for insects:
 - Firstly, you will need to create an free GBIF account and login.
 - Then, you will need to add your GBIF username and password to the application.
     - You will need to add a .env file
-    - The .env file should consist of the following:
+    - The .env file should consist of the following with your username and password:
         ```shell
         GBIF_USER = "GBIF_USERNAME"
         GBIF_PASSWORD = "GBIF_PASSWORD"
