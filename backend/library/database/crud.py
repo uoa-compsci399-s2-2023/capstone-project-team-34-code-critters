@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from requests import Response
 from time import time
+import mmh3
 
 from . import models, schemas
 
@@ -18,13 +19,18 @@ def get_genus_by_scientific_name(db: Session, scientific_name: str):
 def get_genus_by_canonical_name(db: Session, canonical_name: str):
     return db.query(models.Genus).filter(models.Genus.canonical_name == canonical_name.lower()).first()
 
+def get_genus_by_species_key(db: Session, species_key:int):
+    return db.query(models.Genus).filter(models.Genus.species_key == species_key).first()
+
 def get_genus_by_any_name(db: Session, name: str):
     return db.query(models.Genus).filter(models.Genus.genus_name == name.lower() or models.Genus.scientific_name == name.lower() or models.Genus.canonical_name == name.lower()).first()
 
 def create_genus(db: Session, data: Response):
     current_time = str(time())
     json = data.json()
-    db_genus = models.Genus(genus_key=json["genusKey"], scientific_name=json["scientificName"].lower(), canonical_name=json["canonicalName"].lower(), genus_name=json["genus"].lower(), status=json["status"].lower(), kingdom=json["kingdom"].lower(), phylum=json["phylum"].lower(), order=json["order"].lower(), family=json["family"].lower(), _class=json["class"].lower(), time_updated=current_time)
+    if "speciesKey" not in json:
+        json["speciesKey"] = mmh3.hash(json["genus"])
+    db_genus = models.Genus(species_key=json["speciesKey"], genus_key=json["genusKey"], scientific_name=json["scientificName"].lower(), canonical_name=json["canonicalName"].lower(), genus_name=json["genus"].lower(), status=json["status"].lower(), kingdom=json["kingdom"].lower(), phylum=json["phylum"].lower(), order=json["order"].lower(), family=json["family"].lower(), _class=json["class"].lower(), time_updated=current_time)
     # db_genus = models.Genus(genus_key=json["genusKey"], scientific_name=json["scientificName"], canonical_name=json["canonicalName"], genus_name=json["genus"], status=json["status"], kingdom=json["kingdom"], phylum=json["phylum"], order=json["order"], family=json["family"], _class=json["class"], time_updated=current_time)
     db.add(db_genus)
     db.commit()
@@ -34,7 +40,10 @@ def create_genus(db: Session, data: Response):
 def update_genus(db: Session, data: Response):
     current_time = str(time())
     json = data.json()
-    db_genus = db.query(models.Genus).filter(models.Genus.genus_key == json["genusKey"]).first()
+    if "speciesKey" not in json:
+        json["speciesKey"] = mmh3.hash(json["genus"])
+    db_genus = db.query(models.Genus).filter(models.Genus.species_key == json["speciesKey"]).first()
+    db_genus.species_key = json["speciesKey"]
     db_genus.genus_key = json["genusKey"]
     db_genus.scientific_name = json["scientificName"].lower()
     db_genus.canonical_name = json["canonicalName"].lower()

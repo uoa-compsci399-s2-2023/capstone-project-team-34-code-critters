@@ -8,8 +8,8 @@ from .database import Base
 class Genus(Base):
     __tablename__ = "genus"
 
-    genus_key = Column(Integer, primary_key=True, index=True)
-     
+    species_key = Column(Integer, primary_key=True, index=True)
+    genus_key = Column(Integer, index=True)
     
     scientific_name = Column(String, index=True)
     canonical_name = Column(String, index=True)
