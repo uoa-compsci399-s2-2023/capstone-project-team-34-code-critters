@@ -144,6 +144,31 @@ This Application was last tested in Python version 3.11
    $ pip install -r --no-deps ubuntu_requirements.txt
    ```
 
+#### Core Dependencies:
+Web server dependencies
+- Fastapi
+- Uvicorn/Gunicorn
+- Pydantic (pydantic-settings)
+- python-multipart
+- colorama
+- tqdm
+
+GUI Libraries
+- Pywebview
+
+ML Libraries
+- Pillow
+- OpenCV (opencv-python)
+- Tensorflow
+- Pytorch (torch, torchvision)
+
+Auxilary Libraries
+- OpenPyXL (XLSX Support)
+- httpx (HTTP Client)
+- mmh3 (Hashing)
+- SQLAlchemy (Database)
+
+
 #### Importing and Adding model
 To add models
 1. Format the model as specified in the model spec: [Link](backend/library/models/ModelFormats.md)
@@ -311,6 +336,38 @@ Notes:
 - Although the models are hot-swappable, please check that the model is not being used before replacing it.
 - Additionally, the models are live-patchable, so you can replace and modify the model while the application is running.
 
+## Usage examples
+### Installed Application
+- See [Client Installation](#client-installation) for installation instructions.
+- The installed application can be opened from the start menu or by running the executable.
+  - The GUI is fully featured and is the most user friendly way to interact with the application.
+  - The application can also be interacted with via CLI (It should be added to the PATH automatically):
+  - Notable Commands
+    - Get help:
+        ```shell
+        CritterSleuth -h
+        ```
+    - Get image prediction with default model:
+        ```shell
+        CritterSleuth -i "path/to/image"
+        ```
+    - List all available models:
+        ```shell
+        CritterSleuth -a
+        ```
+    - Get image prediction with a specific model:
+        ```shell
+        CritterSleuth -i "path/to/image" -m "model_name"
+        ```
+    - ``-c`` and ``-x`` to export the results to a csv or xlsx (Excel) file respectively.
+### Portable Application
+- The portable application can be opened by running the executable.
+    - The GUI is fully featured and is the most user friendly way to interact with the application.
+    - Additionally, the portable application can be interacted with via CLI:
+        ```shell
+        path\to\CritterSleuth.exe -i "path/to/image"
+        ```
+
 ### Deployed URL:
 https://code-critters.web.app/  
 http://codecritters.live/
@@ -338,9 +395,6 @@ http://codecritters.live/
 - Add command line arguments to the web application
 - Get Linux version to build properly
 - Make CI/CD pipeline to build the application and add to releases (Hampered by the size restrictions which disallows model.h5)
-
-
-
 
 ## Acknowledgements
 The frontend was jumpstarted using [Create React App](https://github.com/facebook/create-react-app).  
