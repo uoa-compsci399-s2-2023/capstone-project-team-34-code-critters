@@ -2,14 +2,14 @@ import imp
 
 from ..config import Settings
 
-current_model = "trupanea_v2"
+current_model = "general_insects"
 path = Settings.MODEL_FOLDER
 isProduction = Settings.FLASK_ENV == 'production'
 
 metadata_cache = {}
 keys = ["specVersion", "returnType", "mlFramework"]
 
-def get_labels(model_name="trupanea_v2"):
+def get_labels(model_name="general_insects"):
     filename = f'{path}/{model_name}/labels.txt'
     with open(filename, 'r') as file:
         lines = file.readlines()
@@ -35,7 +35,7 @@ def get_metadata(model_name):
     return metadata
 
                  
-def get_prediction(image_path, new_image_path, current_model="trupanea_v2"):
+def get_prediction(image_path, new_image_path, current_model="general_insects"):
     metadata = get_metadata(current_model)
 
     # Preprocess the image
