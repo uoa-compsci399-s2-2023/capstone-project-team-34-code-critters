@@ -43,8 +43,7 @@ def upload_files_json(files: list[UploadFile], model: str | None = Query(None, d
         if model and model not in available_models():
             return ORJSONResponse(content={"error": "Model not found"}, status_code=400)     
         elif not model:
-            # Default model (MAY CHANGE IN THE FUTURE)
-            model = "trupanea_v2"
+            model = "general_insects"
         returnList = []
 
         for file in files:
