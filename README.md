@@ -28,7 +28,9 @@ raar518@aucklanduni.ac.nz
 ## Project Information
 Jira Board: [Link](https://pestguicodecritters.atlassian.net/jira/software/projects/CS399/boards/2)  
 This project is for a application that supplies a GUI that
-allows users to identify pest insects through a machine learning model.  
+allows users to identify pest insects through a machine learning model. 
+A project report is in the root directory or can be found at [Link](<https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters/blob/main/CS399 CodeCritters Report.pdf>).
+
 This project is available through the following platforms:
 - Desktop GUI + CLI Local Application: See [Releases](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters/releases)
 - Website: [Link](https://codecritters.live/)
