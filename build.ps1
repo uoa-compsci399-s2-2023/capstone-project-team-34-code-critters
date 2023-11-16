@@ -13,13 +13,6 @@ $frontendBuildPath = Join-Path $frontendPath "build"
 $backendLibraryPath = Join-Path $backendPath "library"
 $backendStaticPath = Join-Path $backendPath "library/static"
 
-# # Used to inject cv2 dependency into application folder
-# $backendVenvPath = Join-Path $backendPath "venv"
-# $venvPackagePath = Join-Path $backendVenvPath "Lib\site-packages"
-# $distPath = Join-Path $backendPath "dist"
-# $applicationFolder = Join-Path $distPath $applicationName
-
-
 # Write-Output $backendPath
 # Write-Output $frontendPath
 # Write-Output $frontendBuildPath
@@ -55,9 +48,6 @@ python -m venv venv
 pip install --no-deps -r requirements.txt
 pyinstaller .\pywebview_portable.py --hide-console "hide-early" --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --icon "library\static\favicon.ico" --hidden-import=keras --hidden-import=PIL --hidden-import=glob --hidden-import=numpy --hidden-import=tensorflow --hidden-import=cv2 --hidden-import=torchvision --hidden-import=torch 
 
-# # Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
-# Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
-
 # Package Executable into Zip
 $7zVar = Join-Path ".\dist" $applicationName
 7z -tzip a (Join-Path $7zVar ".zip") (Join-Path $7zVar "*")
@@ -68,8 +58,6 @@ Move-Item (Join-Path $7zVar ".zip") $NewName -Force
 
 # Package Backend + Frontend into Installation Executable
 pyinstaller .\pywebview_installed.py --hide-console "hide-early" --add-data "library;library" --add-data "sql_app.db;." --noconfirm --clean --name $applicationName --contents-directory "." --icon "library\static\favicon.ico" --hidden-import=keras --hidden-import=PIL --hidden-import=glob --hidden-import=numpy --hidden-import=tensorflow --hidden-import=cv2 --hidden-import=torchvision --hidden-import=torch 
-# # Copy cv2 dependency from virtual environment to application folder because pyinstaller does not package it
-# Copy-Item -Path "$venvPackagePath\cv2\*" -Destination "$applicationFolder" -Recurse
 iscc .\package.iss
 
 # # Move Installation Executable to Root
