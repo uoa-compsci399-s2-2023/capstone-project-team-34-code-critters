@@ -43,7 +43,7 @@ Each predict.py file must contain a function named `predict` that takes in both 
 - The function is only expected to handle a single image at a time.
 - The function is expected to return a prediction for the image.
 
-##### Example preprocess.py file:
+##### Example predict.py file:
 ```python
 from keras.models import load_model
 
@@ -78,8 +78,8 @@ The metadata.txt file is a text file that contains information about the model s
 - Predict.py return type (integration or loose)
 - Model Framework
 
-##### Example preprocess.py file:
-```python
+##### Example metadata.txt file:
+```txt
 v2
 integrated
 tensorflow

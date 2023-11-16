@@ -28,10 +28,12 @@ raar518@aucklanduni.ac.nz
 ## Project Information
 Jira Board: [Link](https://pestguicodecritters.atlassian.net/jira/software/projects/CS399/boards/2)  
 This project is for a application that supplies a GUI that
-allows users to identify pest insects through a machine learning model.  
+allows users to identify pest insects through a machine learning model. 
+A project report is in the root directory or can be found at [Link](<https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters/blob/main/CS399 CodeCritters Report.pdf>).
+
 This project is available through the following platforms:
-- Desktop GUI + CLI Application: See [Releases](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters/releases)
-- Web Application: [Link](https://codecritters.live/)
+- Desktop GUI + CLI Local Application: See [Releases](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters/releases)
+- Website: [Link](https://codecritters.live/)
 - Android Application (Beta): [Link](https://github.com/uoa-compsci399-s2-2023/capstone-project-team-34-code-critters-flutterapp/releases)
 
 Note: The Android application is not hosted in this repository:  
@@ -385,6 +387,7 @@ http://codecritters.live/
 - Add a way to centralise images and models for server deployments to allow load balancing.
 - Update automated tests to be more extensive
 - Add more automated tests
+- Add WEBP support for XLSX Export
 
 #### Deployment
 - Implement local user history
@@ -398,4 +401,5 @@ http://codecritters.live/
 
 ## Acknowledgements
 The frontend was jumpstarted using [Create React App](https://github.com/facebook/create-react-app).  
-The backend was jumpstarted from this project: https://github.com/jchu634/compsci235-assignment2-jchu634.
+The backend was jumpstarted from this project: https://github.com/jchu634/compsci235-assignment2-jchu634.  
+Special thanks to Craig Barton and Ruskin for help with setting up AWS
